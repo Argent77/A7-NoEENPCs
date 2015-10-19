@@ -1,7 +1,7 @@
 Disable Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version: 2.0
+Version: 2.1
 Author:  Argent77
 
 
@@ -79,6 +79,10 @@ The following components are only available when selecting subcomponent
 
 Version History
 ~~~~~~~~~~~~~~~
+
+v2.1:
+- Fixed a missing game check for "Passive Neera" component
+- Internal restructurings
 
 v2.0:
 - Added option to keep all or individual NPCs from initiating conversations or 
