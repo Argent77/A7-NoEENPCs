@@ -1,0 +1,171 @@
+// Various functions for disabling individual NPCs
+
+DEFINE_ACTION_FUNCTION A7DisableBaeloth
+BEGIN
+  ACTION_IF (GAME_IS ~eet~) BEGIN
+    OUTER_TEXT_SPRINT script ~BG2900.BCS~
+  END ELSE ACTION_IF (GAME_IS ~bgee~) BEGIN
+    OUTER_TEXT_SPRINT script ~AR2900.BCS~
+  END
+
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%script%~) BEGIN
+      COPY_EXISTING ~%script%~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE
+            ~^[\t ]*Global("BAINVI","GLOBAL",0)~ ~False()~
+        END BUT_ONLY
+    END
+  END
+END
+
+DEFINE_ACTION_FUNCTION A7DisableDorn
+BEGIN
+  ACTION_IF (GAME_IS ~eet~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~BG2301.BCS~ ~BG4800.BCS~ ~OH1000.BCS~ ~AR0900.BCS~ ~FATESP.DLG~ END
+  END ELSE ACTION_IF (GAME_IS ~bgee~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~AR2301.BCS~ ~AR4800.BCS~ ~OH1000.BCS~ END
+  END ELSE ACTION_IF (GAME_IS ~bg2ee~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~AR0900.BCS~ ~FATESP.DLG~ END
+  END ELSE BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN END
+  END
+
+  LAF A7Disable#DLC STR_VAR file_array = a7files END
+END
+
+DEFINE_ACTION_FUNCTION A7DisableHexxat
+BEGIN
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~AR0406.BCS~ ~AR5501.BCS~ ~OH7000.BCS~ ~FATESP.DLG~ END
+  END ELSE BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN END
+  END
+
+  LAF A7Disable#DLC STR_VAR file_array = a7files END
+END
+
+DEFINE_ACTION_FUNCTION A7DisableNeera
+BEGIN
+  ACTION_IF (GAME_IS ~eet~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~BG3300.BCS~ ~OHNMCUT1.BCS~ ~FATESP.DLG~ END
+  END ELSE ACTION_IF (GAME_IS ~bgee~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~AR3300.BCS~ END
+  END ELSE ACTION_IF (GAME_IS ~bg2ee~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~OHNMCUT1.BCS~ ~FATESP.DLG~ END
+  END ELSE BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN END
+  END
+
+  LAF A7Disable#DLC STR_VAR file_array = a7files END
+END
+
+DEFINE_ACTION_FUNCTION A7DisableRasaad
+BEGIN
+  // BG1 portion
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    ACTION_IF (GAME_IS ~eet~) BEGIN
+      OUTER_TEXT_SPRINT rasaad_script ~BG4800.BCS~
+    END ELSE BEGIN
+      OUTER_TEXT_SPRINT rasaad_script ~AR4800.BCS~
+    END
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%rasaad_script%~) BEGIN
+      COPY_EXISTING ~%rasaad_script%~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE
+            ~^[\t ]*Global("RASAAD_SPAWN_STOP","GLOBAL",0)~ ~False()~
+        END BUT_ONLY
+    END
+  END
+
+  // BG2 portion
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    ACTION_DEFINE_ARRAY a7files BEGIN ~AR2000.BCS~ ~FATESP.DLG~ END
+    LAF A7Disable#DLC STR_VAR file_array = a7files END
+  END
+END
+
+
+DEFINE_ACTION_FUNCTION A7PassiveBaeloth
+BEGIN
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    COMPILE ~%MOD_FOLDER%/scripts/cutba01.baf~
+  END
+END
+
+DEFINE_ACTION_FUNCTION A7PassiveHexxat
+BEGIN
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~OHHFAK.BCS~) BEGIN
+      PRINT ~DEBUG: Hexxat!~
+      COPY_EXISTING ~OHHFAK.BCS~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~Num.*TimesTalkedTo(0)~ ~False()~
+        END BUT_ONLY
+    END
+  END
+END
+
+DEFINE_ACTION_FUNCTION A7PassiveNeera
+BEGIN
+  // BG1 portion
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~NEERA.BCS~) BEGIN
+      COPY_EXISTING ~NEERA.BCS~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~^[\t ]*Global("NEERA_MEETING",.+)~ ~False()~
+        END BUT_ONLY
+    END
+  END
+
+  // BG2 portion
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~OHNCUT1A.BCS~) BEGIN
+      COPY_EXISTING ~OHNCUT1A.BCS~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("NEERA.+)~ ~~
+        END BUT_ONLY
+      EXTEND_BOTTOM ~ohncut1a.bcs~ ~%MOD_FOLDER%/scripts/ohncut1a_neera.baf~
+      COMPILE ~%MOD_FOLDER%/scripts/ohnmcut1.baf~
+      COMPILE ~%MOD_FOLDER%/dialogs/neera_bg2.d~
+    END
+  END
+END
+
+DEFINE_ACTION_FUNCTION A7PassiveRasaad
+BEGIN
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~RASAAD.BCS~) BEGIN
+      COPY_EXISTING ~ar2000.bcs~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("RASAAD8",.*)~ ~CreateCreature("RASAAD8",[1832.1410],SSE)~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("OHRTREYA",.*)~ ~~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("OHRSSM01",.*)~ ~~
+        END BUT_ONLY
+      COPY_EXISTING ~ohrssm01.bcs~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~Range(\[PC\],.*)~ ~Detect([PC])~
+        END BUT_ONLY
+      COMPILE ~%MOD_FOLDER%/dialogs/rasaad_bg2.d~
+    END
+  END
+END
+
+
+// Internally used
+DEFINE_ACTION_FUNCTION A7Disable#DLC
+  STR_VAR
+    file_array  = ~~
+BEGIN
+  ACTION_IF VARIABLE_IS_SET $EVAL "%file_array%"(0) BEGIN
+    ACTION_PHP_EACH "%file_array%" AS _ => filename BEGIN
+      ACTION_IF (FILE_EXISTS_IN_GAME ~%filename%~) BEGIN
+        COPY_EXISTING ~%filename%~ ~override~
+          DECOMPILE_AND_PATCH BEGIN
+            REPLACE_TEXTUALLY CASE_INSENSITIVE
+              ~HasDLC(.+)~ ~False()~
+          END BUT_ONLY
+      END
+    END
+  END
+END

@@ -1,0 +1,22 @@
+@1 = ~Disable all NPCs~
+@2 = ~Disable NPCs individually~
+@3 = ~Make all NPCs passive~
+@4 = ~Make individual NPCs passive~
+
+@10 = ~Modify Enhanced Edition NPCs~
+
+@101 = ~Disable Baeloth~
+@102 = ~Disable Dorn~
+@103 = ~Disable Hexxat~
+@104 = ~Disable Neera~
+@105 = ~Disable Rasaad~
+@106 = ~Make Baeloth passive~
+@107 = ~Make Hexxat passive~
+@108 = ~Make Neera passive~
+@109 = ~Make Rasaad passive~
+
+@200 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
+@201 = ~This component requires either BG:EE or EET to be installed.~
+@202 = ~This component requires either BG2:EE or EET to be installed.~
+@203 = ~Component "Disable NPCs individually" not selected.~
+@204 = ~Component "Make individual NPCs passive" not selected.~

@@ -1,0 +1,10 @@
+// BG2 Cutscene addition for Neera's introduction
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId("Neera")
+    Wait(9)
+    MoveToPoint([3927.485])
+END

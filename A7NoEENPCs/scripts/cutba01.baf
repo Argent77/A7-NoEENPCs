@@ -1,0 +1,16 @@
+// BG1 Baeloth introduction cutscene
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    CreateVisualEffect("CALLLIGH",[1873.3035])
+    SmallWait(10)
+    CreateVisualEffect("spholy",[1873.3035])
+    SmallWait(15)
+    CreateVisualEffect("spsdimpa",[1873.3035])
+    CreateCreature("BAELOTH",[1873.3035],S)
+    ActionOverride("BAELOTH",MakeGlobal())
+    EndCutSceneMode()
+END

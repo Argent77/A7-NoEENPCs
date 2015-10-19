@@ -1,0 +1,129 @@
+BACKUP ~A7NoEENPCs/backup~
+AUTHOR ~Argent77~
+VERSION ~v2.0~
+
+README ~A7NoEENPCs/readme/readme-%LANGUAGE%.txt~ ~A7NoEENPCs/readme/readme.txt~
+ASK_EVERY_COMPONENT
+
+LANGUAGE  ~English~ ~english~
+          ~A7NoEENPCs/languages/english/setup.tra~
+          ~A7NoEENPCs/languages/english/dialog.tra~
+
+
+BEGIN @1  // Disable all NPCs
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @200  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
+  DESIGNATED 1
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7DisableBaeloth END
+  LAF A7DisableDorn END
+  LAF A7DisableHexxat END
+  LAF A7DisableNeera END
+  LAF A7DisableRasaad END
+
+
+BEGIN @2  // Disable NPCs individually
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @200  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
+  DESIGNATED 2
+
+
+BEGIN @3  // Make all NPCs passive
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @200  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
+  DESIGNATED 3
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7PassiveBaeloth END
+  LAF A7PassiveHexxat END
+  LAF A7PassiveNeera END
+  LAF A7PassiveRasaad END
+
+
+BEGIN @4  // Make individual NPCs passive
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @200  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
+  DESIGNATED 4
+
+
+BEGIN @101  // Disable Baeloth
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @203  // Component "Disable NPCs individually" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bgee eet~ @201           // This component requires either BG:EE or EET to be installed.
+  DESIGNATED 101
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7DisableBaeloth END
+
+
+BEGIN @102  // Disable Dorn
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @203  // Component "Disable NPCs individually" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @200     // This component requires either BG:EE, BG2:EE or EET to be installed.
+  DESIGNATED 102
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7DisableDorn END
+
+
+BEGIN @103  // Disable Hexxat
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @203  // Component "Disable NPCs individually" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @202          // This component requires either BG2:EE or EET to be installed.
+  DESIGNATED 103
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7DisableHexxat END
+
+
+BEGIN @104  // Disable Neera
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @203  // Component "Disable NPCs individually" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @200     // This component requires either BG:EE, BG2:EE or EET to be installed.
+  DESIGNATED 104
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7DisableNeera END
+
+
+BEGIN @105  // Disable Rasaad
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @203  // Component "Disable NPCs individually" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @200     // This component requires either BG:EE, BG2:EE or EET to be installed.
+  DESIGNATED 105
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7DisableRasaad END
+
+
+BEGIN @106  // Make Baeloth passive
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 4 @204  // Component "Make individual NPCs passive" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bgee eet~ @201           // This component requires either BG:EE or EET to be installed.
+  DESIGNATED 106
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7PassiveBaeloth END
+
+
+BEGIN @107  // Make Hexxat passive
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 4 @204  // Component "Make individual NPCs passive" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @202           // This component requires either BG2:EE or EET to be installed.
+  DESIGNATED 107
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7PassiveHexxat END
+
+
+BEGIN @108  // Make Neera passive
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 4 @204  // Component "Make individual NPCs passive" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @200           // This component requires either BG:EE, BG2:EE or EET to be installed.
+  DESIGNATED 108
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7PassiveNeera END
+
+
+BEGIN @109  // Make Rasaad passive
+  REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 4 @204  // Component "Make individual NPCs passive" not selected.
+  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @202           // This component requires either BG2:EE or EET to be installed.
+  DESIGNATED 109
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+  LAF A7PassiveRasaad END
+

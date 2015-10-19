@@ -1,0 +1,11 @@
+// BG2 Neera introduction
+
+IF
+  Global("OHN_INTRO_SCENE","AR0500",1)
+  Global("A7_NOEE_NEERA","AR0500",0)
+  HasDLC("Neera")
+THEN
+  RESPONSE #100
+    SetGlobal("A7_NOEE_NEERA","AR0500",1)
+    CreateCreature("NEERA8",[4190.505],NNE)
+END
