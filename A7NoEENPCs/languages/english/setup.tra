@@ -10,13 +10,13 @@
 @103 = ~Disable Hexxat~
 @104 = ~Disable Neera~
 @105 = ~Disable Rasaad~
-@106 = ~Make Baeloth passive~
-@107 = ~Make Hexxat passive~
-@108 = ~Make Neera passive~
-@109 = ~Make Rasaad passive~
+@201 = ~Make Baeloth passive~
+@202 = ~Make Hexxat passive~
+@203 = ~Make Neera passive~
+@204 = ~Make Rasaad passive~
 
-@200 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
-@201 = ~This component requires either BG:EE or EET to be installed.~
-@202 = ~This component requires either BG2:EE or EET to be installed.~
-@203 = ~Component "Disable NPCs individually" not selected.~
-@204 = ~Component "Make individual NPCs passive" not selected.~
+@1000 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
+@1001 = ~This component requires either BG:EE or EET to be installed.~
+@1002 = ~This component requires either BG2:EE or EET to be installed.~
+@1003 = ~Component "Disable NPCs individually" not selected.~
+@1004 = ~Component "Make individual NPCs passive" not selected.~
