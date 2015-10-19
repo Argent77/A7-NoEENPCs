@@ -14,6 +14,7 @@ having a chance to ignore them. Some of their attached quests are also very
 difficult to solve without resorting to powergaming tactics.
 
 This mod offers two possible solutions for this problem:
+
 1. You can disable all or individual NPCs completely. Since the NPCs have only 
    been disabled, it is theoretically possible to reactivate them again later by 
    uninstalling the respective subcomponent(s) of this mod (if you have chosen to 
