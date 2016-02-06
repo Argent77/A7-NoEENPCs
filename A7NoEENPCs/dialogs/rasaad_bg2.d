@@ -3,7 +3,7 @@
 APPEND ~RASAAD~
 
 IF WEIGHT #-1 ~NumberOfTimesTalkedTo(0) AreaCheck("AR2000") Global("A7_NOEE_RASAAD","AR2000",0)~ A7RasaadIntro.1
-  SAY @1100  /* Please excuse me. I'm in a hurry. */
+  SAY @10100  /* Please excuse me. I'm in a hurry. */
   IF ~~ DO ~
     SetNumTimesTalkedTo(0)
     SetGlobal("A7_NOEE_RASAAD","AR2000",1)

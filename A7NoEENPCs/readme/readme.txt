@@ -25,6 +25,20 @@ This mod offers two possible solutions for this problem:
    their own. A small number of events have been slightly altered to make this 
    possible. See below for more information.
 
+If you choose the option to disable all or individual NPCs you can also choose 
+whether to make their personal or quest-specific items available for everyone 
+in shops or as loot.
+
+
+Compatibility
+~~~~~~~~~~~~~
+
+This mod should be compatible with every mod out there that doesn't significantly 
+alter the starting locations and scripts of the Enhanced Edition NPCs. At present 
+only Pecca's mod "EE_content_tweaks" is known to interfere with this mod in BG:EE.
+This mod will check if it has been installed and refuse to install relevant 
+components if detected.
+
 
 Components
 ~~~~~~~~~~
@@ -77,8 +91,114 @@ The following components are only available when selecting subcomponent
     talk to Rasaad. He can be found near the fountain.
 
 
+The following component is only available if you have selected to disable all or 
+individual NPCs:
+
+11. Make NPC-specific items available for everyone
+    This component allows you to acquire personal or quest-related items of 
+    disabled NPC(s) from merchants all over the game or as loot from 
+    containers or creatures.
+
+    The following items have been (fixed and) relocated:
+
+    Baeloth:
+    BG:EE only:
+    - His special ring can be purchased from "Lucky Aello's Discount Store" in 
+      Baldur's Gate at a huge discount. Item description has been fixed.
+      As a bonus I have also fixed an inactive effect in its charged ability 
+      to make it slightly more worthwhile.
+
+    Dorn:
+    BG:EE:
+    - The Gloves of Missile Snaring can be purchased in Ulgoth's Beard Inn.
+    - The Golden Girdle of Urnst, Elven Chain Mail and Albruin +1 are all
+      available in the Thunderhammer Smithy of Beregost.
+    - The Amulet of Spell Warding is available in the Feldepost's Inn of 
+      Beregost.
+    BG2:EE:
+    - The Silver Dragon Scales can be taken from the dead body of Adalon if you 
+      decide to attack her.
+    - A second copy of the scales can be looted from the body of "The Huntress" 
+      which is guarding the final seal at the lowest level of Watcher's Keep.
+    - The Holy Long Sword of Tyr +3 can be found in the maze level of Watcher's 
+      Keep, more specifically in the room where you have to defeat the Demon Wraith.
+    - The Helm of the Noble +1 can be purchased from Ribald Barterman and a 
+      merchant in Trademeet.
+    - You can attempt to pickpocket a Rod of Shadowstep from Saemon Havarian 
+      in Amkethran.
+    - Potions of Clairvoyance can be bought from Roger the Fence and Sister 
+      Farielle in Saradush.
+    - The Abyssal Blade is now in possession of Raamilat in Suldanessellar.
+    - I have also added the very powerful "The Brass Blade +5" to the game. 
+      It belongs to Dorn's questline, but is currently unused. You can loot it 
+      from Berenn in the Temple of the Fire Giants.
+
+    Hexxat:
+    BG2:EE only:
+    - A Ring of Anti-Venom is now worn by Mae'var.
+    - The Worn Whispers boots can be purchased from Ribald Barterman.
+    - The dagger "Jade Fang" has been added to Ribald's special store which is 
+      available after returning from the Underdark.
+
+    Neera:
+    BG:EE:
+    - Neera's Gem Bag can be purchased in the Friendly Arm Inn.
+    - Adoy's Belt is available in the Feldepost's Inn of Beregost.
+    BG2:EE:
+    - The Robe of Invocation has been added to Ribald Barterman's store.
+    - A Thayan Circlet is now in possession of Rayic Gethras, the Cowled Wizard
+      you have to kill in the course of the Mae'Var quest.
+    - The hammer "The Brick +2" and the Tunic of Blindeye can be purchased from 
+      a merchant in Trademeet.
+    - The Shield of Fyrus Khal +2 is now available in Ribald Barterman's 
+      special store which is available after returning from the Underdark.
+    - Perter, the fletcher on Waukeen's Promenade, can sell you the Wild Sling +1.
+    - The Wand of Whips can be found on the body of the enthralled mage in the 
+      hidden Mindflayer lair in the sewers under the Temple District.
+
+    Rasaad:
+    BG:EE:
+    - The Moonlight Walkers can be equipped by any Sun Soul Monk and
+      can be looted from Neira's body, the assassin in Nashkel.
+    - The Glimmering Bands can be equipped by any monk. You can buy it 
+      from one of the merchants at the Nashkel Carnival.
+    - The Big-Fisted Belt is worn by the Pride spectre in Durlag's Tower.
+    BG2:EE: 
+    - The Ox-Tail Belt is now worn by Cohrvale. From the body of his partner 
+      Bregg you can also loot Hojar's Fame +1, an enchanted axe of poor quality.
+    - The Brooch of the Vagrant Blades can be bought from Ribald Barterman.
+    - The Belt of Minor Invulnerability can be looted from King Ixilthetocal of 
+      the sahuagin Underwater City.
+    - The Ring of Duplication has been added to the fence in the Thieves Guild HQ.
+    - Elence Fielding, one of the merchants in the Umar Hills, can sell you the 
+      Lupine Sling +2.
+    - The Cowl of the Stars is worn by Valeria, a hostile fighter who can be found 
+      in a hideout in the Bridge District.
+    - The blacksmith of Trademeet can sell you the scimitar Hawksight +2.
+    - The Cloak of Unerring Strikes is available from Bernard of the Copper Coronet 
+      after Lehtinan has been replaced by Hendak.
+    - Karthis al-Hezzar can sell you the Night Walkers. He can be found in the 
+      Wilderness between Saradush and the abandoned Temple of Bhaal.
+    - Olaf Rassmusen is one of the henchmen you have to fight if you break into the 
+      Guarded Compound in the Temple District. You can loot the Gauntlets of Aln Zekk 
+      from his dead body.
+    - One of the merchants in Ust Natha can sell you the Cloak of Atonement.
+    - The Priest of Cyric in the North Forest, which becomes available after you 
+      return from the Underdark, is in possession of the Cloak of the Dark Moon.
+    - The Elder Brain in the Mindflayer Lair of the Underdark is now also fiercely 
+      guarding the Eyes of the Beholder. Defeat it and that headpiece is yours.
+    - Carras is a smuggler in Amkethran. If you help him out you can purchase the 
+      Headband of the Devout from him.
+    - The Gem of Seeing can be looted from Gaal. He is the leader of the cult of the 
+      eyeless.
+
+
 Version History
 ~~~~~~~~~~~~~~~
+
+v3.0:
+- Added new component "Make NPC-specific items available for everyone"
+- Increased compatibility with mods (see Compatibility section)
 
 v2.1:
 - Fixed a missing game check for "Passive Neera" component

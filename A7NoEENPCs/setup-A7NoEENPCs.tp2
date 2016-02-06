@@ -7,11 +7,15 @@ ASK_EVERY_COMPONENT
 
 LANGUAGE  ~English~ ~english~
           ~A7NoEENPCs/languages/english/setup.tra~
+          ~A7NoEENPCs/languages/english/misc.tra~
           ~A7NoEENPCs/languages/english/dialog.tra~
 
 
 BEGIN @1  // Disable all NPCs
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   DESIGNATED 1
 
@@ -25,12 +29,19 @@ BEGIN @1  // Disable all NPCs
 
 BEGIN @2  // Disable NPCs individually
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   DESIGNATED 2
 
 
 BEGIN @3  // Make all NPCs passive
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 3) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   DESIGNATED 3
 
@@ -43,6 +54,10 @@ BEGIN @3  // Make all NPCs passive
 
 BEGIN @4  // Make individual NPCs passive
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 3) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   DESIGNATED 4
 
@@ -127,3 +142,31 @@ BEGIN @204  // Make Rasaad passive
   INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7PassiveRasaad END
 
+
+BEGIN @301  // Make NPC-specific items available for everyone
+  REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet~) @1000      // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE ((MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 1) OR 
+                     (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 2)) @1005   // This component is only available if one or more NPCs have been disabled.
+  REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 0) OR 
+                          (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 1)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
+  DESIGNATED 301
+
+  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
+
+  ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 1) BEGIN   // "Disable all NPCs"
+    LAF A7ItemsBaeloth END
+    LAF A7ItemsDorn END
+    LAF A7ItemsHexxat END
+    LAF A7ItemsNeera END
+    LAF A7ItemsRasaad END
+  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 101) BEGIN  // "Disable Baeloth"
+    LAF A7ItemsBaeloth END
+  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 102) BEGIN  // "Disable Dorn"
+    LAF A7ItemsDorn END
+  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 103) BEGIN  // "Disable Hexxat"
+    LAF A7ItemsHexxat END
+  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 104) BEGIN  // "Disable Neera"
+    LAF A7ItemsNeera END
+  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 105) BEGIN  // "Disable Rasaad"
+    LAF A7ItemsRasaad END
+  END

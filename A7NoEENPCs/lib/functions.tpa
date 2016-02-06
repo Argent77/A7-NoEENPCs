@@ -1,5 +1,7 @@
 // Various functions for disabling individual NPCs
 
+INCLUDE ~A7NoEENPCs/lib/weidu_functions.tph~
+
 DEFINE_ACTION_FUNCTION A7DisableBaeloth
 BEGIN
   ACTION_IF (GAME_IS ~eet~) BEGIN
@@ -169,3 +171,272 @@ BEGIN
     END
   END
 END
+
+
+// Add Baeloth's items to the game
+DEFINE_ACTION_FUNCTION A7ItemsBaeloth
+BEGIN
+  // BG1 portion
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    // Slave Ring
+    COPY_EXISTING ~baring.itm~ ~override~
+      WRITE_LONG NAME1 6348   // Ring
+      WRITE_LONG 0x18 ((LONG_AT 0x18) | 0x04 | 0x10 | 0x40)   // enabling Droppable, Cursed and Magical flags
+      WRITE_BYTE 0x2f ((BYTE_AT 0x2f) | 0x02)   // Unusable by: Wizard Slayer
+      WRITE_LONG 0x34 50    // Price
+      WRITE_SHORT 0x42 50   // Lore
+      WRITE_LONG UNIDENTIFIED_DESC 17054  // Generic ring description...
+      SAY IDENTIFIED_DESC @50000          // Cursed Ring of Ironic Punishment...
+      LPF ALTER_ITEM_EFFECT
+        INT_VAR
+        check_headers = 1
+        match_opcode = 122    // Create inventory item
+        parameter1 = 1        // # to create
+      END
+
+    COPY_EXISTING ~stocheap.sto~ ~override~
+      ADD_STORE_ITEM ~baring~ FIRST #1 #0 #0 ~NONE~ #1
+  END
+END
+
+
+// Add Dorn's items to the game
+DEFINE_ACTION_FUNCTION A7ItemsDorn
+BEGIN
+  // BG1 portion
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    COPY_EXISTING ~ulgoth.sto~ ~override~
+      // Gloves of Missile Snaring
+      ADD_STORE_ITEM ~brac18~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+
+    COPY_EXISTING ~taerum.sto~ ~override~
+      // Golden Girdle of Urnst
+      ADD_STORE_ITEM ~belt02~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+      // Albruin +1
+      ADD_STORE_ITEM ~sw1h34~ LAST #1 #0 #0 ~IDENTIFIED~ #1
+    // Elven Chain Mail
+      ADD_STORE_ITEM ~chan12~ AFTER ~chan01~ #0 #0 #0 ~IDENTIFIED~ #1
+
+    COPY_EXISTING ~inn3351.sto~ ~override~
+      // Amulet of Spell Warding
+      ADD_STORE_ITEM ~amul25~ AT 1 #0 #0 #0 ~IDENTIFIED~ #1
+  END
+
+  // BG2 portion
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    // Silver Dragon Scales
+    COPY_EXISTING ~udsilver.cre~ ~override~
+      ADD_CRE_ITEM ~ohdscale~ #0 #0 #0 ~UNSTEALABLE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    COPY_EXISTING ~gorwom02.cre~ ~override~
+      ADD_CRE_ITEM ~ohdscale~ #0 #0 #0 ~UNSTEALABLE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Holy Long Sword of Tyr +3
+    COPY_EXISTING ~ar3014.are~ ~override~
+      LPF ADD_AREA_ITEM
+        INT_VAR
+        container_to_add_to = 1
+        STR_VAR
+        item_to_add = ~OHDHSWD~
+      END
+
+    // Helm of the Noble +1
+    COPY_EXISTING ~ribald.sto~ ~override~
+      ADD_STORE_ITEM ~helm03~ AFTER ~helm13~ #0 #0 #0 ~IDENTIFIED~ #1
+    COPY_EXISTING ~trmer04.sto~ ~override~
+      ADD_STORE_ITEM ~helm03~ FIRST #0 #0 #0 ~IDENTIFIED~ #1
+
+    // Rod of Shadowstep
+    COPY_EXISTING ~amsaemon.cre~ ~override~
+      ADD_CRE_ITEM ~ohdrod~ #5 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Potion of Clairvoyance
+    COPY_EXISTING ~roger.sto~ ~override~
+      ADD_STORE_ITEM ~ohdpotn1~ LAST #1 #0 #0 ~IDENTIFIED~ #1
+    COPY_EXISTING ~sartem01.sto~ ~override~
+      ADD_STORE_ITEM ~ohdpotn1~ AFTER ~potn20~ #1 #0 #0 ~IDENTIFIED~ #1
+
+    // Abyssal Blade
+    COPY_EXISTING ~suraam.cre~ ~override~
+      ADD_CRE_ITEM ~ohdsw2ha~ #0 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // The Brass Blade +5
+    COPY_EXISTING ~hgber01.cre~ ~override~
+      ADD_CRE_ITEM ~ohdsw03~ #1 #0 #0 ~NONE~ ~WEAPON1 WEAPON2 WEAPON3 WEAPON4 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+  END
+END
+
+
+// Add Hexxat's items to the game
+DEFINE_ACTION_FUNCTION A7ItemsHexxat
+BEGIN
+  // BG2 portion
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    // Ring of Anti-Venom
+    COPY_EXISTING ~maevar.cre~ ~override~
+      ADD_CRE_ITEM ~ring46~ #0 #0 #0 ~NONE~ ~LRING RRING INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Worn Whispers
+    COPY_EXISTING ~ribald.sto~ ~override~
+      ADD_STORE_ITEM ~boot02~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+
+    // The Jade Fang
+    COPY_EXISTING ~ribald3.sto~ ~override~
+      ADD_STORE_ITEM ~ohhdag01~ AFTER ~dagg15~ #0 #0 #0 ~IDENTIFIED~ #1
+  END
+END
+
+
+// Add Neera's items to the game
+DEFINE_ACTION_FUNCTION A7ItemsNeera
+BEGIN
+  // BG1 portion
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    COPY_EXISTING ~friend.sto~ ~override~
+      // Gem Bag
+      ADD_STORE_ITEM ~bag02~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+    COPY_EXISTING ~inn3351.sto~ ~override~
+      // Adoy's Belt
+      ADD_STORE_ITEM ~nebelt01~ AT 1 #0 #0 #0 ~IDENTIFIED~ #1
+  END
+
+  // BG2 portion
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    // Robe of Invocation
+    COPY_EXISTING ~ribald.sto~ ~override~
+      ADD_STORE_ITEM ~ohnrobe2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+
+    // Thayan Circlet
+    COPY_EXISTING ~dcowl1.cre~ ~override~
+      ADD_CRE_ITEM ~ohnhelm1~ #0 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // The Brick +2
+    // Tunic of Blindeye
+    COPY_EXISTING ~trmer02.sto~ ~override~
+      ADD_STORE_ITEM ~ohnhamm1~ AFTER ~hamm06~ #0 #0 #0 ~IDENTIFIED~ #1
+      ADD_STORE_ITEM ~ohnrobe3~ LAST #1 #0 #0 ~IDENTIFIED~ #1
+
+    // Shield of Fyrus Khal +2
+    COPY_EXISTING ~ribald3.sto~ ~override~
+      ADD_STORE_ITEM ~ohnshld1~ AFTER ~shld30~ #1 #0 #0 ~IDENTIFIED~ #1
+
+    // Wild Sling +1
+    COPY_EXISTING ~shop05.sto~ ~override~
+      ADD_STORE_ITEM ~ohnslng1~ AFTER ~slng01~ #0 #0 #0 ~IDENTIFIED~ #1
+
+    // Wand of Whips
+    COPY_EXISTING ~hlmage.cre~ ~override~
+      ADD_CRE_ITEM ~ohnwand1~ #50 #0 #0 ~NONE~ ~QITEM1 QITEM2 QITEM3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+  END
+END
+
+
+// Add Rasaad's items to the game
+DEFINE_ACTION_FUNCTION A7ItemsRasaad
+BEGIN
+  // BG1 portion
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    // Moonlight Walkers
+    COPY_EXISTING ~rsboot.itm~ ~override~
+      WRITE_LONG 0x1e 0x407FFFCA    // unusable by all but good-aligned monks of any race
+      SET kit = IDS_OF_SYMBOL (~KIT~ ~SUN_SOUL~)
+      PATCH_IF (kit < 0) BEGIN
+        SET kit = 0x4025      // fall back to hardcoded value
+      END
+      LPF ALTER_ITEM_EFFECT
+        INT_VAR
+        check_globals = 1
+        match_opcode = 319    // Restrict item
+        parameter1 = kit      // IDS value: Sun Soul Monk
+        parameter2 = 9        // IDS type: KIT.IDS
+        special = 31983       // Sun Soul Monk
+      END
+
+    COPY_EXISTING ~neira.cre~ ~override~
+      ADD_CRE_ITEM ~rsboot~ #0 #0 #0 ~UNSTEALABLE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Glimmering Bands
+    COPY_EXISTING ~rsbrac.itm~ ~override~
+      WRITE_LONG 0x1e 0x407FFFC0    // unusable by all but monks of any race
+      LPF DELETE_EFFECT
+        INT_VAR
+        check_globals = 1
+        check_headers = 0
+        match_opcode  = 319   // Restrict item
+      END
+
+    COPY_EXISTING ~sto4907.sto~ ~override~
+      ADD_STORE_ITEM ~rsbrac~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+
+  COPY_EXISTING ~pridem.cre~ ~override~
+    // Big-Fisted Belt
+    ADD_CRE_ITEM ~belt15~ #0 #0 #0 ~UNSTEALABLE~ ~BELT INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+  END
+
+  // BG2 portion
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    // Ox-Tail Belt
+    COPY_EXISTING ~cohrvale.cre~ ~override~
+      ADD_CRE_ITEM ~ohrbelt1~ #0 #0 #0 ~NONE~ ~BELT INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Brooch of the Vagrant Blades
+    COPY_EXISTING ~ribald.sto~ ~override~
+      ADD_STORE_ITEM ~ohramul1~ AFTER ~amul14~ #0 #0 #0 ~IDENTIFIED~ #1
+
+    // Belt of Minor Invulnerability
+    COPY_EXISTING ~sahkng01.cre~ ~override~
+      ADD_CRE_ITEM ~ohrbelt2~ #1 #0 #0 ~NONE~ ~BELT INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Ring of Duplication
+    COPY_EXISTING ~bmthief.sto~ ~override~
+      ADD_STORE_ITEM ~ohrring1~ AFTER ~shld08~ #3 #0 #0 ~IDENTIFIED~ #1
+
+    // Hojar's Fame +1
+    COPY_EXISTING ~bregg.cre~ ~override~
+      ADD_CRE_ITEM ~ohrax1h1~ #0 #0 #0 ~NONE~ ~WEAPON1 WEAPON2 WEAPON3 WEAPON4 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Lupine Sling +2
+    COPY_EXISTING ~uhmer01.sto~ ~override~
+      ADD_STORE_ITEM ~ohrslng1~ AFTER ~slng01~ #0 #0 #0 ~IDENTIFIED~ #1
+
+    // Cowl of the Stars
+    COPY_EXISTING ~demfig02.cre~ ~override~
+      ADD_CRE_ITEM ~ohrclck1~ #1 #0 #0 ~NONE~ ~CLOAK INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Hawksight +2
+    COPY_EXISTING ~trmer04.sto~ ~override~
+      ADD_STORE_ITEM ~ohrsw1h1~ AFTER ~sw1h22~ #0 #0 #0 ~IDENTIFIED~ #1
+
+    // Cloak of Unerring Strikes
+    COPY_EXISTING ~bernard2.sto~ ~override~
+      ADD_STORE_ITEM ~ohrclck2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+
+    // Night Walkers
+    COPY_EXISTING ~hgkar01.sto~ ~override~
+      ADD_STORE_ITEM ~ohrboot1~ AFTER ~helm24~ #3 #0 #0 ~IDENTIFIED~ #1
+
+    // Gauntlets of Aln Zekk
+    COPY_EXISTING ~hlolaf.cre~ ~override~
+      ADD_CRE_ITEM ~ohrbrac1~ #1 #0 #0 ~NONE~ ~GLOVES INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Cloak of Atonement
+    COPY_EXISTING ~uddrow23.sto~ ~override~
+      ADD_STORE_ITEM ~ohrclck3~ AFTER ~clck17~ #50 #0 #0 ~IDENTIFIED~ #1
+
+    // Cloak of the Dark Moon
+    COPY_EXISTING ~ar18prie.cre~ ~override~
+      ADD_CRE_ITEM ~ohrclck4~ #3 #0 #0 ~NONE~ ~CLOAK INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Eyes of the Beholder
+    COPY_EXISTING ~udmaster.cre~ ~override~
+      ADD_CRE_ITEM ~ohreyeb~ #3 #3 #3 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+
+    // Headband of the Devout
+    COPY_EXISTING ~amsmug02.sto~ ~override~
+      ADD_STORE_ITEM ~ohrhelm1~ AFTER ~misc3p~ #1 #0 #0 ~IDENTIFIED~ #1
+
+    // Gem of Seeing
+    COPY_EXISTING ~gaal01.cre~ ~override~
+      ADD_CRE_ITEM ~ohrscrl1~ #1 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+  END
+END
+

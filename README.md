@@ -23,6 +23,10 @@ This mod offers two possible solutions for this problem:
    their own. A small number of events have been slightly altered to make this 
    possible. See below for more information.
 
+If you choose the option to disable all or individual NPCs you can also choose 
+whether to make their personal or quest-specific items available for everyone 
+in shops or as loot.
+
 
 ##Components
 
@@ -71,3 +75,12 @@ The following components are only available when selecting subcomponent
 - Make Rasaad passive (*BG2:EE and EET only*):
     This component triggers the introduction cutscene in Trademeet only when you
     talk to Rasaad. He can be found near the fountain.
+
+
+The following component is only available if you have selected to disable all or 
+individual NPCs:
+
+- Make NPC-specific items available for everyone:
+   This component allows you to acquire personal or quest-related items of 
+   disabled NPC(s) from merchants all over the game or as loot from 
+   containers or creatures.

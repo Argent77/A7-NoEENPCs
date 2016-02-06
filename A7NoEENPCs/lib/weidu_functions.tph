@@ -1,0 +1,175 @@
+// WeiDU functionality not available in current version (v238)
+
+/////                                                  \\\\\
+///// item/spell functions                             \\\\\
+/////                                                  \\\\\
+
+DEFINE_PATCH_FUNCTION ALTER_ITMSPL_EFFECT
+  INT_VAR
+    check_globals  = 0      // check global effects: 0 for no, 1 for yes
+    check_headers  = 0      // check effects on headers; 0 for no, 1 for yes
+    header         = 0      // add to this header; 0 for all headers
+    header_type    = "-1"   // -1 to check all headers, otherwise use type specified
+    match_opcode   = "-1"   // opcode at 0x00 to match, use -1 for all
+    new_opcode     = "-1"   // if opcode matches, change to this value
+    target         = "-1"   // change target at 0x02; negative values mean no change
+    timing         = "-1"   // change timing at 0x0c; negative values mean no change
+    power          = "-1"   // change power level at 0x03; negative values mean no change
+    parameter1     = "-1"   // change parameter at 0x04; negative values mean no change
+    parameter2     = "-1"   // change parameter at 0x08; negative values mean no change
+    resist_dispel  = "-1"   // change resist/dispel at 0x0d; negative values mean no change
+    duration       = "-1"   // change duration at 0x0e; negative values mean no change
+    duration_high  = "-1"   // same as duration, but only if existing duration > 5
+    probability1   = "-1"   // change high probability at 0x12; negative values mean no change
+    probability2   = "-1"   // change low probability at 0x13; negative values mean no change
+    dicenumber     = "-1"   // change number of dice at 0x1c; negative values mean no change
+    dicesize       = "-1"   // change size of dice at 0x20; negative values mean no change
+    savingthrow    = "-1"   // changing type of saving throw at 0x24; negative values mean no change
+    savebonus      = "-11"  // change save bonus/penalty; values -11 or lower are ignored
+    special        = "-1"   // change special; negative values mean no change
+    header_length = 0x38
+  STR_VAR
+    resource       = "same" // resref at 0x14; same means no change, otherwise use this value
+BEGIN
+
+  READ_LONG 0x6a fx_off
+  PATCH_IF (check_globals = 1) BEGIN
+    READ_SHORT 0x70 fx_num
+    FOR (index = 0 ; index < fx_num ; ++index) BEGIN
+      READ_SHORT (fx_off +        (index * 0x30)) opcode_file
+      PATCH_IF ((match_opcode = opcode_file) OR (match_opcode < 0)) BEGIN
+        PATCH_IF (new_opcode >= 0)    BEGIN WRITE_SHORT (fx_off +        (index * 0x30)) new_opcode    END
+        PATCH_IF (target >= 0)        BEGIN WRITE_BYTE  (fx_off + 0x02 + (index * 0x30)) target        END
+        PATCH_IF (power >= 0)         BEGIN WRITE_BYTE  (fx_off + 0x03 + (index * 0x30)) power         END
+        PATCH_IF (parameter1 >= 0)    BEGIN WRITE_LONG  (fx_off + 0x04 + (index * 0x30)) parameter1    END
+        PATCH_IF (parameter2 >= 0)    BEGIN WRITE_LONG  (fx_off + 0x08 + (index * 0x30)) parameter2    END
+        PATCH_IF (timing >= 0)        BEGIN WRITE_BYTE  (fx_off + 0x0c + (index * 0x30)) timing        END
+        PATCH_IF (resist_dispel >= 0) BEGIN WRITE_BYTE  (fx_off + 0x0d + (index * 0x30)) resist_dispel END
+        PATCH_IF (duration >= 0)      BEGIN WRITE_LONG  (fx_off + 0x0e + (index * 0x30)) duration      END
+        PATCH_IF (probability1 >= 0)  BEGIN WRITE_BYTE  (fx_off + 0x12 + (index * 0x30)) probability1  END
+        PATCH_IF (probability2 >= 0)  BEGIN WRITE_BYTE  (fx_off + 0x13 + (index * 0x30)) probability2  END
+        PATCH_IF (dicenumber >= 0)    BEGIN WRITE_LONG  (fx_off + 0x1c + (index * 0x30)) dicenumber    END
+        PATCH_IF (dicesize >= 0)      BEGIN WRITE_LONG  (fx_off + 0x20 + (index * 0x30)) dicesize      END
+        PATCH_IF (savingthrow >= 0)   BEGIN WRITE_LONG  (fx_off + 0x24 + (index * 0x30)) savingthrow   END
+        PATCH_IF (savebonus >= "-10") BEGIN WRITE_LONG  (fx_off + 0x28 + (index * 0x30)) savebonus     END
+        PATCH_IF (special >= 0)       BEGIN WRITE_LONG  (fx_off + 0x2c + (index * 0x30)) special       END
+        PATCH_IF (duration_high >= 0) BEGIN
+          READ_LONG (fx_off + 0x0e + (index * 0x30)) duration_file
+          PATCH_IF (duration_file > 5) BEGIN
+            WRITE_LONG (fx_off + 0x0e + (index * 0x30)) duration_high
+          END
+        END
+        PATCH_IF ("%resource%" STRING_COMPARE_CASE "same") BEGIN
+          WRITE_ASCIIE (fx_off + 0x14 + (index * 0x30)) "%resource%" #8
+        END
+      END
+    END
+  END
+  PATCH_IF (check_headers = 1) BEGIN
+    READ_LONG   0x64 "abil_off"
+    READ_SHORT  0x68 "abil_num"
+    PATCH_IF (header = 0) BEGIN SET loop_start = 0            SET loop_end = abil_num END
+                     ELSE BEGIN SET loop_start = (header - 1) SET loop_end = header   END
+    FOR (index2 = loop_start ; index2 < loop_end ; ++index2) BEGIN // looks through headers
+      READ_BYTE (abil_off +        (index2 * header_length)) abil_type
+      PATCH_IF ((abil_type = header_type) OR (header_type < 0)) BEGIN
+        READ_SHORT (abil_off + 0x1e + (index2 * header_length)) abil_fx_num
+        READ_SHORT (abil_off + 0x20 + (index2 * header_length)) abil_fx_idx
+        FOR (index = 0 ; index < abil_fx_num ; index = index + 1) BEGIN
+          READ_SHORT (fx_off +        ((abil_fx_idx + index) * 0x30)) opcode_file
+          PATCH_IF ((match_opcode = opcode_file) OR (match_opcode < 0)) BEGIN
+            PATCH_IF (new_opcode >= 0)    BEGIN WRITE_SHORT (fx_off +        ((index + abil_fx_idx) * 0x30)) new_opcode    END
+            PATCH_IF (target >= 0)        BEGIN WRITE_BYTE  (fx_off + 0x02 + ((index + abil_fx_idx) * 0x30)) target        END
+            PATCH_IF (power >= 0)         BEGIN WRITE_BYTE  (fx_off + 0x03 + ((index + abil_fx_idx) * 0x30)) power         END
+            PATCH_IF (parameter1 >= 0)    BEGIN WRITE_LONG  (fx_off + 0x04 + ((index + abil_fx_idx) * 0x30)) parameter1    END
+            PATCH_IF (parameter2 >= 0)    BEGIN WRITE_LONG  (fx_off + 0x08 + ((index + abil_fx_idx) * 0x30)) parameter2    END
+            PATCH_IF (timing >= 0)        BEGIN WRITE_BYTE  (fx_off + 0x0c + ((index + abil_fx_idx) * 0x30)) timing        END
+            PATCH_IF (resist_dispel >= 0) BEGIN WRITE_BYTE  (fx_off + 0x0d + ((index + abil_fx_idx) * 0x30)) resist_dispel END
+            PATCH_IF (duration >= 0)      BEGIN WRITE_LONG  (fx_off + 0x0e + ((index + abil_fx_idx) * 0x30)) duration      END
+            PATCH_IF (probability1 >= 0)  BEGIN WRITE_BYTE  (fx_off + 0x12 + ((index + abil_fx_idx) * 0x30)) probability1  END
+            PATCH_IF (probability2 >= 0)  BEGIN WRITE_BYTE  (fx_off + 0x13 + ((index + abil_fx_idx) * 0x30)) probability2  END
+            PATCH_IF (dicenumber >= 0)    BEGIN WRITE_LONG  (fx_off + 0x1c + ((index + abil_fx_idx) * 0x30)) dicenumber    END
+            PATCH_IF (dicesize >= 0)      BEGIN WRITE_LONG  (fx_off + 0x20 + ((index + abil_fx_idx) * 0x30)) dicesize      END
+            PATCH_IF (savingthrow >= 0)   BEGIN WRITE_LONG  (fx_off + 0x24 + ((index + abil_fx_idx) * 0x30)) savingthrow   END
+            PATCH_IF (savebonus >= "-10") BEGIN WRITE_LONG  (fx_off + 0x28 + ((index + abil_fx_idx) * 0x30)) savebonus     END
+            PATCH_IF (special >= 0)       BEGIN WRITE_LONG  (fx_off + 0x2c + ((index + abil_fx_idx) * 0x30)) special       END
+            PATCH_IF (duration_high >= 0) BEGIN
+              READ_LONG (fx_off + 0x0e + ((index + abil_fx_idx) * 0x30)) duration_file
+              PATCH_IF (duration_file > 5) BEGIN
+                WRITE_LONG (fx_off + 0x0e + ((index + abil_fx_idx) * 0x30)) duration_high
+              END
+            END
+            PATCH_IF ("%resource%" STRING_COMPARE_CASE "same") BEGIN
+              WRITE_ASCIIE (fx_off + 0x14 + ((index + abil_fx_idx) * 0x30)) "%resource%" #8
+            END
+          END
+        END
+      END
+    END
+  END
+
+END
+
+
+/////                                                  \\\\\
+///// item functions                                   \\\\\
+/////                                                  \\\\\
+
+DEFINE_PATCH_FUNCTION ALTER_ITEM_EFFECT
+  INT_VAR
+    check_globals  = 0      // check global effects: 0 for no, 1 for yes
+    check_headers  = 0      // check effects on headers; 0 for no, 1 for yes
+    header         = 0      // add to this header; 0 for all headers
+    header_type    = "-1"   // -1 to check all headers, otherwise use type specified
+    match_opcode   = "-1"   // opcode at 0x00 to match, use -1 for all
+    new_opcode     = "-1"   // if opcode matches, change to this value
+    target         = "-1"   // change target at 0x02; negative values mean no change
+    timing         = "-1"   // change timing at 0x0c; negative values mean no change
+    power          = "-1"   // change power level at 0x03; negative values mean no change
+    parameter1     = "-1"   // change parameter at 0x04; negative values mean no change
+    parameter2     = "-1"   // change parameter at 0x08; negative values mean no change
+    resist_dispel  = "-1"   // change resist/dispel at 0x0d; negative values mean no change
+    duration       = "-1"   // change duration at 0x0e; negative values mean no change
+    duration_high  = "-1"   // same as duration, but only if existing duration > 5
+    probability1   = "-1"   // change high probability at 0x12; negative values mean no change
+    probability2   = "-1"   // change low probability at 0x13; negative values mean no change
+    dicenumber     = "-1"   // change number of dice at 0x1c; negative values mean no change
+    dicesize       = "-1"   // change size of dice at 0x20; negative values mean no change
+    savingthrow    = "-1"   // changing type of saving throw at 0x24; negative values mean no change
+    savebonus      = "-11"  // change save bonus/penalty; values -11 or lower are ignored
+    special        = "-1"
+  STR_VAR
+    resource       = "same" // resref at 0x14; same means no change, otherwise use this value
+BEGIN
+
+  LPF ALTER_ITMSPL_EFFECT
+    INT_VAR
+      check_globals
+      check_headers
+      header
+      header_type
+      match_opcode
+      new_opcode
+      target
+      timing
+      power
+      parameter1
+      parameter2
+      resist_dispel
+      duration
+      duration_high
+      probability1
+      probability2
+      dicenumber
+      dicesize
+      savingthrow
+      savebonus
+      special
+
+      header_length = 0x38
+    STR_VAR
+      resource
+  END
+
+END
+
