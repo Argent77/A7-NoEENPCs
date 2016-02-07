@@ -159,14 +159,19 @@ BEGIN @301  // Make NPC-specific items available for everyone
     LAF A7ItemsHexxat END
     LAF A7ItemsNeera END
     LAF A7ItemsRasaad END
-  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 101) BEGIN  // "Disable Baeloth"
+  END
+  ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 101) BEGIN  // "Disable Baeloth"
     LAF A7ItemsBaeloth END
-  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 102) BEGIN  // "Disable Dorn"
+  END
+  ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 102) BEGIN  // "Disable Dorn"
     LAF A7ItemsDorn END
-  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 103) BEGIN  // "Disable Hexxat"
+  END
+  ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 103) BEGIN  // "Disable Hexxat"
     LAF A7ItemsHexxat END
-  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 104) BEGIN  // "Disable Neera"
+  END
+  ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 104) BEGIN  // "Disable Neera"
     LAF A7ItemsNeera END
-  END ELSE ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 105) BEGIN  // "Disable Rasaad"
+  END
+  ACTION_IF (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 105) BEGIN  // "Disable Rasaad"
     LAF A7ItemsRasaad END
   END
