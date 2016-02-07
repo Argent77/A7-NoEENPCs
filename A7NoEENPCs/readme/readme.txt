@@ -1,7 +1,7 @@
 Disable Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version: 3.0
+Version: 3.1
 Author:  Argent77
 
 
@@ -199,6 +199,9 @@ individual NPCs:
 
 Version History
 ~~~~~~~~~~~~~~~
+
+v3.1:
+- Fixed an incorrect check in component "Make NPC-specific items available for everyone"
 
 v3.0:
 - Added new component "Make NPC-specific items available for everyone"
