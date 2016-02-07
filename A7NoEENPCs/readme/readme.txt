@@ -1,7 +1,7 @@
 Disable Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version: 2.1
+Version: 3.0
 Author:  Argent77
 
 
