@@ -301,8 +301,10 @@ BEGIN
 
   // BG2 portion
   ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    // Adoy's Belt
     // Robe of Invocation
     COPY_EXISTING ~ribald.sto~ ~override~
+      ADD_STORE_ITEM ~nebelt01~ AFTER ~amul14~ #0 #0 #0 ~IDENTIFIED~ #1
       ADD_STORE_ITEM ~ohnrobe2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
 
     // Thayan Circlet
@@ -333,24 +335,25 @@ END
 // Add Rasaad's items to the game
 DEFINE_ACTION_FUNCTION A7ItemsRasaad
 BEGIN
+  // Moonlight Walkers usable by all Sun Soul Monks
+  COPY_EXISTING ~rsboot.itm~ ~override~
+    WRITE_LONG 0x1e 0x407FFFCA    // unusable by all but good-aligned monks of any race
+    SET kit = IDS_OF_SYMBOL (~KIT~ ~SUN_SOUL~)
+    PATCH_IF (kit < 0) BEGIN
+      SET kit = 0x4025      // fall back to hardcoded value
+    END
+    LPF ALTER_ITEM_EFFECT
+      INT_VAR
+      check_globals = 1
+      match_opcode = 319    // Restrict item
+      parameter1 = kit      // IDS value: Sun Soul Monk
+      parameter2 = 9        // IDS type: KIT.IDS
+      special = RESOLVE_STR_REF (@50001)  // Sun Soul Monk
+    END
+
   // BG1 portion
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
     // Moonlight Walkers
-    COPY_EXISTING ~rsboot.itm~ ~override~
-      WRITE_LONG 0x1e 0x407FFFCA    // unusable by all but good-aligned monks of any race
-      SET kit = IDS_OF_SYMBOL (~KIT~ ~SUN_SOUL~)
-      PATCH_IF (kit < 0) BEGIN
-        SET kit = 0x4025      // fall back to hardcoded value
-      END
-      LPF ALTER_ITEM_EFFECT
-        INT_VAR
-        check_globals = 1
-        match_opcode = 319    // Restrict item
-        parameter1 = kit      // IDS value: Sun Soul Monk
-        parameter2 = 9        // IDS type: KIT.IDS
-        special = 31983       // Sun Soul Monk
-      END
-
     COPY_EXISTING ~neira.cre~ ~override~
       ADD_CRE_ITEM ~rsboot~ #0 #0 #0 ~UNSTEALABLE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
 
@@ -374,6 +377,10 @@ BEGIN
 
   // BG2 portion
   ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    // Moonlight Walkers
+    COPY_EXISTING ~thief7.cre~ ~override~
+      ADD_CRE_ITEM ~rsboot~ #0 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    
     // Ox-Tail Belt
     COPY_EXISTING ~cohrvale.cre~ ~override~
       ADD_CRE_ITEM ~ohrbelt1~ #0 #0 #0 ~NONE~ ~BELT INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
@@ -411,8 +418,10 @@ BEGIN
       ADD_STORE_ITEM ~ohrclck2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
 
     // Night Walkers
+    // Sun Soulbeam
     COPY_EXISTING ~hgkar01.sto~ ~override~
       ADD_STORE_ITEM ~ohrboot1~ AFTER ~helm24~ #3 #0 #0 ~IDENTIFIED~ #1
+      ADD_STORE_ITEM ~sw1hwk~ AFTER ~sw1h76~ #5 #0 #0 ~IDENTIFIED~ #1
 
     // Gauntlets of Aln Zekk
     COPY_EXISTING ~hlolaf.cre~ ~override~

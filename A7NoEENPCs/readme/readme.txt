@@ -117,19 +117,19 @@ individual NPCs:
       Beregost.
     BG2:EE:
     - The Silver Dragon Scales can be taken from the dead body of Adalon if you 
-      decide to attack her.
+      decide to attack her. Cespenar can forge something out of it later in ToB.
     - A second copy of the scales can be looted from the body of "The Huntress" 
       which is guarding the final seal at the lowest level of Watcher's Keep.
     - The Holy Long Sword of Tyr +3 can be found in the maze level of Watcher's 
       Keep, more specifically in the room where you have to defeat the Demon Wraith.
-    - The Helm of the Noble +1 can be purchased from Ribald Barterman and a 
-      merchant in Trademeet.
+    - Helmets of the Noble +1 can be purchased from Ribald Barterman and a merchant 
+      in Trademeet.
     - You can attempt to pickpocket a Rod of Shadowstep from Saemon Havarian 
       in Amkethran.
-    - Potions of Clairvoyance can be bought from Roger the Fence and Sister 
-      Farielle in Saradush.
+    - Potions of Clairvoyance can be bought from Roger the Fence in the sewers 
+      below the Temple District and from Sister Farielle in Saradush.
     - The Abyssal Blade is now in possession of Raamilat in Suldanessellar.
-    - I have also added the very powerful "The Brass Blade +5" to the game. 
+    - I have also added the very powerful "Brass Blade +5" to the game. 
       It belongs to Dorn's questline, but is currently unused. You can loot it 
       from Berenn in the Temple of the Fire Giants.
 
@@ -145,13 +145,14 @@ individual NPCs:
     - Neera's Gem Bag can be purchased in the Friendly Arm Inn.
     - Adoy's Belt is available in the Feldepost's Inn of Beregost.
     BG2:EE:
-    - The Robe of Invocation has been added to Ribald Barterman's store.
+    - Adoy's Belt and the Robe of Invocation have been added to Ribald 
+      Barterman's store.
     - A Thayan Circlet is now in possession of Rayic Gethras, the Cowled Wizard
       you have to kill in the course of the Mae'Var quest.
     - The hammer "The Brick +2" and the Tunic of Blindeye can be purchased from 
       a merchant in Trademeet.
-    - The Shield of Fyrus Khal +2 is now available in Ribald Barterman's 
-      special store which is available after returning from the Underdark.
+    - The Shield of Fyrus Khal +2 has been added to Ribald Barterman's special store 
+      which is available after returning from the Underdark.
     - Perter, the fletcher on Waukeen's Promenade, can sell you the Wild Sling +1.
     - The Wand of Whips can be found on the body of the enthralled mage in the 
       hidden Mindflayer lair in the sewers under the Temple District.
@@ -164,6 +165,8 @@ individual NPCs:
       from one of the merchants at the Nashkel Carnival.
     - The Big-Fisted Belt is worn by the Pride spectre in Durlag's Tower.
     BG2:EE: 
+    - The Moonlight Walkers can be equipped by any Sun Soul Monk and are in
+      possession of Anishai in Mae'Var's guild house.
     - The Ox-Tail Belt is now worn by Cohrvale. From the body of his partner 
       Bregg you can also loot Hojar's Fame +1, an enchanted axe of poor quality.
     - The Brooch of the Vagrant Blades can be bought from Ribald Barterman.
@@ -177,8 +180,9 @@ individual NPCs:
     - The blacksmith of Trademeet can sell you the scimitar Hawksight +2.
     - The Cloak of Unerring Strikes is available from Bernard of the Copper Coronet 
       after Lehtinan has been replaced by Hendak.
-    - Karthis al-Hezzar can sell you the Night Walkers. He can be found in the 
-      Wilderness between Saradush and the abandoned Temple of Bhaal.
+    - Karthis al-Hezzar can sell you the Night Walkers and "Sun Soulbeam", which is 
+      an enchanted scimitar. He can be found in the Wilderness between Saradush and 
+      the abandoned Temple of Bhaal.
     - Olaf Rassmusen is one of the henchmen you have to fight if you break into the 
       Guarded Compound in the Temple District. You can loot the Gauntlets of Aln Zekk 
       from his dead body.
@@ -189,8 +193,8 @@ individual NPCs:
       guarding the Eyes of the Beholder. Defeat it and that headpiece is yours.
     - Carras is a smuggler in Amkethran. If you help him out you can purchase the 
       Headband of the Devout from him.
-    - The Gem of Seeing can be looted from Gaal. He is the leader of the cult of the 
-      eyeless.
+    - The Gem of Seeing can be looted from Gaal. He is the leader of the Cult of the 
+      Eyeless.
 
 
 Version History
