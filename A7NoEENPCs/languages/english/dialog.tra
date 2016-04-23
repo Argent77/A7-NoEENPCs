@@ -1,7 +1,7 @@
 // Neera
-@1000 = ~Hey there! Don't I know you from somewhere?~
-@1001 = ~Huh? What's this?~
+@10000 = ~Hey there! Don't I know you from somewhere?~
+@10001 = ~Huh? What's this?~
 
 
 // Rasaad
-@1100 = ~Please excuse me. I'm in a hurry.~
+@10100 = ~Please excuse me. I'm in a hurry.~
