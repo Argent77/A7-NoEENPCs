@@ -84,6 +84,14 @@ BEGIN
   ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
     ACTION_DEFINE_ARRAY a7files BEGIN ~AR2000.BCS~ ~FATESP.DLG~ END
     LAF A7Disable#DLC STR_VAR file_array = a7files END
+
+    ACTION_IF (FILE_EXISTS_IN_GAME ~ohr_join.bcs~) BEGIN
+      COPY_EXISTING ~ohr_join.bcs~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE
+          ~^[\t ]*Global("OHR_PLOT","GLOBAL",0)~ ~False()~
+        END
+    END
   END
 END
 
