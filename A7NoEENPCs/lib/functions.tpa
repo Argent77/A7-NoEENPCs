@@ -201,6 +201,10 @@ BEGIN
         match_opcode = 122    // Create inventory item
         parameter1 = 1        // # to create
       END
+      LPF DELETE_ITEM_EQEFFECT
+        INT_VAR
+        opcode_to_delete = 319  // Restrict item to Baeloth
+      END
 
     COPY_EXISTING ~stocheap.sto~ ~override~
       ADD_STORE_ITEM ~baring~ FIRST #1 #0 #0 ~NONE~ #1
