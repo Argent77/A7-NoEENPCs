@@ -11,6 +11,7 @@ IF WEIGHT #-1 ~NumberOfTimesTalkedTo(0) AreaCheck("AR2000") Global("A7_NOEE_RASA
     CreateCreature("OHRSSM01",[1486.1435],NE)
     ClearAllActions()
     StartCutSceneMode()
+    MoveViewPoint([1550.1368],5)
     MoveToPoint([1550.1368])
     Face(S)
     EndCutSceneMode()~ EXIT
