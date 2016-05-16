@@ -12,7 +12,7 @@ LANGUAGE  ~English~ ~english~
 
 
 BEGIN @1  // Disable all NPCs
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
   REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
@@ -28,7 +28,7 @@ BEGIN @1  // Disable all NPCs
 
 
 BEGIN @2  // Disable NPCs individually
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
   REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 5)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
@@ -37,7 +37,7 @@ BEGIN @2  // Disable NPCs individually
 
 
 BEGIN @3  // Make all NPCs passive
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
   REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 3) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
@@ -53,7 +53,7 @@ BEGIN @3  // Make all NPCs passive
 
 
 BEGIN @4  // Make individual NPCs passive
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
   REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 2) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 3) OR 
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 4) OR 
@@ -64,7 +64,7 @@ BEGIN @4  // Make individual NPCs passive
 
 BEGIN @101  // Disable Baeloth
   REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @1003  // Component "Disable NPCs individually" not selected.
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~ @1001           // This component requires either BG:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod eet~ @1001           // This component requires either BG:EE or EET to be installed.
   DESIGNATED 101
 
   INCLUDE ~A7NoEENPCs/lib/functions.tpa~
@@ -73,7 +73,7 @@ BEGIN @101  // Disable Baeloth
 
 BEGIN @102  // Disable Dorn
   REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @1003  // Component "Disable NPCs individually" not selected.
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000     // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~ @1000     // This component requires either BG:EE, BG2:EE or EET to be installed.
   DESIGNATED 102
 
   INCLUDE ~A7NoEENPCs/lib/functions.tpa~
@@ -91,7 +91,7 @@ BEGIN @103  // Disable Hexxat
 
 BEGIN @104  // Disable Neera
   REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @1003  // Component "Disable NPCs individually" not selected.
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000     // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~ @1000     // This component requires either BG:EE, BG2:EE or EET to be installed.
   DESIGNATED 104
 
   INCLUDE ~A7NoEENPCs/lib/functions.tpa~
@@ -100,7 +100,7 @@ BEGIN @104  // Disable Neera
 
 BEGIN @105  // Disable Rasaad
   REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 2 @1003  // Component "Disable NPCs individually" not selected.
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000     // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~ @1000     // This component requires either BG:EE, BG2:EE or EET to be installed.
   DESIGNATED 105
 
   INCLUDE ~A7NoEENPCs/lib/functions.tpa~
@@ -109,7 +109,7 @@ BEGIN @105  // Disable Rasaad
 
 BEGIN @201  // Make Baeloth passive
   REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 4 @1004  // Component "Make individual NPCs passive" not selected.
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~ @1001           // This component requires either BG:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod eet~ @1001           // This component requires either BG:EE or EET to be installed.
   DESIGNATED 201
 
   INCLUDE ~A7NoEENPCs/lib/functions.tpa~
@@ -127,7 +127,7 @@ BEGIN @202  // Make Hexxat passive
 
 BEGIN @203  // Make Neera passive
   REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 4 @1004  // Component "Make individual NPCs passive" not selected.
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000      // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee sod bg2ee eet~ @1000      // This component requires either BG:EE, BG2:EE or EET to be installed.
   DESIGNATED 203
 
   INCLUDE ~A7NoEENPCs/lib/functions.tpa~
@@ -144,7 +144,7 @@ BEGIN @204  // Make Rasaad passive
 
 
 BEGIN @301  // Make NPC-specific items available for everyone
-  REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet~) @1000      // This component requires either BG:EE, BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE (GAME_IS ~bgee sod bg2ee eet~) @1000      // This component requires either BG:EE, BG2:EE or EET to be installed.
   REQUIRE_PREDICATE ((MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 1) OR 
                      (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 2)) @1005   // This component is only available if one or more NPCs have been disabled.
   REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 0) OR 

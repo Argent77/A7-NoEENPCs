@@ -8,7 +8,7 @@ Author:  Argent77
 Overview
 ~~~~~~~~
 
-A mod for BG:EE, BG2:EE and EET.
+A mod for BG:EE, BG:SOD, BG2:EE and EET.
 
 The new characters introduced in BG:EE and BG2:EE are not for everyone's taste.
 Their character style differs greatly from the vanilla NPCs. Moreover, in 
@@ -36,8 +36,10 @@ Compatibility
 This mod should be compatible with every mod out there that doesn't significantly 
 alter the starting locations and scripts of the Enhanced Edition NPCs. At present 
 only Pecca's mod "EE_content_tweaks" is known to interfere with this mod in BG:EE.
-This mod will check if it has been installed and refuse to install relevant 
+This mod will check if it has been installed and refuses to install relevant 
 components if detected.
+This mod is fully compatible with Siege of Dragonspear. However, Baeloth will not 
+be affected in the campaign because of his close involvement in a certain event.
 
 
 Components
@@ -54,19 +56,19 @@ The following components are only available when selecting subcomponent
 
 2. Disable Baeloth (BG:EE and EET only)
    This component prevents Baeloth from spawning in BG:EE.
-   (Black Pits are not affected.)
+   (Black Pits and Siege of Dragonspear are not affected.)
 
-3. Disable Dorn (BG:EE, BG2:EE and EET)
-   This component prevents Dorn from appearing in BG:EE and BG2:EE.
+3. Disable Dorn (BG:EE, BG:SOD, BG2:EE and EET)
+   This component prevents Dorn from appearing in BG:EE, BG:SOD and BG2:EE.
 
 4. Disable Hexxat (BG2:EE and EET only)
    This component prevents Hexxat and related NPCs from appearing in BG2:EE.
 
-5. Disable Neera (BG:EE, BG2:EE and EET)
-   This component prevents Neera from appearing in BG:EE and BG2:EE.
+5. Disable Neera (BG:EE, BG:SOD, BG2:EE and EET)
+   This component prevents Neera from appearing in BG:EE, BG:SOD and BG2:EE.
 
-6. Disable Rasaad (BG:EE, BG2:EE and EET)
-   This component prevents Rasaad from appearing in BG:EE and BG2:EE.
+6. Disable Rasaad (BG:EE, BG:SOD, BG2:EE and EET)
+   This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.
 
 
 The following components are only available when selecting subcomponent 
@@ -107,6 +109,8 @@ individual NPCs:
       Baldur's Gate at a huge discount. Item description has been fixed.
       As a bonus I have also fixed an inactive effect in its charged ability 
       to make it slightly more worthwhile.
+      Note: For technical reasons the ring will not be available if you have 
+            SoD installed 
 
     Dorn:
     BG:EE:
@@ -199,6 +203,12 @@ individual NPCs:
 
 Version History
 ~~~~~~~~~~~~~~~
+
+v3.2:
+- Added Siege of Dragonspear support
+- Fixed a bug in BG2:EE where Rasaad can still appear even when disabled
+- Relaxed restrictions of Baeloth's ring
+- Various minor fixes and improvements
 
 v3.1:
 - Fixed an incorrect check in component "Make NPC-specific items available for everyone"
