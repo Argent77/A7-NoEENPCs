@@ -1,6 +1,6 @@
 BACKUP ~A7NoEENPCs/backup~
 AUTHOR ~Argent77~
-VERSION ~v3.1~
+VERSION ~v3.2~
 
 README ~A7NoEENPCs/readme/readme-%LANGUAGE%.txt~ ~A7NoEENPCs/readme/readme.txt~
 ASK_EVERY_COMPONENT
