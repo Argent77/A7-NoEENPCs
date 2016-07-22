@@ -5,7 +5,7 @@
 
 ##Overview
 
-A mod for BG:EE, BG2:EE and EET.
+A mod for BG:EE, BG:SOD, BG2:EE and EET.
 
 The new characters introduced in BG:EE and BG2:EE are not for everyone's taste.
 Their character style differs greatly from the vanilla NPCs. Moreover, in 
@@ -30,7 +30,7 @@ in shops or as loot.
 
 ##Components
 
-- Disable Enhanced Edition NPCs (BG:EE, BG2:EE and EET)
+- Disable Enhanced Edition NPCs (BG:EE, BG:SOD, BG2:EE and EET)
   - Disable all NPCs (disables NPCs all at once)
   - Disable NPCs individually  (see below)
   - Make all NPCs passive  (makes all NPCs passive at once)
@@ -42,17 +42,17 @@ The following components are only available when selecting subcomponent "Disable
    This component prevents Baeloth from spawning in BG:EE.
    (Black Pits are not affected.)
 
-- Disable Dorn (*BG:EE, BG2:EE and EET*):
-   This component prevents Dorn from appearing in BG:EE and BG2:EE.
+- Disable Dorn (*BG:EE, BG:SOD, BG2:EE and EET*):
+   This component prevents Dorn from appearing in BG:EE, BG:SOD and BG2:EE.
 
 - Disable Hexxat (*BG2:EE and EET only*):
    This component prevents Hexxat and related NPCs from appearing in BG2:EE.
 
-- Disable Neera (*BG:EE, BG2:EE and EET*):
-   This component prevents Neera from appearing in BG:EE and BG2:EE.
+- Disable Neera (*BG:EE, BG:SOD, BG2:EE and EET*):
+   This component prevents Neera from appearing in BG:EE, BG:SOD and BG2:EE.
 
-- Disable Rasaad (*BG:EE, BG2:EE and EET*):
-   This component prevents Rasaad from appearing in BG:EE and BG2:EE.
+- Disable Rasaad (*BG:EE, BG:SOD, BG2:EE and EET*):
+   This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.
 
 
 The following components are only available when selecting subcomponent 

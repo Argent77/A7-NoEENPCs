@@ -45,7 +45,7 @@ be affected in the campaign because of his close involvement in a certain event.
 Components
 ~~~~~~~~~~
 
-1. Disable Enhanced Edition NPCs (BG:EE, BG2:EE and EET)
+1. Disable Enhanced Edition NPCs (BG:EE, BG:SOD, BG2:EE and EET)
   1.1. Disable all NPCs               <- disables NPCs all at once
   1.2. Disable NPCs individually      <- see below
   1.3. Make all NPCs passive          <- makes all NPCs passive at once
