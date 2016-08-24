@@ -204,6 +204,9 @@ individual NPCs:
 Version History
 ~~~~~~~~~~~~~~~
 
+v3.3:
+  - Added German translation
+
 v3.2:
 - Added Siege of Dragonspear support
 - Fixed a bug in BG2:EE where Rasaad can still appear even when disabled

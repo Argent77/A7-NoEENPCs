@@ -1,0 +1,16 @@
+// -*- coding: utf-8 -*- 
+
+@50000 = ~Dieser Ring wurde von einem Dschinn als „Geschenk“ für den Drow-Hexenmeister Baeloth Barrityl geschaffen. Wie oder warum sich Baeloth von ihm getrennt hat, ist nicht bekannt.
+
+
+EIGENSCHAFTEN:
+
+Erzeugt einen zufälligen Edelstein oder fügt dem Träger Schaden zu (1x täglich).
+
+Kann nur durch „Fluch brechen“ wieder abgenommen werden.
+
+ETW0-Malus: +5 gg. Genies
+Schadensmalus: -5 gg. Genies
+
+Gewicht: 0~
+@50001 = ~Sonnenseelenmönch~

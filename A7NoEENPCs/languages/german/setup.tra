@@ -1,0 +1,27 @@
+// -*- coding: us-ascii -*- 
+
+@1 = ~Alle NSCs deaktivieren~
+@2 = ~Einzelne NSCs deaktivieren~
+@3 = ~Alle NSCs bleiben passiv~
+@4 = ~Einzelne NSCs bleiben passiv~
+
+@10 = ~Enhanced Edition NSCs anpassen~
+
+@101 = ~Baeloth deaktivieren~
+@102 = ~Dorn deaktivieren~
+@103 = ~Hexxat deaktivieren~
+@104 = ~Neera deaktivieren~
+@105 = ~Rasaad deaktivieren~
+@201 = ~Baeloth bleibt passiv~
+@202 = ~Hexxat bleibt passiv~
+@203 = ~Neera bleibt passiv~
+@204 = ~Rasaad bleibt passiv~
+@301 = ~NSC-spezifische Gegenstaende fuer alle verfuegbar machen~
+
+@1000 = ~Diese Komponente benoetigt BG:EE, BG2:EE oder EET.~
+@1001 = ~Diese Komponente benoetigt BG:EE oder EET.~
+@1002 = ~Diese Komponente benoetigt BG2:EE oder EET.~
+@1003 = ~Komponente "Einzelne NSCs deaktivieren" wurde nicht ausgewaehlt.~
+@1004 = ~Komponente "Einzelne NSCs bleiben passiv" wurde nicht ausgewaehlt~
+@1005 = ~Diese Komponente ist nur fuer deaktivierte NSCs verfuegbar.~
+@1006 = ~Diese Mod ist nicht mit Peccas "EE_content_tweaks" kompatibel.~

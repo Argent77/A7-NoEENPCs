@@ -9,6 +9,10 @@ LANGUAGE  ~English~ ~english~
           ~A7NoEENPCs/languages/english/setup.tra~
           ~A7NoEENPCs/languages/english/misc.tra~
           ~A7NoEENPCs/languages/english/dialog.tra~
+LANGUAGE  ~Deutsch~ ~german~
+          ~A7NoEENPCs/languages/german/setup.tra~
+          ~A7NoEENPCs/languages/german/misc.tra~
+          ~A7NoEENPCs/languages/german/dialog.tra~
 
 
 BEGIN @1  // Disable all NPCs
