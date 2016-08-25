@@ -142,12 +142,20 @@ Poniższy komponent jest dostępny, tylko jeśli wybrano zablokowanie wszystkich
     - Klejnot widzenia można teraz znaleźć przy ciele Gaala, który jest przywódcą kultu Bezokiego.
 
 
+Credits
+~~~~~~~
+
+Writing, coding and testing: Argent77
+
+Polish translation: Cahir
+
+
 Version History
 ~~~~~~~~~~~~~~~
 
 v3.3:
   - Added German translation
-  - Added Polish translation
+  - Added Polish translation (thanks Cahir)
   - Fixed BG1 passive Neera in EET
 
 v3.2:

@@ -201,12 +201,20 @@ individual NPCs:
       Eyeless.
 
 
+Credits
+~~~~~~~
+
+Writing, coding and testing: Argent77
+
+Polish translation: Cahir
+
+
 Version History
 ~~~~~~~~~~~~~~~
 
 v3.3:
   - Added German translation
-  - Added Polish translation
+  - Added Polish translation (thanks Cahir)
   - Fixed BG1 passive Neera in EET
 
 v3.2:
