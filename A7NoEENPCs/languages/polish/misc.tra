@@ -1,0 +1,17 @@
+// -*- coding: utf-8 -*- 
+
+@50000 = ~Pierścień ten był podobno własnością pewnego niesławnego drowa, który specjalizował się w zadawaniu tortur. W jaki sposób go utracił i gdzie obecnie przebywa, nie wiadomo.
+
+PARAMETRY:
+
+Specjalne:
+- Obrażenia: -5 przeciw geniuszom
+- TraK0: -5 przeciw geniuszom
+- Można zdjąć tylko po rzuceniu czaru Zdjęcie klątwy
+
+Właściwości ładunków:
+- Losowe obrażenia od żywiołów zadawane użytkownikowi, raz dziennie
+- Szansa na stworzenie losowego klejnotu w ekwipunku użytkownika, raz dziennie
+
+Waga: 0~
+@50001 = ~Mnich Słonecznej Duszy~

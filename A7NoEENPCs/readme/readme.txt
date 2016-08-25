@@ -206,6 +206,8 @@ Version History
 
 v3.3:
   - Added German translation
+  - Added Polish translation
+  - Fixed BG1 passive Neera in EET
 
 v3.2:
 - Added Siege of Dragonspear support

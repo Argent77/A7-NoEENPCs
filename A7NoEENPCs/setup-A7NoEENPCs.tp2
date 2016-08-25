@@ -13,6 +13,10 @@ LANGUAGE  ~Deutsch~ ~german~
           ~A7NoEENPCs/languages/german/setup.tra~
           ~A7NoEENPCs/languages/german/misc.tra~
           ~A7NoEENPCs/languages/german/dialog.tra~
+LANGUAGE  ~Polski (tlumaczenie: Cahir)~ ~polish~
+          ~A7NoEENPCs/languages/polish/setup.tra~
+          ~A7NoEENPCs/languages/polish/misc.tra~
+          ~A7NoEENPCs/languages/polish/dialog.tra~
 
 
 BEGIN @1  // Disable all NPCs
