@@ -19,7 +19,7 @@ lösen, ohne auf Powergaming zurückzugreifen.
 Diese Mod bietet zwei mögliche Lösungen für dieses Problem:
 1. Einzelne oder alle neuen NSCs deaktivieren. Da sie nur deaktiviert sind, 
    kann man sie ohne größere Problem wieder reaktivieren, indem man die 
-   entsprechende Modkomponente deinstalliert.
+   entsprechende Modkomponente(n) deinstalliert.
 2. Einzelne oder alle NSCs davon abhalten, selbständig Kontakt mit eurer 
    Gruppe aufzunehmen. Einige NSCs lösen automatisch Dialoge oder sogar 
    gefährliche Situationen aus, sobald ihr euch der Person nähert. Diese 
@@ -48,57 +48,54 @@ Komponenten
 ~~~~~~~~~~~
 
 1. Enhanced Edition NSCs verändern (für BG:EE, BG:SOD, BG2:EE und EET)
-  1.1. Alle NSCs deaktivieren         <- Alle NSCs werden deaktiviert
-  1.2. Einzelne NSCs deaktivieren     <- siehe unten
-  1.3. Alle NSCs bleiben passiv       <- Alle NSCs bleiben passiv
-  1.4. Einzelne NSCs bleiben passiv   <- siehe unten
+  1.1. Alle NSCs deaktivieren               <- Alle NSCs werden deaktiviert
+  1.2. Alle NSCs bleiben passiv             <- Alle NSCs bleiben passiv
+  1.3. Entscheide fuer jeden einzelnen NSC  <- siehe unten
 
-Die folgenden Komponenten sind nur verfügbar, wenn die Komponente "Einzelne 
-NSCs deaktivieren" ausgewählt wurde:
+Die folgenden Komponenten sind nur verfügbar, wenn die Komponente "Entscheide 
+fuer jeden einzelnen NSC" ausgewählt wurde:
 
-2. Baeloth deaktivieren (nur BG:EE und EET)
-   Diese Komponente verhindert, dass Baeloth in BG:EE auftaucht. 
-   (Die Schwarzen Gruben und Siege of Dragonspear sind nicht betroffen.)
+2. Passe Baeloth an
+  2.1. Baeloth deaktivieren (nur BG:EE und EET)
+       Diese Komponente verhindert, dass Baeloth in BG:EE auftaucht. 
+       (Die Schwarzen Gruben und Siege of Dragonspear sind nicht betroffen.)
+  2.2. Baeloth bleibt passiv (nur BG:EE und EET)
+       Diese Komponente verkürzt Baeloths Einführungssequenz auf ein absolutes 
+       Minimum und verhindert, dass er von sich aus ein Gespräch mit der Gruppe 
+       beginnt.
 
 3. Dorn deaktivieren (BG:EE, BG:SoD, BG2:EE und EET)
    Diese Komponente verhindert, dass Dorn in BG:EE, BG:SoD und BG2:EE auftaucht.
 
-4. Hexxat deaktivieren (nur BG2:EE und EET)
-   Diese Komponente verhindert, dass Hexxat und verwandte NSCs nicht in BG2:EE 
-   auftauchen.
+4. Passe Hexxat an
+  4.1. Hexxat deaktivieren (nur BG2:EE und EET)
+       Diese Komponente verhindert, dass Hexxat und verwandte NSCs nicht in 
+       BG2:EE auftauchen.
+  4.2. Hexxat bleibt passiv (nur BG2:EE und EET)
+       Diese Komponente verhindert, dass Hexxat von sich aus ein Gespräch mit 
+       der Gruppe beginnt.
 
-5. Neera deaktivieren (BG:EE, BG:SoD, BG2:EE und EET)
-   Diese Komponente verhindert, dass Neera in BG:EE, BG:SoD und BG2:EE auftaucht.
+5. Passe Neera an
+  5.1. Neera deaktivieren (BG:EE, BG:SoD, BG2:EE und EET)
+       Diese Komponente verhindert, dass Neera in BG:EE, BG:SoD und BG2:EE 
+       auftaucht.
+  5.2. Neera bleibt passiv (BG:EE, BG2:EE und EET)
+       BG:EE:  Diese Komponente verhindert, dass Neera von sich aus ein 
+               Gespräch mit der Gruppe beginnt.
+       BG2:EE: Diese Komponente löst Neeras Einführungssequenz im Brückenviertel 
+               nur aus, wenn man vorher mit ihr gesprochen hat. Man kann sie in 
+               der Nähe der der Sequenz mit den Roten Magiern finden, nachdem 
+               die Gruppe Stadtbewohner einige Schritte weiter über die rätselhaften 
+               Morde gesprochen haben.
 
-6. Rasaad deaktivieren (BG:EE, BG:SoD, BG2:EE und EET)
-   Diese Komponente verhindert, dass Rasaad in BG:EE, BG:SoD und BG2:EE auftaucht.
-
-
-Die folgenden Komponenten sind nur verfügbar, wenn die Komponente "Einzelne 
-NSCs bleiben passiv" ausgewählt wurde:
-
-7. Baeloth bleibt passiv (nur BG:EE und EET)
-   Diese Komponente verkürzt Baeloths Einführungssequenz auf ein absolutes 
-   Minimum und verhindert, dass er von sich aus ein Gespräch mit der Gruppe 
-   beginnt.
-
-8. Hexxat bleibt passiv (nur BG2:EE und EET)
-   Diese Komponente verhindert, dass Hexxat von sich aus ein Gespräch mit der 
-   Gruppe beginnt.
-
-9. Neera bleibt passiv (BG:EE, BG2:EE und EET)
-   BG:EE:  Diese Komponente verhindert, dass Neera von sich aus ein Gespräch 
-           mit der Gruppe beginnt.
-   BG2:EE: Diese Komponente löst Neeras Einführungssequenz im Brückenviertel 
-           nur aus, wenn man vorher mit ihr gesprochen hat. Man kann sie in 
-           der Nähe der der Sequenz mit den Roten Magiern finden, nachdem die 
-           Gruppe Stadtbewohner einige Schritte weiter über die rätselhaften 
-           Morde gesprochen haben.
-
-10. Rasaad bleibt passiv (nur BG2:EE und EET)
-    Diese Komponente löst Rasaads Einführungssequenz in Handelstreff nur aus, 
-    nachdem man mit ihm gesprochen hat. Er hält sich in der Nähe des Brunnens 
-    in der Stadtmitte auf.
+6. Passe Rasaad an
+  6.1. Rasaad deaktivieren (BG:EE, BG:SoD, BG2:EE und EET)
+       Diese Komponente verhindert, dass Rasaad in BG:EE, BG:SoD und BG2:EE 
+       auftaucht.
+  6.2. Rasaad bleibt passiv (nur BG2:EE und EET)
+       Diese Komponente löst Rasaads Einführungssequenz in Handelstreff nur aus, 
+       nachdem man mit ihm gesprochen hat. Er hält sich in der Nähe des Brunnens 
+       in der Stadtmitte auf.
 
 
 Die folgenden Komponenten sind nur verfügbar, wenn ein oder mehrere NSCs 
@@ -228,6 +225,8 @@ Version History
 ~~~~~~~~~~~~~~~
 
 v3.3:
+  - Restructured mod components to make it possible to disable NPCs or make them 
+    passive on a per NPC basis
   - Added German translation
   - Added Polish translation (thanks Cahir)
   - Fixed BG1 passive Neera in EET

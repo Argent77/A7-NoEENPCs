@@ -1,11 +1,15 @@
 // -*- coding: us-ascii -*- 
 
 @1 = ~Disable all NPCs~
-@2 = ~Disable NPCs individually~
 @3 = ~Make all NPCs passive~
-@4 = ~Make individual NPCs passive~
+@5 = ~Decide for each NPC individually~
 
 @10 = ~Modify Enhanced Edition NPCs~
+@11 = ~Modify individually: Baeloth~
+@12 = ~Modify individually: Dorn~
+@13 = ~Modify individually: Hexxat~
+@14 = ~Modify individually: Neera~
+@15 = ~Modify individually: Rasaad~
 
 @101 = ~Disable Baeloth~
 @102 = ~Disable Dorn~
@@ -16,12 +20,12 @@
 @202 = ~Make Hexxat passive~
 @203 = ~Make Neera passive~
 @204 = ~Make Rasaad passive~
+
 @301 = ~Make NPC-specific items available for everyone~
 
 @1000 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
 @1001 = ~This component requires either BG:EE or EET to be installed.~
 @1002 = ~This component requires either BG2:EE or EET to be installed.~
-@1003 = ~Component "Disable NPCs individually" not selected.~
-@1004 = ~Component "Make individual NPCs passive" not selected.~
+@1003 = ~Component "Decide action for each NPC individually" not selected.~
 @1005 = ~This component is only available if one or more NPCs have been disabled.~
 @1006 = ~This mod is not compatible with Pecca's "EE_content_tweaks".~
