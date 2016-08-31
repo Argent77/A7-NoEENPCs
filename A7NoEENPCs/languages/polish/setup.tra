@@ -26,6 +26,6 @@
 @1000 = ~Komponent ten wymaga uprzedniego zainstalowania BG:EE, BG2:EE lub EET.~
 @1001 = ~Komponent ten wymaga uprzedniego zainstalowania BG:EE lub EET.~
 @1002 = ~Komponent ten wymaga uprzedniego zainstalowania BG2:EE lub EET.~
-@1003 = ~Nie wybrano komponentu „Decyduj indywidualnie dla kazdego BN”.~
+@1003 = ~Nie wybrano komponentu "Decyduj indywidualnie dla kazdego BN".~
 @1005 = ~Komponent ten jest dostepny tylko w przypadku zablokowania jednego lub wiecej BN.~
-@1006 = ~Ta modyfikacja nie jest kompatybilna z dodatkiem „EE_content_tweaks”, ktorego autorem jest Pecca~
+@1006 = ~Ta modyfikacja nie jest kompatybilna z dodatkiem "EE_content_tweaks", ktorego autorem jest Pecca~
