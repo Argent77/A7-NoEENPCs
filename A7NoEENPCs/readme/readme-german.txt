@@ -218,18 +218,29 @@ Credits
 
 Writing, coding and testing: Argent77
 
+French translation: Gwendolyne
 Polish translation: Cahir
+
+
+Copyright Notice
+~~~~~~~~~~~~~~~~
+
+The mod "Disable Enhanced Edition NPCs" is licensed under the "Creative Commons Attribution-
+ShareAlike 4.0 International License" (http://creativecommons.org/licenses/by-sa/4.0/).
 
 
 Version History
 ~~~~~~~~~~~~~~~
 
+v3.4:
+- Added French translation (thanks Gwendolyne)
+
 v3.3:
-  - Restructured mod components to make it possible to disable NPCs or make them 
-    passive on a per NPC basis
-  - Added German translation
-  - Added Polish translation (thanks Cahir)
-  - Fixed BG1 passive Neera in EET
+- Restructured mod components to make it possible to disable NPCs or make them 
+  passive on a per NPC basis
+- Added German translation
+- Added Polish translation (thanks Cahir)
+- Fixed BG1 passive Neera in EET
 
 v3.2:
 - Added Siege of Dragonspear support

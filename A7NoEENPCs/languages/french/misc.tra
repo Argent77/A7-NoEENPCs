@@ -1,0 +1,16 @@
+// -*- coding: utf-8 -*- 
+
+@50000 = ~Cette anneau a appartenu à un ensorceleur drow d'une certaine réputation. On ne sait pas comment il l'a perdu, ni ce qu'il est devenu depuis.
+
+PARAMÈTRES :
+
+Capacités d'équipement :
+- TAC0 : -5 contre les génies
+- Dégâts : -5 contre les génies
+- Ne peut être retiré qu'avec un sort de Délivrance de la Malédiction.
+
+Capacités de charge :
+- Crée une gemme choisie aléatoirement ou inflige des dégâts élémentaires à son porteur, une fois par jour.
+
+Poids : 0~
+@50001 = ~Moine de la Conscience Solaire~

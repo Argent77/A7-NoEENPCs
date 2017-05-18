@@ -5,15 +5,23 @@ VERSION ~v3.3~
 README ~A7NoEENPCs/readme/readme-%LANGUAGE%.txt~ ~A7NoEENPCs/readme/readme.txt~
 ASK_EVERY_COMPONENT
 
-LANGUAGE  ~English~ ~english~
+LANGUAGE  ~English~
+          ~english~
           ~A7NoEENPCs/languages/english/setup.tra~
           ~A7NoEENPCs/languages/english/misc.tra~
           ~A7NoEENPCs/languages/english/dialog.tra~
-LANGUAGE  ~Deutsch~ ~german~
+LANGUAGE  ~Francais (traduction: Gwendolyne)~
+          ~french~
+          ~A7NoEENPCs/languages/french/setup.tra~
+          ~A7NoEENPCs/languages/french/misc.tra~
+          ~A7NoEENPCs/languages/french/dialog.tra~
+LANGUAGE  ~Deutsch~
+          ~german~
           ~A7NoEENPCs/languages/german/setup.tra~
           ~A7NoEENPCs/languages/german/misc.tra~
           ~A7NoEENPCs/languages/german/dialog.tra~
-LANGUAGE  ~Polski (tlumaczenie: Cahir)~ ~polish~
+LANGUAGE  ~Polski (tlumaczenie: Cahir)~
+          ~polish~
           ~A7NoEENPCs/languages/polish/setup.tra~
           ~A7NoEENPCs/languages/polish/misc.tra~
           ~A7NoEENPCs/languages/polish/dialog.tra~

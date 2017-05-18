@@ -154,34 +154,53 @@ Poniższy komponent jest dostępny, tylko jeśli wybrano zablokowanie wszystkich
     - 	Klejnot widzenia można teraz znaleźć przy ciele Gaala, który jest przywódcą kultu Bezokiego.
 
 
+Credits
+~~~~~~~
+
+Writing, coding and testing: Argent77
+
+French translation: Gwendolyne
+Polish translation: Cahir
+
+
+Copyright Notice
+~~~~~~~~~~~~~~~~
+
+The mod "Disable Enhanced Edition NPCs" is licensed under the "Creative Commons Attribution-
+ShareAlike 4.0 International License" (http://creativecommons.org/licenses/by-sa/4.0/).
+
+
 Version History
 ~~~~~~~~~~~~~~~
 
+v3.4:
+- Added French translation (thanks Gwendolyne)
+
 v3.3
-- 	Restructured mod components to make it possible to disable NPCs or make them passive on a per NPC basis
-- 	Added German translation
-- 	Added Polish translation (thanks Cahir)
-- 	Fixed BG1 passive Neera in EET
+- Restructured mod components to make it possible to disable NPCs or make them passive on a per NPC basis
+- Added German translation
+- Added Polish translation (thanks Cahir)
+- Fixed BG1 passive Neera in EET
 
 v3.2:
-- 	Added Siege of Dragonspear support
-- 	Fixed a bug in BG2:EE where Rasaad can still appear even when disabled
-- 	Relaxed restrictions of Baeloth's ring
-- 	Various minor fixes and improvements
+- Added Siege of Dragonspear support
+- Fixed a bug in BG2:EE where Rasaad can still appear even when disabled
+- Relaxed restrictions of Baeloth's ring
+- Various minor fixes and improvements
 
 v3.1:
-- 	Fixed an incorrect check in component "Make NPC-specific items available for everyone"
+- Fixed an incorrect check in component "Make NPC-specific items available for everyone"
 
 v3.0:
-- 	Added new component "Make NPC-specific items available for everyone"
-- 	Increased compatibility with mods (see Compatibility section)
+- Added new component "Make NPC-specific items available for everyone"
+- Increased compatibility with mods (see Compatibility section)
 
 v2.1:
-- 	Fixed a missing game check for "Passive Neera" component
-- 	Internal restructurings
+- Fixed a missing game check for "Passive Neera" component
+- Internal restructurings
 
 v2.0:
-- 	Added option to keep all or individual NPCs from initiating conversations or events on their own
+- Added option to keep all or individual NPCs from initiating conversations or events on their own
 
 v1.0:
-- 	Initial release
+- Initial release
