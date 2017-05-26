@@ -1,9 +1,9 @@
-#Disable Enhanced Edition NPCs
+# Disable Enhanced Edition NPCs
 
 **Author:** Argent77
 
 
-##Overview
+## Overview
 
 A mod for BG:EE, BG:SOD, BG2:EE and EET.
 
@@ -28,7 +28,7 @@ whether to make their personal or quest-specific items available for everyone
 in shops or as loot.
 
 
-##Components
+## Components
 
 - Disable Enhanced Edition NPCs (BG:EE, BG:SOD, BG2:EE and EET)
   - Disable all NPCs (disables NPCs all at once)
