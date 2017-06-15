@@ -234,6 +234,7 @@ Version History
 
 v3.4:
 - Added French translation (thanks Gwendolyne)
+- Spelling and formatting fixes in Polish readme
 
 v3.3:
 - Restructured mod components to make it possible to disable NPCs or make them 
