@@ -1,8 +1,12 @@
 Disable Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version: 3.3
-Author:  Argent77
+Version:    3.4
+Author:     Argent77
+
+Download:   https://github.com/Argent77/A7-NoEENPCs/releases/latest
+Diskussion: http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/
+            https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1
 
 
 Ogólny zarys

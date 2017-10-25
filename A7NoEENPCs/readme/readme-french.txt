@@ -1,8 +1,12 @@
 Désactiver les PNJ des Éditions Améliorées
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version : 3.3
-Auteur  : Argent77
+Version :         3.4
+Auteur  :         Argent77
+
+Téléchargement :  https://github.com/Argent77/A7-NoEENPCs/releases/latest
+Discussion :      http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/
+                  https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1
 
 
 Généralités
