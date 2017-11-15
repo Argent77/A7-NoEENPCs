@@ -2,6 +2,10 @@ BACKUP ~A7NoEENPCs/backup~
 AUTHOR ~Argent77~
 VERSION ~v3.4~
 
+ALWAYS
+  INCLUDE ~%MOD_FOLDER%/lib/eet.tph~
+END
+
 README ~A7NoEENPCs/readme/readme-%LANGUAGE%.txt~ ~A7NoEENPCs/readme/readme.txt~
 ASK_EVERY_COMPONENT
 

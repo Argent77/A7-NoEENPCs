@@ -1,0 +1,9 @@
+// *** EET-specific initializations ***
+
+// Setting bg2_chapter_1, bg2_chapter_2, ... to actual chapter value for BG2 part of the game
+OUTER_SET bg2_chapter = (GAME_IS ~eet~) ? 12 : 0
+OUTER_FOR (i = 1; i < 11; ++i) BEGIN
+  OUTER_SET bg2_chapter += 1
+  OUTER_TEXT_SPRINT name_source ~bg2_chapter_%i%~
+  OUTER_SET EVAL ~%name_source%~ = bg2_chapter
+END

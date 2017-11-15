@@ -157,7 +157,8 @@ BEGIN
           REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("NEERA.+)~ ~~
         END BUT_ONLY
       EXTEND_BOTTOM ~ohncut1a.bcs~ ~%MOD_FOLDER%/scripts/ohncut1a_neera.baf~
-      COMPILE ~%MOD_FOLDER%/scripts/ohnmcut1.baf~
+      PRINT ~DEBUG: chapter = %bg2_chapter_7%~
+      COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/scripts/ohnmcut1.baf~
       COMPILE ~%MOD_FOLDER%/dialogs/neera_bg2.d~
     END
   END
@@ -170,6 +171,8 @@ BEGIN
       COPY_EXISTING ~ar2000.bcs~ ~override~
         DECOMPILE_AND_PATCH BEGIN
           REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("RASAAD8",.*)~ ~CreateCreature("RASAAD8",[1832.1410],SSE)~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~MoveGlobal("AR2000","Rasaad",.*)~ ~MoveGlobal("AR2000","Rasaad",[1832.1410])~
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~ActionOverride("Rasaad",Face(.*))~ ~ActionOverride("Rasaad",Face(SSE))~
           REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("OHRTREYA",.*)~ ~~
           REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("OHRSSM01",.*)~ ~~
         END BUT_ONLY
