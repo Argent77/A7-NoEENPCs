@@ -157,7 +157,6 @@ BEGIN
           REPLACE_TEXTUALLY CASE_INSENSITIVE ~CreateCreature("NEERA.+)~ ~~
         END BUT_ONLY
       EXTEND_BOTTOM ~ohncut1a.bcs~ ~%MOD_FOLDER%/scripts/ohncut1a_neera.baf~
-      PRINT ~DEBUG: chapter = %bg2_chapter_7%~
       COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/scripts/ohnmcut1.baf~
       COMPILE ~%MOD_FOLDER%/dialogs/neera_bg2.d~
     END
