@@ -25,27 +25,27 @@ If you choose the option to disable all or individual NPCs you can also choose w
 
 The following components are only available when selecting subcomponent "Disable NPCs individually":
 
-- **Disable Baeloth (*BG:EE and EET only*):** This component prevents Baeloth from spawning in BG:EE. (Black Pits are not affected.)
+- **Disable Baeloth (BG:EE and EET only):** This component prevents Baeloth from spawning in BG:EE. (Black Pits are not affected.)
 
-- **Disable Dorn (*BG:EE, BG:SOD, BG2:EE and EET*):** This component prevents Dorn from appearing in BG:EE, BG:SOD and BG2:EE.
+- **Disable Dorn (BG:EE, BG:SOD, BG2:EE and EET):** This component prevents Dorn from appearing in BG:EE, BG:SOD and BG2:EE.
 
-- **Disable Hexxat (*BG2:EE and EET only*):** This component prevents Hexxat and related NPCs from appearing in BG2:EE.
+- **Disable Hexxat (BG2:EE and EET only):** This component prevents Hexxat and related NPCs from appearing in BG2:EE.
 
-- **Disable Neera (*BG:EE, BG:SOD, BG2:EE and EET*):** This component prevents Neera from appearing in BG:EE, BG:SOD and BG2:EE.
+- **Disable Neera (BG:EE, BG:SOD, BG2:EE and EET):** This component prevents Neera from appearing in BG:EE, BG:SOD and BG2:EE.
 
-- **Disable Rasaad (*BG:EE, BG:SOD, BG2:EE and EET*):** This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.
+- **Disable Rasaad (BG:EE, BG:SOD, BG2:EE and EET):** This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.
 
 The following components are only available when selecting subcomponent "Make individual NPCs passive":
 
-- **Make Baeloth passive (*BG:EE and EET only*):** This component reduces the introduction cutscene to a bare minimum and prevents Baeloth from initiating a conversation on his own.
+- **Make Baeloth passive (BG:EE and EET only):** This component reduces the introduction cutscene to a bare minimum and prevents Baeloth from initiating a conversation on his own.
 
-- **Make Hexxat passive (*BG2:EE and EET only*):** This component prevents Hexxat from initiating a conversation on her own.
+- **Make Hexxat passive (BG2:EE and EET only):** This component prevents Hexxat from initiating a conversation on her own.
 
-- **Make Neera passive (*BG:EE, BG2:EE and EET*):**
+- **Make Neera passive (BG:EE, BG2:EE and EET):**
   - BG:EE:  This component prevents Neera from initiating a conversation on her own.
   - BG2:EE: This component triggers the introduction cutscene in the Bridge District only when you talk to Neera. She can be found near the place where the Red Wizards cutscene occurs after the townsfolk talked about the local murders.
 
-- **Make Rasaad passive (*BG2:EE and EET only*):** This component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.
+- **Make Rasaad passive (BG2:EE and EET only):** This component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.
 
 The following component is only available if you have selected to disable all or individual NPCs:
 
