@@ -1,7 +1,7 @@
 Disable Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version:    3.4
+Version:    3.5
 Author:     Argent77
 
 Download:   https://github.com/Argent77/A7-NoEENPCs/releases/latest
@@ -218,6 +218,9 @@ ShareAlike 4.0 International License" (http://creativecommons.org/licenses/by-sa
 
 Version History
 ~~~~~~~~~~~~~~~
+
+v3.5:
+- Fixed consistency issues with Neera and Rasaad in EET
 
 v3.4:
 - Added French translation (thanks Gwendolyne)
