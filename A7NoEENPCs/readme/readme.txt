@@ -87,9 +87,11 @@ The following components are only available when selecting subcomponent
 6. Modify individually: Rasaad
   6.1. Disable Rasaad (BG:EE, BG:SOD, BG2:EE and EET)
        This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.
-  6.2. Make Rasaad passive (BG2:EE and EET only)
-       This component triggers the introduction cutscene in Trademeet only when 
-       you talk to Rasaad. He can be found near the fountain.
+  6.2. Make Rasaad passive (BG:EE, BG2:EE and EET)
+       BG:EE:  This component prevents Rasaad from joining the fight against 
+               the assassins Neira or Nimbul in Nashkel.
+       BG2:EE: This component triggers the introduction cutscene in Trademeet 
+               only when you talk to Rasaad. He can be found near the fountain.
 
 
 The following component is only available if you have selected to disable all or 
@@ -218,6 +220,9 @@ ShareAlike 4.0 International License" (http://creativecommons.org/licenses/by-sa
 
 Version History
 ~~~~~~~~~~~~~~~
+
+v3.6:
+- Added "Passive Rasaad" for BG:EE
 
 v3.5:
 - Fixed consistency issues with Neera and Rasaad in EET

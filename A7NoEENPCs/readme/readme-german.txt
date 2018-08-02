@@ -236,6 +236,9 @@ ShareAlike 4.0 International License" (http://creativecommons.org/licenses/by-sa
 Version History
 ~~~~~~~~~~~~~~~
 
+v3.6:
+- Added "Passive Rasaad" for BG:EE
+
 v3.5:
 - Fixed consistency issues with Neera and Rasaad in EET
 

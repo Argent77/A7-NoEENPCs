@@ -45,7 +45,9 @@ The following components are only available when selecting subcomponent "Make in
   - BG:EE:  This component prevents Neera from initiating a conversation on her own.
   - BG2:EE: This component triggers the introduction cutscene in the Bridge District only when you talk to Neera. She can be found near the place where the Red Wizards cutscene occurs after the townsfolk talked about the local murders.
 
-- **Make Rasaad passive (BG2:EE and EET only):** This component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.
+- **Make Rasaad passive (BG:EE, BG2:EE and EET):**
+  - BG:EE:  This component prevents Rasaad from joining the fight against the assassins Neira or Nimbul in Nashkel.
+  - BG2:EE: This component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.
 
 The following component is only available if you have selected to disable all or individual NPCs:
 

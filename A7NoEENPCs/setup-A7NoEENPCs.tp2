@@ -149,7 +149,7 @@ BEGIN @105  // Disable Rasaad
 
 BEGIN @204  // Make Rasaad passive
   REQUIRE_COMPONENT ~setup-A7NoEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002           // This component requires either BG2:EE or EET to be installed.
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
   SUBCOMPONENT @15  // Modify individually: Rasaad
   DESIGNATED 205
 

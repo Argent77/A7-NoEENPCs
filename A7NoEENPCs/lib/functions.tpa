@@ -165,6 +165,48 @@ END
 
 DEFINE_ACTION_FUNCTION A7PassiveRasaad
 BEGIN
+  // BG1 portion
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    ACTION_IF (GAME_IS ~eet~) BEGIN
+      OUTER_TEXT_SPRINT script ~RASAAD_.BCS~
+    END ELSE BEGIN
+      OUTER_TEXT_SPRINT script ~RASAAD.BCS~
+    END
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%script%~) BEGIN
+      COPY_EXISTING ~%script%~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          // Rasaad should not interfere with the Nimbul or Neira fights
+          SET ofs = 0
+          WHILE (ofs >= 0) BEGIN
+            SET ofs = INDEX_BUFFER(~"NIMBUL"~ (ofs + 1))
+            PATCH_IF (ofs >= 0) BEGIN
+              SET ofs1 = RINDEX_BUFFER(CASE_SENSITIVE ~^IF~ ofs)
+              SET ofs2 = INDEX_BUFFER(CASE_SENSITIVE ~^END~ ofs)
+              // Disable attack
+              SET ofs3 = INDEX_BUFFER(~^[ %TAB%]*Attack.*(~ ofs1)
+              PATCH_IF (ofs3 > ofs1 && ofs3 < ofs2) BEGIN
+                TEXT_SPRINT comment ~//~
+                SET comment_len = STRING_LENGTH ~%comment%~
+                INSERT_BYTES ofs3 comment_len
+                WRITE_ASCIIE ofs3 ~%comment%~ (comment_len)
+                SET ofs2 += comment_len
+              END
+              // Prevent auto-talk
+              SET ofs3 = INDEX_BUFFER(~^[ %TAB%]*Dialog.*(~ ofs1)
+              PATCH_IF (ofs3 > ofs1 && ofs3 < ofs2) BEGIN
+                TEXT_SPRINT talked ~SetNumTimesTalkedTo(1) //~
+                SET talked_len = STRING_LENGTH ~%talked%~
+                INSERT_BYTES ofs3 talked_len
+                WRITE_ASCIIE ofs3 ~%talked%~ (talked_len)
+                SET ofs2 += talked_len
+              END
+            END
+          END
+        END BUT_ONLY
+    END
+  END
+
+  // BG2 portion
   ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
     ACTION_IF (FILE_EXISTS_IN_GAME ~RASAAD.BCS~) BEGIN
       COPY_EXISTING ~ar2000.bcs~ ~override~
