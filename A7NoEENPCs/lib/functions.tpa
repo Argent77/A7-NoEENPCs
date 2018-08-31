@@ -1,7 +1,5 @@
 // Various functions for disabling individual NPCs
 
-INCLUDE ~A7NoEENPCs/lib/weidu_functions.tph~
-
 DEFINE_ACTION_FUNCTION A7DisableBaeloth
 BEGIN
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
