@@ -64,3 +64,5 @@ These components can be installed independently:
 - **Change portrait: Neera** Installs a BG2-style portrait variant for the whole game (BG:EE, BG2:EE and EET) or only for the BG2 part (EET only).
 
 - **Change portrait: Rasaad** Installs a BG2-style portrait variant for the whole game (BG:EE, BG2:EE and EET) or only for the BG2 part (EET only).
+
+- **Improved portrait: Wilson** Installs an improved portrait variant for Wilson (BG2:EE and EET).

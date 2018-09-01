@@ -5,23 +5,6 @@ VERSION ~v3.5~
 ALWAYS
   INCLUDE ~%MOD_FOLDER%/lib/eet.tph~
   INCLUDE ~%MOD_FOLDER%/lib/functions.tpa~
-
-  // Fixed Wilson portrait will be installed with any selected component
-  ACTION_IF (GAME_IS ~bg2ee eet~ && NOT FILE_EXISTS_IN_GAME ~a7_wlsn.itm~) BEGIN
-    COPY_EXISTING ~sw1h01.itm~ ~override/a7_wlsn.itm~ // marker file
-    COPY ~%MOD_FOLDER%/portraits/wilsonl.bmp~ ~override~
-         ~%MOD_FOLDER%/portraits/wilsonm.bmp~ ~override~
-         ~%MOD_FOLDER%/portraits/wilsons.bmp~ ~override~
-    // COPY_EXISTING ~wilson13.cre~ ~override~
-      // WRITE_ASCII 0x34 ~A7_WLSNM~ (8)
-      // WRITE_ASCII 0x3c ~A7_WLSNL~ (8)
-    // BUT_ONLY IF_EXISTS
-    // LAF UPDATE_EPILOG_PORTRAIT
-    // STR_VAR
-      // match_portrait = ~WILSON.*~
-      // portrait = ~A7_WLSNL~
-    // END
-  END
 END
 
 README ~A7NoEENPCs/readme/readme-%LANGUAGE%.html~
@@ -470,3 +453,14 @@ BEGIN @404 // BG2 style, in BG2 only
       portrait = ~A7_RSADL~
     END
   END
+
+
+BEGIN @450 // Improved portrait: Wilson
+  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002         // This component requires either BG2:EE or EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  DESIGNATED 450
+
+  COPY ~%MOD_FOLDER%/portraits/wilsonl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/wilsonm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/wilsons.bmp~ ~override~
