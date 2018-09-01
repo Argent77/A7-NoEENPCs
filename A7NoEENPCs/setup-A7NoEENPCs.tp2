@@ -4,9 +4,30 @@ VERSION ~v3.5~
 
 ALWAYS
   INCLUDE ~%MOD_FOLDER%/lib/eet.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/functions.tpa~
+
+  // Fixed Wilson portrait will be installed with any selected component
+  ACTION_IF (GAME_IS ~bg2ee eet~ && NOT FILE_EXISTS_IN_GAME ~a7_wlsn.itm~) BEGIN
+    COPY_EXISTING ~sw1h01.itm~ ~override/a7_wlsn.itm~ // marker file
+    COPY ~%MOD_FOLDER%/portraits/wilsonl.bmp~ ~override~
+         ~%MOD_FOLDER%/portraits/wilsonm.bmp~ ~override~
+         ~%MOD_FOLDER%/portraits/wilsons.bmp~ ~override~
+    // COPY_EXISTING ~wilson13.cre~ ~override~
+      // WRITE_ASCII 0x34 ~A7_WLSNM~ (8)
+      // WRITE_ASCII 0x3c ~A7_WLSNL~ (8)
+    // BUT_ONLY IF_EXISTS
+    // LAF UPDATE_EPILOG_PORTRAIT
+    // STR_VAR
+      // match_portrait = ~WILSON.*~
+      // portrait = ~A7_WLSNL~
+    // END
+  END
 END
 
-README ~A7NoEENPCs/readme/readme-%LANGUAGE%.txt~ ~A7NoEENPCs/readme/readme.txt~
+README ~A7NoEENPCs/readme/readme-%LANGUAGE%.html~
+       ~A7NoEENPCs/readme/readme-%LANGUAGE%.txt~
+       ~A7NoEENPCs/readme/readme.html~
+       ~A7NoEENPCs/readme/readme.txt~
 ASK_EVERY_COMPONENT
 
 LANGUAGE  ~English~
@@ -39,7 +60,6 @@ BEGIN @1  // Disable all NPCs
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   DESIGNATED 1
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7DisableBaeloth END
   LAF A7DisableDorn END
   LAF A7DisableHexxat END
@@ -56,7 +76,6 @@ BEGIN @3  // Make all NPCs passive
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   DESIGNATED 2
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7PassiveBaeloth END
   LAF A7PassiveHexxat END
   LAF A7PassiveNeera END
@@ -78,7 +97,6 @@ BEGIN @101  // Disable Baeloth
   SUBCOMPONENT @11  // Modify individually: Baeloth
   DESIGNATED 101
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7DisableBaeloth END
 
 BEGIN @201  // Make Baeloth passive
@@ -87,7 +105,6 @@ BEGIN @201  // Make Baeloth passive
   SUBCOMPONENT @11  // Modify individually: Baeloth
   DESIGNATED 201
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7PassiveBaeloth END
 
 
@@ -96,7 +113,6 @@ BEGIN @102  // Disable Dorn
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
   DESIGNATED 102
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7DisableDorn END
 
 
@@ -106,7 +122,6 @@ BEGIN @103  // Disable Hexxat
   SUBCOMPONENT @13  // Modify individually: Hexxat
   DESIGNATED 103
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7DisableHexxat END
 
 BEGIN @202  // Make Hexxat passive
@@ -115,7 +130,6 @@ BEGIN @202  // Make Hexxat passive
   SUBCOMPONENT @13  // Modify individually: Hexxat
   DESIGNATED 203
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7PassiveHexxat END
 
 
@@ -125,7 +139,6 @@ BEGIN @104  // Disable Neera
   SUBCOMPONENT @14  // Modify individually: Neera
   DESIGNATED 104
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7DisableNeera END
 
 BEGIN @203  // Make Neera passive
@@ -134,7 +147,6 @@ BEGIN @203  // Make Neera passive
   SUBCOMPONENT @14  // Modify individually: Neera
   DESIGNATED 204
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7PassiveNeera END
 
 
@@ -144,7 +156,6 @@ BEGIN @105  // Disable Rasaad
   SUBCOMPONENT @15  // Modify individually: Rasaad
   DESIGNATED 105
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7DisableRasaad END
 
 BEGIN @204  // Make Rasaad passive
@@ -153,7 +164,6 @@ BEGIN @204  // Make Rasaad passive
   SUBCOMPONENT @15  // Modify individually: Rasaad
   DESIGNATED 205
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
   LAF A7PassiveRasaad END
 
 
@@ -169,8 +179,6 @@ BEGIN @301  // Make NPC-specific items available for everyone
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 1)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
   DESIGNATED 301
 
-  INCLUDE ~A7NoEENPCs/lib/functions.tpa~
-
   ACTION_IF ((MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 101)) BEGIN  // "Disable Baeloth"
     LAF A7ItemsBaeloth END
   END
@@ -185,4 +193,280 @@ BEGIN @301  // Make NPC-specific items available for everyone
   END
   ACTION_IF ((MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~setup-A7NoEENPCs.tp2~ 105)) BEGIN  // "Disable Rasaad"
     LAF A7ItemsRasaad END
+  END
+
+
+BEGIN @401 // Alternate version
+  REQUIRE_PREDICATE GAME_IS ~bgee eet~ @1001          // This component requires either BG:EE or EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @400  // Change portrait: Baeloth
+  DESIGNATED 400
+
+  COPY ~%MOD_FOLDER%/portraits/a7_blthl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_blthm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_blths.bmp~ ~override~
+
+  ACTION_FOR_EACH cre IN ~a~ ~baelot7~ ~baeloth~ ~ohb2blth~ ~ohbbael~ BEGIN
+    COPY_EXISTING ~%cre%.CRE~ ~override~
+      WRITE_ASCII 0x34 ~A7_BLTHM~ (8)
+      WRITE_ASCII 0x3c ~A7_BLTHL~ (8)
+    BUT_ONLY IF_EXISTS
+  END
+
+BEGIN @402 // Alternate version, in BG2 only
+  REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @400  // Change portrait: Baeloth
+  DESIGNATED 401
+
+  COPY ~%MOD_FOLDER%/portraits/a7_blthl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_blthm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_blths.bmp~ ~override~
+
+  OUTER_TEXT_SPRINT a7_portrait_change ~a7_pblt~
+  COPY ~%MOD_FOLDER%/spells/a7_pxxx.spl~ ~override/%a7_portrait_change%.spl~
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTM~ resource = ~A7_BLTHM~
+    END
+
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTL~ resource = ~A7_BLTHL~
+    END
+
+  ACTION_FOR_EACH script IN ~baeloth~ ~bdbaelot~ BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%script%.bcs~) BEGIN
+      EXTEND_TOP ~%script%.bcs~ ~%MOD_FOLDER%/scripts/portrait_change.baf~ EVAL
+    END
+  END
+
+
+BEGIN @403 // BG2 style
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @410  // Change portrait: Dorn
+  DESIGNATED 410
+
+  COPY ~%MOD_FOLDER%/portraits/a7_dornl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_dornm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_dorns.bmp~ ~override~
+
+  ACTION_FOR_EACH cre IN ~dorn~ ~dorn2~ ~dorn4~ ~dorn6~ ~dorn7~ ~dorn8~ ~dorn9~ ~dorn10~ ~dorn12~ ~dorn14~ ~ohb2dorn~ BEGIN
+    COPY_EXISTING ~%cre%.CRE~ ~override~
+      WRITE_ASCII 0x34 ~A7_DORNM~ (8)
+      WRITE_ASCII 0x3c ~A7_DORNL~ (8)
+    BUT_ONLY IF_EXISTS
+  END
+
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    LAF UPDATE_EPILOG_PORTRAIT
+    STR_VAR
+      match_portrait = ~DORN.*~
+      portrait = ~A7_DORNL~
+    END
+  END
+
+BEGIN @404 // BG2 style, in BG2 only
+  REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @410  // Change portrait: Dorn
+  DESIGNATED 411
+
+  COPY ~%MOD_FOLDER%/portraits/a7_dornl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_dornm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_dorns.bmp~ ~override~
+
+  OUTER_TEXT_SPRINT a7_portrait_change ~a7_pdrn~
+  COPY ~%MOD_FOLDER%/spells/a7_pxxx.spl~ ~override/%a7_portrait_change%.spl~
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTM~ resource = ~A7_DORNM~
+    END
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTL~ resource = ~A7_DORNL~
+    END
+
+  ACTION_FOR_EACH script IN ~dorn_~ ~dorn~ ~dorn25~ BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%script%.bcs~) BEGIN
+      EXTEND_TOP ~%script%.bcs~ ~%MOD_FOLDER%/scripts/portrait_change.baf~ EVAL
+    END
+  END
+
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    LAF UPDATE_EPILOG_PORTRAIT
+    STR_VAR
+      match_portrait = ~DORN.*~
+      portrait = ~A7_DORNL~
+    END
+  END
+
+
+BEGIN @420 // Change portrait: Hexxat (BG2 style)
+  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002         // This component requires either BG2:EE or EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  DESIGNATED 420
+
+  // Clara
+  COPY ~%MOD_FOLDER%/portraits/a7_hexl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_hexm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_hexs.bmp~ ~override~
+
+  ACTION_FOR_EACH cre IN ~ohhfak8~ ~ohhfak9~ ~ohhfak10~ ~ohhfak10~ ~ohhfak11~ ~ohhfak13~ ~ohhfak15~ BEGIN
+    COPY_EXISTING ~%cre%.CRE~ ~override~
+      WRITE_ASCII 0x34 ~A7_HEXM~ (8)
+      WRITE_ASCII 0x3c ~A7_HEXL~ (8)
+    BUT_ONLY IF_EXISTS
+  END
+
+  // Hexxat
+  COPY ~%MOD_FOLDER%/portraits/a7_hexxl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_hexxm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_hexxs.bmp~ ~override~
+
+  ACTION_FOR_EACH cre IN ~ohhex8~ ~ohhex9~ ~ohhex10~ ~ohhex11~ ~ohhex13~ ~ohhex15~ ~ohhex25~ BEGIN
+    COPY_EXISTING ~%cre%.CRE~ ~override~
+      WRITE_ASCII 0x34 ~A7_HEXXM~ (8)
+      WRITE_ASCII 0x3c ~A7_HEXXL~ (8)
+    BUT_ONLY IF_EXISTS
+  END
+
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    LAF UPDATE_EPILOG_PORTRAIT
+    STR_VAR
+      match_portrait = ~OHHEXX.*~
+      portrait = ~A7_HEXXL~
+    END
+  END
+
+
+BEGIN @403 // BG2 style
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @430  // Change portrait: Neera
+  DESIGNATED 430
+
+  COPY ~%MOD_FOLDER%/portraits/a7_neral.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_neram.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_neras.bmp~ ~override~
+
+  ACTION_FOR_EACH cre IN ~neera~ ~neera2~ ~neera4~ ~neera6~ ~neera7~ ~neera8~ ~neera10~ ~neera11~ ~neera12~ ~neera13~ ~neera15~ ~ohb1neer~ BEGIN
+    COPY_EXISTING ~%cre%.CRE~ ~override~
+      WRITE_ASCII 0x34 ~A7_NERAM~ (8)
+      WRITE_ASCII 0x3c ~A7_NERAL~ (8)
+    BUT_ONLY IF_EXISTS
+  END
+
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    LAF UPDATE_EPILOG_PORTRAIT
+    STR_VAR
+      match_portrait = ~NEERA.*~
+      portrait = ~A7_NERAL~
+    END
+  END
+
+BEGIN @404 // BG2 style, in BG2 only
+  REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @430  // Change portrait: Neera
+  DESIGNATED 431
+
+  COPY ~%MOD_FOLDER%/portraits/a7_neral.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_neram.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_neras.bmp~ ~override~
+
+  OUTER_TEXT_SPRINT a7_portrait_change ~a7_pner~
+  COPY ~%MOD_FOLDER%/spells/a7_pxxx.spl~ ~override/%a7_portrait_change%.spl~
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTM~ resource = ~A7_NERAM~
+    END
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTL~ resource = ~A7_NERAL~
+    END
+
+  ACTION_FOR_EACH script IN ~neera_~ ~neera~ ~neer25~ BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%script%.bcs~) BEGIN
+      EXTEND_TOP ~%script%.bcs~ ~%MOD_FOLDER%/scripts/portrait_change.baf~ EVAL
+    END
+  END
+
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    LAF UPDATE_EPILOG_PORTRAIT
+    STR_VAR
+      match_portrait = ~NEERA.*~
+      portrait = ~A7_NERAL~
+    END
+  END
+
+
+BEGIN @403 // BG2 style
+  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @440  // Change portrait: Rasaad
+  DESIGNATED 440
+
+  COPY ~%MOD_FOLDER%/portraits/a7_rsadl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_rsadm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_rsads.bmp~ ~override~
+
+  ACTION_FOR_EACH cre IN ~rasaad~ ~rasaad2~ ~rasaad4~ ~rasaad6~ ~rasaad7~ ~rasaad8~ ~rasaad9~ ~rasaad10~ ~rasaad11~ ~rasaad12~ ~rasaad13~ ~ohb1rasd~ BEGIN
+    COPY_EXISTING ~%cre%.CRE~ ~override~
+      WRITE_ASCII 0x34 ~A7_RSADM~ (8)
+      WRITE_ASCII 0x3c ~A7_RSADL~ (8)
+    BUT_ONLY IF_EXISTS
+  END
+
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    LAF UPDATE_EPILOG_PORTRAIT
+    STR_VAR
+      match_portrait = ~RASAAD.*~
+      portrait = ~A7_RSADL~
+    END
+  END
+
+BEGIN @404 // BG2 style, in BG2 only
+  REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  SUBCOMPONENT @440  // Change portrait: Rasaad
+  DESIGNATED 441
+
+  COPY ~%MOD_FOLDER%/portraits/a7_rsadl.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_rsadm.bmp~ ~override~
+       ~%MOD_FOLDER%/portraits/a7_rsads.bmp~ ~override~
+
+  OUTER_TEXT_SPRINT a7_portrait_change ~a7_prsd~
+  COPY ~%MOD_FOLDER%/spells/a7_pxxx.spl~ ~override/%a7_portrait_change%.spl~
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTM~ resource = ~A7_RSADM~
+    END
+    LPF ALTER_SPELL_EFFECT_RESREF
+      INT_VAR match_opcode = 107
+      STR_VAR match_resource = ~A7PORTL~ resource = ~A7_RSADL~
+    END
+
+  ACTION_FOR_EACH script IN ~rasaad_~ ~rasaad~ ~rasa25~ BEGIN
+    ACTION_IF (FILE_EXISTS_IN_GAME ~%script%.bcs~) BEGIN
+      EXTEND_TOP ~%script%.bcs~ ~%MOD_FOLDER%/scripts/portrait_change.baf~ EVAL
+    END
+  END
+
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    LAF UPDATE_EPILOG_PORTRAIT
+    STR_VAR
+      match_portrait = ~RASAAD.*~
+      portrait = ~A7_RSADL~
+    END
   END

@@ -23,9 +23,21 @@
 
 @301 = ~NSC-spezifische Gegenstaende fuer alle verfuegbar machen~
 
+@400 = ~Portrait austauschen: Baeloth~
+@401 = ~Alternative Version~
+@402 = ~Alternative Version, in BG2 only~
+@403 = ~BG2-Stil~
+@404 = ~BG2-Stil, nur fuer BG2~
+@410 = ~Portrait austauschen: Dorn~
+@420 = ~Portrait austauschen: Hexxat (BG2-Stil)~
+@430 = ~Portrait austauschen: Neera~
+@440 = ~Portrait austauschen: Rasaad~
+
 @1000 = ~Diese Komponente benoetigt BG:EE, BG2:EE oder EET.~
 @1001 = ~Diese Komponente benoetigt BG:EE oder EET.~
 @1002 = ~Diese Komponente benoetigt BG2:EE oder EET.~
 @1003 = ~Komponente "Entscheide fuer jeden einzelnen NSC" wurde nicht ausgewaehlt.~
 @1005 = ~Diese Komponente ist nur fuer deaktivierte NSCs verfuegbar.~
 @1006 = ~Diese Mod ist nicht mit Peccas "EE_content_tweaks" kompatibel.~
+@1007 = ~Diese Komponente ist nicht verfuegbar, wenn der NSC deaktiviert wurde.~
+@1008 = ~Diese Komponente benoetigt EET.~

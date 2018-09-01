@@ -23,9 +23,21 @@
 
 @301 = ~Make NPC-specific items available for everyone~
 
+@400 = ~Change portrait: Baeloth~
+@401 = ~Alternate version~
+@402 = ~Alternate version, in BG2 only~
+@403 = ~BG2 style~
+@404 = ~BG2 style, in BG2 only~
+@410 = ~Change portrait: Dorn~
+@420 = ~Change portrait: Hexxat (BG2 style)~
+@430 = ~Change portrait: Neera~
+@440 = ~Change portrait: Rasaad~
+
 @1000 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
 @1001 = ~This component requires either BG:EE or EET to be installed.~
 @1002 = ~This component requires either BG2:EE or EET to be installed.~
 @1003 = ~Component "Decide action for each NPC individually" not selected.~
 @1005 = ~This component is only available if one or more NPCs have been disabled.~
 @1006 = ~This mod is not compatible with Pecca's "EE_content_tweaks".~
+@1007 = ~This component is not available if the NPC has been disabled.~
+@1008 = ~This component requires EET to be installed.~

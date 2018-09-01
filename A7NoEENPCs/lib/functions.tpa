@@ -523,3 +523,61 @@ BEGIN
   END
 END
 
+
+// Specialized ALTER_SPELL_EFFECT: Updates primary parameters based on matching opcode and resource
+DEFINE_PATCH_FUNCTION ALTER_SPELL_EFFECT_RESREF
+INT_VAR
+  header          = 0   // 0 = all headers
+  match_opcode    = "-1"
+  opcode          = "-1"
+  parameter1      = "-1"
+  parameter2      = "-1"
+STR_VAR
+  match_resource  = ~~
+  resource        = ~~
+BEGIN
+  READ_ASCII 0 sig (8)
+  PATCH_IF (~%sig%~ STR_EQ ~SPL V1  ~) BEGIN
+    SET header -= 1
+    READ_LONG 0x64 ofs_abils
+    READ_SHORT 0x68 num_abils
+    READ_LONG 0x6a ofs_effects
+    FOR (abil = 0; abil < num_abils; ++abil) BEGIN
+      SET ofs_abil = ofs_abils + abil * 0x28
+      PATCH_IF (header < 0 || header = abil) BEGIN
+        READ_SHORT (ofs_abil + 0x1e) num_effects
+        READ_SHORT (ofs_abil + 0x20) idx_effects
+        FOR (fx = 0; fx < num_effects; ++fx) BEGIN
+          SET ofs_fx = ofs_effects + (idx_effects + fx) * 0x30
+          READ_SHORT (ofs_fx + 0x00) op
+          READ_ASCII (ofs_fx + 0x14) res (8) NULL
+          PATCH_IF ((match_opcode = "-1" || op = match_opcode) && ~%res%~ STR_EQ ~%match_resource%~) BEGIN
+            PATCH_IF (opcode != "-1") BEGIN WRITE_SHORT (ofs_fx + 0x00) opcode END
+            PATCH_IF (parameter1 != "-1") BEGIN WRITE_LONG (ofs_fx + 0x04) parameter1 END
+            PATCH_IF (parameter2 != "-1") BEGIN WRITE_LONG (ofs_fx + 0x08) parameter2 END
+            WRITE_ASCIIE (ofs_fx + 0x14) ~%resource%~ (8)
+          END
+        END
+      END
+    END
+  END ELSE BEGIN
+    PATCH_WARN ~Not a valid SPL resource. Skipping operation.~
+  END
+END
+
+
+DEFINE_ACTION_FUNCTION UPDATE_EPILOG_PORTRAIT
+STR_VAR
+  match_portrait = ~~ // original portrait BMP resref as regexp
+  portrait = ~~
+BEGIN
+  COPY_EXISTING_REGEXP ~^.+\.2da$~ ~override~
+    COUNT_2DA_ROWS 1 numRows
+    PATCH_IF (numRows > 2) BEGIN
+      READ_2DA_ENTRY 1 0 1 value
+      PATCH_IF (~%value%~ STRING_MATCHES_REGEXP ~\*%match_portrait%~ = 0) BEGIN
+        SET_2DA_ENTRY 1 0 1 ~*%portrait%~
+      END
+    END
+  BUT_ONLY
+END

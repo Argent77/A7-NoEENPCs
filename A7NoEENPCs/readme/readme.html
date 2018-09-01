@@ -1,0 +1,593 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>MOD: Convenient Enhanced Edition NPCs</title>
+    <meta name="description" content="A mod for BG:EE, BG2:EE and EET (Enhanced Edition Trilogy) that allows you to tweak the Beamdog NPCs." />
+    <meta name="keywords" content="bgee, bg2ee, eet, mod, tweaks" />
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        cursor: default;
+        text-align: center;
+        color: #000;
+        background-image: linear-gradient(#ccc7ba, #e8e6e1);
+        /*background-color: #ccc7ba;*/
+      }
+
+      #wrap {
+        border: 2px solid #66451f;
+        background: #e8e8e0;
+
+        text-align: left;
+        margin: 20px auto;
+        width: 80%;
+        font-family: Verdana, Tahoma, Arial, sans-serif;
+        font-size: 12px;
+        color: #222;
+      }
+
+      #header {
+        text-align: center;
+        background: #e8e8e0;
+        border-bottom: 2px solid #66451f;
+        padding: 5px 0 13px 0;
+        margin: 0 auto;
+      }
+
+      #header .about {
+        margin: 7px 0 0 0;
+        padding: 0;
+        /*font-style: italic;*/
+        font-size: 120%;
+        color: #222;
+      }
+
+      #header .menu {
+        font-weight: bold;
+        margin: 0;
+      }
+
+      #header .menu a:link,
+      #header .menu a:visited {
+        color: #222;
+      }
+
+      #maindiv {
+        margin: 10px auto 0px auto;
+      }
+
+      #maindiv .content {
+        background-color: #e8e8e0;
+        padding: 0 0 25px 0;
+        position: relative;
+        display: block;
+      }
+
+      h2 {
+        display: block;
+        font-family: Verdana, Tahoma, Arial, sans-serif;
+        text-align: left;
+        text-indent: 30px;
+        padding: 0px;
+        margin: 0;
+        font-size: 160%;
+      }
+
+      #maindiv p {
+        font-size: 100%;
+        font-style: normal;
+        line-height: 150%;
+        padding: 0px;
+        margin: 10px auto;
+        width: 90%;
+        display: block;
+      }
+
+      #maindiv p.boxed {
+        border-style: inset;
+        border-width: 1px;
+        border-color: #66451f;
+        margin-top: 32px;
+        padding: 6px;
+      }
+
+      #maindiv address a:link,
+      #maindiv address a:visited {
+        margin-right: 5px;
+      }
+
+      #maindiv address {
+        font-size: 95%;
+        font-style: normal;
+        font-weight: bold;
+        text-decoration: none;
+        color: #bbb;
+        padding: 3px 0px 3px;
+        margin: 0px;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        display: block;
+        text-align: right;
+      }
+
+      #maindiv .important {
+        font-size: 95%;
+        font-family: Verdana, Tahoma, Arial, sans-serif;
+        text-align: left;
+        background-color: #f5f5f0;
+        border: solid 2px #888;
+        padding: 10px;
+        margin: 20px auto;
+        width: 80%;
+        line-height: 160%;
+      }
+
+      #maindiv .important::before {
+        display: none;
+      }
+
+      #maindiv .important p {
+        font-size: 100%;
+        text-indent: 0px;
+        margin: 5px 0 10px 0;
+      }
+
+      #maindiv ul {
+        margin: -10px 0 0 40px;
+        *margin-left: 65px;
+      }
+
+      #maindiv ol {
+        margin: -10px 0 0 35px;
+        *margin-left: 70px;
+      }
+
+      #maindiv .important ul {
+        margin: -10px 0 0 15px;
+      }
+
+      #maindiv .important ol {
+        margin: -10px 0 0 20px;
+      }
+
+      #maindiv ul li {
+        list-style-type: square;
+        line-height: 150%;
+      }
+
+      #maindiv ol li {
+        line-height: 150%;
+      }
+
+      #portrait {
+        float: left;
+        margin: 10px 10px 0px 30px;
+      }
+
+      .t1 {
+        font-weight: bold;
+        width: 26%;
+        text-align: right;
+        clear: right;
+        float: left;
+        *float: none;
+        *margin-left: 65px;
+        line-height: 22px;
+      }
+
+      .t2 {
+        text-align: left;
+        width: 73%;
+        float: right;
+        *float: none;
+        line-height: 22px;
+      }
+
+      .t3 {
+        font-weight: bold;
+        width: 25px;
+        float: left;
+        clear: left;
+      }
+
+      .code {
+        font-family: monospace;
+        border-width: 1px;
+        border-color: black;
+        border-style: solid;
+        padding: 1px 2px 0px 2px;
+      }
+
+      hr {
+        margin: 10px 0 10px 0;
+        padding: 0;
+        height: 1px;
+        border: 0;
+        color: #aaa;
+        background-color: #aaa;
+      }
+
+      hr.floatfix {
+        clear: both;
+        color: #e8e8e6;
+        background-color: #e8e8e6;
+        *margin: 0;
+        *padding: 0;
+      }
+
+      h1 {
+        font-size: 250%;
+        color: #222;
+        padding: 5px 0 5px 0;
+        margin: 0;
+        width: 100%;
+      }
+
+      h3,
+      h4,
+      h5 {
+        margin: 10px 40px 10px 40px;
+        padding: 0;
+      }
+
+      h3 {
+        font-size: 125%;
+        font-style: italic;
+      }
+
+      h4 {
+        font-size: 125%;
+      }
+
+      h5 {
+        font-size: 100%;
+      }
+
+      h6 {
+        width: 100%;
+        margin: 10px 0 15px 0;
+        text-align: left;
+        text-indent: 30px;
+        font-size: 100%;
+        font-style: italic;
+        padding-top: 1px;
+        padding-bottom: 1px;
+      }
+
+      a:link,
+      a:visited {
+        color: #804000;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:active {
+        color: #222;
+        border-bottom: 1px solid black;
+      }
+
+      hr.divider {
+        background-color: #66451f;
+        margin-top: 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div><a name="top" id="top"></a></div>
+    <div id="wrap">
+      <div id="header">
+        <h1>Convenient Enhanced Edition NPCs</h1>
+        <em>A mod for BG2:EE and EET (Enhanced Edition Trilogy) that allows you to tweak the Beamdog NPCs.</em>
+        <hr />
+        <p class="about"><strong>Author: Argent77</strong></p>
+        <p class="about">
+          <strong>Download</strong> (<a href="#">SHS</a>) &#8226;
+          <strong>Download</strong> (<a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>) &#8226;
+          <strong>Discussion</strong> (<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a>) &#8226;
+          <strong>Discussion</strong> (<a href="https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1">Beamdog</a>) &#8226;
+          <a href="https://github.com/Argent77/A7-NoEENPCs">Project</a> &#8226;
+          Version: 3.5
+        </p>
+        <hr />
+        <p class="menu">
+          <a href="#overview">Overview</a> &middot;
+          <a href="#compatibility">Compatibility</a> &middot;
+          <a href="#installation">Installation</a> &middot;
+          <a href="#component">Components</a> &middot;
+          <a href="#credits">Credits</a> &middot;
+          <a href="#version">Version History</a>
+        </p>
+      </div>
+      <div id="maindiv">
+
+        <!-- ================== I N T R O D U C T I O N ================== -->
+        <a name="overview" id="overview"></a>
+        <div class="content">
+          <h2>Overview</h2>
+          <p>A mod for BG:EE, BG:SOD, BG2:EE and EET.</p>
+          <p>The new characters introduced in BG:EE and BG2:EE are not for everyone's taste. Their character style differs greatly from the vanilla NPCs. Moreover, in several cases they are trying to force themselves into your party without you having a chance to ignore them. Some of their attached quests are also very difficult to solve without resorting to powergaming tactics.</p>
+          <p>This mod offers two possible solutions for this problem:</p>
+          <ol style="margin-right: 50px; margin-left: 40px">
+            <li>You can disable all or individual NPCs completely. Since the NPCs have only been disabled, it is theoretically possible to reactivate them again later by uninstalling the respective subcomponent(s) of this mod.</li>
+            <li>You can keep all or individual NPCs from initiating conversations or events on their own. A small number of events have been slightly altered to make this possible. See below for more information.</li>
+          </ol>
+          <p>Additional components allow you to tweak NPC portraits, character classes, or make their personal or quest-specific items available for everyone in shops or as loot.</p>
+          <hr class="floatfix" />
+          <p>Visit the <a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS Forums</a> or the <a href="https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1">Beamdog Forums</a> if you have questions, or download the the latest version from <a href="#">Spellhold Studios</a> or <a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>.</p>
+          <address>
+            <a href="#top">BACK TO TOP</a>
+          </address>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ================== C O M P A T I B I L I T Y ================== -->
+        <a name="compatibility" id="compatibility"></a>
+        <div class="content">
+          <h2>Compatibility</h2>
+          <p>This mod should be compatible with every mod out there that doesn't significantly alter the starting locations and scripts of the Enhanced Edition NPCs. At present only Pecca's mod "EE_content_tweaks" is known to interfere with this mod in BG:EE. This mod will check if it has been installed and refuses to install relevant components if detected.</p>
+          <p>This mod is fully compatible with Siege of Dragonspear. However, Baeloth will not be affected in the campaign because of his close involvement in a certain event.</p>
+          <address>
+            <a href="#top">BACK TO TOP</a>
+          </address>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ================== I N S T A L L A T I O N ================== -->
+        <a name="installation" id="installation"></a>
+        <div class="content">
+          <h2>Installation</h2>
+          <p>This is a WeiDU mod, that means it is very easy to install. Simply unpack the downloaded archive into your game's installation directory (where you can find the file "chitin.key") and run <em>&quot;setup-A7NoEENPCs.exe&quot;</em> (Windows) or <em>&quot;setup-A7NoEENPCs.command&quot;</em> (macOS). Follow the instructions and you are ready to start.</p>
+          <p>It is strongly recommended to start a new game after installing the mod.</p>
+          <p>To uninstall, run <em>&quot;setup-A7-TestYourMettle.exe&quot;</em> or <em>&quot;setup-A7-TestYourMettle.command&quot;</em> again and follow the prompts.</p>
+          <address>
+            <a href="#top">BACK TO TOP</a>
+          </address>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ================== C O M P O N E N T S ================== -->
+        <a name="component" id="component"></a>
+        <div class="content">
+          <h2>Mod Components</h2>
+          <hr class="floatfix" />
+          <p><strong>1. Modify Enhanced Edition NPCs <em>(BG:EE, BG:SOD, BG2:EE and EET)</em></strong>
+            <ol style="margin-right: 50px; margin-left: 55px">
+              <li>Disable all NPCs: Disables NPCs all at once.</li>
+              <li>Make all NPCs passive: Makes all NPCs passive at once.</li>
+              <li>Decide for each NPC individually: See below.</li>
+            </ol>
+          </p>
+
+          <p><strong>The following components are only available when selecting subcomponent "Decide for each NPC individually":</strong></p>
+
+          <p><strong>2. Modify individually: Baeloth</strong>
+            <ol style="margin-right: 50px; margin-left: 55px">
+              <li>Disable Baeloth <em>(BG:EE and EET only)</em>: This component prevents Baeloth from spawning in BG:EE. (Black Pits and Siege of Dragonspear are not affected.)</li>
+              <li>Make Baeloth passive <em>(BG:EE and EET only)</em>: This component reduces the introduction cutscene to a bare minimum and prevents Baeloth from initiating a conversation on his own.</li>
+            </ol>
+          </p>
+
+          <p><strong>3. Disable Dorn (BG:EE, BG:SOD, BG2:EE and EET)</strong><br />
+            <span style="margin-right: 50px; margin-left: 16px">This component prevents Dorn from appearing in BG:EE, BG:SOD and BG2:EE.</span>
+          </p>
+
+          <p><strong>4. Modify individually: Hexxat</strong>
+            <ol style="margin-right: 50px; margin-left: 55px">
+              <li>Disable Hexxat <em>(BG2:EE and EET only)</em>: This component prevents Hexxat and related NPCs from appearing in BG2:EE.</li>
+              <li>Make Hexxat passive <em>(BG2:EE and EET only)</em>: This component prevents Hexxat from initiating a conversation on her own.</li>
+            </ol>
+          </p>
+
+          <p><strong>5. Modify individually: Neera</strong>
+            <ol style="margin-right: 50px; margin-left: 55px">
+              <li>Disable Neera <em>(BG:EE, BG:SOD, BG2:EE and EET)</em>: This component prevents Neera from appearing in BG:EE, BG:SOD and BG2:EE.</li>
+              <li>Make Neera passive <em>(BG:EE, BG2:EE and EET)</em>: In BG:EE this component prevents Neera from initiating a conversation on her own. In BG2:EE this component triggers the introduction cutscene in the Bridge District only when you talk to Neera. She can be found near the place where the Red Wizards cutscene occurs after the townsfolk talked about the local murders.</li>
+            </ol>
+          </p>
+
+          <p><strong>6. Modify individually: Rasaad</strong>
+            <ol style="margin-right: 50px; margin-left: 55px">
+              <li>Disable Rasaad <em>(BG:EE, BG:SOD, BG2:EE and EET)</em>: This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.</li>
+              <li>Make Rasaad passive <em>(BG:EE, BG2:EE and EET)</em>: In BG:EE This component prevents Rasaad from joining the fight against the assassins Neira or Nimbul in Nashkel. In BG2:EE this component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.</li>
+            </ol>
+          </p>
+
+          <p><strong>7. Make NPC-specific items available for everyone</strong></p>
+          <p style="padding-left: 35px">This component allows you to acquire personal or quest-related items of disabled NPC(s) from merchants all over the game or as loot from containers or creatures. The following items have been (fixed and) relocated:</span></p>
+          <p><span style="margin-right: 50px; margin-left: 16px"><strong>Baeloth:</strong></span>
+          <ul style="margin-right: 50px; margin-left: 55px">
+            <li>BG:EE: His special ring can be purchased from "Lucky Aello's Discount Store" in Baldur's Gate at a huge discount. Item description has been fixed. As a bonus I have also fixed an inactive effect in its charged ability to make it slightly more worthwhile. <em>Note: For technical reasons the ring will not be available if you have SoD installed.</em></li>
+          </ul>
+          <p><span style="margin-right: 50px; margin-left: 16px"><strong>Dorn:</strong></span>
+            <br />
+            <ul style="margin-right: 50px; margin-left: 55px">
+              <li>BG:EE: The Gloves of Missile Snaring can be purchased in Ulgoth's Beard Inn.</li>
+              <li>BG:EE: The Golden Girdle of Urnst, Elven Chain Mail and Albruin +1 are all available in the Thunderhammer Smithy of Beregost.</li>
+              <li>BG:EE: The Amulet of Spell Warding is available in the Feldepost's Inn of Beregost.</li>
+              <li>BG2:EE: The Silver Dragon Scales can be taken from the dead body of Adalon if you decide to attack her. Cespenar can forge something out of it later in ToB.</li>
+              <li>BG2:EE: A second copy of the scales can be looted from the body of "The Huntress" which is guarding the final seal at the lowest level of Watcher's Keep.</li>
+              <li>BG2:EE: The Holy Long Sword of Tyr +3 can be found in the maze level of Watcher's Keep, more specifically in the room where you have to defeat the Demon Wraith.</li>
+              <li>BG2:EE: Helmets of the Noble +1 can be purchased from Ribald Barterman and a merchant in Trademeet.</li>
+              <li>BG2:EE: You can attempt to pickpocket a Rod of Shadowstep from Saemon Havarian in Amkethran.</li>
+              <li>BG2:EE: Potions of Clairvoyance can be bought from Roger the Fence in the sewers below the Temple District and from Sister Farielle in Saradush.</li>
+              <li>BG2:EE: The Abyssal Blade is now in possession of Raamilat in Suldanessellar.</li>
+              <li>BG2:EE: I have also added the very powerful "Brass Blade +5" to the game. It belongs to Dorn's questline, but is currently unused. You can loot it from Berenn in the Temple of the Fire Giants.</li>
+            </ul>
+          </p>
+          <p><span style="margin-right: 50px; margin-left: 16px"><strong>Hexxat:</strong></span>
+            <br />
+            <ul style="margin-right: 50px; margin-left: 55px">
+              <li>BG2:EE: A Ring of Anti-Venom is now worn by Mae'var.</li>
+              <li>BG2:EE: The Worn Whispers boots can be purchased from Ribald Barterman.</li>
+              <li>BG2:EE: The dagger "Jade Fang" has been added to Ribald's special store which is available after returning from the Underdark.</li>
+            </ul>
+          </p>
+          <p><span style="margin-right: 50px; margin-left: 16px"><strong>Neera:</strong></span>
+            <br />
+            <ul style="margin-right: 50px; margin-left: 55px">
+              <li>BG:EE: Neera's Gem Bag can be purchased in the Friendly Arm Inn.</li>
+              <li>BG:EE: Adoy's Belt is available in the Feldepost's Inn of Beregost.</li>
+              <li>BG2:EE: Adoy's Belt and the Robe of Invocation have been added to Ribald Barterman's store.</li>
+              <li>BG2:EE: A Thayan Circlet is now in possession of Rayic Gethras, the Cowled Wizard you have to kill in the course of the Mae'Var quest.</li>
+              <li>BG2:EE: The hammer "The Brick +2" and the Tunic of Blindeye can be purchased from a merchant in Trademeet.</li>
+              <li>BG2:EE: The Shield of Fyrus Khal +2 has been added to Ribald Barterman's special store which is available after returning from the Underdark.</li>
+              <li>BG2:EE: Perter, the fletcher on Waukeen's Promenade, can sell you the Wild Sling +1.</li>
+              <li>BG2:EE: The Wand of Whips can be found on the body of the enthralled mage in the hidden Mindflayer lair in the sewers under the Temple District.</li>
+            </ul>
+          </p>
+          <p><span style="margin-right: 50px; margin-left: 16px"><strong>Rasaad:</strong></span>
+            <br />
+            <ul style="margin-right: 50px; margin-left: 55px">
+              <li>BG:EE: The Moonlight Walkers can be equipped by any Sun Soul Monk and can be looted from Neira's body, the assassin in Nashkel.</li>
+              <li>BG:EE: The Glimmering Bands can be equipped by any monk. You can buy it from one of the merchants at the Nashkel Carnival.</li>
+              <li>BG:EE: The Big-Fisted Belt is worn by the Pride spectre in Durlag's Tower.</li>
+              <li>BG2:EE: The Moonlight Walkers can be equipped by any Sun Soul Monk and are in possession of Anishai in Mae'Var's guild house.</li>
+              <li>BG2:EE: The Ox-Tail Belt is now worn by Cohrvale. From the body of his partner Bregg you can also loot Hojar's Fame +1, an enchanted axe of poor quality.</li>
+              <li>BG2:EE: The Brooch of the Vagrant Blades can be bought from Ribald Barterman.</li>
+              <li>BG2:EE: The Belt of Minor Invulnerability can be looted from King Ixilthetocal of the sahuagin Underwater City.</li>
+              <li>BG2:EE: The Ring of Duplication has been added to the fence in the Thieves Guild HQ.</li>
+              <li>BG2:EE: Elence Fielding, one of the merchants in the Umar Hills, can sell you the Lupine Sling +2.</li>
+              <li>BG2:EE: The Cowl of the Stars is worn by Valeria, a hostile fighter who can be found in a hideout in the Bridge District.</li>
+              <li>BG2:EE: The blacksmith of Trademeet can sell you the scimitar Hawksight +2.</li>
+              <li>BG2:EE: The Cloak of Unerring Strikes is available from Bernard of the Copper Coronet after Lehtinan has been replaced by Hendak.</li>
+              <li>BG2:EE: Karthis al-Hezzar can sell you the Night Walkers and "Sun Soulbeam", which is an enchanted scimitar. He can be found in the Wilderness between Saradush and the abandoned Temple of Bhaal.</li>
+              <li>BG2:EE: Olaf Rassmusen is one of the henchmen you have to fight if you break into the Guarded Compound in the Temple District. You can loot the Gauntlets of Aln Zekk from his dead body.</li>
+              <li>BG2:EE: One of the merchants in Ust Natha can sell you the Cloak of Atonement.</li>
+              <li>BG2:EE: The Priest of Cyric in the North Forest, which becomes available after you return from the Underdark, is in possession of the Cloak of the Dark Moon.</li>
+              <li>BG2:EE: The Elder Brain in the Mindflayer Lair of the Underdark is now also fiercely guarding the Eyes of the Beholder. Defeat it and that headpiece is yours.</li>
+              <li>BG2:EE: Carras is a smuggler in Amkethran. If you help him out you can purchase the Headband of the Devout from him.</li>
+              <li>BG2:EE: The Gem of Seeing can be looted from Gaal. He is the leader of the Cult of the Eyeless.</li>
+            </ul>
+          </p>
+
+          <p><strong>The following components can be installed independently:</strong></p>
+
+          <p><strong>8. Change portrait: Baeloth</strong> (<a href="preview/baeloth.jpg" target="_blank">Preview</a>)</p>
+          <ol style="margin-right: 50px; margin-left: 55px">
+            <li>Alternate version: Installs an alternate portrait variant for the whole game. <em>(BG:EE and EET)</em></li>
+            <li>Alternate version, in BG2 only: Applies an alternate portrait variant to Baeloth only in the BG2 part of the game. <em>(EET only)</em></li>
+          </ol>
+
+          <p><strong>9. Change portrait: Dorn</strong> (<a href="preview/dorn.jpg" target="_blank">Preview</a>)</p>
+          <ol style="margin-right: 50px; margin-left: 55px">
+            <li>BG2-style version: Installs an alternate portrait variant for the whole game. <em>(BG:EE, BG2:EE and EET)</em></li>
+            <li>BG2-style version, in BG2 only: Applies an alternate portrait variant to Dorn only in the BG2 part of the game. <em>(EET only)</em></li>
+          </ol>
+
+          <p><strong>10. Change portrait: Hexxat (BG2-style)</strong> (<a href="preview/clara_hexxat.jpg" target="_blank">Preview</a>)<br />
+            <span style="margin-right: 50px; margin-left: 16px">Installs alternate portrait variants for Hexxat. <em>(BG2:EE and EET)</em></span>
+          </p>
+
+          <p><strong>11. Change portrait: Neera</strong> (<a href="preview/neera.jpg" target="_blank">Preview</a>)</p>
+          <ol style="margin-right: 50px; margin-left: 55px">
+            <li>BG2-style version: Installs an alternate portrait variant for the whole game. <em>(BG:EE, BG2:EE and EET)</em></li>
+            <li>BG2-style version, in BG2 only: Applies an alternate portrait variant to Neera only in the BG2 part of the game. <em>(EET only)</em></li>
+          </ol>
+
+          <p><strong>12. Change portrait: Rasaad</strong> (<a href="preview/rasaad.jpg" target="_blank">Preview</a>)</p>
+          <ol style="margin-right: 50px; margin-left: 55px">
+            <li>BG2-style version: Installs an alternate portrait variant for the whole game. <em>(BG:EE, BG2:EE and EET)</em></li>
+            <li>BG2-style version, in BG2 only: Applies an alternate portrait variant to Rasaad only in the BG2 part of the game. <em>(EET only)</em></li>
+          </ol>
+
+          <address>
+            <a href="#top">BACK TO TOP</a>
+          </address>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ================== C R E D I T S ================== -->
+        <a name="credits" id="credits"></a>
+        <div class="content">
+          <h2>Credits</h2>
+          <p><strong>Writing, coding &amp; testing:</strong> <a href="http://www.shsforums.net/user/14985-argent77/">Argent77</a></p>
+          <p><strong>French translation:</strong> Gwendolyne</p>
+          <p><strong>Polish translation:</strong> Cahir</p>
+          <p><strong>Alternate character portraits:</strong> Lava Del'Vortel, Argent77</p>
+          <p><strong>Additional help:</strong> Lava Del'Vortel</p>
+          <hr class="floatfix" />
+          <h5>Copyright Notice:</h5>
+          <div class="important">
+            <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />The mod &quot;Convenient Enhanced Edition NPCs&quot; is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            <p>Baldur's Gate: Enhanced Edition, Siege of Dragonspear and Baldur's Gate II: Enhanced Edition &copy; Beamdog.</p>
+          </div>
+          <address>
+            <a href="#top">BACK TO TOP</a>
+          </address>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ================== V E R S I O N   H I S T O R Y ================== -->
+        <a name="version" id="version"></a>
+        <div class="content">
+          <h2>Version History</h2>
+          <h6>Version 4.0:</h6>
+          <ul>
+            <li>Added options to change portraits for NPCs</li>
+            <li>Added "Passive Rasaad" for BG:EE</li>
+          </ul>
+          <h6>Version 3.5:</h6>
+          <ul>
+            <li>Fixed consistency issues with Neera and Rasaad in EET</li>
+          </ul>
+          <h6>Version 3.4:</h6>
+          <ul>
+            <li>Added French translation (thanks Gwendolyne)</li>
+            <li>Spelling and formatting fixes in Polish readme</li>
+          </ul>
+          <h6>Version 3.3:</h6>
+          <ul>
+            <li>Restructured mod components to make it possible to disable NPCs or make them passive on a per NPC basis</li>
+            <li>Added German translation</li>
+            <li>Added Polish translation (thanks Cahir)</li>
+            <li>Fixed BG1 passive Neera in EET</li>
+          </ul>
+          <h6>Version 3.2:</h6>
+          <ul>
+            <li>Added Siege of Dragonspear support</li>
+            <li>Fixed a bug in BG2:EE where Rasaad can still appear even when disabled</li>
+            <li>Relaxed restrictions of Baeloth's ring</li>
+            <li>Various minor fixes and improvements</li>
+          </ul>
+          <h6>Version 3.1:</h6>
+          <ul>
+            <li>Fixed an incorrect check in component "Make NPC-specific items available for everyone"</li>
+          </ul>
+          <h6>Version 3.0:</h6>
+          <ul>
+            <li>Added new component "Make NPC-specific items available for everyone"</li>
+            <li>Increased compatibility with mods (see Compatibility section)</li>
+          </ul>
+          <h6>Version 2.1:</h6>
+          <ul>
+            <li>Fixed a missing game check for "Passive Neera" component</li>
+            <li>Internal restructurings</li>
+          </ul>
+          <h6>Version 2.0:</h6>
+          <ul>
+            <li>Added option to keep all or individual NPCs from initiating conversations or events on their own</li>
+          </ul>
+          <h6>Version 1.0:</h6>
+          <ul>
+            <li>Initial release</li>
+          </ul>
+          <address>
+            <a href="#top">BACK TO TOP</a>
+          </address>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

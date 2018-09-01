@@ -23,12 +23,24 @@
 
 @301 = ~Rendre les objets specifiques a chaque PNJ utilisables par tous~
 
+@400 = ~Change portrait: Baeloth~
+@401 = ~Alternate version~
+@402 = ~Alternate version, in BG2 only~
+@403 = ~BG2 style~
+@404 = ~BG2 style, in BG2 only~
+@410 = ~Change portrait: Dorn~
+@420 = ~Change portrait: Hexxat (BG2 style)~
+@430 = ~Change portrait: Neera~
+@440 = ~Change portrait: Rasaad~
+
 @1000 = ~Ce composant necessite l'installation de BG:EE, BG2:EE ou EET.~
 @1001 = ~Ce composant necessite l'installation de BG:EE ou EET.~
 @1002 = ~Ce composant necessite l'installation de BG2:EE ou EET.~
 @1003 = ~Ce composant necessite d'avoir choisi l'option "Decider pour chaque PNJ".~
 @1005 = ~Ce composant n'est disponible que si au moins un PNJ a ete desactive.~
 @1006 = ~Ce mod n'est pas compatible avec le mod "EE_content_tweaks" de Recca.~
+@1007 = ~This component is not available if the NPC has been disabled.~
+@1008 = ~This component requires EET to be installed.~
 
 
 // WeiDU prompts

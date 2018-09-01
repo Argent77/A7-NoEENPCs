@@ -1,0 +1,11 @@
+// BG2 dynamic portrait change
+
+IF
+  Global("a7_portrait_change","LOCALS",0)
+  !GlobalLT("chapter","GLOBAL",%bg2_chapter_1%)
+THEN
+  RESPONSE #100
+    SetGlobal("a7_portrait_change","LOCALS",1)
+    ApplySpellRES("%a7_portrait_change%",Myself)
+    Continue()
+END

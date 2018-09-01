@@ -52,3 +52,15 @@ The following components are only available when selecting subcomponent "Make in
 The following component is only available if you have selected to disable all or individual NPCs:
 
 - **Make NPC-specific items available for everyone:** This component allows you to acquire personal or quest-related items of disabled NPC(s) from merchants all over the game or as loot from containers or creatures.
+
+These components can be installed independently:
+
+- **Change portrait: Baeloth** Installs an alternate portrait variant for the whole game (BG:EE and EET) or only for the BG2 part (EET only).
+
+- **Change portrait: Dorn** Installs a BG2-style portrait variant for the whole game (BG:EE, BG2:EE and EET) or only for the BG2 part (EET only).
+
+- **Change portrait: Hexxat** Installs BG2-style portrait variants for the whole game (BG2:EE and EET).
+
+- **Change portrait: Neera** Installs a BG2-style portrait variant for the whole game (BG:EE, BG2:EE and EET) or only for the BG2 part (EET only).
+
+- **Change portrait: Rasaad** Installs a BG2-style portrait variant for the whole game (BG:EE, BG2:EE and EET) or only for the BG2 part (EET only).
