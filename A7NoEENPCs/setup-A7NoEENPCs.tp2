@@ -4,7 +4,7 @@ VERSION ~v3.5~
 
 ALWAYS
   INCLUDE ~%MOD_FOLDER%/lib/eet.tph~
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tpa~
+  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 END
 
 README ~A7NoEENPCs/readme/readme-%LANGUAGE%.html~
@@ -457,8 +457,6 @@ BEGIN @404 // BG2 style, in BG2 only
 
 BEGIN @450 // Improved portrait: Wilson
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002         // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7NoEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   DESIGNATED 450
 
   COPY ~%MOD_FOLDER%/portraits/wilsonl.bmp~ ~override~
