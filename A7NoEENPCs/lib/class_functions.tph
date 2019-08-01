@@ -1,0 +1,2447 @@
+// *** Class/Kit related functions ***
+
+// Function Overview:
+// A7_RESET_CLASS:              Main function: Reset class/kit of current CRE
+// A7_SET_CLASS:                Set specified class, kit and associated character animation id
+// A7_ADJUST_STATS:             Ensure that CRE stats are valid for the current class/kit
+// A7_REMOVE_CRE_EFFECTS:       Remove class/kit-related CRE effects, except item-related effects and effects without parent
+// A7_RESET_CRE_HP:             Reset current and maximum HP of the current CRE to level 1 values, based on detected class/kit
+// A7_RESET_CRE_SAVES:          Reset saving throws to values based on current level and class, including optional race bonus.
+// A7_GET_SAVES:                Return saving throw values for the given level. Can also be used for race bonus tables.
+// A7_RESET_CRE_SKILLS:         Update thieving skills
+// A7_DISTRIBUTE_THIEF_SKILLS:  Distribute available thieving skill points based on specified weights.
+// A7_RESET_CRE_LORE:           Update Lore value
+// A7_GET_MAX_CLASS_LORE:       Return highest available lore value based on given class(es)
+// A7_REMOVE_CRE_SPELLS:        Remove all known and memorized spells based on given class/kit/level definitions
+// A7_REMOVE_CRE_KNOWN_SPELLS:  Remove known spell entries of the given type
+// A7_REMOVE_CRE_MEMORIZED_SPELLS:  Remove memorized spell entries of the given type
+// A7_ADD_CRE_PRIEST_SPELLS:    Adds cleric/druid spells to the known section
+// A7_GET_KNOWN_SPELLS:         Return a list of known spells of given type and level
+// A7_NUM_SPELLS_MEMORIZABLE:   Return the number of spells that can be memorized for the given spell type and level
+// A7_SET_CRE_SPELL_SLOTS:      Set available spell slots for CRE at current level
+// A7_GET_CLAB_RESREF:          Return all CLAB table resrefs relevant to the current class/kit combo
+// A7_GET_CLAB_ABILITY_RESREFS: Return list of all spell resrefs defined as GA_xxx values in the specified CLAB table
+// A7_GET_CRE_KNOWN_SPELLS:     Return list of known spells of given type and level
+// A7_SET_CRE_KNOWN_SPELLS:     Add the specified list of spells to known spells section of CRE
+// A7_SET_CRE_PROFICIENCIES:    Set proficiencies based on current class/kit. Can be overridden by custom entries.
+// A7_SET_PROFICIENCY:          Convenience function: Add weapon proficiency to the current CRE.
+// A7_VALIDATE_CRE_EQUIPMENT:   Check equipped items and move them into inventory if not allowed by current class/kit
+// A7_GET_ITM_RESTRICTION_MASK: Returns a bitmask based on class/kit/alignment/race of the current CRE (or overridden by parameter)
+// A7_IS_SPELL_USABLE_BY:       Returns whether the specified spell is usable by the current or specified CRE
+// A7_IS_ITEM_USABLE_BY:        Returns whether the specified item is usable by the current or specified CRE
+// A7_EQUIP_CRE_ITEMS:          Add and equip the specified items. resrefs may contain one or more charges, separated by comma.
+// A7_ADD_CRE_GRANTED_SPELLS:   Add known and memorized spells for sorcerers (and kits) and shamans (and kits).
+// A7_GET_SPELL_INFO:           Return basic spell information, such as spell level, type (priest, wizard, etc.), flags (hostile, outdoors, ...) and exclusion flags (type-dependent meaning)
+// A7_SPELL_RESREF_FROM_SYMBOL: Return numeric code and associated SPL resref of the specified symbolic spell name
+// A7_SEARCH_CLASS_KIT:         Determine class and kit IDs matching the specified search strings
+// A7_GET_CLASS_OF_KIT:         Determine class id, symbolic name and descriptive name (title) associated with the specified kit.
+// A7_GET_CLASS_INFO:           Return symbolic class name and descriptive class name associated with the given class id.
+// A7_GET_KIT_INFO:             Return symbolic kit name and descriptive kit name associated with the given kit id.
+// A7_RESOLVE_CLASS_TITLE:      Resolve class-specific tokens and return fully resolved title. Does nothing for non-token titles.
+// A7_GET_NUM_CLASSES:          Return number of classes defined by the given class id (1 for single class, 2 or 3 for valid multiclass values)
+// A7_GET_CLASS_KIT:            Retrieve numeric and symbolic names of class and kit
+// A7_LOOKUP_TABLE_VALUE:       Return value from given 2da table at specified column if key is matching
+
+
+OUTER_SET TRUECLASS = 0x4000
+
+// Main function: Reset class/kit of current CRE
+DEFINE_PATCH_FUNCTION A7_RESET_CLASS
+INT_VAR
+  remove_items = 1  // 0: unequip unusable items, 1: remove unusable items except critical items
+STR_VAR
+  class = ~~  // class number or name, empty string: use current CRE class
+  kit = ~~    // kit number or name (from kitlist.2da), empty string: use current CRE kit
+RET success
+BEGIN
+  SET success = 0
+  LPF A7_GET_CLASS_KIT RET cur_class = class_id cur_kit = kit_id END
+  LPF A7_GET_NUM_CLASSES RET num_classes = value END
+
+  SET new_class = "-1"
+  PATCH_IF (~%class%~ STR_EQ ~~) BEGIN
+    SET new_class = cur_class
+  END ELSE PATCH_IF (IS_AN_INT ~class~) BEGIN
+    LOOKUP_IDS_SYMBOL_OF_INT name ~class~ class
+    PATCH_IF (NOT ~%name%~ STR_EQ ~%class%~) BEGIN
+      SET new_class = class
+    END
+  END ELSE BEGIN
+    SET new_class = IDS_OF_SYMBOL(~class~ ~%class%~)
+  END
+  PATCH_IF (new_class = "-1") BEGIN SET new_class = cur_class END
+
+  PATCH_IF (~%kit%~ STR_EQ ~~) BEGIN
+    SET new_kit = cur_kit
+  END ELSE PATCH_IF (IS_AN_INT ~kit~ && (kit = 0 || kit = TRUECLASS) ||
+                    ~%kit%~ STR_EQ ~TRUECLASS~ ||
+                    ~%kit%~ STR_EQ ~MAGESCHOOL_GENERALIST~) BEGIN
+    SET new_kit = TRUECLASS  // no kit
+  END ELSE PATCH_IF (IS_AN_INT ~kit~) BEGIN
+    SET new_kit = kit
+  END ELSE BEGIN
+    LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 1 value_col = 9 numeric = 1 STR_VAR resref = ~kitlist~ key = EVAL ~%kit%~ default = EVAL ~%cur_kit%~ RET new_kit = value END
+  END
+
+  PATCH_IF (new_class != cur_class || new_kit != cur_kit) BEGIN
+    // setting new class and adjusting minimum stats if necessary
+    LPF A7_SET_CLASS INT_VAR class = new_class kit = new_kit END
+    LPF A7_ADJUST_STATS END
+    LPF A7_GET_NUM_CLASSES RET num_classes = value END
+  END
+
+  // resetting levels to 1
+  READ_BYTE 0x234 cur_level
+  READ_BYTE 0x235 v
+  PATCH_IF (v > cur_level) BEGIN SET cur_level = v END
+  READ_BYTE 0x236 v
+  PATCH_IF (v > cur_level) BEGIN SET cur_level = v END
+  WRITE_BYTE 0x234 (num_classes > 0 ? 1 : THIS)
+  WRITE_BYTE 0x235 (num_classes > 1 ? 1 : THIS)
+  WRITE_BYTE 0x236 (num_classes > 2 ? 1 : THIS)
+
+  // removing CRE effects
+  LPF A7_REMOVE_CRE_EFFECTS END
+
+  // resetting HP
+  LPF A7_RESET_CRE_HP END
+
+  // resetting saving throws
+  LPF A7_RESET_CRE_SAVES END
+
+  // resetting thieving skills
+  LPF A7_RESET_CRE_SKILLS END
+
+  // resetting lore
+  LPF A7_RESET_CRE_LORE END
+
+  // remove spell entries (known and memorized)
+  LPF A7_REMOVE_CRE_SPELLS INT_VAR level = cur_level class = cur_class kit = cur_kit END
+
+  // add (known) priest/druid spells
+  LPF A7_ADD_CRE_PRIEST_SPELLS END
+
+  // set available spell slots
+  LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 0 END
+  LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END
+
+  // Unequip items not usable by new class/kit
+  LPF A7_VALIDATE_CRE_EQUIPMENT INT_VAR remove = remove_items END
+
+  // Call individually for each NPC:
+  // (optional) A7_GET_CRE_KNOWN_SPELLS: store list of (mage/bard) spells for later
+  // (mandatory) A7_RESET_CLASS: set/reset class/kit
+  // (mandatory) A7_SET_CRE_PROFICIENCIES: set weapon proficiencies
+  // (optional) A7_SET_CRE_KNOWN_SPELLS: restore/add list of spells (mage/bard only)
+  // (optional) A7_ADD_CRE_GRANTED_SPELLS: set granted spells (sorcerer/shaman only)
+  // (optional) A7_EQUIP_CRE_ITEMS: set new equipment
+  // (optional) update NPC-specific items to be usable by new class/kit
+  // (optional) update dialogs, etc. to adapt NPC to new class/kit
+END
+
+
+// Set specified class, kit and associated character animation id
+DEFINE_PATCH_FUNCTION A7_SET_CLASS
+INT_VAR
+  class = 0       // class id
+  kit = TRUECLASS // optional kit id (default: no kit)
+BEGIN
+  PATCH_IF (class > 0 && class < 100) BEGIN
+    WRITE_BYTE 0x273 class
+
+    // Kit value is stored as: words in big-endian, word content in little-endian
+    WRITE_SHORT 0x244 (kit >> 16) & 0xffff
+    WRITE_SHORT 0x246 kit & 0xffff
+
+    // preparing animation id
+    SET gender_mask = (BYTE_AT 0x275 = 2) ? 0x10 : 0x00
+    READ_BYTE 0x272 race_mask
+    PATCH_MATCH race_mask WITH
+      2 3 153 BEGIN SET race_mask = 1 END  // Elf, Half-elf, Tiefling
+      4       BEGIN SET race_mask = 2 END  // Dwarf
+      5       BEGIN SET race_mask = 3 END  // Halfling
+      6       BEGIN SET race_mask = 4 END  // Gnome
+      7       BEGIN SET race_mask = 5 END  // Half-orc
+      DEFAULT       SET race_mask = 0
+    END
+
+    PATCH_MATCH class WITH
+      3 11 14 15 21 BEGIN SET anim_mask = 0x6000 END // Priest
+      1 19          BEGIN SET anim_mask = 0x6200 END // Mage
+      4 5 13        BEGIN SET anim_mask = 0x6300 END // Rogue
+      20            BEGIN SET anim_mask = 0x6500 END // Monk
+      DEFAULT             SET anim_mask = 0x6100     // Fighter and uncategorized
+    END
+
+    // setting new animation id
+    WRITE_LONG 0x28 (anim_mask | gender_mask | race_mask)
+  END
+END
+
+
+// Ensure that CRE stats are valid for the current class/kit
+DEFINE_PATCH_FUNCTION A7_ADJUST_STATS
+BEGIN
+  LPF A7_GET_CLASS_KIT RET class_id kit_id class_name kit_name END
+
+  INNER_ACTION BEGIN
+    // getting minimum stats
+    ACTION_DEFINE_ARRAY stats BEGIN 3 3 3 3 3 3 END // STR, DEX, CON, INT, WIS, CHR
+    COPY_EXISTING - ~abclasrq.2da~ ~override~
+      SET match = 0
+      COUNT_2DA_COLS num_cols
+      COUNT_2DA_ROWS num_cols num_rows
+      FOR (row = 0; row < num_rows; ++row) BEGIN
+        READ_2DA_ENTRY row 0 num_cols name
+        PATCH_IF (match < 2 && ~%name%~ STR_EQ ~%class_name%~) || (~%name%~ STR_EQ ~%kit_name%~) BEGIN
+          READ_2DA_ENTRY row 1 num_cols $stats(~0~)
+          READ_2DA_ENTRY row 2 num_cols $stats(~1~)
+          READ_2DA_ENTRY row 3 num_cols $stats(~2~)
+          READ_2DA_ENTRY row 4 num_cols $stats(~3~)
+          READ_2DA_ENTRY row 5 num_cols $stats(~4~)
+          READ_2DA_ENTRY row 6 num_cols $stats(~5~)
+          PATCH_IF (~%name%~ STR_EQ ~%kit_name%~) BEGIN
+            SET match = 2
+            SET row = num_rows
+          END ELSE PATCH_IF (match < 1) BEGIN
+            SET match = 1
+          END
+        END
+      END
+    IF_EXISTS
+
+    // getting compatible alignments
+    ACTION_DEFINE_ARRAY align BEGIN 1 1 1 1 1 1 1 1 1 END // LG, NG, CG, LN, TN, CN, LE, NE, CE
+    COPY_EXISTING - ~alignmnt.2da~ ~override~
+      SET match = 0
+      COUNT_2DA_COLS num_cols
+      COUNT_2DA_ROWS num_cols num_rows
+      FOR (row = 0; row < num_rows; ++row) BEGIN
+        READ_2DA_ENTRY row 0 num_cols name
+        PATCH_IF (match < 2 && ~%name%~ STR_EQ ~%class_name%~) || (~%name%~ STR_EQ ~%kit_name%~) BEGIN
+          READ_2DA_ENTRY row 1 num_cols $align(~0~)
+          READ_2DA_ENTRY row 4 num_cols $align(~1~)
+          READ_2DA_ENTRY row 7 num_cols $align(~2~)
+          READ_2DA_ENTRY row 2 num_cols $align(~3~)
+          READ_2DA_ENTRY row 5 num_cols $align(~4~)
+          READ_2DA_ENTRY row 8 num_cols $align(~5~)
+          READ_2DA_ENTRY row 3 num_cols $align(~6~)
+          READ_2DA_ENTRY row 6 num_cols $align(~7~)
+          READ_2DA_ENTRY row 9 num_cols $align(~8~)
+          PATCH_IF (~%name%~ STR_EQ ~%kit_name%~) BEGIN
+            SET match = 2
+            SET row = num_rows
+          END ELSE PATCH_IF (match < 1) BEGIN
+            SET match = 1
+          END
+        END
+      END
+    IF_EXISTS
+  END
+  SET a0 = $align(~0~) SET a1 = $align(~1~) SET a2 = $align(~2~) SET a3 = $align(~3~) SET a4 = $align(~4~) SET a5 = $align(~5~) SET a6 = $align(~6~) SET a7 = $align(~7~) SET a8 = $align(~8~)
+
+  // adjusting stats
+  WRITE_BYTE 0x238 ($stats(~0~) > THIS ? $stats(~0~) : THIS)
+  WRITE_BYTE 0x23a ($stats(~3~) > THIS ? $stats(~3~) : THIS)
+  WRITE_BYTE 0x23b ($stats(~4~) > THIS ? $stats(~4~) : THIS)
+  WRITE_BYTE 0x23c ($stats(~1~) > THIS ? $stats(~1~) : THIS)
+  WRITE_BYTE 0x23d ($stats(~2~) > THIS ? $stats(~2~) : THIS)
+  WRITE_BYTE 0x23e ($stats(~5~) > THIS ? $stats(~5~) : THIS)
+
+  // adjusting alignment
+  READ_BYTE 0x27b align
+  SET lnc = ((align >> 4) & 3) - 1
+  SET gne = (align & 3) - 1
+  SET idx = lnc + gne * 3
+  PATCH_IF ($align(~%idx%~) = 0) BEGIN
+    FOR (y = 0; y < 3; ++y) BEGIN
+      FOR (x = 0; x < 3; ++x) BEGIN
+        // towards good
+        PATCH_IF (y != 3 && gne - y >= 0) BEGIN
+          // towards lawful
+          PATCH_IF (x != 3 && lnc - x >= 0) BEGIN
+            SET idx = (lnc - x) + (gne - y) * 3
+            PATCH_IF ($align(~%idx%~) = 1) BEGIN SET x = 3 SET y = 3 END
+          END
+          // towards chaotic
+          PATCH_IF (x != 3 && lnc + x < 3) BEGIN
+            SET idx = (lnc + x) + (gne - y) * 3
+            PATCH_IF ($align(~%idx%~) = 1) BEGIN SET x = 3 SET y = 3 END
+          END
+        END
+        // towards evil
+        PATCH_IF (y != 3 && gne + y < 3) BEGIN
+          // towards lawful
+          PATCH_IF (x != 3 && lnc - x >= 0) BEGIN
+            SET idx = (lnc - x) + (gne + y) * 3
+            PATCH_IF ($align(~%idx%~) = 1) BEGIN SET x = 3 SET y = 3 END
+          END
+          // towards chaotic
+          PATCH_IF (x != 3 && lnc + x < 3) BEGIN
+            SET idx = (lnc + x) + (gne + y) * 3
+            PATCH_IF ($align(~%idx%~) = 1) BEGIN SET x = 3 SET y = 3 END
+          END
+        END
+        PATCH_IF (x = 3 && y = 3) BEGIN
+          SET align = ((idx / 3) + 1) | ((idx REM 3 + 1) << 4)
+        END
+      END
+    END
+  END
+  WRITE_BYTE 0x27b align
+END
+
+
+// Remove class/kit-related CRE effects. Exceptions:
+// - item-related effects
+// - effects without parent resource (not including set proficiency effect)
+DEFINE_PATCH_FUNCTION A7_REMOVE_CRE_EFFECTS
+BEGIN
+  SET opcode_to_delete = 999
+
+  READ_BYTE 0x33 version  // effect version
+  SET fx_size = version ? 0x108 : 0x30
+
+  READ_LONG 0x2c4 ofs_fx
+  READ_LONG 0x2c8 num_fx
+  FOR (idx = 0; idx < num_fx; ++idx) BEGIN
+    SET ofs = ofs_fx + (idx * fx_size)
+    SET opcode = version ? LONG_AT (ofs + 0x08) : SHORT_AT ofs
+    SET restype = version ? LONG_AT (ofs + 0x88) : 0
+    // marking effect as removable
+    PATCH_IF (restype != 2) BEGIN // not item-related?
+      PATCH_IF (opcode = 233) BEGIN // weapon proficiency?
+        PATCH_IF (version) BEGIN WRITE_LONG (ofs + 0x08) opcode_to_delete END ELSE BEGIN WRITE_SHORT ofs opcode_to_delete END
+      END ELSE PATCH_IF (version) BEGIN
+        READ_ASCII (ofs + 0x8c) res (8) NULL
+        PATCH_IF NOT (~%res%~ STR_EQ ~~ || ~%res%~ STR_EQ ~NONE~) BEGIN // has parent resource?
+          WRITE_LONG (ofs + 0x08) opcode_to_delete
+        END
+      END
+    END
+  END
+  LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete END
+END
+
+
+// Reset current and maximum HP of the current CRE to level 1 values, based on detected class/kit
+DEFINE_PATCH_FUNCTION A7_RESET_CRE_HP
+BEGIN
+  // getting class and kit name
+  LPF A7_GET_CLASS_KIT RET class_name kit_name END
+
+  // get HP table from HPCLASS.2DA
+  LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 STR_VAR resref = ~hpclass~ key = EVAL ~%kit_name%~ default = ~~ RET hp_table = value END
+  PATCH_IF (~%hp_table%~ STR_EQ ~~) BEGIN
+    LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 STR_VAR resref = ~hpclass~ key = EVAL ~%class_name%~ default = ~HPPRS~ RET hp_table = value END
+  END
+
+  // calculate HP based on selected HP table
+  SET hp = 8
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~%hp_table%.2da~ ~override~
+      COUNT_2DA_COLS num_cols
+      COUNT_2DA_ROWS num_cols num_rows
+      FOR (row = 0; row < num_rows; ++row) BEGIN
+        READ_2DA_ENTRY 0 0 num_cols level
+        PATCH_IF (IS_AN_INT ~level~ && level = 1) BEGIN
+          READ_2DA_ENTRY 0 1 num_cols sides
+          PATCH_IF (NOT IS_AN_INT ~sides~) BEGIN SET sides = 8 END
+          READ_2DA_ENTRY 0 2 num_cols rolls
+          PATCH_IF (NOT IS_AN_INT ~rolls~) BEGIN SET rolls = 1 END
+          READ_2DA_ENTRY 0 3 num_cols modifier
+          PATCH_IF (NOT IS_AN_INT ~modifier~) BEGIN SET modifier = 0 END
+          SET hp = rolls * sides + modifier
+          SET row = num_rows
+        END
+      END
+    IF_EXISTS
+  END
+
+  // set new HP
+  WRITE_SHORT 0x24 hp
+  WRITE_SHORT 0x26 hp
+END
+
+
+// Reset saving throws to values based on current level and class, including optional race bonus.
+DEFINE_PATCH_FUNCTION A7_RESET_CRE_SAVES
+BEGIN
+  READ_BYTE 0x272 race
+  READ_BYTE 0x273 class
+
+  // flags to check
+  SET FLAG_WARRIOR = BIT0
+  SET FLAG_PRIEST = BIT1
+  SET FLAG_ROGUE = BIT2
+  SET FLAG_MAGE = BIT3
+  SET FLAG_MONK = BIT4
+  SET flags = 0
+  PATCH_MATCH class WITH
+    1 19    BEGIN SET flags = FLAG_MAGE END   // Mage, Sorcerer
+    4 5     BEGIN SET flags = FLAG_ROGUE END  // Thief, Bard
+    3 11 21 BEGIN SET flags = FLAG_PRIEST END // Cleric, Druid, Shaman
+    20      BEGIN SET flags = FLAG_MONK END   // Monk
+    7       BEGIN SET flags = FLAG_WARRIOR | FLAG_MAGE END
+    8 16 18 BEGIN SET flags = FLAG_WARRIOR | FLAG_PRIEST END
+    9       BEGIN SET flags = FLAG_WARRIOR | FLAG_ROGUE END
+    10      BEGIN SET flags = FLAG_WARRIOR | FLAG_MAGE | FLAG_ROGUE END
+    13      BEGIN SET flags = FLAG_MAGE | FLAG_ROGUE END
+    14      BEGIN SET flags = FLAG_PRIEST | FLAG_MAGE END
+    15      BEGIN SET flags = FLAG_PRIEST | FLAG_ROGUE END
+    17      BEGIN SET flags = FLAG_WARRIOR | FLAG_MAGE | FLAG_PRIEST END
+    DEFAULT SET flags = FLAG_WARRIOR          // Fighter and uncategorized
+  END
+
+  // Setting class-based saves
+  WRITE_LONG 0x54 0x20202020
+  WRITE_BYTE 0x58 0x20
+  PATCH_FOR_EACH table IN ~savewar~ ~saveprs~ ~saverog~ ~savewiz~ ~savemonk~ BEGIN
+    PATCH_IF (flags & 1) BEGIN
+      LPF A7_GET_SAVES STR_VAR table RET death wand poly breath spell END
+      WRITE_BYTE 0x54 (death < THIS ? death : THIS)
+      WRITE_BYTE 0x55 (wand < THIS ? wand : THIS)
+      WRITE_BYTE 0x56 (poly < THIS ? poly : THIS)
+      WRITE_BYTE 0x57 (breath < THIS ? breath : THIS)
+      WRITE_BYTE 0x58 (spell < THIS ? spell : THIS)
+    END
+    flags >>= 1
+  END
+
+  // Adjusting race bonus
+  PATCH_MATCH race WITH
+    4 5 BEGIN TEXT_SPRINT table ~savecndh~ END  // dwarf, halfling
+    6   BEGIN TEXT_SPRINT table ~savecng~ END   // gnome
+    DEFAULT   TEXT_SPRINT table ~~
+  END
+  PATCH_IF (NOT ~%table%~ STR_EQ ~~) BEGIN
+    LPF A7_GET_SAVES
+      INT_VAR level = BYTE_AT 0x23d // CON-based bonus
+      STR_VAR table
+      RET death wand poly breath spell
+    END
+    WRITE_BYTE 0x54 (THIS - death)
+    WRITE_BYTE 0x55 (THIS - wand)
+    WRITE_BYTE 0x56 (THIS - poly)
+    WRITE_BYTE 0x57 (THIS - breath)
+    WRITE_BYTE 0x58 (THIS - spell)
+  END
+END
+
+
+// Return saving throw values for the given level. Can also be used for race bonus tables.
+DEFINE_PATCH_FUNCTION A7_GET_SAVES
+INT_VAR level = 1   // level (column) to look up
+STR_VAR table = ~~  // saving throw table resref
+RET death wand poly breath spell
+BEGIN
+  SET death = 0
+  SET wand = 0
+  SET poly = 0
+  SET breath = 0
+  SET spell = 0
+  PATCH_IF (NOT ~%table%~ STR_EQ ~~) BEGIN
+    INNER_ACTION BEGIN
+      COPY_EXISTING - ~%table%.2da~ ~override~
+        COUNT_2DA_COLS num_cols
+        COUNT_2DA_ROWS num_cols num_rows
+        PATCH_IF (level < 1 || level >= num_rows) BEGIN SET level = num_rows - 1 END
+        READ_2DA_ENTRY 0 level num_cols value
+        PATCH_IF (IS_AN_INT ~value~) BEGIN SET death = value END
+        READ_2DA_ENTRY 1 level num_cols value
+        PATCH_IF (IS_AN_INT ~value~) BEGIN SET wand = value END
+        READ_2DA_ENTRY 2 level num_cols value
+        PATCH_IF (IS_AN_INT ~value~) BEGIN SET poly = value END
+        READ_2DA_ENTRY 3 level num_cols value
+        PATCH_IF (IS_AN_INT ~value~) BEGIN SET breath = value END
+        READ_2DA_ENTRY 4 level num_cols value
+        PATCH_IF (IS_AN_INT ~value~) BEGIN SET spell = value END
+      IF_EXISTS
+    END
+  END
+END
+
+
+// Update thieving skills
+DEFINE_PATCH_FUNCTION A7_RESET_CRE_SKILLS
+BEGIN
+  LPF A7_GET_CLASS_KIT RET class_id kit_id class_name kit_name END
+  // Clearing thieving skills
+  PATCH_FOR_EACH ofs IN 0x6a 0x67 0x69 0x68 0x45 0x64 0x65 BEGIN WRITE_BYTE ofs 0 END
+
+  SET points = 0
+  // try THIEFSKL.2DA first (for distributable points)
+  LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~thiefskl~ key = EVAL ~%kit_name%~ default = ~-1~ RET points = value END
+  PATCH_IF (points < 0) BEGIN
+    LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~thiefskl~ key = EVAL ~%class_name%~ default = ~-1~ RET points = value END
+  END
+  // fall back to CLASISKL.2DA (for points distributed by the engine)
+  PATCH_IF (points < 0) BEGIN
+    FOR (i = 1; i < 8; ++i) BEGIN SET $skills(~%i%~) = 0 END
+    INNER_ACTION BEGIN
+      COPY_EXISTING - ~clasiskl.2da~ ~override~
+        COUNT_2DA_COLS num_cols
+        SET num_cols -= 1 // include table header
+        COUNT_2DA_ROWS num_cols num_rows
+        SET processed = 0
+        FOR (col = 0; col < num_cols; ++col) BEGIN
+          READ_2DA_ENTRY 0 col num_cols name
+          PATCH_IF (processed = 0 && ~%name%~ STR_EQ ~%class_name%~) || (~%name%~ STR_EQ ~%kit_name%~) BEGIN
+            SET processed = 1
+            FOR (row = 1; row < num_rows; ++row) BEGIN
+              READ_2DA_ENTRY row (col + 1) num_cols value
+              PATCH_IF (IS_AN_INT ~value~ && value > 0) BEGIN
+                // storing skill for later
+                SET $skills(~%row%~) = value
+              END
+            END
+          END
+        END
+      IF_EXISTS
+    END
+
+    // getting percentage from THIEFSCL.2DA
+    FOR (i = 0; i < 8; ++i) BEGIN SET $skills_percent(~%i%~) = 100 END
+    INNER_ACTION BEGIN
+      COPY_EXISTING - ~thiefscl.2da~ ~override~
+        COUNT_2DA_COLS num_cols
+        SET num_cols -= 1 // include table header
+        COUNT_2DA_ROWS num_cols num_rows
+        SET processed = 0
+        FOR (col = 0; col < num_cols; ++col) BEGIN
+          READ_2DA_ENTRY 0 col num_cols name
+          PATCH_IF (processed = 0 && ~%name%~ STR_EQ ~%class_name%~) || (~%name%~ STR_EQ ~%kit_name%~) BEGIN
+            SET processed = 1
+            FOR (row = 1; row < num_rows; ++row) BEGIN
+              READ_2DA_ENTRY row (col + 1) num_cols value
+              PATCH_IF (IS_AN_INT ~value~ && value > 0) BEGIN
+                // storing skill percentage for later
+                SET $skills_percent(~%row%~) = value
+              END
+            END
+          END
+        END
+      IF_EXISTS
+    END
+
+    // applying skills
+    FOR (i = 1; i < 8; ++i) BEGIN
+      PATCH_IF ($skills(~%i%~) > 0) BEGIN
+        SET value = $skills(~%i%~) * $skills_percent(~%i%~) / 100
+        PATCH_MATCH i WITH
+          1 BEGIN WRITE_BYTE 0x6a value END // pick pockets
+          2 BEGIN WRITE_BYTE 0x67 value END // open locks
+          3 BEGIN WRITE_BYTE 0x69 value END // find traps
+          4 BEGIN WRITE_BYTE 0x68 value END // move silently
+          5 BEGIN WRITE_BYTE 0x45 value END // hide in shadows
+          6 BEGIN WRITE_BYTE 0x64 value END // detect illusion
+          7 BEGIN WRITE_BYTE 0x65 value END // set traps
+          DEFAULT
+        END
+      END
+    END
+  END
+
+  // Distribute skill points based on kit or class
+  PATCH_IF (points > 0) BEGIN
+    PATCH_MATCH ~%kit_name%~ WITH // array: pick_pockets, open_locks, find_traps, hide_in_shadows, move_silently, detect_illusion, set_traps
+      ~SHADOWDANCER~ BEGIN DEFINE_ARRAY weights BEGIN 0 25 25 100 100 0 0 END END
+      ~ASSASIN~ BEGIN DEFINE_ARRAY weights BEGIN 0 25 25 100 100 0 0 END END
+      ~BOUNTY_HUNTER~ BEGIN DEFINE_ARRAY weights BEGIN 25 100 100 0 0 0 100 END END
+      ~SWASHBUCKLER~ BEGIN DEFINE_ARRAY weights BEGIN 100 100 100 0 0 0 0 END END
+      DEFAULT DEFINE_ARRAY weights BEGIN 50 100 100 50 50 0 0 END
+    END
+    LPF A7_DISTRIBUTE_THIEF_SKILLS
+      INT_VAR
+        points
+        weight_pick_pockets = $weights(~0~)
+        weight_open_locks = $weights(~1~)
+        weight_find_traps = $weights(~2~)
+        weight_hide_in_shadows = $weights(~3~)
+        weight_move_silently = $weights(~4~)
+        weight_detect_illusion = $weights(~5~)
+        weight_set_traps = $weights(~6~)
+    END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION A7_DISTRIBUTE_THIEF_SKILLS
+INT_VAR
+  // skill points to distribute
+  points = 0
+  // relative weight for each thieving skill
+  weight_pick_pockets = 1
+  weight_open_locks = 1
+  weight_find_traps = 1
+  weight_hide_in_shadows = 1
+  weight_move_silently = 1
+  weight_detect_illusion = 1
+  weight_set_traps = 1
+BEGIN
+  PATCH_IF (points > 0) BEGIN
+    weight_total = weight_pick_pockets + weight_open_locks +
+                   weight_find_traps + weight_hide_in_shadows +
+                   weight_move_silently + weight_detect_illusion +
+                   weight_set_traps
+    PATCH_IF (weight_total <= 0) BEGIN weight_total = 1 END
+
+    SET skill_points = points
+    SET skill_points_left = skill_points
+    // Pick Pockets
+    SET value = skill_points * weight_pick_pockets / weight_total
+    PATCH_IF (value > 255) BEGIN SET value = 255 END
+    SET left = value REM 5
+    SET value = (left < 3) ? (value - left) : (value + 5 - left)
+    SET skill_points_left -= value
+    WRITE_BYTE 0x6a value
+    // Open Locks
+    SET value = skill_points * weight_open_locks / weight_total
+    PATCH_IF (value > 255) BEGIN SET value = 255 END
+    SET left = value REM 5
+    SET value = (left < 3) ? (value - left) : (value + 5 - left)
+    SET skill_points_left -= value
+    WRITE_BYTE 0x67 value
+    // Find Traps
+    SET value = skill_points * weight_find_traps / weight_total
+    PATCH_IF (value > 255) BEGIN SET value = 255 END
+    SET left = value REM 5
+    SET value = (left < 3) ? (value - left) : (value + 5 - left)
+    SET skill_points_left -= value
+    WRITE_BYTE 0x69 value
+    // Hide in Shadows
+    SET value = skill_points * weight_hide_in_shadows / weight_total
+    PATCH_IF (value > 255) BEGIN SET value = 255 END
+    SET left = value REM 5
+    SET value = (left < 3) ? (value - left) : (value + 5 - left)
+    SET skill_points_left -= value
+    WRITE_BYTE 0x45 value
+    // Move Silently
+    SET value = skill_points * weight_move_silently / weight_total
+    PATCH_IF (value > 255) BEGIN SET value = 255 END
+    SET left = value REM 5
+    SET value = (left < 3) ? (value - left) : (value + 5 - left)
+    SET skill_points_left -= value
+    WRITE_BYTE 0x68 value
+    // Detect Illusion
+    SET value = skill_points * weight_detect_illusion / weight_total
+    PATCH_IF (value > 255) BEGIN SET value = 255 END
+    SET left = value REM 5
+    SET value = (left < 3) ? (value - left) : (value + 5 - left)
+    SET skill_points_left -= value
+    WRITE_BYTE 0x64 value
+    // Set Traps
+    SET value = skill_points * weight_set_traps / weight_total
+    PATCH_IF (value > 255) BEGIN SET value = 255 END
+    SET left = value REM 5
+    SET value = (left < 3) ? (value - left) : (value + 5 - left)
+    SET skill_points_left -= value
+    WRITE_BYTE 0x65 value
+    // Distribute remaining points (if any)
+    PATCH_IF (weight_pick_pockets > 0) BEGIN
+      SET value = skill_points_left
+      PATCH_IF (value > 255) BEGIN SET value = 255 END
+      SET left = value REM 5
+      SET value = (left < 3) ? (value - left) : (value + 5 - left)
+      WRITE_BYTE 0x6a (THIS + value)
+      SET skill_points_left -= value
+    END
+    PATCH_IF (weight_open_locks > 0) BEGIN
+      SET value = skill_points_left
+      PATCH_IF (value > 255) BEGIN SET value = 255 END
+      SET left = value REM 5
+      SET value = (left < 3) ? (value - left) : (value + 5 - left)
+      WRITE_BYTE 0x67 (THIS + value)
+      SET skill_points_left -= value
+    END
+    PATCH_IF (weight_find_traps > 0) BEGIN
+      SET value = skill_points_left
+      PATCH_IF (value > 255) BEGIN SET value = 255 END
+      SET left = value REM 5
+      SET value = (left < 3) ? (value - left) : (value + 5 - left)
+      WRITE_BYTE 0x69 (THIS + value)
+      SET skill_points_left -= value
+    END
+    PATCH_IF (weight_hide_in_shadows > 0) BEGIN
+      SET value = skill_points_left
+      PATCH_IF (value > 255) BEGIN SET value = 255 END
+      SET left = value REM 5
+      SET value = (left < 3) ? (value - left) : (value + 5 - left)
+      WRITE_BYTE 0x45 (THIS + value)
+      SET skill_points_left -= value
+    END
+    PATCH_IF (weight_move_silently > 0) BEGIN
+      SET value = skill_points_left
+      PATCH_IF (value > 255) BEGIN SET value = 255 END
+      SET left = value REM 5
+      SET value = (left < 3) ? (value - left) : (value + 5 - left)
+      WRITE_BYTE 0x68 (THIS + value)
+      SET skill_points_left -= value
+    END
+    PATCH_IF (weight_detect_illusion > 0) BEGIN
+      SET value = skill_points_left
+      PATCH_IF (value > 255) BEGIN SET value = 255 END
+      SET left = value REM 5
+      SET value = (left < 3) ? (value - left) : (value + 5 - left)
+      WRITE_BYTE 0x64 (THIS + value)
+      SET skill_points_left -= value
+    END
+    PATCH_IF (weight_set_traps > 0) BEGIN
+      SET value = skill_points_left
+      PATCH_IF (value > 255) BEGIN SET value = 255 END
+      SET left = value REM 5
+      SET value = (left < 3) ? (value - left) : (value + 5 - left)
+      WRITE_BYTE 0x65 (THIS + value)
+      SET skill_points_left -= value
+    END
+  END
+END
+
+
+// Update Lore value
+DEFINE_PATCH_FUNCTION A7_RESET_CRE_LORE
+BEGIN
+  LPF A7_GET_CLASS_KIT RET class_id class_name END
+  PATCH_MATCH class_id WITH
+    7 BEGIN  LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~FIGHTER~ class_1 = ~MAGE~   RET value END END
+    8 BEGIN  LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~FIGHTER~ class_1 = ~CLERIC~ RET value END END
+    9 BEGIN  LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~FIGHTER~ class_1 = ~THIEF~  RET value END END
+    10 BEGIN LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 3 STR_VAR class_0 = ~FIGHTER~ class_1 = ~MAGE~ class_2 = ~THIEF~  RET value END END
+    13 BEGIN LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~MAGE~    class_1 = ~THIEF~  RET value END END
+    14 BEGIN LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~CLERIC~  class_1 = ~MAGE~   RET value END END
+    15 BEGIN LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~CLERIC~  class_1 = ~THIEF~  RET value END END
+    16 BEGIN LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~FIGHTER~ class_1 = ~DRUID~  RET value END END
+    17 BEGIN LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 3 STR_VAR class_0 = ~FIGHTER~ class_1 = ~MAGE~ class_2 = ~CLERIC~ RET value END END
+    18 BEGIN LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 2 STR_VAR class_0 = ~CLERIC~  class_1 = ~RANGER~ RET value END END
+    DEFAULT  LPF A7_GET_MAX_CLASS_LORE INT_VAR num_classes = 1 STR_VAR class_0 = EVAL ~%class_name%~ RET value END
+  END
+  WRITE_BYTE 0x66 value
+END
+
+
+// Return highest available lore value based on given class(es)
+DEFINE_PATCH_FUNCTION A7_GET_MAX_CLASS_LORE
+INT_VAR
+  num_classes = 0
+// STR_VAR
+  // class_0 = ~~  // base class name
+  // class_1, class_2, ...
+RET
+  value
+BEGIN
+  SET value = 1
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~lore.2da~ ~override~
+      COUNT_2DA_COLS num_cols
+      COUNT_2DA_ROWS num_cols num_rows
+      FOR (row = 0; row < num_rows; ++row) BEGIN
+        READ_2DA_ENTRY row 0 num_cols class_name
+        FOR (i = 0; i < num_classes; ++i) BEGIN
+          TEXT_SPRINT name EVAL ~%class_%i%%~
+          PATCH_IF (~%name%~ STR_EQ ~%class_name%~) BEGIN
+            READ_2DA_ENTRY row 1 num_cols rate
+            PATCH_IF (IS_AN_INT ~rate~ && rate > value) BEGIN
+              SET value = rate
+            END
+            SET i = num_classes
+          END
+        END
+      END
+    IF_EXISTS
+  END
+END
+
+
+// Remove all known and memorized spells based on given class/kit/level definitions
+DEFINE_PATCH_FUNCTION A7_REMOVE_CRE_SPELLS
+INT_VAR
+  level = 20
+  class = "-1"
+  kit = "-1"
+BEGIN
+  // removing all known priest spells
+  LPF A7_REMOVE_CRE_KNOWN_SPELLS INT_VAR type = 0 END
+
+  // removing all known mage spells
+  LPF A7_REMOVE_CRE_KNOWN_SPELLS INT_VAR type = 1 END
+
+  // removing all known innate spells found in CLAB file of original class/kit
+  LPF A7_REMOVE_CRE_KNOWN_SPELLS INT_VAR type = 2 skip_unique = 1 level class kit END
+
+  // removing all memorized priest spells
+  LPF A7_REMOVE_CRE_MEMORIZED_SPELLS INT_VAR type = 0 END
+
+  // removing all memorized mage spells
+  LPF A7_REMOVE_CRE_MEMORIZED_SPELLS INT_VAR type = 1 END
+
+  // removing all memorized innate spells found in CLAB file of original class/kit
+  LPF A7_REMOVE_CRE_MEMORIZED_SPELLS INT_VAR type = 2 reset_slots = 2 skip_unique = 1 level class kit END
+END
+
+
+// Remove known spell entries of the given type
+DEFINE_PATCH_FUNCTION A7_REMOVE_CRE_KNOWN_SPELLS
+INT_VAR
+  type = "-1" // -1: all, 0: priest, 1: wizard, 2: innate
+  skip_unique = 0 // whether to preserve innates not controlled by CLAB
+  level = "-1"
+  class = "-1"
+  kit = "-1"
+BEGIN
+  DEFINE_ARRAY offsets BEGIN 0x2a0 0x2a8 0x2b0 0x2b8 0x2bc 0x2c4 END
+  SET cur_offset = 0x2a0
+  SET bytes_deleted = 0
+
+  // retrieving CLABs
+  PATCH_IF (skip_unique) BEGIN
+    SET abilities = 0
+    LPF A7_GET_CLAB_RESREF INT_VAR class kit RET clab_resref RET_ARRAY clab_resref END
+    FOR (idx = 0; idx < clab_resref; ++idx) BEGIN
+      LPF A7_GET_CLAB_ABILITY_RESREFS INT_VAR level STR_VAR clab_resref = EVAL $clab_resref(~%idx%~) RET ga_resref RET_ARRAY ga_resref END
+      FOR (idx2 = 0; idx2 < ga_resref; ++idx2) BEGIN
+        TEXT_SPRINT $abilities(~%abilities%~) $ga_resref(~%idx2%~)
+        SET abilities += 1
+      END
+    END
+  END ELSE BEGIN
+    SET abilities = 0
+  END
+
+  // removing known spell entries
+  READ_LONG 0x2a0 ofs_known
+  READ_LONG 0x2a4 num_known
+  SET idx = 0
+  WHILE (idx < num_known) BEGIN
+    SET ofs = ofs_known + (idx * 0x0c)
+    READ_SHORT (ofs + 0x0a) known_type
+    PATCH_IF (type < 0 || known_type = type) BEGIN
+      PATCH_IF (known_type = 2 && abilities > 0) BEGIN
+        // checking if innate is defined by CLAB
+        READ_ASCII ofs resref (8) NULL
+        SET skip = 1
+        FOR (idx2 = 0; idx2 < abilities; ++idx2) BEGIN
+          PATCH_IF ($abilities(~%idx2%~) STR_EQ ~%resref%~) BEGIN
+            SET skip = 0
+            SET idx2 = abilities
+          END
+        END
+      END ELSE BEGIN
+        SET skip = 0
+      END
+      // deleting entry
+      PATCH_IF (NOT skip) BEGIN
+        DELETE_BYTES ofs 0x0c
+        SET bytes_deleted += 0x0c
+        SET num_known -= 1
+        SET idx -= 1
+      END
+    END
+    SET idx += 1
+  END
+
+  // updating offsets
+  PATCH_IF (bytes_deleted) BEGIN
+    WRITE_LONG 0x2a4 num_known
+    PATCH_PHP_EACH offsets AS _ => ofs BEGIN
+      PATCH_IF (ofs != cur_offset && LONG_AT ofs > ofs_known) BEGIN
+        WRITE_LONG ofs (THIS - bytes_deleted)
+      END
+    END
+  END
+END
+
+
+// Remove memorized spell entries of the given type
+DEFINE_PATCH_FUNCTION A7_REMOVE_CRE_MEMORIZED_SPELLS
+INT_VAR
+  type = "-1" // -1: all, 0: priest, 1: wizard, 2: innate
+  skip_unique = 0 // whether to preserve innates not controlled by CLAB
+  reset_slots = 1 // 0: no change, 1: reset, 2: reduce by number of removed entries
+  level = "-1"
+  class = "-1"
+  kit = "-1"
+BEGIN
+  DEFINE_ARRAY offsets BEGIN 0x2a0 0x2a8 0x2b0 0x2b8 0x2bc 0x2c4 END
+  SET cur_offset = 0x2b0
+  SET bytes_deleted = 0
+  SET entries_deleted = 0
+
+  // retrieving CLABs
+  PATCH_IF (skip_unique) BEGIN
+    SET abilities = 0
+    LPF A7_GET_CLAB_RESREF INT_VAR class kit RET clab_resref RET_ARRAY clab_resref END
+    FOR (idx = 0; idx < clab_resref; ++idx) BEGIN
+      LPF A7_GET_CLAB_ABILITY_RESREFS INT_VAR level STR_VAR clab_resref = EVAL $clab_resref(~%idx%~) RET ga_resref RET_ARRAY ga_resref END
+      FOR (idx2 = 0; idx2 < ga_resref; ++idx2) BEGIN
+        TEXT_SPRINT $abilities(~%abilities%~) $ga_resref(~%idx2%~)
+        SET abilities += 1
+      END
+    END
+  END ELSE BEGIN
+    SET abilities = 0
+  END
+
+  // removing known spell entries (requires memorized spell indices in ascending order)
+  READ_LONG 0x2a8 ofs_meminfo
+  READ_LONG 0x2ac num_meminfo
+  READ_LONG 0x2b0 ofs_memspell
+  READ_LONG 0x2b4 num_memspell
+  FOR (midx = 0; midx < num_meminfo; ++midx) BEGIN
+    SET mofs = ofs_meminfo + (midx * 0x10)
+    READ_SHORT (mofs + 0x06) mtype
+    READ_LONG (mofs + 0x08) index
+    SET index -= entries_deleted  // adjusting to real index
+    PATCH_IF (type < 0 || mtype = type) BEGIN
+      PATCH_IF (reset_slots = 1 || mtype != 2) BEGIN
+        SET num_slots1 = 0
+        SET num_slots2 = 0
+      END ELSE BEGIN
+        READ_SSHORT (mofs + 0x02) num_slots1
+        READ_SSHORT (mofs + 0x04) num_slots2
+      END
+      READ_LONG (mofs + 0x0c) count
+      SET sidx = 0
+      WHILE (sidx < count) BEGIN
+        SET sofs = ofs_memspell + (sidx + index) * 0x0c
+        PATCH_IF (skip_unique && mtype = 2) BEGIN
+          // checking if innate is defined by CLAB
+          READ_ASCII sofs resref (8) NULL
+          SET skip = 1
+          FOR (idx = 0; idx < abilities; ++idx) BEGIN
+            PATCH_IF ($abilities(~%idx%~) STR_EQ ~%resref%~) BEGIN
+              SET skip = 0
+              SET idx = abilities
+            END
+          END
+        END ELSE BEGIN
+          SET skip = 0
+        END
+        // deleting entry
+        PATCH_IF (NOT skip) BEGIN
+          DELETE_BYTES sofs 0x0c
+          SET bytes_deleted += 0x0c
+          SET entries_deleted += 1
+          SET count -= 1
+          SET sidx -= 1
+          SET num_memspell -= 1
+          PATCH_IF (reset_slots = 2) BEGIN
+            SET num_slots1 -= 1
+            SET num_slots2 -= 1
+          END
+        END
+        SET sidx += 1
+      END
+      WRITE_SHORT (mofs + 0x02) (num_slots1 < 0 ? 0 : num_slots1)
+      WRITE_SHORT (mofs + 0x04) (num_slots2 < 0 ? 0 : num_slots2)
+      WRITE_LONG (mofs + 0x0c) count
+    END
+    WRITE_LONG (mofs + 0x08) index  // must be updated for ALL meminfo sections
+  END
+
+  // updating offsets
+  PATCH_IF (bytes_deleted) BEGIN
+    WRITE_LONG 0x2b4 num_memspell
+    PATCH_PHP_EACH offsets AS _ => ofs BEGIN
+      PATCH_IF (ofs != cur_offset && LONG_AT ofs > ofs_memspell) BEGIN
+        WRITE_LONG ofs (THIS - bytes_deleted)
+      END
+    END
+  END
+END
+
+
+// Adds cleric/druid spells to the known section
+DEFINE_PATCH_FUNCTION A7_ADD_CRE_PRIEST_SPELLS
+INT_VAR
+  max_level = 1 // max. spell level to apply (range: 1..7)
+BEGIN
+  LPF A7_NUM_SPELLS_MEMORIZABLE RET num_slots END
+  PATCH_IF (num_slots) BEGIN
+    LPF A7_GET_CLASS_KIT RET class_id kit_id class_name kit_name END
+
+    // determining available spell types
+    SET cleric_spells = 0
+    SET druid_spells = 0
+    PATCH_MATCH class_id WITH
+      3 8 14 15 17 BEGIN // cleric only
+        SET cleric_spells = 1
+      END
+      11 12 16 BEGIN // druid only
+        SET druid_spells = 1
+      END
+      18 BEGIN  // cleric/druid
+        SET druid_spells = 1
+        SET cleric_spells = 1
+      END
+      DEFAULT
+    END
+
+    READ_BYTE 0x27b alignment
+    SET is_good = (alignment & 0xf) = 1 ? 1 : 0
+    SET is_neutral = (alignment & 0xf) = 2 ? 1 : 0
+    SET is_evil = (alignment & 0xf) = 3 ? 1 : 0
+    TEXT_SPRINT regPriest ~1[1-7][0-4][0-9]~
+
+    // Collecting available priest spells
+    SET spells = 0
+    SET levels = 0
+    PATCH_IF (druid_spells || cleric_spells) BEGIN
+      SET nospells = 0
+      INNER_ACTION BEGIN
+        // getting list of inaccessible spells
+        COPY_EXISTING - ~hidespl.2da~ ~override~
+          COUNT_2DA_COLS num_cols
+          COUNT_2DA_ROWS num_cols num_rows
+          READ_2DA_ENTRIES_NOW hide_table num_cols
+          FOR (row = 0; row < num_rows; ++row) BEGIN
+            READ_2DA_ENTRY_FORMER hide_table row 1 hidden
+            PATCH_IF (~%hidden%~ STR_EQ ~1~) BEGIN
+              READ_2DA_ENTRY_FORMER hide_table row 0 name
+              TO_UPPER ~name~
+              SET $nospells(~%name%~) = 1
+              SET nospells += 1
+            END
+          END
+        IF_EXISTS
+        // processing available spells
+        COPY_EXISTING - ~spell.ids~ ~override~
+          READ_2DA_ENTRIES_NOW spell_table 2
+          FOR (row = 0; row < spell_table; ++row) BEGIN
+            READ_2DA_ENTRY_FORMER spell_table row 0 code
+            PATCH_IF ((druid_spells || cleric_spells) && ~%code%~ STRING_MATCHES_REGEXP ~%regPriest%~ = 0) BEGIN
+              SET sptype = code / 1000
+              SET splevel = (code / 100) REM 10
+              PATCH_IF (sptype = 1) BEGIN
+                INNER_PATCH_SAVE resref ~%code%~ BEGIN REPLACE_TEXTUALLY ~.\(...\)~ ~SPPR\1~ END
+                INNER_ACTION BEGIN
+                  COPY_EXISTING - ~%resref%.SPL~ ~override~
+                    READ_ASCII 0 sig (8)
+                    PATCH_IF (~%sig%~ STR_EQ ~SPL V1  ~) BEGIN
+                      READ_LONG 0x1e exclusion
+                      SET a_ex = (is_good && (exclusion & BIT2)) || (is_neutral && (exclusion & BIT3)) || (is_evil && (exclusion & BIT4))
+                      SET c_ex = (cleric_spells && (exclusion & BIT30)) || (druid_spells && (exclusion & BIT31))
+                      PATCH_IF (NOT a_ex && NOT c_ex && splevel <= max_level && NOT VARIABLE_IS_SET $nospells(~%resref%~)) BEGIN
+                        TEXT_SPRINT $spells(~%spells%~) ~%resref%~
+                        SET spells += 1
+                        SET $levels(~%levels%~) = LONG_AT 0x34
+                        SET levels += 1
+                      END
+                    END
+                  IF_EXISTS
+                END
+              END
+            END
+          END
+        IF_EXISTS
+      END
+    END
+
+    // Adding spells to current CRE
+    FOR (idx = 0; idx < spells; ++idx) BEGIN
+      TEXT_SPRINT resref $spells(~%idx%~)
+      SET level = $levels(~%idx%~) - 1
+      PATCH_IF (level < max_level) BEGIN
+        ADD_KNOWN_SPELL ~%resref%~ (level) ~priest~
+      END
+    END
+  END
+END
+
+
+// Return a list of known spells of given type and level
+DEFINE_PATCH_FUNCTION A7_GET_KNOWN_SPELLS
+INT_VAR
+  type = 0      // 0: priest, 1: wizard, 2: innate
+  level = 0     // 0: any level, 1..9 given spell level only
+RET known_spells
+RET_ARRAY known_spells
+BEGIN
+  SET known_spells = 0
+  TEXT_SPRINT $known_spells(~0~) ~~
+  SET level -= 1
+
+  READ_LONG 0x2a0 ofs_known
+  READ_LONG 0x2a4 num_known
+  FOR (i = 0; i < num_known; ++i) BEGIN
+    SET ofs = ofs_known + i * 0x0c
+    READ_SHORT (ofs + 8) slevel
+    READ_SHORT (ofs + 10) stype
+    PATCH_IF (stype = type && (level < 0 || level = slevel)) BEGIN
+      READ_ASCII ofs resref (8) NULL
+      TEXT_SPRINT $known_spells(~%known_spells%~) ~%resref%~
+      SET known_spells += 1
+    END
+  END
+END
+
+
+// Return the number of spells that can be memorized for the given spell type and level
+DEFINE_PATCH_FUNCTION A7_NUM_SPELLS_MEMORIZABLE
+INT_VAR
+  spell_type = 0  // 0=priest, 1=wizard
+RET num_slots
+BEGIN
+  SET num_slots = 0
+  PATCH_IF (spell_type = 0 || spell_type = 1) BEGIN
+    LPF A7_GET_CLASS_KIT RET class_id kit_id END
+
+    SET MASK_WIZ =  1 << 0
+    SET MASK_BRD =  1 << 1
+    SET MASK_SRC =  1 << 2
+    SET MASK_DD  =  1 << 3
+    SET MASK_PRS =  1 << 4
+    SET MASK_PAL =  1 << 5
+    SET MASK_DRU =  1 << 6
+    SET MASK_RAN =  1 << 7
+    SET MASK_SHM =  1 << 8
+    SET bitfield = 0
+    PATCH_MATCH class_id WITH // Mage
+      1 7 10 13 14 17 BEGIN SET bitfield |= MASK_WIZ END DEFAULT
+    END
+    PATCH_MATCH class_id WITH // Cleric
+      3 8 14 15 17 18 BEGIN SET bitfield |= MASK_PRS END DEFAULT
+    END
+    PATCH_MATCH class_id WITH // Bard
+      5 BEGIN SET bitfield |= MASK_BRD END DEFAULT
+    END
+    PATCH_MATCH class_id WITH // Paladin
+      6 BEGIN SET bitfield |= MASK_PAL END DEFAULT
+    END
+    PATCH_MATCH class_id WITH // Druid
+      11 16 BEGIN SET bitfield |= MASK_DRU END DEFAULT
+    END
+    PATCH_MATCH class_id WITH // Ranger
+      12 18 BEGIN SET bitfield |= MASK_RAN END DEFAULT
+    END
+    PATCH_MATCH class_id WITH // Sorcerer
+      19 BEGIN SET bitfield |= (kit_id = 0x4023) ? MASK_DD : MASK_SRC END DEFAULT
+    END
+    PATCH_MATCH class_id WITH // Shaman
+      21 BEGIN SET bitfield |= MASK_SHM END DEFAULT
+    END
+
+    SET mask = 1
+    PATCH_FOR_EACH resref IN ~mxsplwiz~ ~mxsplbrd~ ~mxsplsrc~ ~mxspldd~ ~mxsplprs~ ~mxsplpal~ ~mxspldru~ ~mxsplran~ ~mxsplshm~ BEGIN
+      PATCH_IF (num_slots = 0 && bitfield & mask && (spell_type = 0 && mask >= MASK_PRS || spell_type = 1 && mask < MASK_PRS)) BEGIN
+        LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref key = ~1~ default = ~0~ RET value END
+        PATCH_IF (value) BEGIN
+          SET num_slots = value
+        END
+      END
+      SET mask <<= 1
+    END
+
+    // account for specialist mages
+    PATCH_IF (bitfield & MASK_WIZ) BEGIN
+      PATCH_MATCH kit_id WITH
+        0x40 0x80 0x100 0x200 0x400 0x800 0x1000 0x2000 0x80000000 BEGIN PATCH_IF (num_slots) BEGIN SET num_slots += 1 END END
+        DEFAULT
+      END
+    END
+  END
+END
+
+
+// Set available spell slots for CRE at current level
+// SPLSRCKN.2DA, SPLSHMKN.2DA: defines number of known spells per level
+// MXSPLBRD.2DA, ...: defines number of memorizable spells (spell slots) per level
+DEFINE_PATCH_FUNCTION A7_SET_CRE_SPELL_SLOTS
+INT_VAR
+  spell_type = 0    // 0: priest, 1: wizard
+  auto_fill = 1     // whether to fill memorized spell slots by random known spells
+BEGIN
+  PATCH_IF (spell_type = 0 || spell_type = 1) BEGIN
+    PATCH_IF (auto_fill) BEGIN PATCH_RANDOM_SEED ~~ END
+    LPF A7_NUM_SPELLS_MEMORIZABLE INT_VAR spell_type RET num_slots END
+
+    READ_LONG 0x2a8 ofs_meminfo
+    READ_LONG 0x2ac num_meminfo
+    FOR (idx = 0; idx < num_meminfo; ++idx) BEGIN
+      SET ofs = ofs_meminfo + (idx * 0x10)
+      PATCH_IF (spell_type = SHORT_AT (ofs + 6)) BEGIN
+        PATCH_IF (0 = SHORT_AT ofs) BEGIN // set level 1 slots only
+          PATCH_IF (auto_fill) BEGIN
+            WRITE_LONG (ofs + 2) 0
+            LPF A7_GET_KNOWN_SPELLS INT_VAR type = spell_type level = 1 RET known_spells RET_ARRAY known_spells END
+            SET left = (known_spells > 0) ? num_slots : 0
+            WHILE (left > 0) BEGIN
+              SET entry = RANDOM(0 known_spells - 1)
+              TEXT_SPRINT resref $known_spells(~%entry%~)
+              PATCH_IF (spell_type = 1) BEGIN
+                ADD_MEMORIZED_SPELL ~%resref%~ #0 ~wizard~
+              END ELSE BEGIN
+                ADD_MEMORIZED_SPELL ~%resref%~ #0 ~priest~
+              END
+              SET left -= 1
+            END
+          END ELSE BEGIN
+            WRITE_SHORT (ofs + 2) num_slots
+            WRITE_SHORT (ofs + 4) num_slots
+          END
+        END ELSE BEGIN
+          WRITE_LONG (ofs + 2) 0
+        END
+      END
+    END
+  END
+END
+
+
+// Return all CLAB table resrefs relevant to the current class/kit combo
+DEFINE_PATCH_FUNCTION A7_GET_CLAB_RESREF
+INT_VAR
+  class = "-1"
+  kit = "-1"
+RET clab_resref
+RET_ARRAY clab_resref
+BEGIN
+  LPF A7_GET_CLASS_KIT INT_VAR class kit RET class_id kit_id class_name kit_name END
+
+  SET clab_class = 0
+  SET clab_resref = 0
+  TEXT_SPRINT $clab_resref(~%clab_resref%~) ~~
+
+  // getting kit clab if available
+  LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 1 value_col = 5 STR_VAR resref = ~kitlist~ key = EVAL ~%kit_name%~ default = ~~ RET value END
+  PATCH_IF (NOT ~%value%~ STR_EQ ~~) BEGIN
+    TEXT_SPRINT $clab_resref(~%clab_resref%~) ~%value%~
+    SET clab_resref += 1
+    LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 1 value_col = 8 numeric = 1 STR_VAR resref = ~kitlist~ key = EVAL ~%kit_name%~ default = ~0~ RET clab_class = value END
+  END
+
+  // getting class clabs
+  PATCH_MATCH class_id WITH 1 7 10 13 14 17 BEGIN PATCH_IF (clab_class != 1) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABMA01~ SET clab_resref += 1 END END DEFAULT END
+  PATCH_MATCH class_id WITH 2 7 8 9 10 16 17 BEGIN PATCH_IF (clab_class != 2) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABFI01~ SET clab_resref += 1 END END DEFAULT END
+  PATCH_MATCH class_id WITH 3 8 14 15 17 18 BEGIN PATCH_IF (clab_class != 3) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABPR01~ SET clab_resref += 1 END END DEFAULT END
+  PATCH_MATCH class_id WITH 4 9 10 13 15 BEGIN PATCH_IF (clab_class != 4) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABTH01~ SET clab_resref += 1 END END DEFAULT END
+  PATCH_MATCH class_id WITH 11 16 BEGIN PATCH_IF (clab_class != 11) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABDR01~ SET clab_resref += 1 END END DEFAULT END
+  PATCH_MATCH class_id WITH 12 18 BEGIN PATCH_IF (clab_class != 12) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABRN01~ SET clab_resref += 1 END END DEFAULT END
+  PATCH_IF (class_id = 5) BEGIN PATCH_IF (clab_class != 5) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABBA01~ SET clab_resref += 1 END END
+  PATCH_IF (class_id = 6) BEGIN PATCH_IF (clab_class != 6) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABPA01~ SET clab_resref += 1 END END
+  PATCH_IF (class_id = 19) BEGIN PATCH_IF (clab_class != 19) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABMA01~ SET clab_resref += 1 END END
+  PATCH_IF (class_id = 20) BEGIN PATCH_IF (clab_class != 20) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABMO01~ SET clab_resref += 1 END END
+  PATCH_IF (class_id = 21) BEGIN PATCH_IF (clab_class != 21) BEGIN TEXT_SPRINT $clab_resref(~%clab_resref%~) ~CLABSH01~ SET clab_resref += 1 END END
+END
+
+
+// Return list of all spell resrefs defined as GA_xxx values in the specified CLAB table
+DEFINE_PATCH_FUNCTION A7_GET_CLAB_ABILITY_RESREFS
+INT_VAR
+  level = 1
+  include_ga = 1  // whether to add GA_xxx entries to the list
+  include_ap = 0  // whether to add AP_xxx entries to the list
+STR_VAR clab_resref = ~~
+RET ga_resref ap_resref
+RET_ARRAY ga_resref ap_resref
+BEGIN
+  SET ga_resref = 0
+  SET ap_resref = 0
+  TEXT_SPRINT $ga_resref(~%ga_resref%~) ~~
+  TEXT_SPRINT $ap_resref(~%ap_resref%~) ~~
+  PATCH_IF (NOT ~%clab_resref%~ STR_EQ ~~) BEGIN
+    INNER_ACTION BEGIN
+      COPY_EXISTING - ~%clab_resref%.2da~ ~override~
+        COUNT_2DA_COLS num_cols
+        // COUNT_2DA_ROWS num_cols num_rows
+        COUNT_2DA_ROWS 1 num_rows // workaround for invalid tables (with single rows containing too many columns)
+        PATCH_IF (level >= num_cols) BEGIN SET level = num_cols - 1 END
+        FOR (row = 3; row < num_rows; ++row) BEGIN
+          FOR (col = 1; col <= level; ++col) BEGIN
+            // READ_2DA_ENTRY row col num_cols value
+            READ_2DA_ENTRY row col 1 value
+            TO_UPPER ~value~
+            PATCH_IF (include_ga && ~%value%~ STRING_MATCHES_REGEXP ~GA_.+~ = 0) BEGIN
+              INNER_PATCH_SAVE resref ~%value%~ BEGIN DELETE_BYTES 0 3 END
+              PATCH_IF (NOT VARIABLE_IS_SET $ga(~%resref%~) || $ga(~%resref%~) = 0) BEGIN
+                SET $ga(~%resref%~) = 1
+                TEXT_SPRINT $ga_resref(~%ga_resref%~) ~%resref%~
+                SET ga_resref += 1
+              END
+            END
+            PATCH_IF (include_ap && ~%value%~ STRING_MATCHES_REGEXP ~AP_.+~ = 0) BEGIN
+              INNER_PATCH_SAVE resref ~%value%~ BEGIN DELETE_BYTES 0 3 END
+              PATCH_IF (NOT VARIABLE_IS_SET $ap(~%resref%~) || $ap(~%resref%~) = 0) BEGIN
+                SET $ap(~%resref%~) = 1
+                TEXT_SPRINT $ap_resref(~%ap_resref%~) ~%resref%~
+                SET ap_resref += 1
+              END
+            END
+          END
+        END
+
+        // clearing values of temporary arrays to avoid ambiguities in subsequent calls
+        FOR (idx = 0; idx < ga_resref; ++idx) BEGIN
+          TEXT_SPRINT resref $ga_resref(~%idx%~)
+          SET $ga(~%resref%~) = 0
+        END
+        FOR (idx = 0; idx < ap_resref; ++idx) BEGIN
+          TEXT_SPRINT resref $ap_resref(~%idx%~)
+          SET $ap(~%resref%~) = 0
+        END
+      IF_EXISTS
+    END
+  END
+END
+
+
+// Return list of known spells of given type and level
+DEFINE_PATCH_FUNCTION A7_GET_CRE_KNOWN_SPELLS
+INT_VAR
+  type = 0    // 0: priest, 1: wizard, 2: innate
+  level = 0   // 0: all spell levels, 1..10: spell levels 1..10
+RET spell_resref
+RET_ARRAY spell_resref
+BEGIN
+  SET spell_resref = 0
+  TEXT_SPRINT $spell_resref(~%spell_resref%~) ~~
+  READ_LONG 0x2a0 ofs_known
+  READ_LONG 0x2a4 num_known
+  FOR (idx = 0; idx < num_known; ++idx) BEGIN
+    SET ofs = ofs_known + (idx * 0x0c)
+    PATCH_IF (type < 0 || SHORT_AT (ofs + 0x0a) = type) && (level = 0 || SHORT_AT (ofs + 0x08) = level - 1) BEGIN
+      READ_ASCII ofs $spell_resref(~%spell_resref%~)
+      SET spell_resref += 1
+    END
+  END
+END
+
+
+// Add the specified list of spells to known spells section of CRE
+DEFINE_PATCH_FUNCTION A7_SET_CRE_KNOWN_SPELLS
+INT_VAR
+  num_spells = 0  // number of available spell resrefs in the array (0: try to autodetect)
+STR_VAR
+  spells = ~~     // name of the array containing spell resrefs
+BEGIN
+  PATCH_IF (NOT ~%spells%~ STR_EQ ~~) BEGIN
+    // getting existing list of known spells
+    READ_LONG 0x2a0 ofs_known
+    READ_LONG 0x2a4 num_known
+    FOR (idx = 0; idx < num_known; ++idx) BEGIN
+      SET ofs = ofs_known + (idx * 0x0c)
+      READ_ASCII ofs resref (8) NULL
+      TO_UPPER ~resref~
+      SET $known(~%resref%~) = 1
+    END
+
+    // adding list of new spells
+    TEXT_SPRINT $typename(~1~) ~wizard~
+    TEXT_SPRINT $typename(~2~) ~priest~
+    SET idx = 0
+    WHILE (num_spells > 0 && idx < num_spells) || (num_spells = 0 && idx != "-1") BEGIN
+      PATCH_IF (VARIABLE_IS_SET $EVAL ~%spells%~(~%idx%~)) BEGIN
+        TEXT_SPRINT resref $EVAL ~%spells%~(~%idx%~)
+        TO_UPPER ~resref~
+        PATCH_IF (NOT VARIABLE_IS_SET $known(~%resref%~) || $known(~%resref%~) = 0) BEGIN
+          LPF A7_GET_SPELL_INFO STR_VAR resref RET level type END
+          PATCH_IF (level > 0) BEGIN
+            PATCH_IF (type = 1) BEGIN
+              ADD_KNOWN_SPELL ~%resref%~ (level - 1) ~wizard~
+            END ELSE PATCH_IF (type = 2) BEGIN
+              ADD_KNOWN_SPELL ~%resref%~ (level - 1) ~priest~
+            END
+          END
+        END
+        SET idx += 1
+      END ELSE PATCH_IF (num_spells = 0) BEGIN
+        SET idx = "-1"
+      END
+    END
+
+    // resetting cache
+    PHP_EACH known AS key => value BEGIN
+      SET $known(~%key%~) = 0
+    END
+    CLEAR_ARRAY ~known~
+  END
+END
+
+
+// Set proficiencies based on current class/kit. Can be overridden by custom entries.
+DEFINE_PATCH_FUNCTION A7_SET_CRE_PROFICIENCIES
+INT_VAR
+  num_proficiencies = 0 // number of custom proficiencies
+// STR_VAR
+  // A proficiency entry in format "stat_id,count", e.g. "105,1" for a single pip in shortbows
+  // Non-existing or invalid entries are skipped
+  // proficiency_0 = ~~
+BEGIN
+  LPF A7_GET_CLASS_KIT RET class_id kit_id class_name kit_name END
+  LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~profs~ key = EVAL ~%class_name%~ default = ~1~ RET profs = value END
+
+  PATCH_MATCH class_id WITH
+    2 7 BEGIN   // fighter, fighter/mage
+      DEFINE_ARRAY profs_bg1 BEGIN ~90,1~ ~104,1~ ~112,1~ ~100,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~90,2~ ~104,1~ ~112,1~ ~100,1~ END
+    END
+    3 BEGIN   // cleric
+      DEFINE_ARRAY profs_bg1 BEGIN ~101,1~ ~107,1~ ~112,1~ ~97,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~101,1~ ~107,1~ ~112,1~ ~97,1~ END
+    END
+    4 BEGIN   // thief
+      PATCH_IF (kit_id = 0x400c) BEGIN  // swashbuckler
+        DEFINE_ARRAY profs_bg1 BEGIN ~96,1~ ~91,1~ ~105,1~ ~95,1~ END
+        DEFINE_ARRAY profs_bg2 BEGIN ~91,2~ ~105,1~ ~95,1~ ~96,1~ END
+      END ELSE BEGIN  // other thief
+        DEFINE_ARRAY profs_bg1 BEGIN ~96,1~ ~106,1~ ~113,1~ ~95,1~ END
+        DEFINE_ARRAY profs_bg2 BEGIN ~96,1~ ~106,1~ ~113,1~ ~95,1~ END
+      END
+    END
+    5 BEGIN   // bard
+        DEFINE_ARRAY profs_bg1 BEGIN ~90,1~ ~103,1~ ~113,1~ ~115,1~ END
+        DEFINE_ARRAY profs_bg2 BEGIN ~96,1~ ~106,1~ ~113,1~ ~115,1~ END
+    END
+    6 BEGIN   // paladin
+      PATCH_IF (kit_id = 0x4004) BEGIN  // cavalier
+        DEFINE_ARRAY profs_bg1 BEGIN ~89,1~ ~98,1~ ~112,1~ ~97,1~ END
+        DEFINE_ARRAY profs_bg2 BEGIN ~89,2~ ~98,1~ ~112,1~ ~97,1~ END
+      END ELSE BEGIN
+        DEFINE_ARRAY profs_bg1 BEGIN ~93,1~ ~103,1~ ~111,1~ ~89,1~ END
+        DEFINE_ARRAY profs_bg2 BEGIN ~93,2~ ~103,1~ ~111,1~ ~89,1~ END
+      END
+    END
+    8 BEGIN   // fighter/cleric
+      DEFINE_ARRAY profs_bg1 BEGIN ~101,1~ ~107,1~ ~112,1~ ~97,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~101,2~ ~107,1~ ~112,1~ ~97,1~ END
+    END
+    9 10 BEGIN   // fighter/thief, fighter/mage/thief
+      DEFINE_ARRAY profs_bg1 BEGIN ~91,1~ ~105,1~ ~113,1~ ~115,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~91,2~ ~105,1~ ~113,1~ ~115,1~ END
+    END
+    11 16 BEGIN  // druid, fighter/druid
+      DEFINE_ARRAY profs_bg1 BEGIN ~115,1~ ~107,1~ ~95,1~ ~113,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~115,1~ ~107,1~ ~95,1~ ~113,1~ END
+    END
+    12 BEGIN  // ranger
+      DEFINE_ARRAY profs_bg1 BEGIN ~95,1~ ~104,1~ ~97,1~ ~113,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~95,1~ ~104,2~ ~97,1~ ~113,1~ END
+    END
+    13 BEGIN  // mage/thief
+      DEFINE_ARRAY profs_bg1 BEGIN ~96,1~ ~107,1~ ~95,1~ ~91,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~91,1~ ~107,1~ ~95,1~ ~96,1~ END
+    END
+    14 17 BEGIN   // cleric/mage, fighter/cleric/mage
+      DEFINE_ARRAY profs_bg1 BEGIN ~102,1~ ~107,1~ ~111,1~ ~101,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~102,1~ ~107,1~ ~111,1~ ~101,1~ END
+    END
+    15 BEGIN  // cleric/thief
+      DEFINE_ARRAY profs_bg1 BEGIN ~115,1~ ~107,1~ ~101,1~ ~113,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~115,1~ ~107,1~ ~101,1~ ~113,1~ END
+    END
+    18 BEGIN   // cleric/ranger
+      DEFINE_ARRAY profs_bg1 BEGIN ~100,1~ ~107,1~ ~97,1~ ~102,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~100,1~ ~107,1~ ~97,1~ ~102,1~ END
+    END
+    21 BEGIN   // shaman
+      DEFINE_ARRAY profs_bg1 BEGIN ~92,1~ ~105,1~ ~115,1~ ~113,1~ END
+      DEFINE_ARRAY profs_bg2 BEGIN ~92,1~ ~105,1~ ~115,1~ ~113,1~ END
+    END
+    DEFAULT   // mage, sorcerer and other
+        DEFINE_ARRAY profs_bg1 BEGIN ~102,1~ ~107,1~ ~96,1~ ~106,1~ END
+        DEFINE_ARRAY profs_bg2 BEGIN ~102,1~ ~107,1~ ~96,1~ ~106,1~ END
+  END
+
+  PATCH_IF (num_proficiencies > 0) BEGIN
+    FOR (i = 0; i < num_proficiencies; ++i) BEGIN
+      PATCH_IF (VARIABLE_IS_SET $profs_bg1(~%i%~) &&
+                VARIABLE_IS_SET EVAL ~proficiency_%i%~ &&
+                EVAL ~%proficiency_%i%%~ STRING_MATCHES_REGEXP ~[0-9]+,[0-9]$~ = 0 ) BEGIN
+        TEXT_SPRINT $profs_bg1(~%i%~) EVAL ~%proficiency_%i%%~
+      END
+    END
+  END
+
+  SET profs_available = profs
+  FOR (i = 0; i < 4 && profs_available > 0; ++i) BEGIN
+    PATCH_IF (GAME_IS ~bg2ee~) BEGIN
+      TEXT_SPRINT def $profs_bg2(~%i%~)
+    END ELSE BEGIN
+      TEXT_SPRINT def $profs_bg1(~%i%~)
+    END
+    INNER_PATCH_SAVE stat ~%def%~ BEGIN REPLACE_TEXTUALLY ~\([^,]+\).*~ ~\1~ END
+    INNER_PATCH_SAVE active_class ~%def%~ BEGIN REPLACE_TEXTUALLY ~[^,]+,\(.*\)~ ~\1~ END
+    PATCH_IF (active_class > profs_available) BEGIN SET active_class = profs_available END
+    LPF A7_SET_PROFICIENCY INT_VAR stat active_class END
+    SET profs_available -= active_class
+  END
+END
+
+
+// Convenience function: Add weapon proficiency to the current CRE.
+DEFINE_PATCH_FUNCTION A7_SET_PROFICIENCY
+INT_VAR
+  stat = 0            // proficiency stat value
+  active_class = 1    // value to add to the current class
+  original_class = 0  // value to add to the first class (for dual-classing)
+STR_VAR
+  stat_name = ~~      // symbolic name is used in place of "stat" if non-empty
+BEGIN
+  PATCH_IF (NOT ~%stat_name%~ STR_EQ ~~) BEGIN
+    SET value = IDS_OF_SYMBOL(~stats~ ~%stat_name%~)
+    PATCH_IF (value > 0) BEGIN
+      SET stat = IDS_OF_SYMBOL(~stats~ ~%stat_name%~)
+    END
+  END
+
+  PATCH_IF (stat > 0 && stat < 256) BEGIN
+    PATCH_IF (active_class > 5) BEGIN SET active_class = 5 END
+    PATCH_IF (original_class > 5) BEGIN SET original_class = 5 END
+    LPF ADD_CRE_EFFECT
+      INT_VAR
+        opcode = 233    // modify proficiencies
+        parameter1 = (original_class << 3) | active_class
+        parameter2 = stat
+        timing = 9
+    END
+  END
+END
+
+
+// Check equipped items and unequip or remove them if not allowed by current class/kit
+DEFINE_PATCH_FUNCTION A7_VALIDATE_CRE_EQUIPMENT
+INT_VAR
+  class = 0
+  kit = 0
+  remove = 0  // 0: just unequip, 1: remove completely
+BEGIN
+  FOR (sidx = 0; sidx < 21; ++sidx) BEGIN
+    // offsets must be read every iteration because REMOVE_CRE_ITEM may adjust them
+    READ_LONG 0x2b8 ofs_slots
+    READ_LONG 0x2bc ofs_items
+    READ_LONG 0x2c0 num_items
+    READ_SSHORT (ofs_slots + sidx * 2) slot
+    PATCH_IF (slot >= 0 && slot < num_items) BEGIN
+      // getting item from equipment slot
+      SET iofs = ofs_items + (slot * 0x14)
+      READ_ASCII iofs resref (8) NULL
+      LPF A7_IS_ITEM_USABLE_BY
+        STR_VAR resref
+        RET result flags
+      END
+      PATCH_IF (NOT result) BEGIN
+        PATCH_IF (remove && NOT (flags & BIT0)) BEGIN // critical items are not removed
+          // removing item
+          REMOVE_CRE_ITEM ~%resref%~
+        END ELSE BEGIN
+          // moving item to inventory slot
+          FOR (sidx2 = 21; sidx2 < 37; ++sidx2) BEGIN
+            PATCH_IF (SSHORT_AT (ofs_slots + sidx2 * 2) < 0) BEGIN
+              WRITE_SHORT (ofs_slots + sidx2 * 2) slot
+              WRITE_SHORT (ofs_slots + sidx * 2) "-1"
+              SET sidx2 = 37
+            END
+          END
+        END
+      END
+    END
+  END
+END
+
+
+// Returns a bitmask based on class/kit/alignment/race of the current CRE (or overridden by parameter)
+DEFINE_PATCH_FUNCTION A7_GET_ITM_RESTRICTION_MASK
+INT_VAR
+  class = "-1"      // override class (-1: use CRE value)
+  kit = "-1"        // override kit (-1: use CRE value)
+  alignment = "-1"  // override alignment
+  race = "-1"       // override race
+RET
+  usability_general
+  usability_kits
+BEGIN
+  SET usability_general = 0
+  SET usability_kits = 0
+
+  // checking class
+  LPF A7_GET_CLASS_KIT INT_VAR class kit RET class_id kit_id class_name kit_name END
+  PATCH_MATCH class_id WITH
+    1 BEGIN usability_general |= BIT18 END  // mage
+    2 BEGIN usability_general |= BIT11 END  // fighter
+    3 BEGIN usability_general |= BIT7 END   // cleric
+    4 BEGIN usability_general |= BIT22 END  // thief
+    5 BEGIN usability_general |= BIT6 END   // bard
+    6 BEGIN usability_general |= BIT20 END  // paladin
+    7 BEGIN usability_general |= BIT13 END  // fighter/mage
+    8 BEGIN usability_general |= BIT14 END  // fighter/cleric
+    9 BEGIN usability_general |= BIT17 END  // fighter/thief
+    10 BEGIN usability_general |= BIT16 END // fighter/thief/mage
+    11 BEGIN usability_general |= BIT30 END // druid
+    12 BEGIN usability_general |= BIT21 END // ranger
+    13 BEGIN usability_general |= BIT19 END // mage/thief
+    14 BEGIN usability_general |= BIT8 END  // cleric/mage
+    15 BEGIN usability_general |= BIT9 END  // cleric/thief
+    16 BEGIN usability_general |= BIT12 END // fighter/druid
+    17 BEGIN usability_general |= BIT15 END // fighter/mage/cleric
+    18 BEGIN usability_general |= BIT10 END // cleric/ranger
+    20 BEGIN usability_general |= BIT29 END // monk
+    DEFAULT
+  END
+
+  // checking kits
+  LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 1 value_col = 7 numeric = 1 STR_VAR resref = ~kitlist~ key = EVAL ~%kit_name%~ default = ~0~ RET kit_base = value END
+  FOR (bit = 0; bit < 32; ++bit) BEGIN
+    SET kit_mask = 1 << bit
+    PATCH_IF (kit_base & kit_mask != 0) BEGIN
+      SET usability_kits |= kit_mask
+    END
+  END
+
+  // checking alignment
+  SET align_id = (alignment < 0) ? BYTE_AT 0x27b : alignment
+  PATCH_MATCH align_id & 3 WITH
+    1 BEGIN SET usability_general |= BIT2 END // ...good
+    2 BEGIN SET usability_general |= BIT3 END // ...neutral
+    3 BEGIN SET usability_general |= BIT1 END // ...evil
+    DEFAULT
+  END
+  PATCH_MATCH align_id & 0x30 WITH
+    0x10 BEGIN SET usability_general |= BIT4 END // lawful...
+    0x20 BEGIN SET usability_general |= BIT5 END // neutral...
+    0x30 BEGIN SET usability_general |= BIT0 END // chaotic...
+    DEFAULT
+  END
+
+  // checking race
+  SET race_id = (race < 0) ? BYTE_AT 0x272 : race
+  PATCH_MATCH race_id WITH
+    1 BEGIN SET usability_general |= BIT27 END  // human
+    2 BEGIN SET usability_general |= BIT23 END  // elf
+    3 BEGIN SET usability_general |= BIT25 END  // half-elf
+    4 BEGIN SET usability_general |= BIT24 END  // dwarf
+    5 BEGIN SET usability_general |= BIT26 END  // halfling
+    6 BEGIN SET usability_general |= BIT28 END  // gnome
+    7 BEGIN SET usability_general |= BIT31 END  // halforc
+    DEFAULT
+  END
+
+  // setting extra data
+  SET ea_value = BYTE_AT 0x270
+  SET general_value = BYTE_AT 0x271
+  SET race_value = BYTE_AT 0x272
+  SET specific_value = BYTE_AT 0x274
+  SET gender_value = BYTE_AT 0x275
+  SET alignment_value = BYTE_AT 0x27b
+  READ_ASCII 0x280 scriptname
+END
+
+
+// Returns whether the specified spell is usable by the current of specified CRE stats
+DEFINE_PATCH_FUNCTION A7_IS_SPELL_USABLE_BY
+INT_VAR
+  class = "-1"      // override class (-1: use CRE value)
+  kit = "-1"        // override kit (-1: use CRE value)
+  alignment = "-1"  // override alignment (-1: use CRE value)
+STR_VAR
+  resref = ~~       // SPL resref
+RET result          // 0: not usable, non-zero: usable
+BEGIN
+  SET result = 1
+  LPF A7_GET_CLASS_KIT INT_VAR class kit RET class_value = class_id kit_value = kit_id class_name kit_name END
+  // getting spell exclusion bit mask
+  SET exclusion = 0
+  SET stype = 0
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~%resref%.spl~ ~override~
+      READ_ASCII 0 sig (8) NULL
+      PATCH_IF (~%sig%~ STR_EQ ~SPL V1  ~) BEGIN
+        READ_SHORT 0x1c stype
+        READ_LONG 0x1e exclusion
+      END
+    IF_EXISTS
+  END
+
+  SET alignment_value = (alignment < 0) ? BYTE_AT 0x27b : alignment
+  SET mask = 0
+  PATCH_IF (stype = 1) BEGIN  // wizard
+    LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 1 value_col = 7 numeric = 1 STR_VAR resref = ~kitlist~ key = EVAL ~%kit_name%~ default = ~0~ RET mask = value END
+  END ELSE PATCH_IF (stype = 2) BEGIN // priest
+    PATCH_MATCH (alignment_value & 0x30) WITH
+      0x10 BEGIN SET mask |= BIT4 END // Lawful
+      0x20 BEGIN SET mask |= BIT5 END // Neutral...
+      0x30 BEGIN SET mask |= BIT0 END // Chaotic
+      DEFAULT
+    END
+    PATCH_MATCH (alignment_value & 0x3) WITH
+      0x01 BEGIN SET mask |= BIT2 END // Good
+      0x02 BEGIN SET mask |= BIT3 END // ...Neutral
+      0x03 BEGIN SET mask |= BIT1 END // Evil
+      DEFAULT
+    END
+    PATCH_MATCH class_id WITH
+      3 6 8 14 15 17 18 BEGIN SET mask |= BIT30 END
+      DEFAULT
+    END
+    PATCH_MATCH class_id WITH
+      11 12 16 18 21 BEGIN SET mask |= BIT31 END
+      DEFAULT
+    END
+  END
+  SET result = result && ((mask & exclusion) = 0)
+END
+
+
+// Returns whether the specified item is usable by the current or specified CRE stats
+DEFINE_PATCH_FUNCTION A7_IS_ITEM_USABLE_BY
+INT_VAR
+  class = "-1"      // override class (-1: use CRE value)
+  kit = "-1"        // override kit (-1: use CRE value)
+  alignment = "-1"  // override alignment
+  race = "-1"       // override race
+STR_VAR
+  resref = ~~       // ITM resref
+RET
+  result            // boolean value indicating usability
+  flags             // ITM flags
+  usability1        // general usability (alignment, class, race)
+  usability2        // kit usability (bits correspond to UNUSABLE values in kitlist.2da)
+BEGIN
+  SET result = 1
+  SET flags = 0
+  SET usability1 = 0
+  SET usability2 = 0
+  LPF A7_GET_CLASS_KIT INT_VAR class kit RET class_value = class_id kit_value = kit_id class_name kit_name END
+  LPF A7_GET_ITM_RESTRICTION_MASK RET usability_general usability_kits END
+  SET level_value = BYTE_AT 0x234
+  PATCH_IF (BYTE_AT 0x235 > level_value) BEGIN SET level_value = BYTE_AT 0x235 END
+  PATCH_IF (BYTE_AT 0x236 > level_value) BEGIN SET level_value = BYTE_AT 0x236 END
+  SET str = BYTE_AT 0x238
+  SET str_bonus = BYTE_AT 0x239
+  SET int = BYTE_AT 0x23a
+  SET wis = BYTE_AT 0x23b
+  SET dex = BYTE_AT 0x23c
+  SET con = BYTE_AT 0x23d
+  SET cha = BYTE_AT 0x23e
+  SET ea_value = BYTE_AT 0x270
+  SET general_value = BYTE_AT 0x271
+  SET race_value = BYTE_AT 0x272
+  SET specific_value = BYTE_AT 0x274
+  SET gender_value = BYTE_AT 0x275
+  SET alignment_value = BYTE_AT 0x27b
+  SET name1 = LONG_AT NAME1
+  SET name2 = LONG_AT NAME2
+  READ_ASCII 0x280 scriptname
+
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~%resref%.ITM~ ~override~
+      READ_ASCII 0 sig (8) NULL
+      PATCH_IF (~%sig%~ STR_EQ ~ITM V1  ~) BEGIN
+        READ_LONG 0x18 flags
+        READ_LONG 0x1e usability1
+        SET usability2 = ((BYTE_AT 0x29) << 24) | ((BYTE_AT 0x2b) << 16) | ((BYTE_AT 0x2d) << 8) | (BYTE_AT 0x2f)
+
+        // checking standard usability
+        SET result = result && ((usability1 & usability_general) = 0)
+        SET result = result && ((usability2 & usability_kits) = 0)
+        SET result = result && (level_value >= SHORT_AT 0x24)
+        SET result = result && (str >= BYTE_AT 0x26)
+        SET result = result && (BYTE_AT 0x26 != 18 || str_bonus >= BYTE_AT 0x27)
+        SET result = result && (int >= BYTE_AT 0x2a)
+        SET result = result && (dex >= BYTE_AT 0x2c)
+        SET result = result && (wis >= BYTE_AT 0x2e)
+        SET result = result && (con >= BYTE_AT 0x30)
+        SET result = result && (cha >= BYTE_AT 0x32)
+
+        PATCH_IF (result) BEGIN
+          // checking usability opcode
+          READ_LONG 0x6a ofs_fx
+          READ_SHORT 0x6e idx_fx
+          READ_SHORT 0x70 num_fx
+          FOR (idx = 0; idx < num_fx && result; ++idx) BEGIN
+            SET ofs = ofs_fx + (idx_fx + idx) * 0x30
+            READ_SHORT ofs opcode
+            PATCH_IF (opcode = 319) BEGIN // Restrict item
+              READ_BYTE (ofs + 0x03) power
+              READ_LONG (ofs + 0x08) param2
+              PATCH_MATCH param2 WITH
+                2 BEGIN SET match = (ea_value = LONG_AT (ofs + 0x04)) END
+                3 BEGIN SET match = (general_value = LONG_AT (ofs + 0x04)) END
+                4 BEGIN SET match = (race_value = LONG_AT (ofs + 0x04)) END
+                5 BEGIN SET match = (class_value = LONG_AT (ofs + 0x04)) END
+                6 BEGIN SET match = (specific_value = LONG_AT (ofs + 0x04)) END
+                7 BEGIN SET match = (gender_value = LONG_AT (ofs + 0x04)) END
+                8 BEGIN SET match = (alignment_value = LONG_AT (ofs + 0x04)) END
+                9 BEGIN SET match = (kit_value = LONG_AT (ofs + 0x04)) END
+                10 BEGIN SET match = (name1 = LONG_AT (ofs + 0x04) || name2 = LONG_AT (ofs + 0x04)) END
+                11 BEGIN
+                    READ_ASCII (ofs + 0x14) res (8) NULL
+                    SET match = (~%res%~ STR_EQ ~%scriptname%~)
+                END
+                DEFAULT
+              END
+              SET result = power ? match : result && NOT match
+            END
+          END
+        END
+      END
+    IF_EXISTS
+  END
+END
+
+
+// Add and equip the specified items. resrefs may contain one or more charges, separated by comma.
+DEFINE_PATCH_FUNCTION A7_EQUIP_CRE_ITEMS
+STR_VAR
+  resref_helmet = ~~
+  resref_armor = ~~
+  resref_shield = ~~
+  resref_gloves = ~~
+  resref_rring = ~~
+  resref_lring = ~~
+  resref_amulet = ~~
+  resref_belt = ~~
+  resref_boots = ~~
+  resref_weapon1 = ~~
+  resref_weapon2 = ~~
+  resref_weapon3 = ~~
+  resref_weapon4 = ~~
+  resref_quiver1 = ~~
+  resref_quiver2 = ~~
+  resref_quiver3 = ~~
+  resref_cloak = ~~
+  resref_qitem1 = ~~
+  resref_qitem2 = ~~
+  resref_qitem3 = ~~
+BEGIN
+  DEFINE_ASSOCIATIVE_ARRAY slot_items BEGIN
+    0 => ~resref_helmet~
+    1 => ~resref_armor~
+    2 => ~resref_shield~
+    3 => ~resref_gloves~
+    4 => ~resref_rring~
+    5 => ~resref_lring~
+    6 => ~resref_amulet~
+    7 => ~resref_belt~
+    8 => ~resref_boots~
+    9 => ~resref_weapon1~
+    10 => ~resref_weapon2~
+    11 => ~resref_weapon3~
+    12 => ~resref_weapon4~
+    13 => ~resref_quiver1~
+    14 => ~resref_quiver2~
+    15 => ~resref_quiver3~
+    17 => ~resref_cloak~
+    18 => ~resref_qitem1~
+    19 => ~resref_qitem2~
+    20 => ~resref_qitem3~
+  END
+
+  PATCH_PHP_EACH slot_items AS index => var_name BEGIN
+    READ_LONG 0x2b8 ofs_slots
+    INNER_PATCH_SAVE slot_name ~%var_name%~ BEGIN DELETE_BYTES 0 7 END
+    TEXT_SPRINT resref EVAL ~%%var_name%%~
+    SET pos = INDEX(~,~ ~%resref%~)
+    PATCH_IF (pos > 0) BEGIN
+      FOR (i = 0; i < 3 && pos > 0; ++i) BEGIN
+        INNER_PATCH_SAVE value ~%resref%~ BEGIN
+          SET pos2 = INDEX_BUFFER(~,~ pos + 1)
+          PATCH_IF (pos2 > pos) BEGIN
+            DELETE_BYTES pos2 (BUFFER_LENGTH - pos2)
+            DELETE_BYTES 0 (pos + 1)
+            SET pos = pos2
+          END ELSE BEGIN
+            DELETE_BYTES 0 (pos + 1)
+            SET pos = "-1"
+          END
+        END
+        SET $charge(~%i%~) = (IS_AN_INT ~value~) ? value : 0
+      END
+      INNER_PATCH_SAVE resref ~%resref%~ BEGIN
+        SET pos = INDEX_BUFFER(~,~)
+        PATCH_IF (pos > 0) BEGIN DELETE_BYTES pos (BUFFER_LENGTH - pos) END
+      END
+    END ELSE BEGIN
+      SET $charge(~0~) = 0
+      SET $charge(~1~) = 0
+      SET $charge(~2~) = 0
+    END
+    // patching inventory
+    PATCH_IF (IS_AN_INT ~index~ && NOT ~%resref%~ STR_EQ ~~) BEGIN
+      SET ofs = ofs_slots + index * 2
+      PATCH_IF (SSHORT_AT ofs < 0) BEGIN
+        PATCH_IF (~%slot_name%~ STR_EQ ~weapon1~) BEGIN
+          ADD_CRE_ITEM ~%resref%~ ( charge_0 ) ( charge_1 ) ( charge_2 ) ~identified~ ~%slot_name%~ EQUIP
+        END ELSE BEGIN
+          ADD_CRE_ITEM ~%resref%~ ( charge_0 ) ( charge_1 ) ( charge_2 ) ~identified~ ~%slot_name%~
+        END
+      END
+    END
+  END
+END
+
+
+// Add known and memorized spells for sorcerers (and kits) and shamans (and kits).
+// SPLSRCKN.2DA, SPLSHMKN.2DA: defines number of known spells per level
+// MXSPLBRD.2DA, ...: defines number of memorizable spells (spell slots) per level
+DEFINE_PATCH_FUNCTION A7_ADD_CRE_GRANTED_SPELLS
+INT_VAR
+  spell_type = 1  // 0: priest, 1: wizard
+  num_spells = 0  // number of spells_x parameters, starting at spell_0
+// STR_VAR
+  // spell_0 = ~~
+BEGIN
+  // getting known/memorized spell numbers
+  LPF A7_GET_CLASS_KIT RET class_id kit_id class_name kit_name END
+  PATCH_MATCH class_id WITH
+    19 BEGIN  // sorcerer
+      LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~splsrckn~ key = ~1~ default = ~0~ RET num_known = value END
+      PATCH_IF (kit_id = 0x4023) BEGIN
+        LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~mxspldd~ key = ~1~ default = ~0~ RET num_memo = value END
+      END ELSE BEGIN
+        LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~mxsplsrc~ key = ~1~ default = ~0~ RET num_memo = value END
+      END
+    END
+    21 BEGIN  // shaman
+      LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~splshmkn~ key = ~1~ default = ~0~ RET num_known = value END
+      LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~mxsplshm~ key = ~1~ default = ~0~ RET num_memo = value END
+    END
+    DEFAULT // everything else
+      SET num_known = 0
+      SET num_memo = 0
+  END
+
+  PATCH_IF (num_known > 0 && (spell_type = 0 || spell_type = 1)) BEGIN
+    PATCH_IF (spell_type = 0) BEGIN TEXT_SPRINT stype ~priest~ END ELSE BEGIN TEXT_SPRINT stype ~wizard~ END
+    READ_LONG 0x2ac num_meminfo
+    FOR (i = 0; i < num_spells && num_known > 0; ++i) BEGIN
+      PATCH_IF (VARIABLE_IS_SET $spell(~%i%~)) BEGIN
+        TEXT_SPRINT resref $spell(~%i%~)
+        LPF A7_GET_SPELL_INFO STR_VAR resref RET level type END
+        PATCH_IF (level = 1) BEGIN
+          SET level -= 1
+          FOR (j = 0; j < num_meminfo; ++j) BEGIN
+            READ_LONG 0x2a8 ofs_meminfo // re-reading, since ADD_xxx_SPELL may update offsets
+            SET ofs = ofs_meminfo + (j * 0x10)
+            PATCH_IF (level = SHORT_AT ofs) && (spell_type = SHORT_AT (ofs + 6)) BEGIN
+              ADD_KNOWN_SPELL ~%resref%~ (level) ~%stype%~
+              SET num_known -= 1
+              PATCH_IF (num_memo) BEGIN
+                ADD_MEMORIZED_SPELL ~%resref%~ (level) ~%stype%~ (num_memo)
+              END
+              SET j = num_meminfo
+            END
+          END
+        END
+      END
+    END
+
+    // adjusting memorized spell level count
+    READ_LONG 0x2a8 ofs_meminfo
+    FOR (j = 0; j < num_meminfo; ++j) BEGIN
+      SET ofs = ofs_meminfo + (j * 0x10)
+      PATCH_IF (SHORT_AT ofs = 0) && (spell_type = SHORT_AT (ofs + 6)) BEGIN
+        WRITE_SHORT (ofs + 2) num_memo
+        WRITE_SHORT (ofs + 4) num_memo
+        SET j = num_meminfo
+      END
+    END
+  END
+END
+
+
+// Return basic spell information, such as spell level, type (priest, wizard, etc.), flags (hostile, outdoors, ...) and exclusion flags (type-dependent meaning)
+DEFINE_PATCH_FUNCTION A7_GET_SPELL_INFO
+STR_VAR resref = ~~
+RET level type flags exclusion
+BEGIN
+  SET level = 0
+  SET type = 0
+  SET flags = 0
+  SET exclusion = 0
+  PATCH_IF (NOT ~%resref%~ STR_EQ ~~) BEGIN
+    INNER_ACTION BEGIN
+      COPY_EXISTING - ~%resref%.spl~ ~override~
+        READ_ASCII 0 sig (8) NULL
+        PATCH_IF (~%sig%~ STR_EQ ~SPL V1  ~) BEGIN
+          READ_LONG 0x18 flags
+          READ_SHORT 0x1c type
+          READ_LONG 0x1e exclusion
+          READ_LONG 0x34 level
+        END
+      IF_EXISTS
+    END
+  END
+END
+
+
+// Return numeric code and associated SPL resref of the specified symbolic spell name
+DEFINE_PATCH_FUNCTION A7_SPELL_RESREF_FROM_SYMBOL
+STR_VAR symbol = ~~
+RET resref code
+BEGIN
+  TEXT_SPRINT resref ~~
+  SET code = 0
+  PATCH_IF (NOT ~%symbol%~ STR_EQ ~~) BEGIN
+    SET value = IDS_OF_SYMBOL(~spell~ ~%symbol%~)
+    PATCH_IF (value >= 1000 && value < 5000) BEGIN
+      SET code = value
+      SET type = value / 1000
+      INNER_PATCH_SAVE resref ~%value%~ BEGIN
+        INSERT_BYTES 0 3
+        PATCH_MATCH type WITH
+          1 BEGIN WRITE_ASCII 0 ~SPPR~ (4) END
+          2 BEGIN WRITE_ASCII 0 ~SPWI~ (4) END
+          3 BEGIN WRITE_ASCII 0 ~SPIN~ (4) END
+          DEFAULT WRITE_ASCII 0 ~SPCL~ (4)
+        END
+      END
+    END
+  END
+END
+
+
+// Determine class and kit IDs matching the specified search strings
+DEFINE_PATCH_FUNCTION A7_SEARCH_CLASS_KIT
+STR_VAR
+  class = ~~  // class id, (partial) symbolic or descriptive class name; empty string: list all available classes
+  kit = ~~    // kit id, (partial) symbolic or descriptive kit name; empty string: list all available kits
+  // Note: descriptive name depends on current WeiDU game language
+RET num_classes num_kits  // number of classes/kits matching the search string
+RET_ARRAY
+  classes     // arrays containing matching class definitions (sub-elements "name" and "title" refer to symbolic and descriptive class/kit name)
+  kits        // arrays containing matching kit IDs (sub-elements "name" and "title" refer to symbolic and descriptive class/kit name, sub-element "clsid" refers to associated class id)
+BEGIN
+  SET num_classes = 0
+  SET num_kits = 0
+  TEXT_SPRINT $classes(~0~) ~~
+  TEXT_SPRINT $kits(~0~) ~~
+
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~class.ids~ ~override~
+      READ_2DA_ENTRIES_NOW class_ids 2
+      PATCH_IF (class_ids > 0 && NOT IS_AN_INT ~class_ids_0_0~) BEGIN
+        // "masking" IDS header
+        TEXT_SPRINT class_ids_0_0 ~0~
+        TEXT_SPRINT class_ids_0_1 ~NONE~
+      END
+    IF_EXISTS
+    COPY_EXISTING - ~clastext.2da~ ~override~
+      COUNT_2DA_COLS num_cols
+      PATCH_IF (num_cols > 10) BEGIN SET num_cols = 10 END
+      READ_2DA_ENTRIES_NOW clastext num_cols
+      // fixing out-of-range numbers
+      FOR (i = 0; i < clastext; ++i) BEGIN
+        TEXT_SPRINT value EVAL ~%clastext_%i%_2%~
+        PATCH_IF (~%value%~ STR_EQ ~2147483648~ || ~%value%~ STR_EQ ~0x80000000~) BEGIN SET EVAL ~clastext_%i%_2~ = "-2147483648" END
+      END
+    IF_EXISTS
+
+    COPY_EXISTING - ~kit.ids~ ~override~
+      READ_2DA_ENTRIES_NOW kit_ids 2
+      PATCH_IF (kit_ids > 0 && NOT IS_AN_INT ~kit_ids_0_0~) BEGIN
+        // "masking" IDS header
+        TEXT_SPRINT kit_ids_0_0 ~0~
+        TEXT_SPRINT kit_ids_0_1 ~NONE~
+      END
+      // fixing out-of-range numbers
+      FOR (i = 0; i < kit_ids; ++i) BEGIN
+        TEXT_SPRINT value EVAL ~%kit_ids_%i%_0%~
+        PATCH_IF (~%value%~ STR_EQ ~2147483648~ || ~%value%~ STR_EQ ~0x80000000~) BEGIN SET EVAL ~kit_ids_%i%_0~ = "-2147483648" END
+      END
+    IF_EXISTS
+    COPY_EXISTING - ~kitlist.2da~ ~override~
+      COUNT_2DA_COLS num_cols
+      PATCH_IF (num_cols > 10) BEGIN SET num_cols = 10 END
+      READ_2DA_ENTRIES_NOW kitlist num_cols
+      // fixing out-of-range numbers
+      FOR (i = 0; i < kitlist; ++i) BEGIN
+        TEXT_SPRINT value EVAL ~%kitlist_%i%_9%~
+        PATCH_IF (~%value%~ STR_EQ ~2147483648~ || ~%value%~ STR_EQ ~0x80000000~) BEGIN SET EVAL ~kitlist_%i%_0~ = "-2147483648" END
+      END
+    IF_EXISTS
+  END
+
+  // handling classes
+  SET strref_count = 0
+  SET class_any = (~%class%~ STR_EQ ~~) ? 1 : 0
+  PATCH_IF (VARIABLE_IS_SET ~class_ids~ && VARIABLE_IS_SET ~clastext~) BEGIN
+    FOR (row = 0; row < class_ids; ++row) BEGIN
+      READ_2DA_ENTRY_FORMER class_ids row 0 id
+      READ_2DA_ENTRY_FORMER class_ids row 1 name
+      PATCH_IF (IS_AN_INT ~id~ && id > 0 && id < 100) BEGIN
+        FOR (row2 = 0; row2 < clastext; ++row2) BEGIN
+          READ_2DA_ENTRY_FORMER clastext row2 1 cid
+          READ_2DA_ENTRY_FORMER clastext row2 2 kid
+          PATCH_IF (cid = id && kid = TRUECLASS) BEGIN
+            READ_2DA_ENTRY_FORMER clastext row2 5 strref
+            PATCH_IF (IS_AN_INT ~strref~ && strref >= 0) BEGIN
+              GET_STRREF strref desc
+              // Class title may contain tokens
+              LPF A7_RESOLVE_CLASS_TITLE STR_VAR title = EVAL ~%desc%~ RET desc = title END
+            END ELSE BEGIN
+              TEXT_SPRINT desc ~~
+            END
+            SET match = 0
+            PATCH_IF (class_any || (IS_AN_INT ~class~ && class = id)) BEGIN
+              SET match = 1
+            END ELSE BEGIN
+              PATCH_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%class%~ = 0) BEGIN
+                SET match = 1
+              END
+            END
+            PATCH_IF (match) BEGIN
+              SET $classes(~%num_classes%~) = id
+              TEXT_SPRINT $classes(~%num_classes%~ ~name~) ~%name%~
+              TEXT_SPRINT $classes(~%num_classes%~ ~title~) ~%desc%~
+              SET num_classes += 1
+              SET row2 = clastext
+            END
+          END
+        END
+      END
+    END
+  END
+
+  // handling kits
+  SET kit_any = (~%kit%~ STR_EQ ~~) ? 1 : 0
+  PATCH_IF (VARIABLE_IS_SET ~kit_ids~ && VARIABLE_IS_SET ~kitlist~) BEGIN
+    FOR (row = 0; row < kit_ids; ++row) BEGIN
+      READ_2DA_ENTRY_FORMER kit_ids row 0 id
+      PATCH_IF (IS_AN_INT ~id~ && id != 0) BEGIN
+        FOR (row2 = 0; row2 < kitlist; ++row2) BEGIN
+          READ_2DA_ENTRY_FORMER kitlist row2 9 kid
+          PATCH_IF (IS_AN_INT ~kid~ && kid = id) BEGIN
+            READ_2DA_ENTRY_FORMER kitlist row2 1 name
+            READ_2DA_ENTRY_FORMER kitlist row2 3 strref
+            READ_2DA_ENTRY_FORMER kitlist row2 8 classid
+            PATCH_IF (IS_AN_INT ~strref~ && strref >= 0) BEGIN
+              GET_STRREF strref desc
+            END ELSE BEGIN
+              TEXT_SPRINT desc ~~
+            END
+            SET match = 0
+            PATCH_IF (kit_any || (IS_AN_INT ~kit~ && kit = id)) BEGIN
+              SET match = 1
+            END ELSE BEGIN
+              PATCH_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%kit%~ = 0) BEGIN
+                SET match = 1
+              END
+            END
+            PATCH_IF (match) BEGIN
+              // check if kit is available for character generation (method: check if entry is available in clastext.2da -> unavailable kits contain lesser columns)
+              // softcoded or hardcoded id?
+              SET kitid = (id > TRUECLASS && id < 2*TRUECLASS) ? (id & (TRUECLASS - 1)) : id
+              SET match = 0
+              PATCH_IF (IS_AN_INT ~classid~ && classid > 0) BEGIN
+                FOR (row3 = 0; row3 < clastext; ++row3) BEGIN
+                  READ_2DA_ENTRY_FORMER clastext row3 1 cid
+                  READ_2DA_ENTRY_FORMER clastext row3 2 kid
+                  PATCH_IF (IS_AN_INT ~cid~ && cid = classid && IS_AN_INT ~kid~ && kid = kitid) BEGIN
+                    SET match = 1
+                    SET row3 = clastext
+                  END
+                END
+              END
+              PATCH_IF (match) BEGIN
+                SET $kits(~%num_kits%~) = id
+                TEXT_SPRINT $kits(~%num_kits%~ ~name~) ~%name%~
+                TEXT_SPRINT $kits(~%num_kits%~ ~title~) ~%desc%~
+                SET $kits(~%num_kits%~ ~clsid~) = classid
+                SET num_kits += 1
+                SET row2 = kitlist
+              END
+            END
+          END
+        END
+      END
+    END
+  END
+END
+
+
+// Determine class id, symbolic name and descriptive name (title) associated with the specified kit.
+DEFINE_PATCH_FUNCTION A7_GET_CLASS_OF_KIT
+INT_VAR
+  kit_id = "-1"   // -1: determine kit from current CRE
+RET
+  class_id
+  class_name
+  class_title
+BEGIN
+  SET class_id = 0
+  TEXT_SPRINT class_name ~~
+  TEXT_SPRINT class_title ~~
+
+  PATCH_IF (kit_id = "-1") BEGIN
+    SET kit_id = (SHORT_AT 0x246) | ((SHORT_AT 0x244) << 16) // words in big-endian, word content in little-endian
+  END
+
+  PATCH_IF (kit_id != 0) BEGIN
+    LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 9 value_col = 1 STR_VAR resref = ~kitlist~ key = EVAL ~%kit_id%~ default = ~~ RET kit_name = value END
+    PATCH_IF (NOT ~%kit_name%~ STR_EQ ~~) BEGIN
+      // getting class information
+      LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 1 value_col = 8 numeric = 1 STR_VAR resref = ~kitlist~ key = EVAL ~%kit_name%~ default = ~0~ RET value END
+      PATCH_IF (value > 0) BEGIN
+        SET class_id = value
+        INNER_ACTION BEGIN
+          COPY_EXISTING - ~clastext.2da~ ~override~
+            COUNT_2DA_COLS num_cols
+            PATCH_IF (num_cols > 9) BEGIN SET num_cols = 9 END
+            READ_2DA_ENTRIES_NOW class_table num_cols
+            FOR (row = 0; row < class_table; ++row) BEGIN
+              READ_2DA_ENTRY_FORMER class_table row 1 cid
+              READ_2DA_ENTRY_FORMER class_table row 2 kid
+              PATCH_IF (IS_AN_INT ~cid~ && IS_AN_INT ~kid~ && kid = TRUECLASS && cid = class_id) BEGIN
+                READ_2DA_ENTRY_FORMER class_table row 0 class_name
+                READ_2DA_ENTRY_FORMER class_table row 5 strref
+                PATCH_IF (IS_AN_INT ~strref~) BEGIN
+                  GET_STRREF strref class_title
+                END
+                SET row = class_table
+              END
+            END
+          IF_EXISTS
+        END
+      END
+    END
+  END
+END
+
+
+// Return symbolic class name and descriptive class name associated with the given class id.
+DEFINE_PATCH_FUNCTION A7_GET_CLASS_INFO
+INT_VAR
+  class_id = "-1"   // -1: determine id from current CRE
+RET
+  class_name
+  class_title
+BEGIN
+  TEXT_SPRINT class_name ~~
+  TEXT_SPRINT class_title ~~
+
+  PATCH_IF (class_id < 0) BEGIN
+    SET class_id = BYTE_AT 0x273
+  END
+
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~clastext.2da~ ~override~
+      COUNT_2DA_COLS num_cols
+      PATCH_IF (num_cols > 10) BEGIN SET num_cols = 10 END
+      READ_2DA_ENTRIES_NOW class_table num_cols
+      FOR (row = 0; row < class_table; ++row) BEGIN
+        READ_2DA_ENTRY_FORMER class_table row 1 cid
+        READ_2DA_ENTRY_FORMER class_table row 2 kid
+        PATCH_IF (~%kid%~ STR_EQ ~2147483648~ || ~%kid%~ STR_EQ ~0x80000000~) BEGIN SET kid = "-2147483648" END
+        PATCH_IF (IS_AN_INT ~cid~ && IS_AN_INT ~kid~ && kid = TRUECLASS && cid = class_id) BEGIN
+          READ_2DA_ENTRY_FORMER class_table row 0 class_name
+          READ_2DA_ENTRY_FORMER class_table row 5 strref
+          PATCH_IF (IS_AN_INT ~strref~) BEGIN
+            GET_STRREF strref class_title
+            // Class title may contain tokens
+            LPF A7_RESOLVE_CLASS_TITLE STR_VAR title = EVAL ~%class_title%~ RET class_title = title END
+          END
+          SET row = class_table
+        END
+      END
+    IF_EXISTS
+  END
+END
+
+
+// Return symbolic kit name and descriptive kit name associated with the given kit id.
+DEFINE_PATCH_FUNCTION A7_GET_KIT_INFO
+INT_VAR
+  kit_id = "-1"
+RET
+  kit_name
+  kit_title
+BEGIN
+  TEXT_SPRINT kit_name ~~
+  TEXT_SPRINT kit_title ~~
+
+  PATCH_IF (kit_id = "-1") BEGIN
+    SET kit_id = (SHORT_AT 0x246) | ((SHORT_AT 0x244) << 16) // words in big-endian, word content in little-endian
+  END
+
+  INNER_ACTION BEGIN
+    COPY_EXISTING - ~kitlist.2da~ ~override~
+      COUNT_2DA_COLS num_cols
+      PATCH_IF (num_cols > 10) BEGIN SET num_cols = 10 END
+      READ_2DA_ENTRIES_NOW kitlist num_cols
+      FOR (row = 0; row < kitlist; ++row) BEGIN
+        READ_2DA_ENTRY_FORMER kitlist row 9 id
+        PATCH_IF (NOT IS_AN_INT ~id~) BEGIN SET id = "-1" END
+        // Workaround: handle numbers outside 32-bit signed integer range
+        PATCH_IF (~%id%~ STR_EQ ~0x80000000~ || ~%id%~ STR_EQ ~2147483648~) BEGIN SET id = "-2147483648" END
+        PATCH_IF (id = kit_id) BEGIN
+          READ_2DA_ENTRY_FORMER kitlist row 1 kit_name
+          READ_2DA_ENTRY_FORMER kitlist row 3 strref
+          PATCH_IF (IS_AN_INT ~strref~) BEGIN
+            GET_STRREF strref kit_title
+          END
+          SET row = kitlist
+        END
+      END
+    IF_EXISTS
+  END
+END
+
+
+// Resolve class-specific tokens and return fully resolved title. Does nothing for non-token titles.
+DEFINE_PATCH_FUNCTION A7_RESOLVE_CLASS_TITLE
+INT_VAR mixed_case = 1  // whether to upper-case first letter
+STR_VAR title = ~~
+RET title
+BEGIN
+  INNER_PATCH_SAVE title ~%title%~ BEGIN
+    SET p1 = INDEX_BUFFER(~<~)
+    WHILE (p1 >= 0) BEGIN
+      SET p2 = INDEX_BUFFER(~>~ p1)
+      PATCH_IF (p2 > p1) BEGIN
+        READ_ASCII (p1 + 1) token (p2 - p1 - 1)
+        DELETE_BYTES p1 (p2 - p1 + 1)
+        PATCH_MATCH ~%token%~ WITH
+          ~MAGESCHOOL~ BEGIN
+            LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~enginest~ key = ~STRREF_GUI_LOWER_KIT_MAGESCHOOL_GENERALIST~ default = ~-1~ RET strref = value END
+          END
+          ~FIGHTERTYPE~ BEGIN
+            LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 0 value_col = 1 numeric = 1 STR_VAR resref = ~enginest~ key = ~STRREF_GUI_LOWER_NORMAL_FIGHTER~ default = ~-1~ RET strref = value END
+          END
+          DEFAULT SET strref = "-1"
+        END
+        PATCH_IF (strref >= 0) BEGIN
+          GET_STRREF strref name
+          PATCH_IF (mixed_case) BEGIN INNER_PATCH_SAVE name ~%name%~ BEGIN WRITE_BYTE 0 (THIS >= 97 && THIS <= 122) ? THIS - 32 : THIS END END
+        END ELSE BEGIN
+          TEXT_SPRINT name ~token~
+        END
+        SET len = STRING_LENGTH ~%name%~
+        INSERT_BYTES p1 len
+        WRITE_ASCIIE p1 ~%name%~ (len)
+      END
+      SET p1 = INDEX_BUFFER(~<~)
+    END
+  END
+END
+
+
+// Return number of classes defined by the given class id (1 for single class, 2 or 3 for valid multiclass values).
+DEFINE_PATCH_FUNCTION A7_GET_NUM_CLASSES
+INT_VAR class = "-1"  // -1: autodetect from current CRE
+RET value
+BEGIN
+  SET value = 0
+  PATCH_IF (class < 0) BEGIN
+    LPF A7_GET_CLASS_KIT RET class = class_id END
+  END
+  PATCH_IF (class > 0) BEGIN
+    PATCH_MATCH class WITH
+      7 8 9 13 14 15 16 18 BEGIN SET value = 2 END
+      10 17 BEGIN SET value = 3 END
+      DEFAULT SET value = 1
+    END
+  END
+END
+
+
+// Retrieve numeric and symbolic names of class and kit
+DEFINE_PATCH_FUNCTION A7_GET_CLASS_KIT
+INT_VAR
+  class = "-1"  // -1: from current CRE
+  kit = "-1"    // -1: from current CRE
+RET
+  class_id kit_id class_name kit_name
+BEGIN
+  SET class_id = (class = "-1") ? BYTE_AT 0x273 : class
+  SET kit_id = (kit = "-1") ? (SHORT_AT 0x246) | ((SHORT_AT 0x244) << 16) : kit // words in big-endian, word content in little-endian
+
+  // get class name (from CLASS.IDS)
+  LOOKUP_IDS_SYMBOL_OF_INT class_name ~class~ class_id
+  PATCH_IF (~%class_name%~ STR_EQ ~%class_id%~) BEGIN
+    SET class_id = 2  // FIGHTER
+    TEXT_SPRINT class_name ~FIGHTER~
+  END
+
+  // get kit name (from KITLIST.2DA)
+  LPF A7_LOOKUP_TABLE_VALUE INT_VAR key_col = 9 value_col = 1 STR_VAR resref = ~kitlist~ key = EVAL ~%kit_id%~ default = ~TRUECLASS~ RET kit_name = value END
+END
+
+
+// Return value from given 2da table at specified column if key is matching
+DEFINE_PATCH_FUNCTION A7_LOOKUP_TABLE_VALUE
+INT_VAR
+  key_col = 0     // column containing the key
+  value_col = 0   // column containing the value to return
+  key_row = "-1"  // row containing the key (this is used if "key" is empty)
+  num_cols = 0    // consider rows with at least "num_cols" columns (0 = max. available)
+  numeric = 0     // set to 1 to enforce returning only numeric values
+STR_VAR
+  resref = ~~     // 2da table resref (without extension), can be left empty if current file is already desired 2da table
+  key = ~~        // key to search for in "key_col" (use this in place of "key_row" if specified)
+  default = ~~    // the default value to return if no match is found.
+                  // Defaults to 0 if "numeric" is set and "default" doesn't contain a valid number.
+RET value         // Value referenced by the key entry if match is found. "default" if no match is found.
+BEGIN
+  PATCH_IF (numeric) BEGIN
+    SET value = IS_AN_INT ~default~ ? default : 0
+  END ELSE BEGIN
+    TEXT_SPRINT value ~%default%~
+  END
+  PATCH_IF (key_col >= 0 && value_col >= 0 &&
+            NOT (~%key%~ STR_EQ ~~ && key_row < 0)) BEGIN
+    // skip expensive copy action if possible
+    PATCH_IF (~%resref%~ STR_EQ ~~) BEGIN
+      LPF __A7_LOOKUP_TABLE_VALUE_inlined
+        INT_VAR key_col value_col key_row num_cols numeric
+        STR_VAR key default
+        RET value
+      END
+    END ELSE BEGIN
+      INNER_ACTION BEGIN
+        COPY_EXISTING - ~%resref%.2da~ ~override~
+          LPF __A7_LOOKUP_TABLE_VALUE_inlined
+            INT_VAR key_col value_col key_row num_cols numeric
+            STR_VAR key default
+            RET value
+          END
+        IF_EXISTS
+      END
+    END
+  END
+END
+
+
+// Used internally by A7_LOOKUP_TABLE_VALUE to reduce processing overhead
+DEFINE_PATCH_FUNCTION __A7_LOOKUP_TABLE_VALUE_inlined
+INT_VAR
+  key_col = 0
+  value_col = 0
+  key_row = "-1"
+  num_cols = 0
+  numeric = 0
+STR_VAR
+  key = ~~
+  default = ~~
+RET value
+BEGIN
+  TEXT_SPRINT value ~%default%~
+  PATCH_IF (num_cols <= 0) BEGIN COUNT_2DA_COLS num_cols END
+  PATCH_IF (key_col < num_cols && value_col < num_cols) BEGIN
+    READ_2DA_ENTRIES_NOW a7_table num_cols
+    SET isnum = IS_AN_INT ~key~ ? 1 : 0
+    PATCH_IF (~%key%~ STR_EQ ~~ && key_row >= 0 && key_row < num_cols) BEGIN
+      READ_2DA_ENTRY_FORMER a7_table key_row key_col v
+      PATCH_IF (numeric && IS_AN_INT ~v~) BEGIN
+        SET value = v
+      END ELSE PATCH_IF (numeric && (~%v%~ STR_EQ ~2147483648~ || ~%v%~ STR_EQ ~0x80000000~)) BEGIN
+        SET value = "-2147483648"
+      END ELSE BEGIN
+        TEXT_SPRINT value ~%v%~
+      END
+    END ELSE PATCH_IF (NOT ~%key%~ STR_EQ ~~) BEGIN
+      FOR (row = 0; row < a7_table; ++row) BEGIN
+        READ_2DA_ENTRY_FORMER a7_table row key_col k
+        PATCH_IF (isnum && IS_AN_INT ~k~ && k = key) || (~%k%~ STR_EQ ~%key%~) BEGIN
+          READ_2DA_ENTRY_FORMER a7_table row value_col v
+          PATCH_IF (numeric && IS_AN_INT ~v~) BEGIN
+            SET value = v
+          END ELSE PATCH_IF (numeric && (~%v%~ STR_EQ ~2147483648~ || ~%v%~ STR_EQ ~0x80000000~)) BEGIN
+            SET value = "-2147483648"
+          END ELSE BEGIN
+            TEXT_SPRINT value ~%v%~
+          END
+          SET row = a7_table
+        END
+      END
+    END
+  END
+END

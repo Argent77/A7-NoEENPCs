@@ -1,4 +1,4 @@
-// -*- coding: us-ascii -*- 
+// -*- coding: us-ascii -*-
 
 @1 = ~Disable all NPCs~
 @3 = ~Make all NPCs passive~
@@ -10,6 +10,11 @@
 @13 = ~Modify individually: Hexxat~
 @14 = ~Modify individually: Neera~
 @15 = ~Modify individually: Rasaad~
+
+// Group names
+@50 = ~Appearance~
+@51 = ~Portraits~
+@52 = ~Class changes~
 
 @101 = ~Disable Baeloth~
 @102 = ~Disable Dorn~
@@ -23,6 +28,7 @@
 
 @301 = ~Make NPC-specific items available for everyone~
 
+// Portraits
 @400 = ~Change portrait: Baeloth~
 @401 = ~Alternate version~
 @402 = ~Alternate version, in BG2 only~
@@ -34,11 +40,102 @@
 @440 = ~Change portrait: Rasaad~
 @450 = ~Improved portrait: Wilson~
 
+// Class changes
+@500 = ~Change class/kit: Baeloth~
+@501 = ~Mage~
+@502 = ~Abjurer~
+@503 = ~Conjurer~
+@504 = ~Diviner~
+@505 = ~Enchanter~
+@506 = ~Illusionist~
+@507 = ~Invoker~
+@508 = ~Necromancer~
+@509 = ~Transmuter~
+@510 = ~Wild Mage~
+@511 = ~Dragon Disciple~
+@512 = ~Chaos Sorcerer~
+@513 = ~Shadow Adept~
+
+@520 = ~Change class/kit: Dorn~
+@521 = ~Reset level only~
+@522 = ~Choose your class~
+
+@540 = ~Change class/kit: Neera~
+@541 = ~Chaos Sorcerer~
+
+@560 = ~Change class/kit: Rasaad~
+@561 = ~Monk~
+@562 = ~Silverstar of Selune~
+
+@580 = ~Change class/kit: M'Khiin~
+
+@600 = ~Change class/kit: Glint~
+@601 = ~Cleric~
+@602 = ~Fighter/Cleric~
+@603 = ~Cleric/Illusionist~
+
+@620 = ~Change class/kit: Voghiln~
+@621 = ~Bard~
+@622 = ~Blade~
+@623 = ~Thief~
+@624 = ~Swashbuckler~
+
+@640 = ~Change class/kit: Corwin~
+@641 = ~Ranger~
+@642 = ~Stalker~
+@643 = ~Fighter~
+@644 = ~Wizard Slayer~
+@645 = ~Cleric~
+@646 = ~Priest of Tyr~
+@647 = ~Watcher of Helm~
+@648 = ~Paladin~
+@649 = ~Cavalier~
+@650 = ~Inquisitor~
+
+@660 = ~Change class/kit: Hexxat~
+@661 = ~Assassin~
+@662 = ~Shadowdancer~
+@663 = ~Mage/Thief~
+@664 = ~Mage/Assassin~
+@665 = ~Mage/Shadowdancer~
+@666 = ~Necromancer/Thief~
+@667 = ~Fighter/Thief~
+@668 = ~Fighter/Assassin~
+@669 = ~Fighter/Shadowdancer~
+
+@680 = ~Change class/kit: Clara~
+@681 = ~Bounty Hunter~
+@682 = ~Swashbuckler~
+@683 = ~Shadowdancer~
+@684 = ~Bard~
+
+// Setup messages
 @1000 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
 @1001 = ~This component requires either BG:EE or EET to be installed.~
 @1002 = ~This component requires either BG2:EE or EET to be installed.~
 @1003 = ~Component "Decide action for each NPC individually" not selected.~
+@1004 = ~This component requires either SoD or EET to be installed.~
 @1005 = ~This component is only available if one or more NPCs have been disabled.~
 @1006 = ~This mod is not compatible with Pecca's "EE_content_tweaks".~
 @1007 = ~This component is not available if the NPC has been disabled.~
 @1008 = ~This component requires EET to be installed.~
+@1009 = ~This component requires the mod "Chaos Sorcerer Kit" to be installed.~
+@1010 = ~This component requires the mod "Shadow Magic" to be installed.~
+@1011 = ~This component requires the mod component "Divine Remix -> Silverstar of Selune" to be installed.~
+@1012 = ~Operation cancelled by the user.~
+
+// Custom class selection
+@2000 = ~Current class: %cur_class_title% (%cur_class_name%), kit: %cur_kit_title% (%cur_kit_name%)~
+@2001 = ~Available classes: %class_entries%~
+@2002 = ~Please enter number of the new class (leave blank to keep current):~
+@2003 = ~Specified class number is not available.~
+@2004 = ~Class selected: %new_class_title% (%new_class_name%).~
+@2005 = ~No kits available for class "%new_class_title%".~
+@2006 = ~Available kits for class "%new_class_title%": %kit_entries%~
+@2007 = ~Please enter number of the new kit:~
+@2008 = ~Specified kit number is not available.~
+@2009 = ~You have selected: class "%new_class_title%" (%new_class_name%) and kit "%new_kit_title%" (%new_kit_name%).~
+@2010 = ~Assign chosen class/kit combination ([A]ccept, [S]tart over, [C]ancel)?~
+@2011 = ~Please enter A to accept, S to start over or C to cancel the operation.~
+@2012 = ~no kit~
+@2013 = ~Gathering class information...~

@@ -1,4 +1,4 @@
-// -*- coding: us-ascii -*- 
+// -*- coding: us-ascii -*-
 
 @1 = ~Alle NSCs deaktivieren~
 @3 = ~Alle NSCs bleiben passiv~
@@ -10,6 +10,11 @@
 @13 = ~Passe Hexxat an~
 @14 = ~Passe Neera an~
 @15 = ~Passe Rasaad an~
+
+// Group names
+@50 = ~Auftritt~
+@51 = ~Portraits~
+@52 = ~Klassenwechsel~
 
 @101 = ~Baeloth deaktivieren~
 @102 = ~Dorn deaktivieren~
@@ -23,9 +28,10 @@
 
 @301 = ~NSC-spezifische Gegenstaende fuer alle verfuegbar machen~
 
+// Portraits
 @400 = ~Portrait austauschen: Baeloth~
 @401 = ~Alternative Version~
-@402 = ~Alternative Version, in BG2 only~
+@402 = ~Alternative Version, nur fuer BG2~
 @403 = ~BG2-Stil~
 @404 = ~BG2-Stil, nur fuer BG2~
 @410 = ~Portrait austauschen: Dorn~
@@ -34,11 +40,195 @@
 @440 = ~Portrait austauschen: Rasaad~
 @450 = ~Verbessertes Portrait: Wilson~
 
+// Class changes
+@500 = ~Klassenwechsel: Baeloth~
+@501 = ~Magier~
+@502 = ~Bannwirker~
+@503 = ~Beschwoerer~
+@504 = ~Seher~
+@505 = ~Zauberer~
+@506 = ~Illusionist~
+@507 = ~Thaumaturg~
+@508 = ~Nekromant~
+@509 = ~Wandler~
+@510 = ~Hasardeur~
+@511 = ~Drachenjuenger~
+@512 = ~Chaos Hexenmeister~
+@513 = ~Schattenadept~
+
+@520 = ~Klassenwechsel: Dorn~
+@521 = ~Nur Erfahrungsstufe zuruecksetzen~
+@522 = ~Klasse selbst auswaehlen~
+
+@540 = ~Klassenwechsel: Neera~
+@541 = ~Chaos Hexenmeister~
+
+@560 = ~Klassenwechsel: Rasaad~
+@561 = ~Moench~
+@562 = ~Silberstern der Selune~
+
+@580 = ~Klassenwechsel: M'Khiin~
+
+@600 = ~Klassenwechsel: Glint~
+@601 = ~Kleriker~
+@602 = ~Kaempfer/Kleriker~
+@603 = ~Kleriker/Illusionist~
+
+@620 = ~Klassenwechsel: Voghiln~
+@621 = ~Barde~
+@622 = ~Waffenkuenstler~
+@623 = ~Dieb~
+@624 = ~Saebelrassler~
+
+@640 = ~Klassenwechsel: Corwin~
+@641 = ~Waldlaeufer~
+@642 = ~Pirscher~
+@643 = ~Kaempfer~
+@644 = ~Magiertoeter~
+@645 = ~Kleriker~
+@646 = ~Priester des Tyr~
+@647 = ~Priester des Helm~
+@648 = ~Paladin~
+@649 = ~Ritter~
+@650 = ~Inquisitor~
+
+@660 = ~Klassenwechsel: Hexxat~
+@661 = ~Meuchelmoerder~
+@662 = ~Schattentaenzer~
+@663 = ~Magier/Dieb~
+@664 = ~Magier/Meuchelmoerder~
+@665 = ~Magier/Schattentaenzer~
+@666 = ~Nekromant/Dieb~
+@667 = ~Kaempfer/Dieb~
+@668 = ~Kaempfer/Meuchelmoerder~
+@669 = ~Kaempfer/Schattentaenzer~
+
+@680 = ~Klassenwechsel: Clara~
+@681 = ~Kopfgeldjaeger~
+@682 = ~Saebelrassler~
+@683 = ~Schattentaenzer~
+@684 = ~Barde~
+
 @1000 = ~Diese Komponente benoetigt BG:EE, BG2:EE oder EET.~
 @1001 = ~Diese Komponente benoetigt BG:EE oder EET.~
 @1002 = ~Diese Komponente benoetigt BG2:EE oder EET.~
 @1003 = ~Komponente "Entscheide fuer jeden einzelnen NSC" wurde nicht ausgewaehlt.~
+@1004 = ~Diese Komponente benoetigt SoD oder EET.~
 @1005 = ~Diese Komponente ist nur fuer deaktivierte NSCs verfuegbar.~
 @1006 = ~Diese Mod ist nicht mit Peccas "EE_content_tweaks" kompatibel.~
 @1007 = ~Diese Komponente ist nicht verfuegbar, wenn der NSC deaktiviert wurde.~
 @1008 = ~Diese Komponente benoetigt EET.~
+@1009 = ~Diese Komponente benoetigt die Modifikation "Chaos Hexenmeister".~
+@1010 = ~Diese Komponente benoetigt die Modifikation "Shadow Magic".~
+@1011 = ~Diese Komponente benoetigt die Mod-Komponente "Divine Remix -> Silberstern der Selune".~
+@1012 = ~Vorgang wurde vom Nutzer abgebrochen.~
+
+// Custom class selection
+@2000 = ~Aktuelle Klasse: %cur_class_title% (%cur_class_name%), Kit: %cur_kit_title% (%cur_kit_name%)~
+@2001 = ~Verfuegbare Klassen: %class_entries%~
+@2002 = ~Bitte Nummer der neuen Klasse eingeben (leere Eingabe fuer aktuelle Klasse):~
+@2003 = ~Ausgewaehlte Klassennummer existiert nicht.~
+@2004 = ~Ausgewaehlte Klasse: %new_class_title% (%new_class_name%).~
+@2005 = ~Keine Kits verfuegbar fuer die Klasse "%new_class_title%".~
+@2006 = ~Verfuegbare Kits fuer die Klasse "%new_class_title%": %kit_entries%~
+@2007 = ~Bitte Nummer des neuen Kits eingeben:~
+@2008 = ~Ausgewaehlte Kitnummer existiert nicht.~
+@2009 = ~Es wurde ausgewaehlt: Klasse "%new_class_title%" (%new_class_name%) und Kit "%new_kit_title%" (%new_kit_name%).~
+@2010 = ~Gewaehlte Klassenkombination anwenden (J[A], Erneut Au[S]waehlen, Abbre[C]hen)?~
+@2011 = ~Bitte A fuer "Anwenden", S fuer "Erneut auswaehlen" oder C fuer "Abbruch" eingeben.~
+@2012 = ~kein Kit~
+@2013 = ~Klasseninformationen werden ermittelt...~
+
+
+// WeiDU prompts
+@-1000= "Die %TP2_FILE_NAME%-Mod besitzt"
+@-1001= "verschiedene optionale Komponenten.
+Um Zeit zu sparen, koennen Sie waehlen, was Sie mit ihnen im Allgemeinen
+machen moechten, anstatt nach jeder einzelnen gefragt zu werden.
+"
+@-1002= "Was soll mit den Komponenten getan werden, die NOCH NICHT installiert wurden?
+[I]nstallieren, Ueber[S]springen, jeweils n[A]chfragen? "
+@-1003= "Was soll mit den Komponenten getan werden, die BEREITS installiert wurden?
+[R]Neuinstallation, [U]Entfernen, Ueber[S]pringen, jeweils n[A]chfragen? "
+
+@-1004= "Bitte sichern Sie folgende Datei:"
+@-1005= "und suchen sie hier nach Hilfe:"
+
+@-1006= "Installiere Komponente ["
+@-1007= "]?
+[R]Neuinstallation, Kei[N]e Aenderung, [U]Entfernen oder [Q]uit? "
+@-1008= "]?
+[I]nstallieren, [N]icht installieren oder [Q]uit? "
+
+@-1009= "Teil des Modulnamens eingeben: "
+
+@-1010= "Neuinstallation der ["
+@-1011= "]-Komponente "
+@-1012= "Neuinstallation in der Sprache"
+
+@-1013= "Entferne zuerst alte Installation von ["
+@-1014= "] ..."
+@-1015= "ALTE INSTALLATION ERFOLGREICH ENTFERNT"
+
+@-1016= "Installiere"
+@-1017= "FEHLER bei der Installation von ["
+@-1018= "], vorheriger Zustand wird wiederhergestellt"
+@-1019= "ERFOLGREICH INSTALLIERT     "
+@-1020= "Ueberspringe"
+@-1021= "Entferne ["
+@-1022= "] (Komponente #"
+@-1023= ")"
+@-1024= "ERFOLGREICH ENTFERNT: ["
+
+@-1025= "]?
+[R]Neuinstallation, Kei[N]e Aenderung, [U]Entfernen, [Q]uit oder Auswahl:"
+@-1026= "]?
+[N]ein, [Q]uit oder Auswahl:"
+@-1027= " (bereits installiert="
+
+@-1028= "Komponenten anzeigen von ["
+@-1029= "]?
+[Y]Ja, [N]ein? "
+
+@-1030= "]?
+Auswahl:"
+@-1031= "]?
+[R]Neuinstallation, Kei[N]e Aenderung, [Q]uit oder Auswahl:"
+@-1032= "NICHT INSTALLIERT WEGEN FEHLER"
+@-1033= "MIT WARNUNGEN INSTALLIERT    "
+@-1034= "Soll die Liesmich angezeigt werden? [Y]Ja [N]ein"
+@-1035= "Benutze Sprache"
+
+@-1036= "Ueberspringe GRUPPE ["
+@-1037= "] wegen nicht erfuellter Anforderungen."
+
+@-1038= "Jede Komponente n[A]chfragen, Alle ueber[S]pringen oder Vorauswahl treffen:"
+@-1039= "Jede Komponente n[A]chfragen, Auswahl neu installie[R]en, [U]Alle entfernen, Alle ueber[S]pringen oder Vorauswahl treffen:"
+
+@-1040= "
+Waehlen Sie bitte die Sprache, in der Sie das Spiel spielen wollen.
+Wenn Sie spaeter das Spiel in einer anderen Sprache spielen wollen, muessen Sie die Datei weidu.conf bearbeiten und Ihre Mods neu installieren.
+"
+@-1041= "Tschechisch"
+@-1042= "Deutsch"
+@-1043= "Englisch"
+@-1044= "Spanisch"
+@-1045= "Franzoesisch"
+@-1046= "Italienisch"
+@-1047= "Polnisch"
+@-1048= "Portugiesisch"
+@-1049= "Tuerkisch"
+@-1050= "Japanisch"
+@-1051= "Koreanisch"
+@-1052= "Vereinfachtes Chinesisch"
+@-1053= "Russisch"
+@-1054= "Ukrainisch"
+
+@-1060= "
+Dieses Spiel ist in mehreren Sprachen verfuegbar, aber WeiDU weiss nicht, welche Spielsprache verwendet wurde, als diese Mod installiert wurde.
+
+Geben Sie bitte an, in welcher Spielsprache diese Mod installiert wurde. Ihre Auswahl wird nicht gespeichert und nur solange genutzt, bis WeiDU beendet wird.
+"
+@-1061= "
+Benutze"
+@-1062= " und "

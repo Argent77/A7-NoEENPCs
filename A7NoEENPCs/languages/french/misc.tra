@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*- 
+// -*- coding: utf-8 -*-
 
 @50000 = ~Cette anneau a appartenu à un ensorceleur drow d'une certaine réputation. On ne sait pas comment il l'a perdu, ni ce qu'il est devenu depuis.
 
@@ -14,3 +14,18 @@ Capacités de charge :
 
 Poids : 0~
 @50001 = ~Moine de la Conscience Solaire~
+
+
+// Updated biographies: Neera
+@51000 = ~~ // BG1 bio placeholder
+@51001 = ~~ // BG2 bio placeholder
+
+// Updated biographies: Rasaad
+@51050 = ~~ // BG2 bio placeholder
+
+// Updated biographies: Voghiln
+@51100 = ~~ // Thief bio placeholder
+
+// Updated biographies: Corwin
+@51150 = ~~ // Cleric bio placeholder
+@51151 = ~~ // Paladin bio placeholder

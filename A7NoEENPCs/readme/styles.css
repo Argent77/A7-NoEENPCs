@@ -165,6 +165,25 @@ h2 {
   line-height: 1.5rem;
 }
 
+#langdiv {
+  border-left: 0.15rem solid #66451f;
+  border-right: 0.15rem solid #66451f;
+  border-bottom: 0.15rem solid #66451f;
+  background-color: #e8e8e0;
+  margin: 0 auto;
+  width: 80vw;
+}
+
+#langdiv  span {
+  padding: 0px 0.3rem;
+  font-weight: bold;
+  color: #666;
+}
+
+#langdiv .divider {
+  border-left: 0.1rem dotted #66451f;
+}
+
 #portrait {
   float: left;
   margin: 0.6rem 0.75rem 0 1.8rem;

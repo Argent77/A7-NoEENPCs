@@ -1,5 +1,5 @@
-Disable Enhanced Edition NPCs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Convenient Enhanced Edition NPCs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Version:    3.5
 Author:     Argent77
@@ -28,7 +28,7 @@ W przypadku wybrania opcji zablokowania wszystkich lub wybranych BN można równ
 Kompatybilność
 ~~~~~~~~~~~~~~
 
-Ta modyfikacja powinna być kompatybilna z każdą modyfikacją, która nie zmienia w znaczący sposób lokacji lub skryptów startowych dla BN dodanych w wersji Enhanced Edition. Obecnie jedynie dodatek „EE_content_tweaks”, którego autorem jest Pecca, nie jest z nią kompatybilny w przypadku kampanii BG:EE. Niniejsza modyfikacja sprawdzi, czy „EE_content_tweaks” został zainstalowany i w takim wypadku nie zainstaluje stosownych komponentów. 
+Ta modyfikacja powinna być kompatybilna z każdą modyfikacją, która nie zmienia w znaczący sposób lokacji lub skryptów startowych dla BN dodanych w wersji Enhanced Edition. Obecnie jedynie dodatek „EE_content_tweaks”, którego autorem jest Pecca, nie jest z nią kompatybilny w przypadku kampanii BG:EE. Niniejsza modyfikacja sprawdzi, czy „EE_content_tweaks” został zainstalowany i w takim wypadku nie zainstaluje stosownych komponentów.
 Modyfikacja ta jest również w pełni kompatybilna z grą Siege of Dragonspear, jednakże w przypadku tej kampanii Baeloth nie zostanie zmieniony, ze względu na jego ścisły udział w pewnym wydarzeniu.
 
 
@@ -40,7 +40,7 @@ Komponenty
   1.2. Ustaw wszystkich BN jako pasywnych          <- ustawia pasywnymi wszystkich BN
   1.3. Decyduj indywidualnie dla każdego BN        <- patrz niżej
 
-  
+
 Poniższe komponenty są dostępne, tylko jeśli wybrano komponent „Decyduj indywidualnie dla każdego BN”:
 
 2. Modyfikuj indywidualnie: Baeloth
@@ -82,8 +82,8 @@ Poniższy komponent jest dostępny, tylko jeśli wybrano zablokowanie wszystkich
 
     Baeloth:
     Tylko BG:EE:
-    - Jego specjalny pierścień można teraz kupić w „Tanich Towarach Szczęściarza Aello” we Wrotach Baldura z dużą zniżką. 
-      Opis przedmiotu został zmodyfikowany. 
+    - Jego specjalny pierścień można teraz kupić w „Tanich Towarach Szczęściarza Aello” we Wrotach Baldura z dużą zniżką.
+      Opis przedmiotu został zmodyfikowany.
       Dodatkowo poprawiłem lekko pasywny efekt we właściwościach ładunków, czyniąc go wartym uwagi.
       Uwaga: Z powodów technicznych pierścień nie będzie dostępny po zainstalowaniu SoD.
 
@@ -96,7 +96,7 @@ Poniższy komponent jest dostępny, tylko jeśli wybrano zablokowanie wszystkich
     - Łuski srebrnego smoka mogą zostać wyciągnięte ze zwłok smoczycy Adalon, jeśli się ją zaatakuje. Cespenar jest w stanie
       wykuć z nich przedmiot podczas rozgrywania kampanii Tron Bhaala.
     - Kolejne łuski znajdują się przy ciele Łowczyni, strzegącej ostatniej pieczęci na najniższym poziomie Twierdzy Strażnika.
-    - Święty miecz długi Tyra +3 można znaleźć na poziomie labiryntu w Twierdzy Strażnika, a dokładniej w pomieszczeniu, 
+    - Święty miecz długi Tyra +3 można znaleźć na poziomie labiryntu w Twierdzy Strażnika, a dokładniej w pomieszczeniu,
       w którym należy pokonać Upiora demona.
     - Hełmy chwały +1 można kupić u Ribalda Kramarza oraz u kupca w Targowie.
     - Można od teraz ukraść Różdżkę cienistego kroku Saemonovi Havarianowi w Amkethranie.
@@ -131,7 +131,7 @@ Poniższy komponent jest dostępny, tylko jeśli wybrano zablokowanie wszystkich
       przy ciele zabójczyni z Nashkel o imieniu Neira.
     - Błyszczące opaski mogą być używane przez każdego mnicha. Można je obecnie nabyć u jednego z kupców na Jarmarku Nashkel.
     - Pas potężnej pięści jest teraz noszony przez Dumę, jednego z duchów Wieży Durlaga.
-    BG2:EE: 
+    BG2:EE:
     - Buty zwane Wędrowcami księżycowego światła mogą być używane przez dowolnego Mnicha Słonecznej Duszy i znajdują się
       obecnie w posiadaniu Anishai, która przebywa w siedzibie gildii Mae'vara.
     - Pas z ogona wołu jest obecnie noszony przez Cohrvale'a. Przy zwłokach jego partnera możesz znaleźć Sławę Hojara +1,
@@ -140,7 +140,7 @@ Poniższy komponent jest dostępny, tylko jeśli wybrano zablokowanie wszystkich
     - Płaszcz mniejszej niewrażliwości można znaleźć przy ciele króla Ixilthetocal w podwodnym mieście sahuaginów.
     - Pierścień duplikacji został dodany do oferty pasera w siedzibie głównej Złodziei Cienia.
     - Elence Fielding, jeden z kupców na Wzgórzach Umar ma teraz w ofercie Wilczą procę +2.
-    - Kaptur gwiazd jest noszony przez Valerię, wrogo nastawioną wojowniczkę, na którą można się natknąć w kryjówce 
+    - Kaptur gwiazd jest noszony przez Valerię, wrogo nastawioną wojowniczkę, na którą można się natknąć w kryjówce
       w Dzielnicy Mostów.
     - Kowal z Targowa może teraz sprzedać sejmitar Sokoli wzrok +2.
     - Płaszcz celnych ciosów jest teraz dostępny u Bernarda w Miedzianym Diademie, po tym, jak Lehtinan zostanie zastąpiony
@@ -170,14 +170,17 @@ Polish translation: Cahir
 Copyright Notice
 ~~~~~~~~~~~~~~~~
 
-The mod "Disable Enhanced Edition NPCs" is licensed under the "Creative Commons Attribution-
+The mod "Convenient Enhanced Edition NPCs" is licensed under the "Creative Commons Attribution-
 ShareAlike 4.0 International License" (http://creativecommons.org/licenses/by-sa/4.0/).
 
 
 Version History
 ~~~~~~~~~~~~~~~
 
-v3.6:
+v4.0:
+- Changed mod name to "Convenient Enhanced Edition NPCs"
+- Added options to change classes or kits of selected NPCs
+- Added options to change portraits for NPCs
 - Added "Passive Rasaad" for BG:EE
 
 v3.5:

@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*- 
+// -*- coding: utf-8 -*-
 
 @50000 = ~Dieser Ring wurde von einem Dschinn als „Geschenk“ für den Drow-Hexenmeister Baeloth Barrityl geschaffen. Wie oder warum sich Baeloth von ihm getrennt hat, ist nicht bekannt.
 
@@ -14,3 +14,64 @@ Schadensmalus: -5 gg. Genies
 
 Gewicht: 0~
 @50001 = ~Sonnenseelenmönch~
+@50002 = ~Diese bequemen Stiefel gewähren dem Träger eine außergewöhnliche Standfestigkeit und ermöglichen ihnen, Kunststücke zu vollbringen, von denen andere unsägliche Rückenschmerzen bekommen würden.
+
+EIGENSCHAFTEN:
+
+RK-Bonus: -2
+
+Gewicht: 1~
+@50003 = ~Diese glänzenden Armbänder reflektieren grelles Licht in die Augen der Feinde des Trägers und lenkt sie so davon ab, Angriffe abzuwehren.
+
+EIGENSCHAFTEN:
+
+ETW0-Bonus: -2
+Gewicht: 1~
+@50004 = ~Corwins Schleuder +2~
+@50005 = ~Diese verzauberte Schleuder verbessert die Geschicklichkeit des Nutzers. Des Weiteren ist die Waffe perfekt ausbalanciert, sodass der Nutzer seine Ziele anvisieren kann, ohne seine Haltung zu korrigieren. Bei einem kritischen Treffer explodiert das Geschoss beim Einschlag in viele Gesteinssplitter, welche das Ziel für kurze Zeit betäuben.
+
+EIGENSCHAFTEN:
+
+Geschicklichkeit: +1
+Angriffe pro Runde: +1/2
+
+Bei einem kritischen Treffer wird das Ziel für drei Runden betäubt (Rettungswurf gg. Tod).
+
+Schadensbonus: +2 (Geschoss)
+ETW0-Bonus: -2
+Gewicht: 0
+Initiativefaktor: 4
+Fertigkeit: Schleuder
+Typ: 1-händig
+Mindeststärke: 3~
+
+
+// Updated biographies: Neera
+@51000 = ~Als Ihr NEERA nach ihrer Vergangenheit fragt, erzählt sie, dass sie schon seit etlichen Monaten auf der Flucht vor den roten Magiern sei. Sie scheint vorschnell und unbedacht zu sein, aber Ihr habt auch gehört, dass Anwender Unbändiger Magie zu den mächtigsten Magiern zählen … solange sie keinen Unfall auslösen.
+
+Trotz ihrer fröhlichen wie auch launischen Art spürt Ihr, dass ihre Vergangenheit sie quält. So sehr sie es auch liebt, die Macht ihrer unbändigen Magie zu entfesseln, so sehr fürchtet sie auch, was sie damit an Unheil anrichten kann.~
+
+@51001 = ~Als Ihr NEERA nach ihrer Vergangenheit fragt, zuckt sie nur mit den Schultern. Sie sagt, dass sie vor ihrer Ankunft in Athkatla entlang der Schwertküste umhergewandert sei und sich des Lebens einer Abenteurerin erfreut habe, zugleich aber dem Orden der Acht Sprossen aus dem Weg gehen musste, einer Organisation, die sich der Jagd auf Anwender Unbändiger Magie verschrieben hat. Über ihre frühere Vergangenheit spricht sie weniger, verschweigt aber nicht, dass sie wegen ihrer Unbändigen Magie aus dem Hochwald verbannt wurde. Sie lacht und schwatzt gern und hat manchmal eine spitze Zunge, wird aber äußerst bissig, wenn sie ihre Eigenständigkeit bedroht sieht. Ihr liegt sehr viel am Schutz anderer Hasardeure, und hierfür ist sie bereit, fast alles aufs Spiel zu setzen.~
+
+// Updated biographies: Rasaad
+@51050 = ~Als Anbeter der Mondgöttin Selûne diente der schweigsame Kleriker Rasaad dem Sonnenseelenorden. Dieses Leben endete tragisch. Er spricht voller Ehrfurcht von seinem Bruder Gamaz, obgleich Gamaz die Sonnenseele durch den Beitritt zur Sekte des Dunklen Mondes verriet, wo er zu Füßen eines Mannes namens Alorgoth die Anbetung Shars lernte. Obwohl es seine eigene Hand war, die Gamaz tötete, macht Rasaad Alorgoth für den Tod seines Bruders verantwortlich. Er hat sich die Selbstverpflichtung auferlegt, Gamaz zu rächen, und es ist offensichtlich, dass es nur wenig gibt, was er zur Erreichung dieses Ziels nicht opfern würde.~
+
+// Updated biographies: Voghiln (to be done when German translation is available)
+@51100 = ~When asked about his past, Voghiln speaks at considerable length of his travels in the North. Originally from Luskan, Voghiln felt the call of adventure and set out on a journey to the Spine of the World. For the next few years, he traveled among the northernmost countries, including Vaasa and the Silver Marches, building up his repertoire and his reputation as a rogue.
+
+Near the story's end, Voghiln hastily glosses over a bit where he decided to travel south for a time. No amount of persuasion convinces him to reveal why he truly left the North. Instead, Voghiln said, he came north chasing new adventures and new "womans."
+
+Despite his fondness for drink and his propensity for chasing skirts, Voghiln is a brave and talented companion who is eager to see the crusade come to an end—mostly so that he can write about it.~
+
+// Updated biographies: Corwin (to be done when German translation is available)
+@51150 = ~When asked about her past, Schael Corwin reluctantly admits she ran wild as a child on the streets of Baldur's Gate. Her rebelliousness soon got her into trouble with the Flaming Fist.
+
+Left alone in a cell with nothing but her thoughts for company, she began to reflect on the decisions she'd made in the past and see where they would inevitably take her. When she was eventually freed, she decided to change the direction of her life. She enlisted in the Flaming Fist and rose quickly through the ranks. Soon after she realized that fighting for worldly causes was not enough and trained under the guidance of the Temple to become a priest.
+
+You sense there is little Schael Corwin would not do for her family, the Flaming Fist or the Temple.~
+
+@51151 = ~When asked about her past, Schael Corwin reluctantly admits she ran wild as a child on the streets of Baldur's Gate. Her rebelliousness soon got her into trouble with the Flaming Fist.
+
+Left alone in a cell with nothing but her thoughts for company, she began to reflect on the decisions she'd made in the past and see where they would inevitably take her. When she was eventually freed, she decided to change the direction of her life. She enlisted in the Flaming Fist and rose quickly through the ranks. Soon after she realized that fighting for worldly causes was not enough and trained under the guidance of the Order to become a paladin.
+
+You sense there is little Schael Corwin would not do for her family, the Flaming Fist or the Order.~

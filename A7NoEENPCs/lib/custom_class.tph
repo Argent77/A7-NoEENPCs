@@ -1,0 +1,277 @@
+INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+
+// Handles everything to change class/kit of the current character
+DEFINE_PATCH_FUNCTION A7_CHANGE_CUSTOM_CLASS
+INT_VAR
+  class_id = 0
+  kit_id = 0
+BEGIN
+  // getting original mage spell selection
+  LPF A7_GET_CLASS_KIT RET old_class = class_id END
+  PATCH_MATCH old_class WITH
+    1 5 7 10 13 14 17 19 BEGIN
+      LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell = spell_resref RET_ARRAY spell = spell_resref END
+    END
+    DEFAULT SET spell = 0
+  END
+
+  LPF A7_RESET_CLASS STR_VAR class = EVAL ~%class_id%~ kit = EVAL ~%kit_id%~ END
+  LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
+
+  // restoring/adding mage spell selection
+  PATCH_MATCH class_id WITH
+    1 5 7 10 13 14 17 BEGIN // mage, bard
+      PATCH_IF (spell = 0) BEGIN
+        // Adding set of learned spells
+        PATCH_FOR_EACH symbol IN ~WIZARD_BLINDNESS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_LARLOCH_MINOR_DRAIN~
+                                 ~WIZARD_HORROR~ ~WIZARD_INVISIBILITY~ ~WIZARD_STINKING_CLOUD~
+                                 ~WIZARD_HOLD_PERSON~ ~WIZARD_SLOW~ BEGIN
+          LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spell_%spell%~ = resref END // adding spells
+          LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
+          SET spell += 1
+        END
+      END
+      LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell STR_VAR spells = ~spell~ END
+    END
+    19 BEGIN  // sorcerer
+      PATCH_IF (spell = 0) BEGIN
+        // Adding set of learned spells
+        PATCH_FOR_EACH symbol IN ~WIZARD_BLINDNESS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_LARLOCH_MINOR_DRAIN~ BEGIN
+          LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spell_%spell%~ = resref END
+          SET spell += 1
+        END
+      END
+      LPF A7_ADD_CRE_GRANTED_SPELLS
+        INT_VAR
+          spell_type = 1
+          num_spells = spell
+      END
+    END
+    21 BEGIN  // shaman
+      // Adding set of learned spells
+      PATCH_FOR_EACH symbol IN ~CLERIC_CURE_LIGHT_WOUNDS~ ~CLERIC_ENTANGLE~ ~CLERIC_SHILLELAGH~ ~CLERIC_DOOM~ BEGIN
+        LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spell_%spell%~ = resref END
+        SET spell += 1
+      END
+      LPF A7_ADD_CRE_GRANTED_SPELLS
+        INT_VAR
+          spell_type = 0
+          num_spells = spell
+      END
+    END
+    DEFAULT
+  END
+END
+
+
+// Interact with user to choose desired class and kit combination
+DEFINE_ACTION_FUNCTION A7_GET_CLASS_KIT_INTERACTIVE
+STR_VAR
+  cre_resref = ~~ // CRE resref of the character for retrieving original class/kit
+RET
+  success   // whether user accepts choices
+  class_id  // chosen class id
+  kit_id    // chosen kit id
+BEGIN
+  OUTER_SET success = 0
+  OUTER_SET class_id = 0
+  OUTER_SET kit_id = 0
+
+  // Supported actions
+  OUTER_SET ACCEPT = 1
+  OUTER_SET STARTOVER = 0
+  OUTER_SET CANCEL = "-1"
+  OUTER_SET $actions(~A~) = ACCEPT
+  OUTER_SET $actions(~S~) = STARTOVER
+  OUTER_SET $actions(~C~) = CANCEL
+
+  OUTER_TEXT_SPRINT TRUECLASS_NAME ~TRUECLASS~
+  OUTER_SPRINT TRUECLASS_TITLE @2012 // no kit
+
+  ACTION_IF (~%WEIDU_OS%~ STR_EQ ~win32~) BEGIN
+    OUTER_TEXT_SPRINT NL ~%WNL%~
+  END ELSE BEGIN
+    OUTER_TEXT_SPRINT NL ~%LNL%~
+  END
+
+  PRINT @2013 // Gathering class information...
+
+  // getting current class/kit ids
+  OUTER_SET cur_class_id = 1
+  OUTER_SET cur_kit_id = TRUECLASS
+  COPY_EXISTING - ~%cre_resref%.cre~ ~override~
+    READ_ASCII 0 sig (8) NULL
+    PATCH_IF (~%sig%~ STR_EQ ~CRE V1.0~) BEGIN
+      SET cur_class_id = BYTE_AT 0x273
+      SET cur_kit_id = (SHORT_AT 0x246) | ((SHORT_AT 0x244) << 16) // words in big-endian, word content in little-endian
+      LPF A7_GET_CLASS_INFO INT_VAR class_id = cur_class_id RET cur_class_name = class_name cur_class_title = class_title END
+      PATCH_IF (cur_kit_id = TRUECLASS) BEGIN
+        TEXT_SPRINT cur_kit_name ~%TRUECLASS_NAME%~
+        TEXT_SPRINT cur_kit_title ~%TRUECLASS_TITLE%~
+      END ELSE BEGIN
+        LPF A7_GET_KIT_INFO INT_VAR kit_id = cur_kit_id RET cur_kit_name = kit_name cur_kit_title = kit_title END
+      END
+    END
+  BUT_ONLY IF_EXISTS
+
+  // creating list of available classes and kits
+  OUTER_PATCH ~~ BEGIN
+    LPF A7_SEARCH_CLASS_KIT RET num_classes num_kits RET_ARRAY classes kits END
+/*
+class_list: number of available entries
+$class_list(idx "id"): class id of idx-th entry
+$class_list(idx "name"): symbolic class name of idx-th entry
+$class_list(idx "title"): descriptive class name of idx-th entry
+
+$class_kits(clsid): number of available kits for class id (including TRUECLASS)
+$class_kits(clsid idx "id"): kit id of idx-th entry for given class id
+$class_kits(clsid idx "name"): symbolic kit name of idx-th entry for given class id
+$class_kits(clsid idx "title"): descriptive kit name of idx-th entry for given class id
+*/
+    SET class_list = 0
+    TEXT_SPRINT class_entries ~~
+    FOR (ci = 0; ci < num_classes; ++ci) BEGIN
+      SET class_id = $classes(~%ci%~)
+      TEXT_SPRINT class_name $classes(~%ci%~ ~name~)
+      TEXT_SPRINT class_title $classes(~%ci%~ ~title~)
+      SET num = ci + 1
+      TEXT_SPRINT class_entries ~%class_entries%%NL% %num%] %class_title% (%class_name%)~
+      SET $class_list(~%class_list%~ ~id~) = class_id
+      TEXT_SPRINT $class_list(~%class_list%~ ~name~) ~%class_name%~
+      TEXT_SPRINT $class_list(~%class_list%~ ~title~) ~%class_title%~
+      SET class_list += 1
+
+      // multiclasses may choose original multiclass kits or kits from their individual single class components
+      SET $classbase(~0~) = class_id
+      PATCH_MATCH class_id WITH
+        7 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 1 END // FIGHTER_MAGE
+        8 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 3 END // FIGHTER_CLERIC
+        9 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 4 END // FIGHTER_THIEF
+        10 BEGIN SET classbase = 4 SET $classbase(~1~) = 2 SET $classbase(~2~) = 1 SET $classbase(~3~) = 4 END // FIGHTER_MAGE_THIEF
+        13 BEGIN SET classbase = 3 SET $classbase(~1~) = 1 SET $classbase(~2~) = 4 END // MAGE_THIEF
+        14 BEGIN SET classbase = 3 SET $classbase(~1~) = 3 SET $classbase(~2~) = 1 END // CLERIC_MAGE
+        15 BEGIN SET classbase = 3 SET $classbase(~1~) = 3 SET $classbase(~2~) = 4 END // CLERIC_THIEF
+        16 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 11 END // FIGHTER_DRUID
+        17 BEGIN SET classbase = 4 SET $classbase(~1~) = 2 SET $classbase(~2~) = 1 SET $classbase(~3~) = 3 END // FIGHTER_MAGE_CLERIC
+        18 BEGIN SET classbase = 3 SET $classbase(~1~) = 3 SET $classbase(~2~) = 12 END // CLERIC_RANGER
+        DEFAULT SET classbase = 1
+      END
+
+      SET kit_count = 0 // for convenience, assigned to $class_kits(~%class_id%~) later
+      SET $class_kits(~%class_id%~ ~%kit_count%~ ~id~) = TRUECLASS
+      TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~name~) ~%TRUECLASS_NAME%~
+      TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~title~) ~%TRUECLASS_TITLE%~
+      SET kit_count += 1
+      FOR (cbi = 0; cbi < classbase; ++cbi) BEGIN
+        SET clsid = $classbase(~%cbi%~)
+        FOR (ki = 0; ki < num_kits; ++ki) BEGIN
+          SET kit_id = $kits(~%ki%~)
+          SET kitclass_id = $kits(~%ki%~ ~clsid~)
+          PATCH_IF (kitclass_id = clsid) BEGIN
+            TEXT_SPRINT kit_name $kits(~%ki%~ ~name~)
+            TEXT_SPRINT kit_title $kits(~%ki%~ ~title~)
+            SET $class_kits(~%class_id%~ ~%kit_count%~ ~id~) = kit_id
+            TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~name~) ~%kit_name%~
+            TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~title~) ~%kit_title%~
+            SET kit_count += 1
+          END
+        END
+      END
+      SET $class_kits(~%class_id%~) = kit_count
+    END
+  END
+
+  // querying new class
+  OUTER_SET action = STARTOVER
+  OUTER_WHILE (action = STARTOVER) BEGIN
+    PRINT @2000 // Current class: %cur_class_title% (%cur_class_name%), kit: %cur_kit_title% (%cur_kit_name%)
+    PRINT @2001 // Available classes: %class_entries%
+
+    OUTER_SET new_class_id = "-1"
+    PRINT @2002 // Please enter number of the new class (leave blank to keep current):
+    ACTION_READLN id
+    ACTION_IF (~%id%~ STR_EQ ~~) BEGIN OUTER_SET new_class_id = cur_class_id END
+    OUTER_WHILE (new_class_id < 0 && (NOT IS_AN_INT ~id~ || id < 1 || id > class_list)) BEGIN
+      PRINT @2003 // Specified class number is unavailable.
+      PRINT @2002 // Please enter number of the new class (leave blank to keep current):
+      ACTION_READLN id
+      ACTION_IF (~%id%~ STR_EQ ~~) BEGIN OUTER_SET new_class_id = cur_class_id END
+    END
+    ACTION_IF (new_class_id < 0) BEGIN
+      // selected new class
+      OUTER_SET id -= 1
+      OUTER_SET new_class_id = $class_list(~%id%~ ~id~)
+      OUTER_TEXT_SPRINT new_class_name $class_list(~%id%~ ~name~)
+      OUTER_TEXT_SPRINT new_class_title $class_list(~%id%~ ~title~)
+    END ELSE BEGIN
+      // retained current class
+      OUTER_TEXT_SPRINT new_class_name ~%cur_class_name%~
+      OUTER_TEXT_SPRINT new_class_title ~%cur_class_title%~
+    END
+    PRINT @2004 // Class selected: %new_class_title% (%new_class_name%).
+
+    // creating list of available kits for selected class
+    OUTER_PATCH ~~ BEGIN
+      TEXT_SPRINT kit_entries ~~
+      SET num_kits = $class_kits(~%new_class_id%~)
+      FOR (i = 0; i < num_kits; ++i) BEGIN
+        TEXT_SPRINT name $class_kits(~%new_class_id%~ ~%i%~ ~name~)
+        TEXT_SPRINT title $class_kits(~%new_class_id%~ ~%i%~ ~title~)
+        SET num = i + 1
+        TEXT_SPRINT kit_entries ~%kit_entries%%NL% %num%] %title% (%name%)~
+      END
+    END
+
+    // querying new kit
+    OUTER_SET num_kit_list = $class_kits(~%new_class_id%~)
+    ACTION_IF (num_kit_list = 1) BEGIN
+      PRINT @2005 // No kits available for class "%new_class_title%".
+      OUTER_SET new_kit_id = $class_kits(~%new_class_id%~ ~0~ ~id~)
+      OUTER_TEXT_SPRINT new_kit_name $class_kits(~%new_class_id%~ ~0~ ~name~)
+      OUTER_TEXT_SPRINT new_kit_title $class_kits(~%new_class_id%~ ~0~ ~title~)
+    END ELSE BEGIN
+      PRINT @2006 // Available kits for class "%new_class_title%": %kit_entries%
+
+      PRINT @2007 // Please enter number of the new kit:
+      ACTION_READLN id
+      OUTER_WHILE (NOT IS_AN_INT ~id~ || id < 1 || id > num_kit_list) BEGIN
+        PRINT @2008 // Specified kit number is unavailable.
+        PRINT @2007 // Please enter number of the new kit:
+        ACTION_READLN id
+      END
+      OUTER_SET id -= 1
+      OUTER_SET new_kit_id = $class_kits(~%new_class_id%~ ~%id%~ ~id~)
+      OUTER_TEXT_SPRINT new_kit_name $class_kits(~%new_class_id%~ ~%id%~ ~name~)
+      OUTER_TEXT_SPRINT new_kit_title $class_kits(~%new_class_id%~ ~%id%~ ~title~)
+    END
+
+    // final confirmation
+    PRINT @2009 // You have selected: class "%new_class_title%" (%new_class_name%) and kit "%new_kit_title%" (%new_kit_name%).
+    PRINT @2010 // Assign new class/kit combination ([A]ccept, [S]tart over, [C]ancel)?
+    ACTION_READLN input
+    OUTER_PATCH_SAVE input ~%input%~ BEGIN
+      PATCH_IF (BUFFER_LENGTH > 0) BEGIN
+        DELETE_BYTES 1 (BUFFER_LENGTH - 1)
+        WRITE_BYTE 0 (THIS >= 97 && THIS <= 122) ? THIS - 32 : THIS
+      END
+    END
+    OUTER_WHILE (NOT VARIABLE_IS_SET $actions(~%input%~)) BEGIN
+      PRINT @2011 // Please enter A to accept, S to start over or C to cancel the operation.
+      ACTION_READLN input
+      OUTER_PATCH_SAVE input ~%input%~ BEGIN
+        PATCH_IF (BUFFER_LENGTH > 0) BEGIN
+          DELETE_BYTES 1 (BUFFER_LENGTH - 1)
+          WRITE_BYTE 0 (THIS >= 97 && THIS <= 122) ? THIS - 32 : THIS
+        END
+      END
+    END
+    OUTER_SET action = $actions(~%input%~)
+  END
+
+  // return class and kit IDs
+  ACTION_IF (action = ACCEPT) BEGIN
+    OUTER_SET success = 1
+    OUTER_SET class_id = new_class_id
+    OUTER_SET kit_id = new_kit_id
+  END
+END

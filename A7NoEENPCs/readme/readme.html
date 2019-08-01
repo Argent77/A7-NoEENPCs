@@ -10,10 +10,15 @@
 
   <body>
     <div><a name="top" id="top"></a></div>
+    <div id="langdiv">
+      <span>English</span>
+      <span class="divider" />
+      <span><a href="readme-german.html">Deutsch</a></span>
+    </div>
     <div id="wrap">
       <div id="header">
         <h1>Convenient Enhanced Edition NPCs</h1>
-        <em>A mod for BG2:EE and EET (Enhanced Edition Trilogy) that allows you to tweak the Beamdog NPCs.</em>
+        <em>A mod for BG:EE, BG2:EE and EET (Enhanced Edition Trilogy) that allows you to tweak the new Beamdog NPCs.</em>
         <hr />
         <p class="about"><strong>Author: Argent77</strong></p>
         <p class="about">
@@ -40,14 +45,10 @@
         <a name="overview" id="overview"></a>
         <div class="content">
           <h2>Overview</h2>
-          <p>A mod for BG:EE, BG:SOD, BG2:EE and EET.</p>
-          <p>The new characters introduced in BG:EE and BG2:EE are not for everyone's taste. Their character style differs greatly from the vanilla NPCs. Moreover, in several cases they are trying to force themselves into your party without you having a chance to ignore them. Some of their attached quests are also very difficult to solve without resorting to powergaming tactics.</p>
-          <p>This mod offers two possible solutions for this problem:</p>
-          <ol class="sublist">
-            <li>You can disable all or individual NPCs completely. Since the NPCs have only been disabled, it is theoretically possible to reactivate them again later by uninstalling the respective subcomponent(s) of this mod.</li>
-            <li>You can keep all or individual NPCs from initiating conversations or events on their own. A small number of events have been slightly altered to make this possible. See below for more information.</li>
-          </ol>
-          <p>Additional components allow you to tweak NPC portraits, character classes, or make their personal or quest-specific items available for everyone in shops or as loot.</p>
+          <p>A mod for BG:EE, BG:SOD, BG2:EE and <abbr title="Enhanced Edition Trilogy">EET</abbr>.</p>
+          <p>The new NPCs introduced in the Enhanced Editions differ somewhat from the original cast and might not be everyone's taste. This mod provides a number of options to adapt them to your comfort level. You can make their first appearance more passive, giving you more control over whether or when to make the first contact. A small number of events will be slightly altered to make this possible.</p>
+          <p>Alternatively it is also possible to simply remove one or more NPCs from the game. In that case you have the choice to make their personal or quest-related items available to everyone in stores or as loot.</p>
+          <p>Additional components allow you to improve their portraits or customize their classes and/or kits to whatever you desire. You can find more detailed information below.</p>
           <hr class="floatfix" />
           <p>Visit the <a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS Forums</a> or the <a href="https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1">Beamdog Forums</a> if you have questions, or download the the latest version from <a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">Spellhold Studios</a> or <a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>.</p>
           <address>
@@ -62,7 +63,7 @@
         <div class="content">
           <h2>Compatibility</h2>
           <p>This mod should be compatible with every mod out there that doesn't significantly alter the starting locations and scripts of the Enhanced Edition NPCs. At present only Pecca's mod "EE_content_tweaks" is known to interfere with this mod in BG:EE. This mod will check if it has been installed and refuses to install relevant components if detected.</p>
-          <p>This mod is fully compatible with Siege of Dragonspear. However, Baeloth will not be affected in the campaign because of his close involvement in a certain event.</p>
+          <p>This mod is fully compatible with Siege of Dragonspear. However, tweak options for SoD NPCs will be more restricted because of their close involvement in the plot.</p>
           <address>
             <a href="#top">BACK TO TOP</a>
           </address>
@@ -89,6 +90,7 @@
         <div class="content">
           <h2>Mod Components</h2>
           <hr class="floatfix" />
+          <h4>Group: Appearance</h4>
           <p><strong>1. Modify Enhanced Edition NPCs <em>(BG:EE, BG:SOD, BG2:EE and EET)</em></strong>
             <ol class="sublist">
               <li>Disable all NPCs: Disables NPCs all at once.</li>
@@ -127,7 +129,7 @@
           <p><strong>6. Modify individually: Rasaad</strong>
             <ol class="sublist">
               <li>Disable Rasaad <em>(BG:EE, BG:SOD, BG2:EE and EET)</em>: This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.</li>
-              <li>Make Rasaad passive <em>(BG:EE, BG2:EE and EET)</em>: In BG:EE This component prevents Rasaad from joining the fight against the assassins Neira or Nimbul in Nashkel. In BG2:EE this component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.</li>
+              <li>Make Rasaad passive <em>(BG:EE, BG2:EE and EET)</em>: In BG:EE this component prevents Rasaad from joining the fight against the assassins Neira or Nimbul in Nashkel. In BG2:EE this component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.</li>
             </ol>
           </p>
 
@@ -199,7 +201,9 @@
             </ul>
           </p>
 
-          <p><strong>The following components can be installed independently:</strong></p>
+          <!-- <p><strong>The following components can be installed independently:</strong></p> -->
+          <hr class="floatfix" />
+          <h4>Group: Portraits</h4>
 
           <p><strong>8. Change portrait: Baeloth</strong> (<a href="preview/baeloth-preview.jpg" target="_blank">Preview</a>)</p>
           <ol class="sublist">
@@ -232,6 +236,117 @@
           <p><strong>13. Improved portrait: Wilson</strong> (<a href="preview/wilson-preview.jpg" target="_blank">Preview</a>)<br />
             <span class="subspan">Installs an improved portrait for Wilson. <em>(BG2:EE and EET)</em></span>
           </p>
+
+          <hr class="floatfix" />
+          <h4>Group: Class changes</h4>
+
+          <p><strong>Note:</strong> Class and kit changes are restricted to the NPC's stats, skills and abilities. They won't be reflected in their personal quests or dialogs. However, personal equipment may be updated to comply with the new class or kit requirements.</p>
+
+          <p><strong>14. Change class/kit: Baeloth <em>(BG:EE, SoD and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets his level to 1, but makes no changes to his current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Mage:</strong> Resets his level to 1 and applies the class "Mage".</li>
+            <li><strong>Abjurer:</strong> Resets his level to 1 and applies the mage kit "Abjurer".</li>
+            <li><strong>Conjurer:</strong> Resets his level to 1 and applies the mage kit "Conjurer".</li>
+            <li><strong>Diviner:</strong> Resets his level to 1 and applies the mage kit "Diviner".</li>
+            <li><strong>Enchanter:</strong> Resets his level to 1 and applies the mage kit "Enchanter".</li>
+            <li><strong>Illusionist:</strong> Resets his level to 1 and applies the mage kit "Illusionist".</li>
+            <li><strong>Invoker:</strong> Resets his level to 1 and applies the mage kit "Invoker".</li>
+            <li><strong>Necromancer:</strong> Resets his level to 1 and applies the mage kit "Necromancer".</li>
+            <li><strong>Transmuter:</strong> Resets his level to 1 and applies the mage kit "Transmuter".</li>
+            <li><strong>Wild Mage:</strong> Resets his level to 1 and applies the mage kit "Wild Mage".</li>
+            <li><strong>Dragon Disciple:</strong> Resets his level to 1 and applies the sorcerer kit "Dragon Disciple".</li>
+            <li><strong>Chaos Sorcerer:</strong> Resets his level to 1 and applies the custom sorcerer kit "Chaos Sorcerer". <em>(requires mod "Chaos Sorcerer Kit" by Argent77)</em></li>
+            <li><strong>Shadow Adept:</strong> Resets his level to 1 and applies the custom mage kit "Shadow Adept". <em>(requires mod "Shadow Magic" by Artemius_I)</em></li>
+          </ol>
+
+          <p><strong>15. Change class/kit: Dorn <em>(BG:EE, SoD, BG2:EE and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets his level to 1, but makes no changes to his current class or kit.</li>
+          </ol>
+          <p><em><strong>Note:</strong> Dorn's personal quests are too closely linked to his profession to allow any class changes.</em></p>
+
+          <p><strong>16. Change class/kit: Neera <em>(BG:EE, SoD, BG2:EE and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets her level to 1, but makes no changes to her current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Chaos Sorcerer:</strong> Resets her level to 1 and applies the custom sorcerer kit "Chaos Sorcerer". <em>(requires mod "Chaos Sorcerer Kit" by Argent77)</em></li>
+          </ol>
+
+          <p><strong>17. Change class/kit: Rasaad <em>(BG:EE, SoD, BG2:EE and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets his level to 1, but makes no changes to his current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Monk:</strong> Resets his level to 1 and applies the class "Monk".</li>
+            <li><strong>Silverstar of Selûne:</strong> Resets his level to 1 and applies the custom cleric kit "Silverstar of Selûne". <em>(requires component "Silverstar of Selûne" of the mod "Divine Remix")</em></li>
+          </ol>
+
+          <p><strong>18. Change class/kit: M'Khiin <em>(SoD and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets her level to 1, but makes no changes to her current class or kit.</li>
+          </ol>
+          <p><em><strong>Note:</strong> M'Khiin's special racial traits don't allow to make changes to her original class.</em></p>
+
+          <p><strong>19. Change class/kit: Glint <em>(SoD and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets his level to 1, but makes no changes to his current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Cleric:</strong> Resets his level to 1 and applies the class "Cleric".</li>
+            <li><strong>Fighter/Cleric:</strong> Resets his level to 1 and applies the multiclass combination "Fighter/Cleric".</li>
+            <li><strong>Cleric/Illusionist:</strong> Resets his level to 1 and applies the specialized multiclass combination "Cleric/Illusionist".</li>
+          </ol>
+
+          <p><strong>20. Change class/kit: Voghiln <em>(SoD and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets his level to 1, but makes no changes to his current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Bard:</strong> Resets his level to 1 and applies the class "Bard".</li>
+            <li><strong>Blade:</strong> Resets his level to 1 and applies the bard kit "Blade".</li>
+            <li><strong>Thief:</strong> Resets his level to 1 and applies the class "Thief".</li>
+            <li><strong>Swashbuckler:</strong> Resets his level to 1 and applies the thief kit "Swashbuckler".</li>
+          </ol>
+
+          <p><strong>21. Change class/kit: Corwin <em>(SoD and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets her level to 1, but makes no changes to her current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Ranger:</strong> Resets her level to 1 and applies the class "Ranger".</li>
+            <li><strong>Stalker:</strong> Resets her level to 1 and applies the ranger kit "Stalker".</li>
+            <li><strong>Fighter:</strong> Resets her level to 1 and applies the class "Fighter".</li>
+            <li><strong>Wizard Slayer:</strong> Resets her level to 1 and applies the fighter kit "Wizard Slayer".</li>
+            <li><strong>Cleric:</strong> Resets her level to 1 and applies the class "Cleric".</li>
+            <li><strong>Priest of Tyr:</strong> Resets her level to 1 and applies the cleric kit "Priest of Tyr".</li>
+            <li><strong>Watcher of Helm:</strong> Resets her level to 1 and applies the cleric kit "Watcher of Helm".</li>
+            <li><strong>Paladin:</strong> Resets her level to 1 and applies the class "Paladin".</li>
+            <li><strong>Cavalier:</strong> Resets her level to 1 and applies the paladin kit "Cavalier".</li>
+            <li><strong>Inquisitor:</strong> Resets her level to 1 and applies the paladin kit "Inquisitor".</li>
+          </ol>
+
+          <p><strong>22. Change class/kit: Hexxat <em>(BG2:EE and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets her level to 1, but makes no changes to her current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Assassin:</strong> Resets her level to 1 and applies the thief kit "Assassin".</li>
+            <li><strong>Shadowdancer:</strong> Resets her level to 1 and applies the thief kit "Shadowdancer".</li>
+            <li><strong>Mage/Thief:</strong> Resets her level to 1 and applies the multiclass combination "Mage/Thief".</li>
+            <li><strong>Mage/Assassin:</strong> Resets her level to 1 and applies the specialized multiclass combination "Mage/Assassin".</li>
+            <li><strong>Mage/Shadowdancer:</strong> Resets her level to 1 and applies the specialized multiclass combination "Mage/Shadowdancer".</li>
+            <li><strong>Necromancer/Thief:</strong> Resets her level to 1 and applies the specialized multiclass combination "Necromancer/Thief".</li>
+            <li><strong>Fighter/Thief:</strong> Resets her level to 1 and applies the multiclass combination "Fighter/Thief".</li>
+            <li><strong>Fighter/Assassin:</strong> Resets her level to 1 and applies the specialized multiclass combination "Fighter/Assassin".</li>
+            <li><strong>Fighter/Shadowdancer:</strong> Resets her level to 1 and applies the specialized multiclass combination "Fighter/Shadowdancer".</li>
+          </ol>
+
+          <p><strong>23. Change class/kit: Clara <em>(BG2:EE and EET)</em></strong></p>
+          <ol class="sublist">
+            <li><strong>Reset level only:</strong> Resets her level to 1, but makes no changes to her current class or kit.</li>
+            <li><strong>Choose your class:</strong> This option allows you to choose any class/kit combination you desire.<br /><em><strong>Caution:</strong> Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!</em></li>
+            <li><strong>Bounty Hunter:</strong> Resets her level to 1 and applies the thief kit "Bounty Hunter".</li>
+            <li><strong>Swashbuckler:</strong> Resets her level to 1 and applies the thief kit "Swashbuckler".</li>
+            <li><strong>Shadowdancer:</strong> Resets her level to 1 and applies the thief kit "Shadowdancer".</li>
+            <li><strong>Bard:</strong> Resets her level to 1 and applies the class "Bard".</li>
+          </ol>
 
           <address>
             <a href="#top">BACK TO TOP</a>
@@ -268,6 +383,8 @@
           <h2>Version History</h2>
           <h6>Version 4.0:</h6>
           <ul>
+            <li>Changed mod name to "Convenient Enhanced Edition NPCs"</li>
+            <li>Added options to change classes or kits of selected NPCs</li>
             <li>Added options to change portraits for NPCs</li>
             <li>Added "Passive Rasaad" for BG:EE</li>
           </ul>

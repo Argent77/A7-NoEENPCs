@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*- 
+// -*- coding: utf-8 -*-
 
 @50000 = ~Pierścień ten był podobno własnością pewnego niesławnego drowa, który specjalizował się w zadawaniu tortur. W jaki sposób go utracił i gdzie obecnie przebywa, nie wiadomo.
 
@@ -15,3 +15,18 @@ Właściwości ładunków:
 
 Waga: 0~
 @50001 = ~Mnich Słonecznej Duszy~
+
+
+// Updated biographies: Neera
+@51000 = ~~ // BG1 bio placeholder
+@51001 = ~~ // BG2 bio placeholder
+
+// Updated biographies: Rasaad
+@51050 = ~~ // BG2 bio placeholder
+
+// Updated biographies: Voghiln
+@51100 = ~~ // Thief bio placeholder
+
+// Updated biographies: Corwin
+@51150 = ~~ // Cleric bio placeholder
+@51151 = ~~ // Paladin bio placeholder
