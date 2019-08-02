@@ -1,3 +1,7 @@
+header, section, footer, aside, nav, main, article, figure {
+  display: block;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -190,9 +194,9 @@ h2 {
 }
 
 #license img {
-  border-width:0
-  width:7.5rem;
-  height:2.64rem;
+  border-width: 0;
+  width: 7.5rem;
+  height: 2.64rem;
 }
 
 .t1 {
