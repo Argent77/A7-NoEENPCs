@@ -5,11 +5,11 @@
 @5 = ~Entscheide fuer jeden einzelnen NSC~
 
 @10 = ~Enhanced Edition NSCs anpassen~
-@11 = ~Passe Baeloth an~
-@12 = ~Passe Dorn an~
-@13 = ~Passe Hexxat an~
-@14 = ~Passe Neera an~
-@15 = ~Passe Rasaad an~
+@11 = ~Baeloth anpassen~
+@12 = ~Dorn anpassen~
+@13 = ~Hexxat anpassen~
+@14 = ~Neera anpassen~
+@15 = ~Rasaad anpassen~
 
 // Group names
 @50 = ~Auftritt~
@@ -26,7 +26,7 @@
 @203 = ~Neera bleibt passiv~
 @204 = ~Rasaad bleibt passiv~
 
-@301 = ~NSC-spezifische Gegenstaende fuer alle verfuegbar machen~
+@301 = ~NSC-spezifische Gegenstaende allen zugaenglich machen~
 
 // Portraits
 @400 = ~Portrait austauschen: Baeloth~
