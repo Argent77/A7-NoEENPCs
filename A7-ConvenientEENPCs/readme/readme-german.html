@@ -4,186 +4,173 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOD: Enhanced Edition NSCs anpassen</title>
-    <meta name="description" content="Eine Mod für BG:EE, BG2:EE und EET (Enhanced Edition Trilogy), mit der Ihr die neuen Beamdog NSCs an Eure Vorstellungen anpassen könnt." />
+    <meta name="description" content="A mod for BG:EE, BG2:EE and EET (Enhanced Edition Trilogy) that allows you to tweak the Beamdog NPCs." />
     <meta name="keywords" content="bgee, bg2ee, eet, mod, tweaks" />
     <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
     <div><a name="top" id="top"></a></div>
-    <div id="langdiv">
-      <span><a href="readme.html">English</a></span>
-      <span class="divider" />
-      <span>Deutsch</span>
+    <div id="language">
+      <ul>
+        <li><a href="readme.html">English</a></li>
+        <li title="German">Deutsch</li>
+      </ul>
     </div>
-    <div id="wrap">
-      <div id="header">
-        <h1>Enhanced Edition NSCs anpassen</h1>
-        <em>Eine Mod für BG:EE, BG2:EE und EET (Enhanced Edition Trilogy), mit der Ihr die neuen Beamdog NSCs an Eure Vorstellungen anpassen könnt.</em>
-        <hr />
-        <p class="about"><strong>Autor: Argent77</strong></p>
-        <p class="about">
-          <strong>Download</strong> (<a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">SHS</a>) &#8226;
-          <strong>Download</strong> (<a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>) &#8226;
-          <strong>Diskussion</strong> (<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a>) &#8226;
-          <strong>Diskussion</strong> (<a href="https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1">Beamdog</a>) &#8226;
-          <a href="https://github.com/Argent77/A7-NoEENPCs">Projekt</a> &#8226;
-          Version: 3.5
-        </p>
-        <hr />
-        <p class="menu">
-          <a href="#overview">Übersicht</a> &middot;
-          <a href="#compatibility">Kompatibilität</a> &middot;
-          <a href="#installation">Installation</a> &middot;
-          <a href="#component">Modkomponenten</a> &middot;
-          <a href="#credits">Danksagungen</a> &middot;
-          <a href="#version">Versionshistorie</a>
-        </p>
-      </div>
-      <div id="maindiv">
 
-        <!-- ================== I N T R O D U C T I O N ================== -->
-        <a name="overview" id="overview"></a>
-        <div class="content">
-          <h2>Übersicht</h2>
-          <p>Eine Mod für BG:EE, BG:SoD, BG2:EE und <abbr title="Enhanced Edition Trilogy">EET</abbr>.</p>
-          <p>Die neuen NSCs der Enhanced Editions unterscheiden sich zum Teil deutlich von den Originalen, und sind deshalb nicht unbedingt jedermanns Geschmack. Diese Mod bietet eine Reihe von Optionen an, um die Charaktere an die eigenen Vorstellungen anzupassen.</p>
-          <p>Es ist möglich, den ersten Auftritt der NSCs im Spiel etwas passiver zu gestalten, um mehr Kontrolle darüber zu haben, ob oder wann man ihre Bekanntschaft machen möchte. Einige Dialoge und Ereignisse wurden dafür leicht verändert. Alternativ kann man auch einige oder alle NSCs einfach aus dem Spiel entfernen. In diesem Fall erlaubt Euch die Mod, ihre persönlichen Gegenstände allen zur Verfügung zu stellen. Sie können als Beute geraubt oder in Geschäften erworben werden.</p>
-          <p>Zusätzlich gibt es die Möglichkeit, die Porträts der NSCs an den Stil der jeweiligen Spiele anzupassen. Für die meisten neuen NSCs aus BG:EE, SoD und BG2:EE bietet diese Mod außerdem die Option, ihre Klasse nach belieben zu wechseln bzw. auf die erste Stufe zurückzusetzen, um ihre Fertigkeiten nach den eigenen Vorstellungen zu gestalten. Mehr dazu im Abschnitt <a href="#component">Modkomponenten</a>.</p>
-          <hr class="floatfix" />
-          <p>Schaut im <a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS Forum</a> oder <a href="https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1">Beamdog Forum</a> vorbei, wenn Ihr Fragen habt, oder besucht <a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">Spellhold Studios</a> oder <a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>, um die aktuellste Modversion herunterzuladen.</p>
-          <address>
-            <a href="#top">ZURÜCK ZUM ANFANG</a>
-          </address>
+    <header>
+      <h1 class="title">Enhanced Edition NSCs anpassen</h1>
+      <div class="subtitle">Eine Mod für BG:EE, BG2:EE und EET (Enhanced Edition Trilogy), mit der Ihr die neuen Beamdog NSCs an Eure Vorstellungen anpassen könnt.</div>
+      <hr />
+      <p class="about"><strong>Autor: Argent77</strong></p>
+      <ul id="globalnav" class="about">
+        <li><strong>Download</strong> (<a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>Download</strong> (<a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>)</li>
+        <li><strong>Diskussion</strong> (<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>Diskussion</strong> (<a href="https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1">Beamdog</a>)</li>
+        <li><a href="https://github.com/Argent77/A7-NoEENPCs">Projekt</a></li>
+        <li>Version: 3.5</li>
+      </ul>
+      <hr />
+      <nav>
+        <ul>
+          <li><a href="#overview">Übersicht</a></li>
+          <li><a href="#compatibility">Kompatibilität</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#components">Modkomponenten</a></li>
+          <li><a href="#credits">Danksagungen</a></li>
+          <li><a href="#changelog">Versionshistorie</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================== I N T R O D U C T I O N ================== -->
+      <section id="overview">
+        <h2>Übersicht</h2>
+        <p>Eine Mod für BG:EE, BG:SoD, BG2:EE und <abbr title="Enhanced Edition Trilogy">EET</abbr>.</p>
+        <p>Die neuen NSCs der Enhanced Editions unterscheiden sich zum Teil deutlich von den Originalen, und sind deshalb nicht unbedingt jedermanns Geschmack. Diese Mod bietet eine Reihe von Optionen an, um die Charaktere an die eigenen Vorstellungen anzupassen.</p>
+        <p>Es ist möglich, den ersten Auftritt der NSCs im Spiel etwas passiver zu gestalten, um mehr Kontrolle darüber zu haben, ob oder wann man ihre Bekanntschaft machen möchte. Einige Dialoge und Ereignisse wurden dafür leicht verändert. Alternativ kann man auch einige oder alle NSCs einfach aus dem Spiel entfernen. In diesem Fall erlaubt Euch die Mod, ihre persönlichen Gegenstände allen zur Verfügung zu stellen. Sie können als Beute geraubt oder in Geschäften erworben werden.</p>
+        <p>Zusätzlich gibt es die Möglichkeit, die Porträts der NSCs an den Stil der jeweiligen Spiele anzupassen. Für die meisten neuen NSCs aus BG:EE, SoD und BG2:EE bietet diese Mod außerdem die Option, ihre Klasse nach belieben zu wechseln bzw. auf die erste Stufe zurückzusetzen, um ihre Fertigkeiten nach den eigenen Vorstellungen zu gestalten. Mehr dazu im Abschnitt <a href="#components">Modkomponenten</a>.</p>
+        <hr class="spacer" />
+        <p>Schaut im <a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS Forum</a> oder <a href="https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1">Beamdog Forum</a> vorbei, wenn Ihr Fragen habt, oder besucht <a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">Spellhold Studios</a> oder <a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>, um die aktuellste Modversion herunterzuladen.</p>
+        <div class="back">
+          <a class="novisit" href="#top">ZURÜCK ZUM ANFANG</a>
         </div>
+      </section>
 
-        <hr class="divider" />
-
-        <!-- ================== C O M P A T I B I L I T Y ================== -->
-        <a name="compatibility" id="compatibility"></a>
-        <div class="content">
-          <h2>Kompatibilität</h2>
-          <p>Die Mod sollte mit jeder anderen Mod kompatibel sein, die keine größeren Veränderungen an den Startpositionen und Skripten der neuen NSCs durchführen. Gegenwärtig macht nur Peccas Mod "EE_content_tweaks" mit dieser Mod Probleme in BG:EE. Diese Mod prüft automatisch, ob sie bereits installiert wurde und gibt gegebenenfalls eine Warnung aus.</p>
-          <p>Diese Mod ist mit der BGEE-Erweiterung "Siege of Dragonspear" kompatibel. Allerdings sind einige Einstellmöglichkeiten für NSCs aus der Erweiterung eingeschränkt, da sie zu eng mit der Handlung verwoben sind.</p>
-          <p><strong>WICHTIG:</strong> Modversion 4.0 beinhaltet einige strukturelle Veränderungen. Sie sollte <u>nicht</u> zusammen mit älteren Versionen dieser Mod (3.5 oder älter) installiert werden!</p>
-          <address>
-            <a href="#top">ZURÜCK ZUM ANFANG</a>
-          </address>
+      <!-- ================== C O M P A T I B I L I T Y ================== -->
+      <section id="compatibility">
+        <h2>Kompatibilität</h2>
+        <p>Die Mod sollte mit jeder anderen Mod kompatibel sein, die keine größeren Veränderungen an den Startpositionen und Skripten der neuen NSCs durchführen. Gegenwärtig macht nur Peccas Mod „EE_content_tweaks” mit dieser Mod Probleme in BG:EE. Diese Mod prüft automatisch, ob sie bereits installiert wurde und gibt gegebenenfalls eine Warnung aus.</p>
+        <p>Diese Mod ist mit der BGEE-Erweiterung „Siege of Dragonspear” kompatibel. Allerdings sind einige Einstellmöglichkeiten für NSCs aus der Erweiterung eingeschränkt, da sie zu eng mit der Handlung verwoben sind.</p>
+        <p><strong>WICHTIG:</strong> Modversion 4.0 beinhaltet einige strukturelle Veränderungen. Sie sollte <u>nicht</u> zusammen mit älteren Versionen dieser Mod (3.5 oder älter) installiert werden!</p>
+        <div class="back">
+          <a class="novisit" href="#top">ZURÜCK ZUM ANFANG</a>
         </div>
+      </section>
 
-        <hr class="divider" />
-
-        <!-- ================== I N S T A L L A T I O N ================== -->
-        <a name="installation" id="installation"></a>
-        <div class="content">
-          <h2>Installation</h2>
-          <p>Dies ist eine WeiDU Mod. Das bedeutet, sie ist sehr einfach zu installieren. Entpackt die heruntergeladene Zipdatei in das Spieleverzeichnis und startet entweder „setup-A7-ConvenientEENPCs.exe” (Windows) oder „setup-A7-ConvenientEENPCs.command” (macOS). Folgt den Anweisungen des Programms und die Mod ist startbereit.</p>
-          <p>Es wird dringend empfohlen, nach der Installation ein neues Spiel anzufangen.</p>
-          <p>Um die Mod zu deinstallieren, startet „setup-A7-ConvenientEENPCs.exe” oder „setup-A7-ConvenientEENPCs.command” erneut und folgt den Anweisungen.</p>
-          <address>
-            <a href="#top">ZURÜCK ZUM ANFANG</a>
-          </address>
+      <!-- ================== I N S T A L L A T I O N ================== -->
+      <section id="installation">
+        <h2>Installation</h2>
+        <p>Dies ist eine WeiDU Mod. Das bedeutet, sie ist sehr einfach zu installieren. Entpackt die heruntergeladene Zipdatei in das Spieleverzeichnis und startet entweder „setup-A7-ConvenientEENPCs.exe” (Windows) oder „setup-A7-ConvenientEENPCs.command” (macOS). Folgt den Anweisungen des Programms und die Mod ist startbereit.</p>
+        <p>Es wird dringend empfohlen, nach der Installation ein neues Spiel anzufangen.</p>
+        <p>Um die Mod zu deinstallieren, startet „setup-A7-ConvenientEENPCs.exe” oder „setup-A7-ConvenientEENPCs.command” erneut und folgt den Anweisungen.</p>
+        <div class="back">
+          <a class="novisit" href="#top">ZURÜCK ZUM ANFANG</a>
         </div>
+      </section>
 
-        <hr class="divider" />
-
-        <!-- ================== C O M P O N E N T S ================== -->
-        <a name="component" id="component"></a>
-        <div class="content">
-          <h2>Modkomponenten</h2>
-          <hr class="floatfix" />
-          <h4>Gruppe: Auftritt</h4>
-          <p><strong>1. Enhanced Edition NSCs verändern <em>(BG:EE, BG:SOD, BG2:EE und EET)</em></strong>
-            <ol class="sublist">
+      <!-- ================== C O M P O N E N T S ================== -->
+      <section id="components">
+        <h2>Modkomponenten</h2>
+        <h4>Gruppe: Auftritt</h4>
+        <ol class="gappedlist">
+          <li>
+            <p><strong>Enhanced Edition NSCs verändern <em>(BG:EE, BG:SOD, BG2:EE und EET)</em></strong></p>
+            <ol>
               <li>Alle NSCs deaktivieren: Alle NSCs werden deaktiviert.</li>
               <li>Alle NSCs bleiben passiv: Alle NSCs bleiben passiv bei ihrem ersten Auftritt.</li>
               <li>Entscheide für jeden einzelnen NSC: Siehe unten.</li>
             </ol>
-          </p>
-
-          <p><strong>Die folgenden Komponenten sind nur verfügbar, wenn die Komponente "Entscheide für jeden einzelnen NSC" ausgewählt wurde:</strong></p>
-
-          <p><strong>2. Passe Baeloth an</strong>
-            <ol class="sublist">
+            <hr class="spacer" />
+            <p><strong>Die folgenden Komponenten sind nur verfügbar, wenn die Komponente „Entscheide für jeden einzelnen NSC” ausgewählt wurde:</strong></p>
+          </li>
+          <li>
+            <p><strong>Baeloth anpassen</strong></p>
+            <ol>
               <li>Baeloth deaktivieren <em>(nur BG:EE und EET)</em>: Diese Komponente verhindert, dass Baeloth in BG:EE auftaucht. (Die Schwarzen Gruben und Siege of Dragonspear sind nicht betroffen.)</li>
               <li>Make Baeloth passive <em>(nur BG:EE und EET)</em>: Diese Komponente verkürzt Baeloths Einführungssequenz auf ein absolutes Minimum und verhindert, dass er von sich aus ein Gespräch mit der Gruppe beginnt.</li>
             </ol>
-          </p>
-
-          <p><strong>3. Dorn deaktivieren (BG:EE, BG:SOD, BG2:EE und EET)</strong><br />
-            <span class="subspan">Diese Komponente verhindert, dass Dorn in BG:EE, SoD und BG2:EE auftaucht.</span>
-          </p>
-
-          <p><strong>4. Passe Hexxat an</strong>
-            <ol class="sublist">
+          </li>
+          <li>
+            <p><strong>Dorn deaktivieren (BG:EE, BG:SOD, BG2:EE und EET)</strong></p>
+            <p>Diese Komponente verhindert, dass Dorn in BG:EE, SoD und BG2:EE auftaucht.</p>
+          </li>
+          <li>
+            <p><strong>Hexxat anpassen</strong></p>
+            <ol>
               <li>Hexxat deaktivieren <em>(nur BG2:EE und EET)</em>: Diese Komponente verhindert, dass Hexxat und verwandte NSCs nicht in BG2:EE auftauchen.</li>
               <li>Hexxat bleibt passiv <em>(nur BG2:EE und EET)</em>: Diese Komponente verhindert, dass Hexxat von sich aus ein Gespräch mit der Gruppe beginnt.</li>
             </ol>
-          </p>
-
-          <p><strong>5. Passe Neera an</strong>
-            <ol class="sublist">
+          </li>
+          <li>
+            <p><strong>Neera anpassen</strong></p>
+            <ol>
               <li>Neera deaktivieren <em>(BG:EE, BG:SOD, BG2:EE und EET)</em>: Diese Komponente verhindert, dass Neera in BG:EE, SoD und BG2:EE auftaucht.</li>
               <li>Neera bleibt passiv <em>(BG:EE, BG2:EE und EET)</em>: In <em>BG:EE</em> verhindert diese Komponente, dass Neera von sich aus ein Gespräch mit der Gruppe beginnt. In <em>BG2:EE</em> löst diese Komponente Neeras Einführungssequenz im Brückenviertel nur aus, wenn man vorher mit ihr gesprochen hat. Man kann sie in der Nähe der der Sequenz mit den Roten Magiern finden, nachdem die Gruppe Stadtbewohner einige Schritte weiter über die rätselhaften Morde gesprochen haben.</li>
             </ol>
-          </p>
-
-          <p><strong>6. Passe Rasaad an</strong>
-            <ol class="sublist">
+          </li>
+          <li>
+            <p><strong>Rasaad anpassen</strong></p>
+            <ol>
               <li>Rasaad deaktivieren <em>(BG:EE, BG:SOD, BG2:EE und EET)</em>: Diese Komponente verhindert, dass Rasaad in BG:EE, SoD und BG2:EE auftaucht.</li>
               <li>Rasaad bleibt passiv <em>(BG:EE, BG2:EE und EET)</em>: In <em>BG:EE</em> verhindert diese Option, dass Rasaad sich in den Kampf mit Neira oder Nimbul in Nashkel einmischt. In <em>BG2:EE</em> löst diese Komponente Rasaads Einführungssequenz in Handelstreff nur aus, nachdem man mit ihm gesprochen hat. Er hält sich in der Nähe des Brunnens auf dem Marktplatz.</li>
             </ol>
-          </p>
-
-          <p><strong>7. NSC-spezifische Gegenstände für alle verfügbar machen</strong></p>
-          <p style="padding-left: 2.6rem">Diese Komponente erlaubt es, persönliche Gegenstände der deaktivierten NSCs in Geschäften, Truhen oder als Beute zu erwerben. Die folgenden Gegenstände sind verfügbar:</span></p>
-          <p><span class="subspan"><strong>Baeloth:</strong></span>
-          <ul class="sublist">
-            <li>BG:EE: Sein spezieller Ring kann im "Billigladen des Glücklichen Aello" als Schnäppchen erworben werden. Die Ringbeschreibung wurde entsprechend angepasst. Als Bonus wurde eine unvollständige Eigenschaft des Rings aktiviert, um ihn interessanter zu gestalten. <em>Hinweis: Aus technischen Gründen ist der Ring nicht verfügbar, wenn SoD installiert wurde.</em></li>
-          </ul>
-          <p><span class="subspan"><strong>Dorn:</strong></span>
-            <br />
-            <ul class="sublist">
+          </li>
+          <li>
+            <p><strong>NSC-spezifische Gegenstände allen zugänglich machen</strong></p>
+            <p>Diese Komponente erlaubt es, persönliche Gegenstände der deaktivierten NSCs in Geschäften, Truhen oder als Beute zu erwerben. Die folgenden Gegenstände sind verfügbar:</p>
+            <p><strong>Baeloth:</strong></p>
+            <ul>
+              <li>BG:EE: Sein spezieller Ring kann im „Billigladen des Glücklichen Aello” als Schnäppchen erworben werden. Die Ringbeschreibung wurde entsprechend angepasst. Als Bonus wurde eine unvollständige Eigenschaft des Rings aktiviert, um ihn interessanter zu gestalten. <em>Hinweis: Aus technischen Gründen ist der Ring nicht verfügbar, wenn SoD installiert wurde.</em></li>
+            </ul>
+            <p><strong>Dorn:</strong></p>
+            <ul>
               <li>BG:EE: Die Fanghandschuhe können im Wirtshaus in Ulgoths Bart erworben werden.</li>
               <li>BG:EE: Goldener Gürtel, Elfenkettenhemd und ein Bastardschwert +1 sind alle in Donnerhammers Schmiede in Beregost verfügbar.</li>
               <li>BG:EE: Das Amulett des Zauberschutzes kann in Feldeposts Wirtshaus in Beregost erworben werden.</li>
               <li>BG2:EE: Die Silberdrachenschuppen können von Adalons toten Körper geraubt werden. Cespenar kann daraus später in TdB etwas schmieden.</li>
-              <li>BG2:EE: Ein zweites Exemplar der Schuppen kann man von der "Jägerin" in der untersten Ebene der Wachenden Festung rauben.</li>
+              <li>BG2:EE: Ein zweites Exemplar der Schuppen kann man von der „Jägerin” in der untersten Ebene der Wachenden Festung rauben.</li>
               <li>BG2:EE: Das Heilige Langschwert von Tyr +3 kann im Labyrinth der Wachenden Festung gefunden werden, und zwar im Raum mit dem Dämonischer Todesalb.</li>
               <li>BG2:EE: Helme des Ruhmes können von Ribald Tauschmann und einem Händler in Handelstreff erworben werden.</li>
               <li>BG2:EE: Die Rute des Schattenschritts kann man von Saemon Havarian in Amkethran stehlen.</li>
               <li>BG2:EE: Hellsichtigkeitstränke können von Roger, dem Hehler in der Kanalisation unterhalb des Tempelbezirks und von Schwester Farielle in Saradush gekauft werden.</li>
               <li>BG2:EE: Die Abyssklinge ist jetzt im Besitz von Raamilat in Suldanessellar.</li>
-              <li>BG2:EE: Ich habe außerdem die sehr mächtige "Messingklinge +5" ins Spiel gepackt. Sie gehört zu Dorns Handlung, aber scheint zur Zeit ungenutzt zu sein. Sie kann von Berenn im Tempel der Feuerriesen geraubt werden.</li>
+              <li>BG2:EE: Ich habe außerdem die sehr mächtige „Messingklinge +5” ins Spiel gepackt. Sie gehört zu Dorns Handlung, aber scheint zur Zeit ungenutzt zu sein. Sie kann von Berenn im Tempel der Feuerriesen geraubt werden.</li>
             </ul>
-          </p>
-          <p><span class="subspan"><strong>Hexxat:</strong></span>
-            <br />
-            <ul class="sublist">
+            <p><strong>Hexxat:</strong></p>
+            <ul>
               <li>BG2:EE: Mae'var trägt jetzt einen Gegengiftring.</li>
               <li>BG2:EE: Die Stiefel der List kann man bei Ribald Tauschmann erwerben.</li>
-              <li>BG2:EE: Den Dolch "Der Jadezahn" gibt es jetzt im Ribald Tauschmanns erweiterten Angebot nach der Rückkehr aus dem Unterreich.</li>
+              <li>BG2:EE: Den Dolch „Der Jadezahn” gibt es jetzt im Ribald Tauschmanns erweiterten Angebot nach der Rückkehr aus dem Unterreich.</li>
             </ul>
-          </p>
-          <p><span class="subspan"><strong>Neera:</strong></span>
-            <br />
-            <ul class="sublist">
+            <p><strong>Neera:</strong></p>
+            <ul>
               <li>BG:EE: Neeras Edelsteinbeutel kann im Freundlichen Arm erworben werden.</li>
               <li>BG:EE: Adoys Gürtel wird in Feldeposts Wirtshaus in Beregost zum Kauf angeboten.</li>
               <li>BG2:EE: Adoys Gürtel und die Robe der Hervorrufung kann man beide in Ribald Tauschmanns Geschäft erwerben.</li>
               <li>BG2:EE: Ein Tayanischer Reif ist nun im Besitz von Rayic Gethras, dem Verhüllten Magier im Hafenbezirk.</li>
-              <li>BG2:EE: Der Hammer "Der Backstein +2" und Blindauges Tunika können von einem Händler in Handelstreff erworben werden.</li>
+              <li>BG2:EE: Der Hammer „Der Backstein +2” und Blindauges Tunika können von einem Händler in Handelstreff erworben werden.</li>
               <li>BG2:EE: Der Schild des Fyrus Khal +2 wurde zu Ribald Bartermanns erweitertem Geschäft hinzugefügt, das man nach der Rückkehr aus dem Unterreich auswählen kann.</li>
               <li>BG2:EE: Perter, der Bogenmacher in Waukeens Promenade hat die Unbändige Schleuder +1 im Angebot.</li>
               <li>BG2:EE: Der Stab der Peitschen kann vom toten Körper des versklavten Magiers im geheimen Gedankenschinderversteck in der Kanalisation unterhalb des Tempelbezirks geraubt werden.</li>
             </ul>
-          </p>
-          <p><span class="subspan"><strong>Rasaad:</strong></span>
-            <br />
-            <ul class="sublist">
+            <p><strong>Rasaad:</strong></p>
+            <ul>
               <li>BG:EE: Die Mondlicht-Stiefel können von allen Sonnenseelenmönchen getragen werden. Sie sind derzeit im Besitz der der Kopfgeldjägerin Neira, die es auf euch in Nashkel abgesehen hat.</li>
               <li>BG:EE: Die Schimmernde Bänder können von allen Mönchen getragen werden. Sie werden von einem Händler auf Nashkels Jahrmarkt verkauft.</li>
-              <li>BG:EE: Der Großfäustige Gürtel wird vom "Stolz" Geist in Durlags Turm getragen.</li>
+              <li>BG:EE: Der Großfäustige Gürtel wird vom „Stolz” Geist in Durlags Turm getragen.</li>
               <li>BG2:EE: Die Mondlicht-Stiefel können von allen Sonnenseelenmönchen getragen werden und sind im Besitz von Anishai in Mae'Vars Gilde.</li>
               <li>BG2:EE: Der Ochsenschwanz-Gürtel wird von Cohrvale getragen. Sein Partner Bregg besitzt Hojars Ruhm +1, eine verzauberte Axt von bescheidener Qualität.</li>
               <li>BG2:EE: Die Brosche der Wandernden Klingen kann von Ribald Tauschmann erworben werden.</li>
@@ -193,254 +180,297 @@
               <li>BG2:EE: Die Kapuze der Sterne wird von Valeria getragen. Sie ist eine feindlich gesonnene Kämpferin in einem Versteck im Brückenviertel.</li>
               <li>BG2:EE: Der Schmied von Handelstreff kann euch den Krummsäbel Falkenblick +2 verkaufen.</li>
               <li>BG2:EE: Der Umhang der Treffsicherheit kann von Bernard in der Kupferkrone erworben werden, nachdem Lehtinan durch Hendak ersetzt wurde.</li>
-              <li>BG2:EE: Karthis al-Hezzar kann euch die Stiefel "Nachtwandler" und den Krummsäbel "Sonnenseelenstrahl" verkaufen. Er kann auf der Lichtung zwischen Saradush und dem verlassenen Bhaaltempel angetroffen werden.</li>
+              <li>BG2:EE: Karthis al-Hezzar kann euch die Stiefel „Nachtwandler” und den Krummsäbel „Sonnenseelenstrahl” verkaufen. Er kann auf der Lichtung zwischen Saradush und dem verlassenen Bhaaltempel angetroffen werden.</li>
               <li>BG2:EE: Olaf Rassmusen ist ein Kämpfer in der Bewachte Anlage im Tempelbezirk. Er besitzt die Handschuhe von Aln Zekk.</li>
               <li>BG2:EE: Ein Händler in Ust Natha kann euch den Umhang der Buße verkaufen.</li>
               <li>BG2:EE: Der Priester des Cyric im Nordwald ist im Besitz des Umhangs des Dunklen Mondes. Der Nordwald is erreichbar nachdem ihr das Unterreich verlassen habt.</li>
-              <li>BG2:EE: Das Ältestenhirn in der Stadt der Gedankenschinder im Unterreich bewacht die "Augen des Betrachters".</li>
+              <li>BG2:EE: Das Ältestenhirn in der Stadt der Gedankenschinder im Unterreich bewacht die „Augen des Betrachters”.</li>
               <li>BG2:EE: Carras ist ein Schmuggler in Amkethran. Wenn ihr ihm aushelft, dann könnt ihr das Stirnband der Frommen von ihm erwerben.</li>
               <li>BG2:EE: Der Stein des Sehens ist im Besitz von Gaal, dem Hohepriester des Augenlosen Kults.</li>
             </ul>
-          </p>
-
-          <!-- <p><strong>The following components can be installed independently:</strong></p> -->
-          <hr class="floatfix" />
-          <h4>Gruppe: Porträts</h4>
-
-          <p><strong>8. Porträt austauschen: Baeloth</strong> (<a href="preview/baeloth-preview.jpg" target="_blank">Vorschau</a>)</p>
-          <ol class="sublist">
+          </li>
+        </ol>
+        <h4>Gruppe: Porträts</h4>
+        <ol class="gappedlist" start="8">
+          <li>
+            <p><strong>Porträt austauschen: Baeloth</strong> (<a href="preview/baeloth-preview.jpg" target="_blank">Preview</a>)</p>
+            <ol>
             <li>Alternative Version: Eine Porträtvariante für das gesamte Spiel. <em>(BG:EE und EET)</em></li>
             <li>Alternative Version für BG2: Die Porträtvariante wird nur im BG2-Teil des Spiels verwendet. <em>(nur für EET)</em></li>
-          </ol>
-
-          <p><strong>9. Porträt austauschen: Dorn</strong> (<a href="preview/dorn-preview.jpg" target="_blank">Vorschau</a>)</p>
-          <ol class="sublist">
+            </ol>
+          </li>
+          <li>
+            <p><strong>Porträt austauschen: Dorn</strong> (<a href="preview/dorn-preview.jpg" target="_blank">Preview</a>)</p>
+            <ol>
             <li>BG2-Stil: Eine Porträtvariante für das gesamte Spiel. <em>(BG:EE, BG2:EE und EET)</em></li>
             <li>BG2-Stil für BG2: Die Porträtvariante wird nur im BG2-Teil des Spiels verwendet. <em>(nur für EET)</em></li>
-          </ol>
-
-          <p><strong>10. Porträt austauschen: Hexxat (BG2-Stil)</strong> (<a href="preview/clara_hexxat-preview.jpg" target="_blank">Vorschau</a>)<br />
-            <span class="subspan">Installiert Porträtvarianten für Hexxat. <em>(BG2:EE und EET)</em></span>
-          </p>
-
-          <p><strong>11. Porträt austauschen: Neera</strong> (<a href="preview/neera-preview.jpg" target="_blank">Vorschau</a>)</p>
-          <ol class="sublist">
+            </ol>
+          </li>
+          <li>
+            <p><strong>Porträt austauschen: Hexxat (BG2-style)</strong> (<a href="preview/clara_hexxat-preview.jpg" target="_blank">Preview</a>)</p>
+            <p>Installiert Porträtvarianten für Hexxat. <em>(BG2:EE und EET)</em></p>
+          </li>
+          <li>
+            <p><strong>Porträt austauschen: Neera</strong> (<a href="preview/neera-preview.jpg" target="_blank">Preview</a>)</p>
+            <ol>
             <li>BG2-Stil: Eine Porträtvariante für das gesamte Spiel. <em>(BG:EE, BG2:EE und EET)</em></li>
             <li>BG2-Stil für BG2: Die Porträtvariante wird nur im BG2-Teil des Spiels verwendet. <em>(nur für EET)</em></li>
-          </ol>
-
-          <p><strong>12. Porträt austauschen: Rasaad</strong> (<a href="preview/rasaad-preview.jpg" target="_blank">Vorschau</a>)</p>
-          <ol class="sublist">
+            </ol>
+          </li>
+          <li>
+            <p><strong>Porträt austauschen: Rasaad</strong> (<a href="preview/rasaad-preview.jpg" target="_blank">Preview</a>)</p>
+            <ol>
             <li>BG2-Stil: Eine Porträtvariante für das gesamte Spiel. <em>(BG:EE, BG2:EE und EET)</em></li>
             <li>BG2-Stil für BG2: Die Porträtvariante wird nur im BG2-Teil des Spiels verwendet. <em>(nur für EET)</em></li>
-          </ol>
-
-          <p><strong>13. Verbessertes Porträt: Wilson</strong> (<a href="preview/wilson-preview.jpg" target="_blank">Vorschau</a>)<br />
-            <span class="subspan">Verbesserte Variante des Porträts für Wilson. <em>(BG2:EE und EET)</em></span>
-          </p>
-
-          <hr class="floatfix" />
-          <h4>Gruppe: Klassenwechsel</h4>
-
-          <p><strong>Hinweis:</strong> Klassenänderungen beschränken sich auf Charaktereigenschaften und -Fertigkeiten. Handlung und Dialoge der NSCs werden nicht berücksichtigt. Allerdings werden in einigen Fällen auch Gegenstände und Biografien an die neue Klasse angepasst.</p>
-
-          <p><strong>14. Klassenwechsel: Baeloth <em>(BG:EE, SoD und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Magier:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Magier" an.</li>
-            <li><strong>Bannwirker:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Bannwirker" an.</li>
-            <li><strong>Beschwörer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Beschwörer" an.</li>
-            <li><strong>Seher:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Seher" an.</li>
-            <li><strong>Zauberer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Zauberer" an.</li>
-            <li><strong>Illusionist:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Illusionist" an.</li>
-            <li><strong>Thaumaturg:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Thaumaturg" an.</li>
-            <li><strong>Nekromant:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Nekromant" an.</li>
-            <li><strong>Wandler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Wandler" an.</li>
-            <li><strong>Hasardeur:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Hasardeur" an.</li>
-            <li><strong>Drachenjünger:</strong> Setzt die Erfahrungsstufe zurück und wendet das Hexenmeisterkit "Drachenjünger" an.</li>
-            <li><strong>Chaos Hexenmeister:</strong> Setzt die Erfahrungsstufe zurück und wendet das Hexenmeisterkit "Chaos Hexenmeister" an. <em>(benötigt die Mod "Chaos Sorcerer Kit" von Argent77)</em></li>
-            <li><strong>Schattenadept:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit "Schattenadept" an. <em>(benötigt die Mod "Shadow Magic" von Artemius_I)</em></li>
-          </ol>
-
-          <p><strong>15. Klassenwechsel: Dorn <em>(BG:EE, SoD, BG2:EE und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-          </ol>
-          <p><em><strong>Hinweis:</strong> Dorns Handlung ist zu eng mit seiner Klasse verknüpft, um sie zu ändern.</em></p>
-
-          <p><strong>16. Klassenwechsel: Neera <em>(BG:EE, SoD, BG2:EE und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Chaos Hexenmeister:</strong> Setzt die Erfahrungsstufe zurück und wendet das Hexenmeisterkit "Chaos Hexenmeister" an. <em>(benötigt die Mod "Chaos Sorcerer Kit" von Argent77)</em></li>
-          </ol>
-
-          <p><strong>17. Klassenwechsel: Rasaad <em>(BG:EE, SoD, BG2:EE und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Mönch:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Mönch" an.</li>
-            <li><strong>Silberstern der Selûne:</strong> Setzt die Erfahrungsstufe zurück und wendet das Klerikerkit "Silberstern der Selûne" an. <em>(benötigt die Komponente "Silberstern der Selûne" der Mod "Divine Remix")</em></li>
-          </ol>
-
-          <p><strong>18. Klassenwechsel: M'Khiin <em>(SoD und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-          </ol>
-          <p><em><strong>Hinweis:</strong> M'Khiins spezielle Rassenmerkmale erlauben es ihr nicht, die Klasse zu ändern.</em></p>
-
-          <p><strong>19. Klassenwechsel: Glint <em>(SoD und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Kleriker:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Kleriker" an.</li>
-            <li><strong>Kämpfer/Kleriker:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klassenkombination "Kämpfer/Kleriker" an.</li>
-            <li><strong>Kleriker/Illusionist:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination "Kleriker/Illusionist" an.</li>
-          </ol>
-
-          <p><strong>20. Klassenwechsel: Voghiln <em>(SoD und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Barde:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Barde" an.</li>
-            <li><strong>Waffenkünstler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Bardenkit "Waffenkünstler" an.</li>
-            <li><strong>Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Dieb" an.</li>
-            <li><strong>Säbelrassler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit "Säbelrassler" an.</li>
-          </ol>
-
-          <p><strong>21. Klassenwechsel: Corwin <em>(SoD und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Waldläufer:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Waldläufer" an.</li>
-            <li><strong>Pirscher:</strong> Setzt die Erfahrungsstufe zurück und wendet das Waldläuferkit "Pirscher" an.</li>
-            <li><strong>Kämpfer:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Kämpfer" an.</li>
-            <li><strong>Magiertöter:</strong> Setzt die Erfahrungsstufe zurück und wendet das Kämpferkit "Magiertöter" an.</li>
-            <li><strong>Kleriker:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Kleriker" an.</li>
-            <li><strong>Priester des Tyr:</strong> Setzt die Erfahrungsstufe zurück und wendet das Klerikerkit "Priester des Tyr" an.</li>
-            <li><strong>Priester des Helm:</strong> Setzt die Erfahrungsstufe zurück und wendet das Klerikerkit "Priester des Helm" an.</li>
-            <li><strong>Paladin:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Paladin" an.</li>
-            <li><strong>Ritter:</strong> Setzt die Erfahrungsstufe zurück und wendet das Paladinkit "Ritter" an.</li>
-            <li><strong>Inquisitor:</strong> Setzt die Erfahrungsstufe zurück und wendet das Paladinkit "Inquisitor" an.</li>
-          </ol>
-
-          <p><strong>22. Klassenwechsel: Hexxat <em>(BG2:EE und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Meuchelmörder:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit "Meuchelmörder" an.</li>
-            <li><strong>Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit "Schattentänzer" an.</li>
-            <li><strong>Magier/Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klassenkombination "Magier/Dieb" an.</li>
-            <li><strong>Magier/Meuchelmörder:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination "Magier/Meuchelmörder" an.</li>
-            <li><strong>Magier/Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination "Magier/Schattentänzer" an.</li>
-            <li><strong>Nekromant/Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination "Nekromant/Dieb" an.</li>
-            <li><strong>Kämpfer/Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klassenkombination "Kämpfer/Dieb" an.</li>
-            <li><strong>Kämpfer/Meuchelmörder:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination "Kämpfer/Meuchelmörder" an.</li>
-            <li><strong>Kämpfer/Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination "Kämpfer/Schattentänzer" an.</li>
-          </ol>
-
-          <p><strong>23. Klassenwechsel: Clara <em>(BG2:EE und EET)</em></strong></p>
-          <ol class="sublist">
-            <li><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</li>
-            <li><strong>Klasse selbst auswählen</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.<br /><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen besitzen. Die Nutzung erfolgt auf eigene Gefahr!</em></li>
-            <li><strong>Kopfgeldjäger:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit "Kopfgeldjäger" an.</li>
-            <li><strong>Säbelrassler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit "Säbelrassler" an.</li>
-            <li><strong>Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit "Schattentänzer" an.</li>
-            <li><strong>Barde:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse "Barde" an.</li>
-          </ol>
-
-          <address>
-            <a href="#top">ZURÜCK ZUM ANFANG</a>
-          </address>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Verbessertes Porträt: Wilson</strong> (<a href="preview/wilson-preview.jpg" target="_blank">Preview</a>)</p>
+            <p>Verbesserte Porträtvariante für Wilson. <em>(BG2:EE und EET)</em></p>
+          </li>
+        </ol>
+        <h4>Gruppe: Klassenwechsel</h4>
+        <p><strong>Hinweis:</strong> Klassenänderungen beschränken sich auf Charaktereigenschaften und -fertigkeiten. Handlung und Dialoge der NSCs werden nicht berücksichtigt. Allerdings werden in einigen Fällen auch Gegenstände und Biografien an die neue Klasse angepasst.</p>
+        <ol class="gappedlist" start="14">
+          <li>
+            <p><strong>Klassenwechsel: Baeloth <em>(BG:EE, SoD und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Magier:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Magier” an.</p></li>
+              <li><p><strong>Bannwirker:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Bannwirker” an.</p></li>
+              <li><p><strong>Beschwörer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Beschwörer” an.</p></li>
+              <li><p><strong>Seher:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Seher” an.</p></li>
+              <li><p><strong>Zauberer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Zauberer” an.</p></li>
+              <li><p><strong>Illusionist:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Illusionist” an.</p></li>
+              <li><p><strong>Thaumaturg:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Thaumaturg” an.</p></li>
+              <li><p><strong>Nekromant:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Nekromant” an.</p></li>
+              <li><p><strong>Wandler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Wandler” an.</p></li>
+              <li><p><strong>Hasardeur:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Hasardeur” an.</p></li>
+              <li><p><strong>Drachenjünger:</strong> Setzt die Erfahrungsstufe zurück und wendet das Hexenmeisterkit „Drachenjünger” an.</p></li>
+              <li><p><strong>Chaos Hexenmeister:</strong> Setzt die Erfahrungsstufe zurück und wendet das Hexenmeisterkit „Chaos Hexenmeister” an. <em>(benötigt die Mod „Chaos Sorcerer Kit” von Argent77)</em></p></li>
+              <li><p><strong>Schattenadept:</strong> Setzt die Erfahrungsstufe zurück und wendet das Magierkit „Schattenadept” an. <em>(benötigt die Mod „Shadow Magic” von Artemius_I)</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Dorn <em>(BG:EE, SoD, BG2:EE und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+            </ol>
+            <p><em><strong>Hinweis:</strong> Dorns Handlung ist zu eng mit seiner Klasse verknüpft, um sie zu ändern.</em></p>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Neera <em>(BG:EE, SoD, BG2:EE und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Chaos Hexenmeister:</strong> Setzt die Erfahrungsstufe zurück und wendet das Hexenmeisterkit „Chaos Hexenmeister” an. <em>(benötigt die Mod „Chaos Sorcerer Kit” von Argent77)</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Rasaad <em>(BG:EE, SoD, BG2:EE und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Mönch:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Mönch” an.</p></li>
+              <li><p><strong>Silberstern der Selûne:</strong> Setzt die Erfahrungsstufe zurück und wendet das Klerikerkit ”Silberstern der Selûne” an. <em>(benötigt die Komponente ”Silberstern der Selûne” der Mod „Divine Remix”)</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: M'Khiin <em>(SoD und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+            </ol>
+            <p><em><strong>Hinweis:</strong> M'Khiins spezielle Rassenmerkmale erlauben es ihr nicht, die Klasse zu ändern.</em></p>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Glint <em>(SoD und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Kleriker:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Kleriker” an.</p></li>
+              <li><p><strong>Kämpfer/Kleriker:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klassenkombination „Kämpfer/Kleriker” an.</p></li>
+              <li><p><strong>Kleriker/Illusionist:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination „Kleriker/Illusionist” an.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Voghiln <em>(SoD und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Bard:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Barde” an.</p></li>
+              <li><p><strong>Waffenkünstler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Bardenkit „Waffenkünstler” an.</p></li>
+              <li><p><strong>Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Dieb” an.</p></li>
+              <li><p><strong>Säbelrassler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit „Säbelrassler” an.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Corwin <em>(SoD und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Waldläufer:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Waldläufer” an.</p></li>
+              <li><p><strong>Pirscher:</strong> Setzt die Erfahrungsstufe zurück und wendet das Waldläuferkit „Pirscher” an.</p></li>
+              <li><p><strong>Kämpfer:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Kämpfer” an.</p></li>
+              <li><p><strong>Magiertöter:</strong> Setzt die Erfahrungsstufe zurück und wendet das Kämpferkit „Magiertöter” an.</p></li>
+              <li><p><strong>Kleriker:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Kleriker” an.</p></li>
+              <li><p><strong>Priester des Tyr:</strong> Setzt die Erfahrungsstufe zurück und wendet das Klerikerkit „Priester des Tyr” an.</p></li>
+              <li><p><strong>Priester des Helm:</strong> Setzt die Erfahrungsstufe zurück und wendet das Klerikerkit „Priester des Helm” an.</p></li>
+              <li><p><strong>Paladin:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Paladin” an.</p></li>
+              <li><p><strong>Ritter:</strong> Setzt die Erfahrungsstufe zurück und wendet das Paladinkit „Ritter” an.</p></li>
+              <li><p><strong>Inquisitor:</strong> Setzt die Erfahrungsstufe zurück und wendet das Paladinkit „Inquisitor” an.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Hexxat <em>(BG2:EE und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Meuchelmörder:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit „Meuchelmörder” an.</p></li>
+              <li><p><strong>Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit „Schattentänzer” an.</p></li>
+              <li><p><strong>Magier/Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klassenkombination „Magier/Dieb” an.</p></li>
+              <li><p><strong>Magier/Meuchelmörder:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination „Magier/Meuchelmörder” an.</p></li>
+              <li><p><strong>Magier/Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination „Magier/Schattentänzer” an.</p></li>
+              <li><p><strong>Nekromant/Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination „Nekromant/Dieb” an.</p></li>
+              <li><p><strong>Kämpfer/Dieb:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klassenkombination „Kämpfer/Dieb” an.</p></li>
+              <li><p><strong>Kämpfer/Meuchelmörder:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination „Kämpfer/Meuchelmörder” an.</p></li>
+              <li><p><strong>Kämpfer/Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet die spezialisierte Klassenkombination „Kämpfer/Schattentänzer” an.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Klassenwechsel: Clara <em>(BG2:EE und EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Nur Erfahrungsstufe zurücksetzen:</strong> Setzt nur die Erfahrungsstufe des NSCs auf Stufe 1 zurück, ohne die Erfahrungspunkte selbst anzupassen.</p></li>
+              <li>
+                <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
+                <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
+              </li>
+              <li><p><strong>Kopfgeldjäger:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit „Kopfgeldjäger” an.</p></li>
+              <li><p><strong>Säbelrassler:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit „Säbelrassler” an.</p></li>
+              <li><p><strong>Schattentänzer:</strong> Setzt die Erfahrungsstufe zurück und wendet das Diebeskit „Schattentänzer” an.</p></li>
+              <li><p><strong>Barde:</strong> Setzt die Erfahrungsstufe zurück und wendet die Klasse „Barde” an.</p></li>
+            </ol>
+          </li>
+        </ol>
+        <div class="back">
+          <a class="novisit" href="#top">ZURÜCK ZUM ANFANG</a>
         </div>
+      </section>
 
-        <hr class="divider" />
-
-        <!-- ================== C R E D I T S ================== -->
-        <a name="credits" id="credits"></a>
-        <div class="content">
-          <h2>Danksagungen</h2>
-          <p><strong>Writing, coding &amp; testing:</strong> <a href="http://www.shsforums.net/user/14985-argent77/">Argent77</a></p>
-          <p><strong>French translation:</strong> Gwendolyne</p>
-          <p><strong>Polish translation:</strong> Cahir</p>
-          <p><strong>Alternate character portraits:</strong> Lava Del'Vortel, Argent77</p>
-          <p><strong>Additional help:</strong> Lava Del'Vortel</p>
-          <hr class="floatfix" />
-          <h5>Copyright Notice:</h5>
-          <div class="important">
-            <a rel="license" id="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />The mod &quot;Convenient Enhanced Edition NPCs&quot; is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-            <p>Baldur's Gate: Enhanced Edition, Siege of Dragonspear and Baldur's Gate II: Enhanced Edition &copy; Beamdog.</p>
+      <!-- ================== C R E D I T S ================== -->
+      <section id="credits">
+        <h2>Danksagungen</h2>
+        <p><strong>Writing, coding &amp; testing:</strong> <a href="http://www.shsforums.net/user/14985-argent77/">Argent77</a></p>
+        <p><strong>French translation:</strong> Gwendolyne</p>
+        <p><strong>Polish translation:</strong> Cahir</p>
+        <p><strong>Alternate character portraits:</strong> Lava Del'Vortel, Argent77</p>
+        <p><strong>Additional help:</strong> Lava Del'Vortel</p>
+        <hr class="spacer" />
+        <h3>Copyright Notice:</h3>
+        <div class="important">
+          <div>
+            <a rel="license" id="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+            </a>
           </div>
-          <address>
-            <a href="#top">ZURÜCK ZUM ANFANG</a>
-          </address>
+          <p>"Convenient Enhanced Edition NPCs" is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+          <hr class="spacer" />
+          <p>Baldur's Gate: Enhanced Edition, Siege of Dragonspear and Baldur's Gate II: Enhanced Edition &copy; Beamdog.</p>
         </div>
-
-        <hr class="divider" />
-
-        <!-- ================== V E R S I O N   H I S T O R Y ================== -->
-        <a name="version" id="version"></a>
-        <div class="content">
-          <h2>Versionshistorie</h2>
-          <h6>Version 4.0:</h6>
-          <ul>
-            <li>Changed mod name to "Convenient Enhanced Edition NPCs"</li>
-            <li>Added options to change classes or kits of selected NPCs</li>
-            <li>Added options to change portraits for NPCs</li>
-            <li>Added "Passive Rasaad" for BG:EE</li>
-          </ul>
-          <h6>Version 3.5:</h6>
-          <ul>
-            <li>Fixed consistency issues with Neera and Rasaad in EET</li>
-          </ul>
-          <h6>Version 3.4:</h6>
-          <ul>
-            <li>Added French translation (thanks Gwendolyne)</li>
-            <li>Spelling and formatting fixes in Polish readme</li>
-          </ul>
-          <h6>Version 3.3:</h6>
-          <ul>
-            <li>Restructured mod components to make it possible to disable NPCs or make them passive on a per NPC basis</li>
-            <li>Added German translation</li>
-            <li>Added Polish translation (thanks Cahir)</li>
-            <li>Fixed BG1 passive Neera in EET</li>
-          </ul>
-          <h6>Version 3.2:</h6>
-          <ul>
-            <li>Added Siege of Dragonspear support</li>
-            <li>Fixed a bug in BG2:EE where Rasaad can still appear even when disabled</li>
-            <li>Relaxed restrictions of Baeloth's ring</li>
-            <li>Various minor fixes and improvements</li>
-          </ul>
-          <h6>Version 3.1:</h6>
-          <ul>
-            <li>Fixed an incorrect check in component "Make NPC-specific items available for everyone"</li>
-          </ul>
-          <h6>Version 3.0:</h6>
-          <ul>
-            <li>Added new component "Make NPC-specific items available for everyone"</li>
-            <li>Increased compatibility with mods (see Compatibility section)</li>
-          </ul>
-          <h6>Version 2.1:</h6>
-          <ul>
-            <li>Fixed a missing game check for "Passive Neera" component</li>
-            <li>Internal restructurings</li>
-          </ul>
-          <h6>Version 2.0:</h6>
-          <ul>
-            <li>Added option to keep all or individual NPCs from initiating conversations or events on their own</li>
-          </ul>
-          <h6>Version 1.0:</h6>
-          <ul>
-            <li>Initial release</li>
-          </ul>
-          <address>
-            <a href="#top">ZURÜCK ZUM ANFANG</a>
-          </address>
+        <div class="back">
+          <a class="novisit" href="#top">ZURÜCK ZUM ANFANG</a>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <!-- ================== V E R S I O N   H I S T O R Y ================== -->
+      <section id="changelog">
+        <h2>Versionshistorie</h2>
+        <h6>Version 4.0</h6>
+        <ul>
+          <li>Changed mod name to "Convenient Enhanced Edition NPCs"</li>
+          <li>Added options to change classes or kits of selected NPCs</li>
+          <li>Added options to change portraits for NPCs</li>
+          <li>Added "Passive Rasaad" for BG:EE</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.5</h6>
+        <ul>
+          <li>Fixed consistency issues with Neera and Rasaad in EET</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.4</h6>
+        <ul>
+          <li>Added French translation (thanks Gwendolyne)</li>
+          <li>Spelling and formatting fixes in Polish readme</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.3</h6>
+        <ul>
+          <li>Restructured mod components to make it possible to disable NPCs or make them passive on a per NPC basis</li>
+          <li>Added German translation</li>
+          <li>Added Polish translation (thanks Cahir)</li>
+          <li>Fixed BG1 passive Neera in EET</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.2</h6>
+        <ul>
+          <li>Added Siege of Dragonspear support</li>
+          <li>Fixed a bug in BG2:EE where Rasaad can still appear even when disabled</li>
+          <li>Relaxed restrictions of Baeloth's ring</li>
+          <li>Various minor fixes and improvements</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.1</h6>
+        <ul>
+          <li>Fixed an incorrect check in component "Make NPC-specific items available for everyone"</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.0</h6>
+        <ul>
+          <li>Added new component "Make NPC-specific items available for everyone"</li>
+          <li>Increased compatibility with mods (see Compatibility section)</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 2.1</h6>
+        <ul>
+          <li>Fixed a missing game check for "Passive Neera" component</li>
+          <li>Internal restructurings</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 2.0</h6>
+        <ul>
+          <li>Added option to keep all or individual NPCs from initiating conversations or events on their own</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 1.0</h6>
+        <ul>
+          <li>Initial release</li>
+        </ul>
+        <div class="back">
+          <a class="novisit" href="#top">ZURÜCK ZUM ANFANG</a>
+        </div>
+      </section>
+    </main>
   </body>
-
 </html>
