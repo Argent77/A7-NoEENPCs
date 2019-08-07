@@ -3,6 +3,10 @@
 
 **Author:** Argent77
 
+**Website:** https://argent77.github.io/A7-NoEENPCs/index.html
+
+**Discussion:** [Beamdog Forums](https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1) or [Spellhold Studios Forums](http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/)
+
 ## Overview
 
 The new NPCs introduced in the Enhanced Editions differ somewhat from the original cast and might not be everyone's taste. This mod provides a number of options to adapt them to your comfort level. You can make their first appearance more passive, giving you more control over whether or when to make the first contact. A small number of events will be slightly altered to make this possible.
@@ -121,7 +125,7 @@ The following components are only available when selecting subcomponent "Decide 
   - **Wizard Slayer**: Resets her level to 1 and applies the fighter kit "Wizard Slayer".
   - **Cleric**: Resets her level to 1 and applies the class "Cleric".
   - **Priest of Tyr**: Resets her level to 1 and applies the cleric kit "Priest of Tyr".
-  - **Watcher of Helm**: Resets her level to 1 and applies the cleric kit "Watcher of Helm".
+  - **Priest of Helm**: Resets her level to 1 and applies the cleric kit "Priest of Helm".
   - **Paladin**: Resets her level to 1 and applies the class "Paladin".
   - **Cavalier**: Resets her level to 1 and applies the paladin kit "Cavalier".
   - **Inquisitor**: Resets her level to 1 and applies the paladin kit "Inquisitor".

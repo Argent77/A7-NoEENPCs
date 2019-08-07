@@ -1678,7 +1678,7 @@ BEGIN @646 // Priest of Tyr
   BUT_ONLY IF_EXISTS
 
 
-BEGIN @647 // Watcher of Helm
+BEGIN @647 // Priest of Helm
   REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes

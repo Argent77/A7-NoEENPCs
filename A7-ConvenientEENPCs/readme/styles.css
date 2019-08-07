@@ -60,6 +60,10 @@ p {
   margin: 0.6rem auto;
 }
 
+pre {
+  margin: 0.6rem auto;
+}
+
 ul, ol {
   margin: 0.6rem 0;
 }
@@ -130,7 +134,7 @@ section {
   border-color: #66451f;
 }
 
-section > p, section > div {
+section > p, section > div, section > pre {
   margin-left: 2rem;
 }
 
@@ -314,6 +318,7 @@ details.faq ul > li:before {
 }
 
 .code {
+  overflow: auto;
   font-family: Consolas,monospace;
   font-size: 0.9rem;
   border-width: 0.0625rem;
