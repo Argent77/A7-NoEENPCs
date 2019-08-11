@@ -11,6 +11,11 @@
 @14 = ~Modification selective : Neera~
 @15 = ~Modification selective : Rasaad~
 
+// Group names
+@50 = ~Apparition~
+@51 = ~Portraits~
+@52 = ~Modifications de classe~
+
 @101 = ~Desactiver Baeloth~
 @102 = ~Desactiver Dorn~
 @103 = ~Desactiver Hexxat~
@@ -23,25 +28,118 @@
 
 @301 = ~Rendre les objets specifiques a chaque PNJ utilisables par tous~
 
-@400 = ~Change portrait: Baeloth~
-@401 = ~Alternate version~
-@402 = ~Alternate version, in BG2 only~
-@403 = ~BG2 style~
-@404 = ~BG2 style, in BG2 only~
-@410 = ~Change portrait: Dorn~
-@420 = ~Change portrait: Hexxat (BG2 style)~
-@430 = ~Change portrait: Neera~
-@440 = ~Change portrait: Rasaad~
-@450 = ~Improved portrait: Wilson~
+// Portraits
+@400 = ~Changer le portrait de Baeloth~
+@401 = ~Version alternative~
+@402 = ~Version alternative, uniquement dans BG2~
+@403 = ~Graphisme de BG2~
+@404 = ~Graphisme de BG2, uniquement dans BG2~
+@410 = ~Changer le portrait de Dorn~
+@420 = ~Changer le portrait de Hexxat (graphisme de BG2)~
+@430 = ~Changer le portrait de Neera~
+@440 = ~Changer le portrait de Rasaad~
+@450 = ~Portrait ameliore pour Wilson~
 
+// Class changes
+@500 = ~Modifier la classe et le profil de Baeloth~
+@501 = ~Magicien~
+@502 = ~Abjurateur~
+@503 = ~Conjurateur~
+@504 = ~Devin~
+@505 = ~Enchanteur~
+@506 = ~Illusionniste~
+@507 = ~Invocateur~
+@508 = ~Necromancien~
+@509 = ~Transmutateur~
+@510 = ~Entropiste~
+@511 = ~Disciple du dragon~
+@512 = ~Ensorceleur du Chaos~
+@513 = ~Adepte de l'ombre~
+
+@520 = ~Modifier la classe et le profil de Dorn~
+@521 = ~Uniquement reinitialiser son niveau~
+@522 = ~Choisir une classe~
+
+@540 = ~Modifier la classe et le profil de Neera~
+@541 = ~Ensorceleur du Chaos~
+
+@560 = ~Modifier la classe et le profil de Rasaad~
+@561 = ~Moine~
+@562 = ~Etoile d'Argent de Selune~
+
+@580 = ~Modifier la classe et le profil de M'Khiin~
+
+@600 = ~Modifier la classe et le profil de Glint~
+@601 = ~Clerc~
+@602 = ~Guerrier / Clerc~
+@603 = ~Clerc / Illusionniste~
+
+@620 = ~Modifier la classe et le profil de Voghiln~
+@621 = ~Barde~
+@622 = ~Maitre-lames~
+@623 = ~Voleur~
+@624 = ~Bretteur~
+
+@640 = ~Modifier la classe et le profil de Corwin~
+@641 = ~Rodeur~
+@642 = ~Traqueur~
+@643 = ~Guerrier~
+@644 = ~Tueur de magicien~
+@645 = ~Clerc~
+@646 = ~Pretre de Tyr~
+@647 = ~Pretre de Heaum~
+@648 = ~Paladin~
+@649 = ~Chevalier~
+@650 = ~Inquisiteur~
+
+@660 = ~Modifier la classe et le profil de Hexxat~
+@661 = ~Assassin~
+@662 = ~Maitre des ombres~
+@663 = ~Mage / Voleur~
+@664 = ~Mage / Assassin~
+@665 = ~Mage / Maitre des ombres~
+@666 = ~Necromancien / Voleur~
+@667 = ~Guerrier / Voleur~
+@668 = ~Guerrier / Assassin~
+@669 = ~Guerrier / Maitre des ombres~
+
+@680 = ~Modifier la classe et le profil de Clara~
+@681 = ~Chasseur de primes~
+@682 = ~Bretteur~
+@683 = ~Maitre des ombres~
+@684 = ~Barde~
+
+// Setup messages
 @1000 = ~Ce composant necessite l'installation de BG:EE, BG2:EE ou EET.~
 @1001 = ~Ce composant necessite l'installation de BG:EE ou EET.~
 @1002 = ~Ce composant necessite l'installation de BG2:EE ou EET.~
 @1003 = ~Ce composant necessite d'avoir choisi l'option "Decider pour chaque PNJ".~
+@1004 = ~Ce composant necessite l'installation de SoD ou EET.~
 @1005 = ~Ce composant n'est disponible que si au moins un PNJ a ete desactive.~
 @1006 = ~Ce mod n'est pas compatible avec le mod "EE_content_tweaks" de Recca.~
-@1007 = ~This component is not available if the NPC has been disabled.~
-@1008 = ~This component requires EET to be installed.~
+@1007 = ~Ce composant n'est pas disponible si le PNJ a ete desactive.~
+@1008 = ~Ce composant necessite l'installation de EET.~
+@1009 = ~Ce composant necessite l'installation du mod "Chaos Sorcerer Kit".~
+@1010 = ~Ce composant necessite l'installation du mod "Shadow Magic".~
+@1011 = ~Ce composant necessite l'installation du profil "Etoile d'Argent de Selune" du mod "Divine Remix".~
+@1012 = ~Operation annulee par l'utilisateur.~
+
+// Custom class selection
+@2000 = ~Classe actuelle : %cur_class_title% (%cur_class_name%) - profil actuel : %cur_kit_title% (%cur_kit_name%)~
+@2001 = ~Classes disponibles : %class_entries%~
+@2002 = ~Veuillez saisir le numero de la nouvelle classe (ne rien saisir pour ne pas changer de classe) :~
+@2003 = ~Le numero de classe que vous avez saisi n'est pas disponible.~
+@2004 = ~Classe selectionnee : %new_class_title% (%new_class_name%).~
+@2005 = ~Aucun profil n'est disponible pour la classe "%new_class_title%".~
+@2006 = ~Profils disponibles pour la classe "%new_class_title%" : %kit_entries%~
+@2007 = ~Veuillez saisir le numero du nouveau profil :~
+@2008 = ~Le numero de profil que vous avez saisi n'est pas disponible.~
+@2009 = ~Vous avez selectionne : classe "%new_class_title%" (%new_class_name%) et profil "%new_kit_title%" (%new_kit_name%).~
+@2010 = ~Attribuer la combinaison class/kit selectionnee ?
+Tapez [A]ccepter, [S]tart over (recommencer) ou [C]anceller~
+@2011 = ~Veuillez taper A pour accepter, S pour recommencer ou C pour annuler l'operation.~
+@2012 = ~aucun profil~
+@2013 = ~Collecte des informations pour la classe...~
 
 
 // WeiDU prompts

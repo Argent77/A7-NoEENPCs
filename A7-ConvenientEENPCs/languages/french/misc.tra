@@ -7,21 +7,60 @@ PARAMÈTRES :
 Capacités d'équipement :
 - TAC0 : -5 contre les génies
 - Dégâts : -5 contre les génies
-- Ne peut être retiré qu'avec un sort de Délivrance de la Malédiction.
+- Ne peut être retiré qu'avec un sort de Délivrance de la malédiction.
 
-Capacités de charge :
+Capacité de charge :
 - Crée une gemme choisie aléatoirement ou inflige des dégâts élémentaires à son porteur, une fois par jour.
 
 Poids : 0~
 @50001 = ~Moine de la Conscience Solaire~
+@50002 = ~Ces bottes offrent à quiconque les porte un exceptionnel soutien de la voûte plantaire, lui permettant de réaliser des exploits qui paralyseraient de douleur n'importe quelle personne ordinaire.
+
+PARAMÈTRES :
+
+Capacité d'équipement :
+- classe d'armure : +2
+
+Poids : 1~
+@50003 = ~Ces bracelets polis réfléchissent une lumière crue dans les yeux des ennemis de leur porteur, ce qui les empêche de dévier efficacement les coups portés par celui-ci.
+
+PARAMÈTRES :
+
+Capacité d'équipement :
+- TAC0 : +2
+
+Poids : 1~
+@50004 = ~Fronde de Corwin +2~
+@50005 = ~Cette fronde magique améliore la dextérité de quiconque l'utilise, rendant ses coups plus précis. Par ailleurs, de conception exceptionnellement équilibrée, elle permet de continuer de viser une même cible sans avoir à réajuster sa position. En cas de coup critique, la bille explose en une pluie d'éclats de roche qui étourdit la cible pendant un court laps de temps.
+
+PARAMÈTRES :
+
+Capacités d'équipement :
+– Dextérité : +1
+– 1/2 attaque supplémentaire par round
+
+Capacité de combat :
+– Chaque coup critique étourdit la cible pendant 3 rounds (jet de sauvegarde contre la mort pour annuler)
+
+TAC0 : +2
+Dégâts : +2
+Facteur de vitesse : 4
+Type de compétence : fronde
+Type : arme à une main
+Nécessite : 3 en Force
+
+Poids : 0~
+
 
 
 // Updated biographies: Neera
-@51000 = ~~ // BG1 bio placeholder
-@51001 = ~~ // BG2 bio placeholder
+@51000 = ~Interrogée sur son passé, NEERA raconte que cela fait des mois qu'elle fuit les Magiciens Rouges. Elle paraît avoir l'esprit vif et un rien désinvolte, mais vous avez entendu dire que les entropistes font partie des lanceurs de sorts les plus puissants qui soient... aussi longtemps qu'il ne leur arrive pas d'accident.
+
+En dépit de son attitude enjouée et capricieuse, vous la sentez hantée par son passé. Autant qu'elle aime déchaîner les pouvoirs de sa magie entropique, elle semble aussi redouter le mal que cela peut provoquer.~ // BG1 bio placeholder
+@51001 = ~Interrogée sur son passé, NEERA hausse les épaules. Elle dit qu'avant de venir à Athkatla, elle a erré sur la Côte des Épées en profitant de sa vie d'un aventurière tout en évitant l'Ordre des Huit Bâtons, une organisation qui traque les magiciens entropistes. Elle parle moins de son passé lointain, mais ne cache pas le fait qu'elle a été bannie de la Haute Forêt pour avoir pratiqué la magie entropique. Elle est prompte à rire et à bavarder, est sans doute un rien désinvolte, mais se déchaîne chaque fois qu'elle sent que son autonomie est menacée. Elle se sent profondément investie dans la protection des autres mages entropistes et semble prête à tout risquer pour y parvenir.~ // BG2 bio placeholder
 
 // Updated biographies: Rasaad
-@51050 = ~~ // BG2 bio placeholder
+@51050 = ~Adorateur de la déesse de la lune Séluné, le clerc taciturne Rasaad a vu sa vie au service de l'Ordre de la Conscience Solaire se terminer en tragédie. Il parle de son frère Gamaz d'une voix respectueuse, même si ce dernier a trahi l'Ordre de la Conscience Solaire en rejoignant la secte de la Lune Noire, où il a appris à vénérer Shar en se prosternant devant un homme nommé Alorgoth. Bien que Rasaad ait tué Gamaz sa propre main, Rasaad tient Alorgoth pour responsable de la mort de son frère. Il s'est engagé à venger Gamaz, et il est évident qu'il ne reculera devant rien pour atteindre cet objectif.~ // BG2 bio placeholder
 
 // Updated biographies: Voghiln
 @51100 = ~~ // Thief bio placeholder
@@ -29,3 +68,4 @@ Poids : 0~
 // Updated biographies: Corwin
 @51150 = ~~ // Cleric bio placeholder
 @51151 = ~~ // Paladin bio placeholder
+// Updated biographies: Neera
