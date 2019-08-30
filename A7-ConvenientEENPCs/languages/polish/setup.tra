@@ -11,6 +11,11 @@
 @14 = ~Modyfikuj indywidualnie: Neera~
 @15 = ~Modyfikuj indywidualnie: Rasaad~
 
+// Group names
+@50 = ~Wyglad~
+@51 = ~Portrety~
+@52 = ~Zmiany klas~
+
 @101 = ~Zablokuj Baelotha~
 @102 = ~Zablokuj Dorna~
 @103 = ~Zablokuj Hexxat~
@@ -23,22 +28,114 @@
 
 @301 = ~Wlacz dostepnosc przedmiotow zwiazanych z BN'ami dla wszystkich~
 
-@400 = ~Change portrait: Baeloth~
-@401 = ~Alternate version~
-@402 = ~Alternate version, in BG2 only~
-@403 = ~BG2 style~
-@404 = ~BG2 style, in BG2 only~
-@410 = ~Change portrait: Dorn~
-@420 = ~Change portrait: Hexxat (BG2 style)~
-@430 = ~Change portrait: Neera~
-@440 = ~Change portrait: Rasaad~
-@450 = ~Improved portrait: Wilson~
+// Portraits
+@400 = ~Zmien portret: Baeloth~
+@401 = ~Alternatywna wersja~
+@402 = ~Alternatywna wersja, tylko w BG2~
+@403 = ~Styl BG2~
+@404 = ~Styl BG2, tylko w BG2~
+@410 = ~Zmien portret: Dorn~
+@420 = ~Zmien portret: Hexxat (styl BG2)~
+@430 = ~Zmien portret: Neera~
+@440 = ~Zmien portret: Rasaad~
+@450 = ~Ulepszony portret: Wilson~
 
+// Class changes
+@500 = ~Zmien klase/podklase: Baeloth~
+@501 = ~Mag~
+@502 = ~Mistrz odrzucania~
+@503 = ~Mistrz przywolan~
+@504 = ~Mistrz poznania~
+@505 = ~Mistrz zauroczen~
+@506 = ~Iluzjonista~
+@507 = ~Mistrz inwokacji~
+@508 = ~Nekromanta~
+@509 = ~Mistrz przemian~
+@510 = ~Dziki mag~
+@511 = ~Uczen smoka~
+@512 = ~Czarownik chaosu~
+@513 = ~Adept cienia~
+
+@520 = ~Zmien klase/podklase: Dorn~
+@521 = ~Zresetuj tylko poziom~
+@522 = ~Wybierz klase~
+
+@540 = ~Zmien klase/podklase: Neera~
+@541 = ~Czarownik chaosu~
+
+@560 = ~Zmien klase/podklase: Rasaad~
+@561 = ~Mnich~
+@562 = ~Srebrna Gwiazda Selune~
+
+@580 = ~Zmien klase/podklase: M'Khiin~
+
+@600 = ~Zmien klase/podklase: Glint~
+@601 = ~Kaplan~
+@602 = ~Wojownik/Kaplan~
+@603 = ~Kaplan/Iluzjonista~
+
+@620 = ~Zmien klase/podklase: Voghiln~
+@621 = ~Bard~
+@622 = ~Fechmistrz~
+@623 = ~Zlodziej~
+@624 = ~Zawadiaka~
+
+@640 = ~Zmien klase/podklase: Corwin~
+@641 = ~Lowca~
+@642 = ~Tropiciel~
+@643 = ~Wojownik~
+@644 = ~Zabojca magow~
+@645 = ~Kaplan~
+@646 = ~Kaplan Tyra~
+@647 = ~Obserwator Helma~
+@648 = ~Paladyn~
+@649 = ~Kawaler~
+@650 = ~Inkwizytor~
+
+@660 = ~Zmien klase/podklase: Hexxat~
+@661 = ~Zabojca~
+@662 = ~Tancerz cieni~
+@663 = ~Mag/Zlodziej~
+@664 = ~Mag/Zabojca~
+@665 = ~Mag/Tancerz cieni~
+@666 = ~Nekromanta/Zlodziej~
+@667 = ~Wojownik/Zlodziej~
+@668 = ~Wojownik/Zabojca~
+@669 = ~Wojownik/Tancerz cieni~
+
+@680 = ~Zmien klase/podklase: Clara~
+@681 = ~Lowca nagrod~
+@682 = ~Zawadiaka~
+@683 = ~Tancerz cieni~
+@684 = ~Bard~
+
+// Setup messages
 @1000 = ~Komponent ten wymaga uprzedniego zainstalowania BG:EE, BG2:EE lub EET.~
 @1001 = ~Komponent ten wymaga uprzedniego zainstalowania BG:EE lub EET.~
 @1002 = ~Komponent ten wymaga uprzedniego zainstalowania BG2:EE lub EET.~
 @1003 = ~Nie wybrano komponentu "Decyduj indywidualnie dla kazdego BN".~
+@1004 = ~Komponent ten wymaga uprzedniego zainstalowania SoD lub EET.~
 @1005 = ~Komponent ten jest dostepny tylko w przypadku zablokowania jednego lub wiecej BN.~
 @1006 = ~Ta modyfikacja nie jest kompatybilna z dodatkiem "EE_content_tweaks", ktorego autorem jest Pecca~
-@1007 = ~This component is not available if the NPC has been disabled.~
-@1008 = ~This component requires EET to be installed.~
+@1007 = ~Komponent ten jest niedostepny, jesli dany BN zostal zablokowany.~
+@1008 = ~Komponent ten wymaga uprzedniego zainstalowania EET.~
+@1009 = ~Komponent ten wymaga uprzedniego zainstalowania modyfikacji "Chaos Sorcerer Kit".~
+@1010 = ~Komponent ten wymaga uprzedniego zainstalowania modyfikacji "Shadow Magic".~
+@1011 = ~Komponent ten wymaga uprzedniego zainstalowania komponentu "Srebrna Gwiazda Selune" z modyfikacji "Divine Remix".~
+@1012 = ~Operacja przerwana przez uzytkownika.~
+
+// Custom class selection
+@2000 = ~Aktualna klasa: %cur_class_title% (%cur_class_name%), podklasa: %cur_kit_title% (%cur_kit_name%)~
+@2001 = ~Dostepne klasy: %class_entries%~
+@2002 = ~Podaj numer nowej klasy (nie wpisuj nic, by zachowac aktualna klase):~
+@2003 = ~Wybrany numer klasy jest niedostepny.~
+@2004 = ~Wybrana klasa: %new_class_title% (%new_class_name%).~
+@2005 = ~Brak dostepnej podklasy dla klasy "%new_class_title%".~
+@2006 = ~Dostepne nastepujace podklasy dla klasy "%new_class_title%": %kit_entries%~
+@2007 = ~Podaj numer nowej podklasy:~
+@2008 = ~Wybrany numer podklasy jest niedostepny.~
+@2009 = ~Wybrano: klasa "%new_class_title%" (%new_class_name%) i podklasa "%new_kit_title%" (%new_kit_name%).~
+@2010 = ~Przydziel wybrana kombinacje klasy/podklasy ([A]ccept, [S]tart over, [C]ancel)?~
+@2011 = ~Wybierz A, aby akceptowac, S, aby rozpoczac ponownie lub C, aby anulowac operacje.~
+@2012 = ~brak podklasy~
+@2013 = ~Pobieranie informacji o klasie...~

@@ -15,18 +15,69 @@ Właściwości ładunków:
 
 Waga: 0~
 @50001 = ~Mnich Słonecznej Duszy~
+@50002 = ~Te wygodne buty wyróżniają się wzmocnionymi podeszwami, co pozwala noszącej jej osobie wykonywać nadzwyczajne akrobacje bez obawy o nabawienie się kontuzji pleców.
+
+PARAMETRY:
+
+Specjalne:
+– Klasa Pancerza: +2
+
+Waga: 1~
+@50003 = ~Te wypolerowane bransolety odbijają światło, oślepiając przeciwników noszącej je osoby, co znacząco utrudnia im parowanie ciosów.
+
+PARAMETRY:
+
+Specjalne:
+– TraK0: +2
+
+Waga: 1~
+@50004 = ~Proca Corwin +2~
+@50005 = ~This enchanted sling enhances the wielder's dexterity, allowing them to aim more accurately. Moreover, its exceptionally balanced design helps the wielder to continue aiming at the target without the need to readjust their stance. When scoring a critical hit, the shot will explode into a shower of rock splinters that stuns the target for a short time.
+
+Specjalne:
+– Zręczność: +1
+– Dodatkowe 1/2 ataku na rundę
+– Cel zostaje ogłuszony na trzy rundy, po trafieniu krytycznym (rzut obronny przeciw śmierci neguje)
+
+PARAMETRY:
+
+Obrażenia: +2
+TraK0: +2
+Opóźnienie: 4
+Rodzaj biegłości: proca
+Typ broni: 1-ręczna
+
+Wymagania:
+– Siła: 3
+
+Waga: 0~
 
 
 // Updated biographies: Neera
-@51000 = ~~ // BG1 bio placeholder
-@51001 = ~~ // BG2 bio placeholder
+@51000 = ~Zapytana o swoją przeszłość, NEERA odpowiada, że od wielu miesięcy ucieka przed tropiącymi ją Czerwonymi Magami z Thay. Dziewczyna sprawia wrażenie porywczej i nieco za bardzo wyszczekanej, niemniej jednak osoby praktykujące dziką magię uchodzą za jednych z najpotężniejszych użytkowników magii... dopóki nie przydarzy im się wypadek.
+
+Pomimo pogodnego i kapryśnego usposobienia dostrzegasz, że wydarzenia z przeszłości bardzo jej ciążą. Chociaż używanie swych mocy sprawia jej ogromną frajdę, widać u niej również obawę przed tym, by nieprzewidywalna natura jej magii nie okazała się zgubna dla innych.~
+
+@51001 = ~Zapytana o przeszłość, NEERA wzrusza jedynie ramionami. Opowiada, że zanim przybyła do Athkatli, podróżowała po Wybrzeżu Mieczy w poszukiwaniu przygód, unikając jednocześnie Zakonu Ośmiu Kosturów, organizacji zajmującej się ściganiem praktykujących dziką magię. O dawniejszych czasach mówi niewiele, nie ukrywając jednak faktu, iż została wygnana z Wysokiego Lasu za posługiwanie się dziką magią. Neera jest skora do śmiechu i rozmów, być może nawet za bardzo, jednak nie waha się zaatakować, gdy poczuje, że jej niezależność jest zagrożona. Jest niezwykle zaangażowana w ochronę innych dzikich magów i zaryzykuje niemal wszystko w ich obronie.~
 
 // Updated biographies: Rasaad
-@51050 = ~~ // BG2 bio placeholder
+@51050 = ~Życie RASAADA, małomównego mnicha z poświęconemu bogini księżyca Selûne Zakonowi Słonecznej Duszy naznaczone jest tragedią. O swoim bracie, Gamazie, opowiada z nabożną niemal czcią, mimo iż ten zdradził Słoneczną Duszę, dołączając do sekty Ciemnego Księżyca, gdzie poznawał nauki Shar u boku niejakiego Alorgotha. Mimo iż ostatecznie Gamaz zginął z ręki swego brata, Rasaad obarcza winą za całą tragedię właśnie Alorgotha. Zrozpaczony mnich poprzysiągł pomścić Gamaza i bez wątpienia gotów jest poświęcić niemal wszystko, by tego dokonać.~
 
 // Updated biographies: Voghiln
-@51100 = ~~ // Thief bio placeholder
+@51100 = ~Zapytany o przeszłość, VOGHILN opowiada ze szczegółami o swoich podróżach na Północy. Pochodzący z Luskan Voghiln poczuł w pewnym momencie zew przygody i wyruszył na wyprawę na Grzbiet Świata. Przez kilka kolejnych lat przemierzał północne krainy, takie jak Vaasa czy Srebrne Marchie, ucząc się nowych sztuczek i budując reputację zręcznego łotrzyka.
+
+Pod koniec opowieści Voghiln postanowił przemilczeć kwestię tego, dlaczego zdecydował się wyruszyć na południe. Żadna siła nie była go w stanie zmusić do wyjawienia, dlaczego naprawdę opuścić mroźną Północ. Zamiast tego Voghiln zbył cię stwierdzeniem, że na południe przyciągnęły go widmo nowych przygód oraz chęć poznania nowych „kobiet”.
+
+Pomimo zamiłowania do mocnych drinków i flirtowania z młodymi dziewkami, Voghiln jest dzielnym i utalentowanym towarzyszem przygód, pragnącym upadku krucjaty, głównie po to, by móc to później opisać.~
 
 // Updated biographies: Corwin
-@51150 = ~~ // Cleric bio placeholder
-@51151 = ~~ // Paladin bio placeholder
+@51150 = ~Zapytana o przeszłość, SCHAEL CORWIN niechętnie przyznaje, że w większość dzieciństwa spędziła na dzikich zabawach pośród ulic Wrót Baldura. Jej buntownicza natura wpędziła ją w końcu w kłopoty, gdy zwróciła na siebie uwagę Płomiennej Pięści.
+
+Zamknięta w ciemnej jednoosobowej celi, mając za towarzystwo jedynie własne myśli, zaczęła zastanawiać się nad decyzjami podjętymi w przeszłości i tym, dokąd ja one doprowadziły. Gdy w końcu ją wypuszczono, postanowiła całkowicie zmienić swoje życie. Zaciągnęła się w szeregi Płomiennej Pięści, pnąc się błyskawicznie w hierarchii. Niedługo potem zrozumiała, że walka o sprawy doczesne już jej nie wystarcza i rozpoczęła szkolenie w świątyni, mając nadzieję zostać kapłanką.
+
+Masz wrażenie, że Schael Corwin zrobiłaby niemal wszystko dla swej rodziny, Płomiennej Pięści lub świątyni.~
+@51151 = ~Zapytana o przeszłość, SCHAEL CORWIN niechętnie przyznaje, że w większość dzieciństwa spędziła na dzikich zabawach pośród ulic Wrót Baldura. Jej buntownicza natura wpędziła ją w końcu w kłopoty, gdy zwróciła na siebie uwagę Płomiennej Pięści.
+
+Zamknięta w ciemnej jednoosobowej celi, mając za towarzystwo jedynie własne myśli, zaczęła zastanawiać się nad decyzjami podjętymi w przeszłości i tym, dokąd ja one doprowadziły. Gdy w końcu ją wypuszczono, postanowiła całkowicie zmienić swoje życie. Zaciągnęła się w szeregi Płomiennej Pięści, pnąc się błyskawicznie w hierarchii. Niedługo potem zrozumiała, że walka o sprawy doczesne już jej nie wystarcza i rozpoczęła szkolenie w zakonie, mając nadzieję zostać paladynem.
+
+Masz wrażenie, że Schael Corwin zrobiłaby niemal wszystko dla swej rodziny, Płomiennej Pięści lub zakonu.~
