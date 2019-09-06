@@ -5,7 +5,7 @@
 
 **Website:** https://argent77.github.io/A7-NoEENPCs/index.html
 
-**Discussion:** [Beamdog Forums](https://forums.beamdog.com/discussion/43074/mod-disable-enhanced-edition-npcs-for-bg-ee-bg2-ee/p1) or [Spellhold Studios Forums](http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/)
+**Discussion:** [Beamdog Forums](https://forums.beamdog.com/discussion/43074) or [Spellhold Studios Forums](http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/)
 
 ## Overview
 
