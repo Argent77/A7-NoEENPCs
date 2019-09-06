@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOD: Convenient Enhanced Edition NPCs</title>
+    <meta name="description" content="A mod for BG:EE, BG2:EE and EET (Enhanced Edition Trilogy) that allows you to tweak the Beamdog NPCs." />
+    <meta name="keywords" content="bgee, bg2ee, eet, mod, tweaks" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body>
+    <div><a name="top" id="top"></a></div>
+    <div id="language">
+      <ul>
+        <li><a href="index.html">English</a></li>
+        <li title="French">Français</li>
+        <li title="German"><a href="index-de.html">Deutsch</a></li>
+      </ul>
+    </div>
+
+    <header>
+      <h1 class="title">Convenient Enhanced Edition NPCs</h1>
+      <div class="subtitle">Un mod pour BG:EE, BG2:EE et EET (Enhanced Edition Trilogy) qui vous permet de modifier les nouveaux PNJ de Beamdog.</div>
+      <hr />
+      <p class="about"><strong>Auteur : Argent77</strong></p>
+      <ul id="globalnav" class="about">
+        <li><strong>Téléchargement</strong> (<a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>Téléchargement</strong> (<a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>)</li>
+        <li><strong>Forum</strong> (<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>Forum</strong> (<a href="https://forums.beamdog.com/discussion/43074">Beamdog</a>)</li>
+        <li><a href="https://github.com/Argent77/A7-NoEENPCs">Projet</a></li>
+        <li>Version : 3.5</li>
+      </ul>
+      <hr />
+      <nav>
+        <ul>
+          <li><a href="#overview">Présentation</a></li>
+          <li><a href="#compatibility">Compatibilité</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#components">Composants</a></li>
+          <li><a href="#credits">Crédits</a></li>
+          <li><a href="#changelog">Historique des versions</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================== I N T R O D U C T I O N ================== -->
+      <section id="overview">
+        <h2>Présentation</h2>
+        <p>Un mod pour BG:EE, BG:SOD, BG2:EE et <abbr title="Enhanced Edition Trilogy">EET</abbr>.</p>
+        <p>Les nouveaux personnages recrutables apparus dans BG:EE et BG2:EE ne sont pas au goût de tout le monde. Ce mod propose plusieurs options pour les adapter à votre convenance. Vous pouvez rendre leur première apparition dans le jeu moins intrusive, en vous permettent de contrôler si vous acceptez d'établir un premier contact, et quand. Pour ce faire, quelques événements mineurs ont été légèrement modifiés.</p>
+        <p>Sinon, vous pouvez aussi désactiver définitivement tous les PNJ du jeu, ou seulement certains. Dans ce cas, vous pouvez aussi décider de rendre utilisables par quiconque leurs objets personnels ou ceux obtenus dans leur quête. Vous les trouverez soit dans des boutiques, soit sur des cadavres.</p>
+        <p>Des composants supplémentaires vous permettent d'améliorer leurs portraits et de personnaliser leurs classes et/ou leurs profils, selon vos envies. Vous trouverez des informations complémentaires plus bas.</p>
+        <hr class="spacer" />
+        <p>N'hésitez pas à consulter les forums de <a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a> ou de <a href="https://forums.beamdog.com/discussion/43074">Beamdog</a> pour poser des questions, et à télécharger la dernière version du mod soit sur le site <a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">Spellhold Studios</a>, soit sur <a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>.</p>
+        <div class="back">
+          <a class="novisit" href="#top">HAUT DE PAGE</a>
+        </div>
+      </section>
+
+      <!-- ================== C O M P A T I B I L I T Y ================== -->
+      <section id="compatibility">
+        <h2>Compatibilité</h2>
+        <p>« Convenient Enhanced Edition NPCs » devrait être compatible avec tous les mods qui ne modifient pas de manière significative les positions d'apparition et les scripts des PNJ des Éditions Améliorées. À l'heure actuelle, seul le mod de Pecca « EE_content_tweaks » entre en conflit avec lui dans BG:EE. C'est pourquoi, si ce dernier a été installé, ce mod refusera d'installer les composants incompatibles.</p>
+        <p>Il est entièrement compatible avec Siege of Dragonspear. Cependant, les options pour modifiers les PNJ de SoD sont plus restreintes en raison de leur étroite implication dans l'intrigue.</p>
+        <p><strong>IMPORTANT :</strong> La version 4.0 de ce mod contient plusieurs changements structurels. <u>Ne l'installez pas</u> conjointement avec des versions précédentes (3.5 ou précédentes) !</p>
+        <div class="back">
+          <a class="novisit" href="#top">HAUT DE PAGE</a>
+        </div>
+      </section>
+
+      <!-- ================== I N S T A L L A T I O N ================== -->
+      <section id="installation">
+        <h2>Installation</h2>
+        <p>Il s'agit d'un mod <acronym title="Weimer Dialogue Utility">WeiDU</acronym>, ce qui signifie qu'il est très facile à installer. Il vous suffit d'extraire les fichiers de l'archive dans votre répertoire de jeu (le dossier qui contient le fichier « chitin.key »), d'exécuter « <em>setup-A7-ConvenientEENPCs.exe</em> » (Windows) ou « <em>setup-A7-ConvenientEENPCs.command</em> » (macOS) et de suivre les instructions affichées à l'écran.</p>
+        <p>Je vous recommande fortement de commencer une nouvelle partie une fois ce mod installé.</p>
+        <p>Pour le désinstaller, lancez « <em>setup-A7-ConvenientEENPCs.exe</em> » ou « <em>setup-A7-ConvenientEENPCs.command</em> » une nouvelle fois et suivez les instructions.</p>
+       <div class="back">
+          <a class="novisit" href="#top">HAUT DE PAGE</a>
+        </div>
+      </section>
+
+      <!-- ================== C O M P O N E N T S ================== -->
+      <section id="components">
+        <h2>Composants</h2>
+        <h4>Groupe : Apparition</h4>
+        <ol class="gappedlist">
+          <li>
+            <p><strong>Modifier les PNJ des Éditions Améliorées <em>(BG:EE, BG:SOD, BG2:EE et EET)</em></strong></p>
+            <ol>
+              <li>Désactiver tous les PNJ : désactive tous les PNJ d'un coup.</li>
+              <li>Rendre passifs tous les PNJ : rend passifs tous les PNJ d'un coup.</li>
+              <li>Décider pour chaque PNJ : voir ci-dessous.</li>
+            </ol>
+            <hr class="spacer" />
+            <p><strong>Les composants suivants ne sont accessibles que si vous avez choisi le sous-composant « Décider pour chaque PNJ » :</strong></p>
+          </li>
+          <li>
+            <p><strong>Modification sélective : Baeloth</strong></p>
+            <ol>
+              <li>Désactiver Baeloth <em>(seulement pour BG:EE et EET)</em> : Ce composant empêche l'apparition de Baeloth dans BG:EE (Les Fosses Noires et Siege of Dragonspear ne sont pas affectés).</li>
+              <li>Rendre Baeloth passif <em>(seulement pour BG:EE et EET)</em> : Ce composant réduit la cinématique d'introduction à un strict minimum et empêche Baeloth d'initier toute conversation..</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Désactiver Dorn (BG:EE, BG:SOD, BG2:EE et EET)</strong></p>
+            <p>Ce composant empêche l'apparition de Dorn dans BG:EE, BG:SOD et BG2:EE.</p>
+          </li>
+          <li>
+            <p><strong>Modification sélective : Hexxat</strong></p>
+            <ol>
+              <li>Désactiver Hexxat <em>(seulement pour BG2:EE et EET)</em> : Ce composant empêche l'apparition de Hexxat et des PNJ associés dans BG2:EE.</li>
+              <li>Rendre Hexxat passive <em>(seulement pour BG2:EE et EET)</em> : Ce composant empêche Hexxat d'initier toute conversation.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modification sélective : Neera</strong></p>
+            <ol>
+              <li>Désactiver Neera <em>(BG:EE, BG:SOD, BG2:EE et EET)</em> : Ce composant empêche l'apparition de Neera dans BG:EE, BG:SOD et BG2:EE.</li>
+              <li>Rendre Neera passive <em>(BG:EE, BG2:EE et EET)</em> : Dans BG:EE, ce composant empêche Neera d'initier toute conversation. Dans BG2:EE, il lance la cinématique d'introduction dans le Quartier du Pont seulement si vous avez parlé à Neera. Elle se trouve près de la place où se déroule la cinématique des Magiciens rouges après que les citadins aient commenté les meurtres du quartier.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modification sélective : Rasaad</strong></p>
+            <ol>
+              <li>Désactiver Rasaad <em>(BG:EE, BG:SOD, BG2:EE et EET)</em> : Ce composant empêche l'apparition de Rasaad dans BG:EE, BG:SOD et BG2:EE.</li>
+              <li>Rendre Rasaad passif <em>(BG:EE, BG2:EE et EET)</em> : Dans BG:EE, ce composant empêche Rasaad de prendre part au combat contre les assassins Neira ou Nimbul dans Nashkel. Dans BG2:EE, il ne lance la cinématique d'introduction dans Franc-Marché que si vous vous adressez à Rasaad. Il se trouve près de la fontaine.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Rendre les objets personnels des NPJ disponibles pour tous</strong></p>
+            <p>Ce composant vous permet de récupérer les objets personnels ou relatifs aux quêtes des PNJ désactivés, dans des boutiques, dans des coffres ou encore comme butin sur le cadavre de certaines créatures. Les objets suivants ont été (corrigés et) dispersés dans le jeu <em>[NdT : Comme vous le savez, BG2EE n'est pas disponible en français. Cependant une équipe de traducteurs s'est mise à la tâche et a commencé un dur labeur. Les noms des objets utilisés dans les lignes suivantes sont des propositions de traduction et sont susceptibles de changer à l'avenir.]</em> :</p>
+            <p><strong>Baeloth :</strong></p>
+            <ul>
+              <li>BG:EE : Vous pouvez acheter à un prix cassé son anneau spécial au  «Bazar d'Aello la Chance » à la Porte de Baldur. Sa description a été corrigée. En bonus, j'ai aussi corrigé un effet inactif de sa capacité spéciale pour le rendre légèrement plus intéressant. <em>Note : Pour des raisons techniques, l'anneau n'est pas disponible si vous avez installé SoD.</em></li>
+            </ul>
+            <p><strong>Dorn :</strong></p>
+            <ul>
+              <li>BG:EE : Vous pouvez acheter les Gants antiprojectiles à l'Auberge de Barbe d'Ulgoth.</li>
+              <li>BG:EE : Le Ceinturon doré d'Urnst, la Cotte de mailles elfique et l'Épée bâtarde Albruin +1 sont vendus à la Forge de Grondemarteau de Bérégost.</li>
+              <li>BG:EE : L'Amulette de Protection contre les sorts est vendue à l'Auberge de Feldepost à Bérégost.</li>
+              <li>BG2:EE : Les Écailles de dragon d'argent se trouvent sur le cadavre d'Adalon si vous choisissez de l'attaquer. Cespenar pourra l'utiliser pour fabriquer un autre objet dans ToB.</li>
+              <li>BG2:EE : Vous en trouverez un second exemplaire sur le cadavre de « La Chasseresse » qui garde le dernier sceau dans le dernier niveau de la Tour de Garde.</li>
+              <li>BG2:EE : L'Épée longue sainte de Tyr +3 se trouve dans le labyrinthe de la Tour de Garde, plus exactement dans la pièce dans laquelle vous tuez le Démon en peine.</li>
+              <li>BG2:EE : Des casques Heaume de gloire sont vendus par Ribald Barterman et par un marchand de Franc-Marché.</li>
+              <li>BG2:EE : Vous pouvez essayer de voler le Sceptre de Pas de l'ombre à Saemon Havarian à Amkethran.</li>
+              <li>BG2:EE : Roger le receleur dans les égouts sous le Quartier des Temples et Sœur Farielle à Saradush vendent une Potion de clairvoyance.</li>
+              <li>BG2:EE : À Suldanessellar, Raamilat possède désormais la Lame abyssale.</li>
+              <li>BG2:EE : J'ai aussi ajouté dans le jeu la très puissante « Lame de Cuivre +5 ». Elle fait partie de la quête de Dorn, mais n'est pas disponible. Vous pouvez la récupérer sur Berenn dans le Temple des Géants de feu.</li>
+            </ul>
+            <p><strong>Hexxat :</strong></p>
+            <ul>
+              <li>BG2:EE : Mae'var est équipé d'un Anneau d'anti-venin.</li>
+              <li>BG2:EE : Vous pouvez acheter les Bottes Soupirs las à Ribald Barterman.</li>
+              <li>BG2:EE : Il vend aussi la dague « Croc de jade » dans sa réserve spéciale au retour d'Ombreterre.</li>
+            </ul>
+            <p><strong>Neera :</strong></p>
+            <ul>
+              <li>BG:EE : Vous pouvez acheter le Sac à gemmes de Neera dans l'Auberge de Brasamical.</li>
+              <li>BG:EE : Le Ceinturon d'Adoy est vendu à l'Auberge de Feldepost à Bérégost.</li>
+              <li>BG2:EE : Le Ceinturon d'Adoy et la Robe d'invocation ont été ajoutés au magasin de Ribald Barterman.</li>
+              <li>BG2:EE : Rayic Gethras, le mage cagoulé que vous devez tuer pendant la quête de Mae'Var, possède désormais un Bandeau Thayen.</li>
+              <li>BG2:EE : Le marteau « Parpaing +2 » et la Tunique de l'Aveuglé sont vendus par un marchand de Franc-Marché.</li>
+              <li>BG2:EE : Le Bouclier +2 de Fyrus Khal a été ajouté à la réserve spéciale de Ribald Barterman, au retour d'Ombreterre.</li>
+              <li>BG2:EE : Perter, le fabricant de flèches de la Promenade de Waukyne, vend la Fronde entropique +1.</li>
+              <li>BG2:EE : La Baguette de fouets se trouve sur le corps du mage possédé dans le complexe secret des Flagelleurs mentaux dans les égouts sous le Quartier des Temples.</li>
+            </ul>
+            <p><strong>Rasaad :</strong></p>
+            <ul>
+              <li>BG:EE : Les bottes Marcheurs du Clair de lune peuvent être utilisées par n'importe quel Moine de la Conscience Solaire et peuvent être récupérées sur le corps de Neira, l'assassin de Nashkel.</li>
+              <li>BG:EE : Les Brassards scintillants sont utilisables par n'importe quel moine. Vous pouvez les acheter à l'un des marchands du Festival de Nashkel.</li>
+              <li>BG:EE : Le spectre Fierté, dans la Tour de Durlag, porte la Ceinture au gros poing.</li>
+              <li>BG2:EE : Les bottes Marcheurs du Clair de lune peuvent être utilisées par n'importe quel Moine de la Conscience Solaire et sont détenues par Anishai, dans la guilde de Mae'Var.</li>
+              <li>BG2:EE : C'est Cohrvale qui porte désormais la Ceinture de queue de bœuf. Sur le cadavre de son comparse Bregg, vous trouverez Gloire de Hojar +1, une hache magique de médiocre qualité.</li>
+              <li>BG2:EE : Ribald Barterman vend la Broche des Lames vagabondes.</li>
+              <li>BG2:EE : La Ceinture d'invulnérabilité mineure est détenue par le Roi Ixilthetocal dans la Cité Sous-marine des Sahuagins.</li>
+              <li>BG2:EE : Le receleur du QG de la guilde des voleurs vend l'Anneau de dédoublement.</li>
+              <li>BG2:EE : Elence Fielding, une marchande des Collines d'Umar, vend la Fronde +2 lupine.</li>
+              <li>BG2:EE : Valeria, une guerrière hostile qui se terre dans une planque dans le Quartier du Pont, porte le Manteau des étoiles.</li>
+              <li>BG2:EE : Le forgeron de Franc-Marché vend le Cimeterre +2 Œil de lynx.</li>
+              <li>BG2:EE : À la Couronne de Cuivre, Bernard vend la Cape de Frappe infaillible après que Hendak ait remplacé Lehtinan.</li>
+              <li>BG2:EE : Karthis al-Hezzar vend les bottes Marcheurs de la Nuit et le cimeterre magique « Faisceau de la Conscience Solaire ». Vous le trouverez dans les régions sauvages entre Saradush et le Temple abandonné de Bhaal.</li>
+              <li>BG2:EE : Vous trouverez les Gants d'Aln Zekk sur le cadavre de Olaf Rassmusen, l'un des hommes de mains que vous devrez affronter si vous pénétrez dans la Cour Gardée, dans le Quartier des Temples.</li>
+              <li>BG2:EE : L'un des marchands d'Ust Natha vend la Cape d'expiation.</li>
+              <li>BG2:EE : Le Prêtre de Cyric dans la Forêt du Nord, accessible au retour d'Ombreterre, possède la Cape de la Lune noire.</li>
+              <li>BG2:EE : Le Géancéphale du repaire des Flagelleurs mentaux d'Ombreterre protège farouchement l'artefact les Yeux du Spectateur. Il vous suffira de le vaincre pour l'obtenir.</li>
+              <li>BG2:EE : Carras est un contrebandier d'Amkethran. Si vous l'aidez, vous pourrez lui acheter le Serre-tête du dévot.</li>
+              <li>BG2:EE : C'est Gaal, le chef du Culte de l'Œil aveugle, qui détient la Gemme de vision.</li>
+            </ul>
+          </li>
+        </ol>
+        <h4>Groupe : Portraits</h4>
+        <ol class="gappedlist" start="8">
+          <li>
+            <p><strong>Modifier le portrait de Baeloth</strong> (<a href="preview/baeloth-preview.jpg" target="_blank">consulter</a>)</p>
+            <ol>
+              <li>Version alternative : Installe un portrait alternatif pour l'ensemble du jeu. <em>(BG:EE et EET)</em></li>
+              <li>Version alternative, uniquement dans BG2 : Attribue à Baeloth un portrait alternatif uniquement dans la partie BG2 du jeu <em>(uniquement pour EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier le portrait de Dorn</strong> (<a href="preview/dorn-preview.jpg" target="_blank">consulter</a>)</p>
+            <ol>
+              <li>Graphisme de BG2 : Installe un portrait alternatif pour l'ensemble du jeu. <em>(BG:EE, BG2:EE et EET)</em></li>
+              <li>Graphisme de BG2, uniquement dans BG2 : Attribue à Dorn un portrait alternatif uniquement dans la partie BG2 du jeu <em>(uniquement pour EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier le portrait de Hexxat (Graphisme de BG2)</strong> (<a href="preview/clara_hexxat-preview.jpg" target="_blank">consulter</a>)</p>
+            <p>Installe un portrait alternatif pour Hexxat. <em>(BG2:EE et EET)</em></p>
+          </li>
+          <li>
+            <p><strong>Modifier le portrait de Neera</strong> (<a href="preview/neera-preview.jpg" target="_blank">consulter</a>)</p>
+            <ol>
+              <li>Graphisme de BG2: Installe un portrait alternatif pour l'ensemble du jeu. <em>(BG:EE, BG2:EE et EET)</em></li>
+              <li>Graphisme de BG2, uniquement dans BG2 : Attribue à Neera un portrait alternatif uniquement dans la partie BG2 du jeu <em>(uniquement pour EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier le portrait de Rasaad</strong> (<a href="preview/rasaad-preview.jpg" target="_blank">consulter</a>)</p>
+            <ol>
+              <li>Graphisme de BG2 : Installe un portrait alternatif pour l'ensemble du jeu. <em>(BG:EE, BG2:EE et EET)</em></li>
+              <li>Graphisme de BG2, uniquement dans BG2 : Attribue à Rasaad un portrait alternatif uniquement dans la partie BG2 du jeu <em>(uniquement pour EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Améliorer le portrait de Wilson</strong> (<a href="preview/wilson-preview.jpg" target="_blank">consulter</a>)</p>
+            <p>Installe un portrait de meilleure qualité pour Wilson. <em>(BG2:EE et EET)</em></p>
+          </li>
+        </ol>
+        <h4>Groupe: modification des classes</h4>
+        <p><strong>Note :</strong> La modification des classes et des profils ne concernent que les statistiques, les compétences et les capacités des PNJ. Elles ne se répercuteront pas dans leurs quêtes personnelles et dialogues. Cependant, leur équipement pourra être mis à jour pour se conformer aux exigences de leur nouvelle profession.</p>
+        <ol class="gappedlist" start="14">
+          <li>
+            <p><strong>Modifier la classe et le profil de Baeloth <em>(BG:EE, SoD et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Magicien :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Magicien".</p></li>
+              <li><p><strong>Abjurateur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Abjurateur".</p></li>
+              <li><p><strong>Conjurateur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Conjurateur".</p></li>
+              <li><p><strong>Devin :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Devin".</p></li>
+              <li><p><strong>Enchanteur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Enchanteur".</p></li>
+              <li><p><strong>Illusionniste :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Illusionniste".</p></li>
+              <li><p><strong>Invocateur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Invocateur".</p></li>
+              <li><p><strong>Nécromancien :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Nécromancien".</p></li>
+              <li><p><strong>Transmutateur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Transmutateur".</p></li>
+              <li><p><strong>Entropiste :</strong> Réinitialise son niveau à 1 et lui attribue le profil de magicien "Entropiste".</p></li>
+              <li><p><strong>Disciple du dragon :</strong> Réinitialise son niveau à 1 et lui attribue le profil d'ensorceleur "Disciple du dragon".</p></li>
+              <li><p><strong>Ensorceleur du Chaos :</strong> Réinitialise son niveau à 1 et lui attribue le profil personnalisé d'ensorceleur "Ensorceleur du Chaos" <em>(nécessite l'installation du mod «&#160;Kit d'Ensorceleur du Chaos&#160;» d'Argent77)</em>.</p></li>
+              <li><p><strong>Adepte de l'ombre :</strong> Réinitialise son niveau à 1 et lui attribue le profil personnalisé de magicien "Adepte de l'ombre" <em>(nécessite l'installation du mod «&#160;Shadow Magic&#160;» de Artemius_I)</em>.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Dorn <em>(BG:EE, SoD, BG2:EE et EET)</em></strong></p>
+            <ol>
+              <li><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</li>
+            </ol>
+            <p><em><strong>Note :</strong> La nature des quêtes personnelles de Dorn est si intimement liée à sa profession qu'il n'est pas possible de modifier sa classe.</em></p>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Neera <em>(BG:EE, SoD, BG2:EE et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Ensorceleur du Chaos :</strong> Réinitialise son niveau à 1 et lui attribue le profil personnalisé d'ensorceleur "Ensorceleur du Chaos" <em>(nécessite l'installation du mod «&#160;Kit d'Ensorceleur du Chaos&#160;» d'Argent77)</em>.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Rasaad <em>(BG:EE, SoD, BG2:EE et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                 <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Moine :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Moine".</p></li>
+              <li><p><strong>Étoile d'argent de Séluné :</strong> Réinitialise son niveau à 1 et lui attribue le profil de prêtre personnalisé "Étoile d'argent de Séluné" <em>(nécessite l'installation du composant «&#160;Étoile d'Argent de Séluné&#160;» du mod «&#160;Divine Remix&#160;»)</em>.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de M'Khiin <em>(SoD et EET)</em></strong></p>
+            <ol>
+              <li><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</li>
+            </ol>
+            <p><em><strong>Note:</strong> Les caractéristiques raciales de M'Khiin ne permettent pas de modifier sa classe d'origine.</em></p>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Glint <em>(SoD et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                 <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Clerc :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Clerc".</p></li>
+              <li><p><strong>Guerrier / Clerc :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Guerrier / Clerc".</p></li>
+              <li><p><strong>Clerc / Illusionniste :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Clerc / Illusionniste".</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Voghiln <em>(SoD et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                 <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Barde :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Barde".</p></li>
+              <li><p><strong>Maître-lames :</strong> Réinitialise son niveau à 1 et lui attribue le profil de barde "Maître-lames".</p></li>
+              <li><p><strong>Voleur :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Voleur".</p></li>
+              <li><p><strong>Bretteur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de voleur "Bretteur".</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Corwin <em>(SoD et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                 <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Rôdeur :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Rôdeur".</p></li>
+              <li><p><strong>Traqueur :</strong> Resets her level to 1 and applies le profil de rôdeur "Traqueur".</p></li>
+              <li><p><strong>Guerrier :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Guerrier".</p></li>
+              <li><p><strong>Tueur de magicien :</strong> Réinitialise son niveau à 1 et lui attribue le profil de guerrier "Tueur de magicien".</p></li>
+              <li><p><strong>Clerc :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Clerc".</p></li>
+              <li><p><strong>Prêtre de Tyr :</strong> Réinitialise son niveau à 1 et lui attribue le profil de clerc "Prêtre de Tyr".</p></li>
+              <li><p><strong>Prêtre de Heaum :</strong> Réinitialise son niveau à 1 et lui attribue le profil de clerc "Prêtre de Heaum".</p></li>
+              <li><p><strong>Paladin :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Paladin".</p></li>
+              <li><p><strong>Chevalier :</strong> Réinitialise son niveau à 1 et lui attribue le profil de paladin "Chevalier".</p></li>
+              <li><p><strong>Inquisiteur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de paladin "Inquisiteur".</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Hexxat <em>(BG2:EE et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Assassin :</strong> Réinitialise son niveau à 1 et lui attribue le profil de voleur "Assassin".</p></li>
+              <li><p><strong>Maître des ombres :</strong> Réinitialise son niveau à 1 et lui attribue le profil de voleur "Maître des ombres".</p></li>
+              <li><p><strong>Mage / Voleur :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Mage / Voleur".</p></li>
+              <li><p><strong>Mage / Assassin :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Mage / Assassin".</p></li>
+              <li><p><strong>Mage / Maître des ombres :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Mage / Maître des ombres".</p></li>
+              <li><p><strong>Nécromancien / Voleur :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Nécromancien / Voleur".</p></li>
+              <li><p><strong>Guerrier / Voleur :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Guerrier / Voleur".</p></li>
+              <li><p><strong>Guerrier / Assassin :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Guerrier / Assassin".</p></li>
+              <li><p><strong>Guerrier / Maître des ombres :</strong> Réinitialise son niveau à 1 et lui attribue la combinaison multi-classée "Guerrier / Maître des ombres".</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modifier la classe et le profil de Clara <em>(BG2:EE et EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Uniquement réinitialiser son niveau :</strong> Réinitialise son niveau à 1, mais ne modifie ni sa classe, ni son profil.</p></li>
+              <li>
+                <p><strong>Choisir sa classe :</strong> Cette option vous permet de choisir n'importe quelle combinaison classe/kit que vous souhaitez.</p>
+                <p><em><strong>Attention :</strong> certaines combinaisons peuvent être contraires à l'esprit du jeu, voire provoquer des effets secondaires indésirables. À vous de décider si le jeu en vaut la chandelle !</em></p>
+              </li>
+              <li><p><strong>Chasseur de primes :</strong> Réinitialise son niveau à 1 et lui attribue le profil de voleur "Chasseur de primes".</p></li>
+              <li><p><strong>Bretteur :</strong> Réinitialise son niveau à 1 et lui attribue le profil de voleur "Bretteur".</p></li>
+              <li><p><strong>Maître des ombres :</strong> Réinitialise son niveau à 1 et lui attribue le profil de voleur "Maître des ombres".</p></li>
+              <li><p><strong>Barde :</strong> Réinitialise son niveau à 1 et lui attribue la classe "Barde".</p></li>
+            </ol>
+          </li>
+        </ol>
+        <div class="back">
+          <a class="novisit" href="#top">HAUT DE PAGE</a>
+        </div>
+      </section>
+
+      <!-- ================== C R E D I T S ================== -->
+      <section id="credits">
+        <h2>Crédits</h2>
+        <p><strong>Écriture, codage &amp; test :</strong> <a href="http://www.shsforums.net/user/14985-argent77/">Argent77</a></p>
+        <p><strong>Traduction française :</strong> Gwendolyne</p>
+        <p><strong>Traduction polonaise :</strong> Cahir</p>
+        <p><strong>Portraits alternatifs des personnages :</strong> Lava Del'Vortel, Argent77</p>
+        <p><strong>Aide diverse :</strong> Lava Del'Vortel</p>
+        <hr class="spacer" />
+        <h3>Informations sur les droits d'auteur :</h3>
+        <div class="important">
+          <div>
+            <a rel="license" id="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+            </a>
+          </div>
+          <p>« Convenient Enhanced Edition NPCs » est déposé sous la licence <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+          <hr class="spacer" />
+          <p>Baldur's Gate: Enhanced Edition, Siege of Dragonspear et Baldur's Gate II: Enhanced Edition &copy; Beamdog.</p>
+        </div>
+        <div class="back">
+          <a class="novisit" href="#top">HAUT DE PAGE</a>
+        </div>
+      </section>
+
+      <!-- ================== V E R S I O N   H I S T O R Y ================== -->
+      <section id="changelog">
+        <h2>Historique des versions</h2>
+        <h6>Version 4.0</h6>
+        <ul>
+          <li>Modification du nom du mod en « Convenient Enhanced Edition NPCs ».</li>
+          <li>Ajout des options pour modifier les classes ou les profils des PNJ.</li>
+          <li>Ajout des options pour modifier les profils des PNJ.</li>
+          <li>Ajout du composant « Rendre Rasaad passif » pour BG:EE.</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.5</h6>
+        <ul>
+          <li>Correction de problèmes de cohérence pour Neera et Rasaad dans EET.</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.4</h6>
+        <ul>
+          <li>Ajout de la traduction française (merci à Gwendolyne).</li>
+          <li>Correction de fautes d'orthographe et de formatage du readme polonais.</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.3</h6>
+        <ul>
+          <li>Restructuration des composants du mod pour pouvoir désactiver ou rendre passifs les PNJ un par un.</li>
+          <li>Ajout de la traduction allemande.</li>
+          <li>Ajout de la traduction polonaise (merci à Cahir).</li>
+          <li>Correction du composant « Rendre Neera passive » dans la partie BG1 de EET.</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.2</h6>
+        <ul>
+          <li>Ajout de la compatibilité avec Siege of Dragonspear.</li>
+          <li>Correction d'un bug dans BG2:EE qui permettait à Rasaad d'apparaître dans le jeu alors qu'il était désactivé.</li>
+          <li>Adoucissement des restrictions d'usage de l'Anneau de Baeloth.</li>
+          <li>Diverses corrections et améliorations mineures.</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.1</h6>
+        <ul>
+          <li>Correction d'un contrôle incorrect dans le composant « Rendre les objets spécifiques a chaque PNJ utilisables par tous ».</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.0</h6>
+        <ul>
+          <li>Ajout du nouveau composant « Rendre les objets spécifiques a chaque PNJ utilisables par tous ».</li>
+          <li>Amélioration de la compatibilité avec d'autres mods (voir la section Compatibilité).</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 2.1</h6>
+        <ul>
+          <li>Correction d'un contrôle de jeu manquant dans le composant « Rendre Neera passive ».</li>
+          <li>Restructurations internes.</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 2.0</h6>
+        <ul>
+          <li>Ajout de l'option permettant d'empêcher un ou tous les PNJ d'initier toute conversation.</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 1.0</h6>
+        <ul>
+          <li>Sortie initiale.</li>
+        </ul>
+        <div class="back">
+          <a class="novisit" href="#top">HAUT DE PAGE</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
