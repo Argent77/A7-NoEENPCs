@@ -1,6 +1,6 @@
 BACKUP ~A7-ConvenientEENPCs/backup~
 SUPPORT ~https://forums.beamdog.com/discussion/43074~
-VERSION ~v3.5~
+VERSION ~v4.0~
 
 ALWAYS
   INCLUDE ~%MOD_FOLDER%/lib/eet.tph~

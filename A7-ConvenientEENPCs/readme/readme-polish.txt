@@ -1,7 +1,7 @@
 Convenient Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version:    3.5
+Version:    4.0
 Author:     Argent77
 
 Download:   https://github.com/Argent77/A7-NoEENPCs/releases/latest
