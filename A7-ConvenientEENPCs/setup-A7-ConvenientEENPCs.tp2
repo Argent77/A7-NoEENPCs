@@ -273,6 +273,8 @@ BEGIN @402 // Alternate version, in BG2 only
   GROUP @51 // Portraits
   DESIGNATED 401
 
+  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+
   COPY ~%MOD_FOLDER%/portraits/a7_blthl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_blthm.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_blths.bmp~ ~override~
