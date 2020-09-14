@@ -42,6 +42,14 @@ LANGUAGE  ~Polski (tlumaczenie: Cahir)~
           ~%MOD_FOLDER%/languages/polish/setup.tra~
           ~%MOD_FOLDER%/languages/polish/misc.tra~
           ~%MOD_FOLDER%/languages/polish/dialog.tra~
+LANGUAGE  ~Russian (translation: Arkie)~
+          ~russian~
+          ~%MOD_FOLDER%/languages/english/setup.tra~
+          ~%MOD_FOLDER%/languages/english/misc.tra~
+          ~%MOD_FOLDER%/languages/english/dialog.tra~
+          ~%MOD_FOLDER%/languages/russian/setup.tra~
+          ~%MOD_FOLDER%/languages/russian/misc.tra~
+          ~%MOD_FOLDER%/languages/russian/dialog.tra~
 
 
 ////////////////////////////////////////
