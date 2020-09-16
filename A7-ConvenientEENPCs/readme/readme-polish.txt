@@ -1,7 +1,7 @@
 Convenient Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version:    4.0
+Version:    4.1
 Author:     Argent77
 
 Download:   https://github.com/Argent77/A7-NoEENPCs/releases/latest
@@ -276,6 +276,10 @@ Baldur's Gate: Enhanced Edition, Siege of Dragonspear and Baldur's Gate II: Enha
 
 Version History
 ~~~~~~~~~~~~~~~
+
+v4.1:
+- Added Russian translation (thanks Arkie)
+- Fixed installation issue in component "Change portrait: Baeloth"
 
 v4.0:
 - Changed mod name to "Convenient Enhanced Edition NPCs"
