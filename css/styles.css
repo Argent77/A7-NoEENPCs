@@ -247,7 +247,7 @@ details.faq ul {
 
 details.faq ul > li:before {
   font-weight: bold;
-  content: attr(data) ":";
+  content: attr(data-letter) ":";
   margin-right: 0.5rem;
 }
 
