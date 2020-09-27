@@ -37,6 +37,10 @@ BEGIN
         REPLACE_TEXTUALLY CASE_INSENSITIVE ~^[%TAB% ]*Global("BD_dorn_map_note","BD2000",0)~ ~False()~
       END BUT_ONLY
   END
+
+  ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    COMPILE ~%MOD_FOLDER%/dialogs/dorn_bg1.d~
+  END
 END
 
 DEFINE_ACTION_FUNCTION A7DisableHexxat

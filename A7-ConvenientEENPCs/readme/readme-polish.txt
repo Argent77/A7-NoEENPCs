@@ -262,6 +262,7 @@ Writing, coding and testing: Argent77
 
 French translation: Gwendolyne
 Polish translation: Cahir
+Russian translation: Arkie
 Alternate character portraits: Lava Del'Vortel, Argent77
 Additional help: Lava Del'Vortel
 
