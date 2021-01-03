@@ -15,41 +15,41 @@ ASK_EVERY_COMPONENT
 
 LANGUAGE  ~English~
           ~english~
-          ~%MOD_FOLDER%/languages/english/setup.tra~
-          ~%MOD_FOLDER%/languages/english/misc.tra~
-          ~%MOD_FOLDER%/languages/english/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/english/setup.tra~
+          ~A7-ConvenientEENPCs/languages/english/misc.tra~
+          ~A7-ConvenientEENPCs/languages/english/dialog.tra~
 LANGUAGE  ~Francais (traduction: Gwendolyne)~
           ~french~
-          ~%MOD_FOLDER%/languages/english/setup.tra~
-          ~%MOD_FOLDER%/languages/english/misc.tra~
-          ~%MOD_FOLDER%/languages/english/dialog.tra~
-          ~%MOD_FOLDER%/languages/french/setup.tra~
-          ~%MOD_FOLDER%/languages/french/misc.tra~
-          ~%MOD_FOLDER%/languages/french/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/english/setup.tra~
+          ~A7-ConvenientEENPCs/languages/english/misc.tra~
+          ~A7-ConvenientEENPCs/languages/english/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/french/setup.tra~
+          ~A7-ConvenientEENPCs/languages/french/misc.tra~
+          ~A7-ConvenientEENPCs/languages/french/dialog.tra~
 LANGUAGE  ~Deutsch~
           ~german~
-          ~%MOD_FOLDER%/languages/english/setup.tra~
-          ~%MOD_FOLDER%/languages/english/misc.tra~
-          ~%MOD_FOLDER%/languages/english/dialog.tra~
-          ~%MOD_FOLDER%/languages/german/setup.tra~
-          ~%MOD_FOLDER%/languages/german/misc.tra~
-          ~%MOD_FOLDER%/languages/german/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/english/setup.tra~
+          ~A7-ConvenientEENPCs/languages/english/misc.tra~
+          ~A7-ConvenientEENPCs/languages/english/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/german/setup.tra~
+          ~A7-ConvenientEENPCs/languages/german/misc.tra~
+          ~A7-ConvenientEENPCs/languages/german/dialog.tra~
 LANGUAGE  ~Polski (tlumaczenie: Cahir)~
           ~polish~
-          ~%MOD_FOLDER%/languages/english/setup.tra~
-          ~%MOD_FOLDER%/languages/english/misc.tra~
-          ~%MOD_FOLDER%/languages/english/dialog.tra~
-          ~%MOD_FOLDER%/languages/polish/setup.tra~
-          ~%MOD_FOLDER%/languages/polish/misc.tra~
-          ~%MOD_FOLDER%/languages/polish/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/english/setup.tra~
+          ~A7-ConvenientEENPCs/languages/english/misc.tra~
+          ~A7-ConvenientEENPCs/languages/english/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/polish/setup.tra~
+          ~A7-ConvenientEENPCs/languages/polish/misc.tra~
+          ~A7-ConvenientEENPCs/languages/polish/dialog.tra~
 LANGUAGE  ~Russian (translation: Arkie)~
           ~russian~
-          ~%MOD_FOLDER%/languages/english/setup.tra~
-          ~%MOD_FOLDER%/languages/english/misc.tra~
-          ~%MOD_FOLDER%/languages/english/dialog.tra~
-          ~%MOD_FOLDER%/languages/russian/setup.tra~
-          ~%MOD_FOLDER%/languages/russian/misc.tra~
-          ~%MOD_FOLDER%/languages/russian/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/english/setup.tra~
+          ~A7-ConvenientEENPCs/languages/english/misc.tra~
+          ~A7-ConvenientEENPCs/languages/english/dialog.tra~
+          ~A7-ConvenientEENPCs/languages/russian/setup.tra~
+          ~A7-ConvenientEENPCs/languages/russian/misc.tra~
+          ~A7-ConvenientEENPCs/languages/russian/dialog.tra~
 
 
 ////////////////////////////////////////
@@ -105,7 +105,7 @@ BEGIN @5  // Decide for each NPC individually
 ////////////////////////////////////////
 
 BEGIN @101  // Disable Baeloth
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bgee eet~ @1001          // This component requires either BG:EE or EET to be installed.
   SUBCOMPONENT @11  // Modify individually: Baeloth
   GROUP @50 // Appearance
@@ -115,7 +115,7 @@ BEGIN @101  // Disable Baeloth
   LAF A7DisableBaeloth END
 
 BEGIN @201  // Make Baeloth passive
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bgee eet~ @1001          // This component requires either BG:EE or EET to be installed.
   SUBCOMPONENT @11  // Modify individually: Baeloth
   GROUP @50 // Appearance
@@ -130,7 +130,7 @@ BEGIN @201  // Make Baeloth passive
 /////////////////////////////////////
 
 BEGIN @102  // Disable Dorn
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
   GROUP @50 // Appearance
   DESIGNATED 102
@@ -144,7 +144,7 @@ BEGIN @102  // Disable Dorn
 ///////////////////////////////////////
 
 BEGIN @103  // Disable Hexxat
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002         // This component requires either BG2:EE or EET to be installed.
   SUBCOMPONENT @13  // Modify individually: Hexxat
   GROUP @50 // Appearance
@@ -154,7 +154,7 @@ BEGIN @103  // Disable Hexxat
   LAF A7DisableHexxat END
 
 BEGIN @202  // Make Hexxat passive
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002         // This component requires either BG2:EE or EET to be installed.
   SUBCOMPONENT @13  // Modify individually: Hexxat
   GROUP @50 // Appearance
@@ -169,7 +169,7 @@ BEGIN @202  // Make Hexxat passive
 //////////////////////////////////////
 
 BEGIN @104  // Disable Neera
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000     // This component requires either BG:EE, BG2:EE or EET to be installed.
   SUBCOMPONENT @14  // Modify individually: Neera
   GROUP @50 // Appearance
@@ -179,7 +179,7 @@ BEGIN @104  // Disable Neera
   LAF A7DisableNeera END
 
 BEGIN @203  // Make Neera passive
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
   SUBCOMPONENT @14  // Modify individually: Neera
   GROUP @50 // Appearance
@@ -194,7 +194,7 @@ BEGIN @203  // Make Neera passive
 ///////////////////////////////////////
 
 BEGIN @105  // Disable Rasaad
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
   SUBCOMPONENT @15  // Modify individually: Rasaad
   GROUP @50 // Appearance
@@ -204,7 +204,7 @@ BEGIN @105  // Disable Rasaad
   LAF A7DisableRasaad END
 
 BEGIN @204  // Make Rasaad passive
-  REQUIRE_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
+  REQUIRE_COMPONENT ~A7-ConvenientEENPCs.tp2~ 3 @1003    // Component "Decide action for each NPC individually" not selected.
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
   SUBCOMPONENT @15  // Modify individually: Rasaad
   GROUP @50 // Appearance
@@ -220,12 +220,12 @@ BEGIN @204  // Make Rasaad passive
 
 BEGIN @301  // Make NPC-specific items available for everyone
   REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet~) @1000      // This component requires either BG:EE, BG2:EE or EET to be installed.
-  REQUIRE_PREDICATE ((MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 1) OR
-                     (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 101) OR
-                     (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 102) OR
-                     (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 103) OR
-                     (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 104) OR
-                     (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 105)) @1005   // This component is only available if one or more NPCs have been disabled.
+  REQUIRE_PREDICATE ((MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) OR
+                     (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 101) OR
+                     (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 102) OR
+                     (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 103) OR
+                     (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 104) OR
+                     (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 105)) @1005   // This component is only available if one or more NPCs have been disabled.
   REQUIRE_PREDICATE (NOT ((MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 0) OR
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 1)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
   GROUP @50 // Appearance
@@ -233,19 +233,19 @@ BEGIN @301  // Make NPC-specific items available for everyone
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
-  ACTION_IF ((MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 101)) BEGIN  // "Disable Baeloth"
+  ACTION_IF ((MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 101)) BEGIN  // "Disable Baeloth"
     LAF A7ItemsBaeloth END
   END
-  ACTION_IF ((MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 102)) BEGIN  // "Disable Dorn"
+  ACTION_IF ((MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 102)) BEGIN  // "Disable Dorn"
     LAF A7ItemsDorn END
   END
-  ACTION_IF ((MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 103)) BEGIN  // "Disable Hexxat"
+  ACTION_IF ((MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 103)) BEGIN  // "Disable Hexxat"
     LAF A7ItemsHexxat END
   END
-  ACTION_IF ((MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 104)) BEGIN  // "Disable Neera"
+  ACTION_IF ((MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 104)) BEGIN  // "Disable Neera"
     LAF A7ItemsNeera END
   END
-  ACTION_IF ((MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~setup-A7-ConvenientEENPCs.tp2~ 105)) BEGIN  // "Disable Rasaad"
+  ACTION_IF ((MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 105)) BEGIN  // "Disable Rasaad"
     LAF A7ItemsRasaad END
   END
 
@@ -256,8 +256,8 @@ BEGIN @301  // Make NPC-specific items available for everyone
 
 BEGIN @401 // Alternate version
   REQUIRE_PREDICATE GAME_IS ~bgee eet~ @1001          // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @400  // Change portrait: Baeloth
   GROUP @51 // Portraits
   DESIGNATED 400
@@ -275,8 +275,8 @@ BEGIN @401 // Alternate version
 
 BEGIN @402 // Alternate version, in BG2 only
   REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @400  // Change portrait: Baeloth
   GROUP @51 // Portraits
   DESIGNATED 401
@@ -312,8 +312,8 @@ BEGIN @402 // Alternate version, in BG2 only
 
 BEGIN @403 // BG2 style
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @410  // Change portrait: Dorn
   GROUP @51 // Portraits
   DESIGNATED 410
@@ -341,8 +341,8 @@ BEGIN @403 // BG2 style
 
 BEGIN @404 // BG2 style, in BG2 only
   REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @410  // Change portrait: Dorn
   GROUP @51 // Portraits
   DESIGNATED 411
@@ -385,8 +385,8 @@ BEGIN @404 // BG2 style, in BG2 only
 
 BEGIN @420 // Change portrait: Hexxat (BG2 style)
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002         // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   GROUP @51 // Portraits
   DESIGNATED 420
 
@@ -431,8 +431,8 @@ BEGIN @420 // Change portrait: Hexxat (BG2 style)
 
 BEGIN @403 // BG2 style
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @430  // Change portrait: Neera
   GROUP @51 // Portraits
   DESIGNATED 430
@@ -460,8 +460,8 @@ BEGIN @403 // BG2 style
 
 BEGIN @404 // BG2 style, in BG2 only
   REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @430  // Change portrait: Neera
   GROUP @51 // Portraits
   DESIGNATED 431
@@ -504,8 +504,8 @@ BEGIN @404 // BG2 style, in BG2 only
 
 BEGIN @403 // BG2 style
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @440  // Change portrait: Rasaad
   GROUP @51 // Portraits
   DESIGNATED 440
@@ -533,8 +533,8 @@ BEGIN @403 // BG2 style
 
 BEGIN @404 // BG2 style, in BG2 only
   REQUIRE_PREDICATE GAME_IS ~eet~ @1008               // This component requires EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @440  // Change portrait: Rasaad
   GROUP @51 // Portraits
   DESIGNATED 441
@@ -591,8 +591,8 @@ BEGIN @450 // Improved portrait: Wilson
 
 BEGIN @521 // Reset level only
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 500
@@ -620,8 +620,8 @@ BEGIN @521 // Reset level only
 
 BEGIN @522 // Choose your class
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 501
@@ -650,8 +650,8 @@ BEGIN @522 // Choose your class
 
 BEGIN @501 // Mage
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 502
@@ -674,8 +674,8 @@ BEGIN @501 // Mage
 
 BEGIN @502 // Abjurer
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 503
@@ -704,8 +704,8 @@ BEGIN @502 // Abjurer
 
 BEGIN @503 // Conjurer
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 504
@@ -734,8 +734,8 @@ BEGIN @503 // Conjurer
 
 BEGIN @504 // Diviner
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 505
@@ -764,8 +764,8 @@ BEGIN @504 // Diviner
 
 BEGIN @505 // Enchanter
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 506
@@ -794,8 +794,8 @@ BEGIN @505 // Enchanter
 
 BEGIN @506 // Illusionist
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 507
@@ -824,8 +824,8 @@ BEGIN @506 // Illusionist
 
 BEGIN @507 // Invoker
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 508
@@ -854,8 +854,8 @@ BEGIN @507 // Invoker
 
 BEGIN @508 // Necromancer
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 509
@@ -884,8 +884,8 @@ BEGIN @508 // Necromancer
 
 BEGIN @509 // Transmuter
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 510
@@ -914,8 +914,8 @@ BEGIN @509 // Transmuter
 
 BEGIN @510 // Wild Mage
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 511
@@ -938,8 +938,8 @@ BEGIN @510 // Wild Mage
 
 BEGIN @511 // Dragon Disciple
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 512
@@ -966,8 +966,8 @@ BEGIN @511 // Dragon Disciple
 
 BEGIN @512 // Chaos Sorcerer
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) > 0  @1009 // This component requires the mod kit "Chaos Sorcerer" to be installed.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
@@ -995,8 +995,8 @@ BEGIN @512 // Chaos Sorcerer
 
 BEGIN @513 // Shadow Adept
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
   REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~C0SADEPT~) > 0  @1010 // This component requires the mod kit "Shadow Adept" to be installed.
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
@@ -1032,8 +1032,8 @@ BEGIN @513 // Shadow Adept
 
 BEGIN @521 // Reset level only
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @520 // Change class/kit: Dorn
   GROUP @52 // Class changes
   DESIGNATED 520
@@ -1052,8 +1052,8 @@ BEGIN @521 // Reset level only
 
 BEGIN @521 // Reset level only
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @540 // Change class/kit: Neera
   GROUP @52 // Class changes
   DESIGNATED 540
@@ -1068,8 +1068,8 @@ BEGIN @521 // Reset level only
 
 BEGIN @522 // Choose your class
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @540 // Change class/kit: Neera
   GROUP @52 // Class changes
   DESIGNATED 541
@@ -1097,8 +1097,8 @@ BEGIN @522 // Choose your class
 
 BEGIN @541 // Chaos Sorcerer
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
   REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) > 0  @1009 // This component requires the mod kit "Chaos Sorcerer" to be installed.
   SUBCOMPONENT @540 // Change class/kit: Neera
   GROUP @52 // Class changes
@@ -1142,8 +1142,8 @@ BEGIN @541 // Chaos Sorcerer
 
 BEGIN @521 // Reset level only
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
   DESIGNATED 560
@@ -1158,8 +1158,8 @@ BEGIN @521 // Reset level only
 
 BEGIN @522 // Choose your class
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
   DESIGNATED 561
@@ -1187,8 +1187,8 @@ BEGIN @522 // Choose your class
 
 BEGIN @561 // Monk
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
   DESIGNATED 562
@@ -1207,8 +1207,8 @@ BEGIN @561 // Monk
 
 BEGIN @562 // Silverstar of Selune
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
   REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~CDSelune~) > 0  @1011 // This component requires the mod component "Divine Remix -> Silverstar of Selune" to be installed.
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
@@ -1815,8 +1815,8 @@ BEGIN @650 // Inquisitor
 
 BEGIN @521 // Reset level only
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 660
@@ -1831,8 +1831,8 @@ BEGIN @521 // Reset level only
 
 BEGIN @522 // Choose your class
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 661
@@ -1855,8 +1855,8 @@ BEGIN @522 // Choose your class
 
 BEGIN @661  // Assassin
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 662
@@ -1875,8 +1875,8 @@ BEGIN @661  // Assassin
 
 BEGIN @662  // Shadowdancer
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 663
@@ -1895,8 +1895,8 @@ BEGIN @662  // Shadowdancer
 
 BEGIN @663  // Mage/Thief
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 664
@@ -1925,8 +1925,8 @@ BEGIN @663  // Mage/Thief
 
 BEGIN @664  // Mage/Assassin
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 665
@@ -1954,8 +1954,8 @@ BEGIN @664  // Mage/Assassin
 
 
 BEGIN @665  // Mage/Shadowdancer
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
@@ -1985,8 +1985,8 @@ BEGIN @665  // Mage/Shadowdancer
 
 BEGIN @666  // Necromancer/Thief
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 667
@@ -2015,8 +2015,8 @@ BEGIN @666  // Necromancer/Thief
 
 BEGIN @667  // Fighter/Thief
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 668
@@ -2035,8 +2035,8 @@ BEGIN @667  // Fighter/Thief
 
 BEGIN @668  // Fighter/Assassin
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 669
@@ -2055,8 +2055,8 @@ BEGIN @668  // Fighter/Assassin
 
 BEGIN @669  // Fighter/Shadowdancer
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 670
@@ -2079,8 +2079,8 @@ BEGIN @669  // Fighter/Shadowdancer
 
 BEGIN @521 // Reset level only
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 680
@@ -2095,8 +2095,8 @@ BEGIN @521 // Reset level only
 
 BEGIN @522 // Choose your class
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 681
@@ -2119,8 +2119,8 @@ BEGIN @522 // Choose your class
 
 BEGIN @681 // Bounty Hunter
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 682
@@ -2139,8 +2139,8 @@ BEGIN @681 // Bounty Hunter
 
 BEGIN @682  // Swashbuckler
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 683
@@ -2159,8 +2159,8 @@ BEGIN @682  // Swashbuckler
 
 BEGIN @683  // Shadowdancer
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 684
@@ -2179,8 +2179,8 @@ BEGIN @683  // Shadowdancer
 
 BEGIN @684  // Bard
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~setup-A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 685
