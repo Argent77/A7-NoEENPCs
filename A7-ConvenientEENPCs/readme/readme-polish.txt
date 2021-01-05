@@ -1,7 +1,7 @@
 Convenient Enhanced Edition NPCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Version:    4.1
+Version:    4.2
 Author:     Argent77
 
 Download:   https://github.com/Argent77/A7-NoEENPCs/releases/latest
@@ -277,6 +277,11 @@ Baldur's Gate: Enhanced Edition, Siege of Dragonspear and Baldur's Gate II: Enha
 
 Version History
 ~~~~~~~~~~~~~~~
+
+v4.2:
+- Added Project Infinity metadata
+- Removed a Dorn reference in BGEE if Dorn has been disabled
+- Fixed potential display issues with component names in WeiDU.log and Project Infinity
 
 v4.1:
 - Added Russian translation (thanks Arkie)
