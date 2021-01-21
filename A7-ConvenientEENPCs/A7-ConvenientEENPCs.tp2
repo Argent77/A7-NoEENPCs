@@ -1,15 +1,20 @@
-BACKUP ~A7-ConvenientEENPCs/backup~
+BACKUP ~weidu_external/backup/A7-ConvenientEENPCs~
 SUPPORT ~https://forums.beamdog.com/discussion/43074~
 VERSION ~v4.2~
 
 ALWAYS
+  // required because of non-standard BACKUP path
+  OUTER_TEXT_SPRINT MOD_FOLDER ~A7-ConvenientEENPCs~
+  // root folder for mutable data
+  OUTER_TEXT_SPRINT WORK_FOLDER ~weidu_external~
+
   INCLUDE ~%MOD_FOLDER%/lib/eet.tph~
 END
 
-README ~%MOD_FOLDER%/readme/readme-%LANGUAGE%.html~
-       ~%MOD_FOLDER%/readme/readme-%LANGUAGE%.txt~
-       ~%MOD_FOLDER%/readme/readme.html~
-       ~%MOD_FOLDER%/readme/readme.txt~
+README ~A7-ConvenientEENPCs/readme/readme-%LANGUAGE%.html~
+       ~A7-ConvenientEENPCs/readme/readme-%LANGUAGE%.txt~
+       ~A7-ConvenientEENPCs/readme/readme.html~
+       ~A7-ConvenientEENPCs/readme/readme.txt~
 
 ASK_EVERY_COMPONENT
 
