@@ -7,7 +7,7 @@
 # Convenient Enhanced Edition NPCs
 *A mod for BG:EE, BG2:EE and EET that allows you to tweak the new Beamdog NPCs.*
 
-[![Website](https://img.shields.io/static/v1?label=Website&message=NAME-OF-PROJECT&color=ccc7ba&labelColor=eee&style=flat)](https://argent77.github.io/A7-NoEENPCs/index.html)
+[![Website](https://img.shields.io/static/v1?label=Website&message=Convenient-EE-NPCs&color=ccc7ba&labelColor=eee&style=flat)](https://argent77.github.io/A7-NoEENPCs/index.html)
 
 [![Beamdog Forums](https://img.shields.io/static/v1?label=Discussion&message=Beamdog%20Forums&color=444&labelColor=eee&style=flat)](https://forums.beamdog.com/discussion/43074)
 [![SHS Forums](https://img.shields.io/static/v1?label=Discussion&message=SHS%20Forums&color=951514&labelColor=eee&style=flat)](http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/)
