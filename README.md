@@ -1,11 +1,16 @@
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Argent77/A7-NoEENPCs?color=darkred&include_prereleases&label=latest%20release)](https://GitHub.com/Argent77/A7-NoEENPCs/releases/latest)
+[![GitHub release date (latest by date)](https://img.shields.io/github/release-date/Argent77/A7-NoEENPCs?color=gold)](https://GitHub.com/Argent77/A7-NoEENPCs/releases/latest)
+[![Github downloads (all releases)](https://img.shields.io/github/downloads/Argent77/A7-NoEENPCs/total.svg?color=blueviolet)](https://GitHub.com/Argent77/A7-NoEENPCs/releases)
+[![Platform](https://img.shields.io/static/v1?label=platform&message=Windows%20%7C%20macOS%20%7C%20Linux%20%7C%20Project%20Infinity&color=informational)](https://GitHub.com/Argent77/A7-NoEENPCs/releases/latest)
+[![Language](https://img.shields.io/static/v1?label=language&message=English%20%7C%20French%20%7C%20German%20%7C%20Polish%20%7C%20Russian&color=limegreen)]()
+
 # Convenient Enhanced Edition NPCs
 *A mod for BG:EE, BG2:EE and EET that allows you to tweak the new Beamdog NPCs.*
 
-**Author:** Argent77
+[![Website](https://img.shields.io/static/v1?label=Website&message=NAME-OF-PROJECT&color=ccc7ba&labelColor=eee&style=flat)](https://argent77.github.io/A7-NoEENPCs/index.html)
 
-**Website:** https://argent77.github.io/A7-NoEENPCs/index.html
-
-**Discussion:** [Beamdog Forums](https://forums.beamdog.com/discussion/43074) or [Spellhold Studios Forums](http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/)
+[![Beamdog Forums](https://img.shields.io/static/v1?label=Discussion&message=Beamdog%20Forums&color=444&labelColor=eee&style=flat)](https://forums.beamdog.com/discussion/43074)
+[![SHS Forums](https://img.shields.io/static/v1?label=Discussion&message=SHS%20Forums&color=951514&labelColor=eee&style=flat)](http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/)
 
 ## Overview
 
