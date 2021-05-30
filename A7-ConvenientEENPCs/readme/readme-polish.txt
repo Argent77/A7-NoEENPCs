@@ -278,6 +278,12 @@ Baldur's Gate: Enhanced Edition, Siege of Dragonspear and Baldur's Gate II: Enha
 Version History
 ~~~~~~~~~~~~~~~
 
+v4.3:
+- Improved passive Neera in BG2:EE
+- Fixed Neera's ToB quest progression after a class or kit change
+- Fixed usability issues with Baeloth's ring in BG:EE
+- Fixed usability issues with Rasaad's items "Moonlight Walkers" and "Glimmering Bands" in BG2:EE
+
 v4.2:
 - Added Project Infinity metadata
 - Removed a Dorn reference in BGEE if Dorn has been disabled
