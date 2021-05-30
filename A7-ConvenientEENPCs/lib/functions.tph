@@ -160,7 +160,14 @@ BEGIN
         END BUT_ONLY
       EXTEND_BOTTOM ~ohncut1a.bcs~ ~%MOD_FOLDER%/scripts/ohncut1a_neera.baf~
       COMPILE EVALUATE_BUFFER ~%MOD_FOLDER%/scripts/ohnmcut1.baf~
+      COMPILE ~%MOD_FOLDER%/scripts/a7_ncut1.baf~
       COMPILE ~%MOD_FOLDER%/dialogs/neera_bg2.d~
+      COPY_EXISTING ~OH6010.BCS~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          // fixing initial viewpoint location in Neera's random encounter area
+          REPLACE_TEXTUALLY ~\(Explore()\)~ ~MoveViewPoint([533.869],INSTANT) \1~
+        END
+      BUT_ONLY
     END
   END
 END

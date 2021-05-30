@@ -1,0 +1,31 @@
+// BG2 Neera transition cutscene
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId("Neera")
+    FadeToColor([15.0],0)
+    SmallWait(15)
+    CreateCreature("OHNMERET",[3810.378],SW)
+    CreateCreature("OHNLANNE",[3921.340],SW)
+    CreateCreature("OHNREDW",[3769.437],NE)
+    CreateCreature("OHNWARWI",[3721.410],E)
+    CreateCreature("OHNELLIS",[3848.448],NNW)
+    ActionOverride(Player1,JumpToPoint([4125.350]))
+    ActionOverride(Player1,Face(W))
+    ActionOverride(Player2,JumpToPoint([4136.414]))
+    ActionOverride(Player2,Face(NWW))
+    ActionOverride(Player3,JumpToPoint([4175.318]))
+    ActionOverride(Player3,Face(W))
+    ActionOverride(Player4,JumpToPoint([4200.380]))
+    ActionOverride(Player4,Face(NWW))
+    ActionOverride(Player5,JumpToPoint([4228.436]))
+    ActionOverride(Player5,Face(NWW))
+    ActionOverride(Player6,JumpToPoint([4260.330]))
+    ActionOverride(Player6,Face(W))
+    MoveViewObject("OHNMERET",INSTANT)
+    FadeFromColor([15.0],0)
+    SmallWait(15)
+    StartCutScene("OHNCUT01")
+END
