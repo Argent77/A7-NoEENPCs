@@ -1099,6 +1099,43 @@ BEGIN @522 // Choose your class
     ABORT @1012 // Operation cancelled by the user.
   END
 
+  // fixing plot script (ToB)
+  ACTION_IF NOT (class_id = 1 && IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) = kit_id) BEGIN
+    ACTION_MATCH class_id WITH
+      1 5 7 10 13 19 BEGIN  // mage
+        OUTER_TEXT_SPRINT spell_cast ~SpellCast("neera",0)~
+      END
+      3 6 8 11 12 15 16 18 21 BEGIN // priest
+        ACTION_IF (class_id = 6 && IDS_OF_SYMBOL(~kit~ ~INQUISITOR~) = kit_id) BEGIN
+          OUTER_TEXT_SPRINT spell_cast ~OR(2) SpellCastPriest("neera",0) SpellCastInnate("neera",0)~
+        END ELSE BEGIN
+          OUTER_TEXT_SPRINT spell_cast ~SpellCastPriest("neera",0)~
+        END
+      END
+      14 17 BEGIN // mage/priest
+        OUTER_TEXT_SPRINT spell_cast ~OR(2) SpellCast("neera",0) SpellCastPriest("neera",0)~
+      END
+      DEFAULT
+        OUTER_TEXT_SPRINT spell_cast ~OR(3) SpellCast("neera",0) SpellCastPriest("neera",0) SpellCastInnate("neera",0)~
+    END
+    ACTION_IF (class_id = 19 &&
+               IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) = kit_id &&
+               FILE_EXISTS_IN_GAME ~A7_SP01.SPL~) BEGIN
+      OUTER_TEXT_SPRINT spell_cast ~SpellCastRES("A7_SP01","neera")~
+    END
+<<<<<<<< .../inlined/A7-ConvenientEENPCs/oh6400-add1.baf
+IF
+  Global("OHN_TOB_PLOT","GLOBAL",2)
+  %spell_cast%
+THEN
+  RESPONSE #100
+    SetGlobal("OHN_TOB_PLOT","GLOBAL",3)
+    SetGlobalTimer("ohn_cast_nrd","oh6400",ONE_ROUND)
+END
+>>>>>>>>
+    EXTEND_TOP ~OH6400.BCS~ ~.../inlined/A7-ConvenientEENPCs/oh6400-add1.baf~ EVAL
+  END
+
 
 BEGIN @541 // Chaos Sorcerer
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
@@ -1139,6 +1176,19 @@ BEGIN @541 // Chaos Sorcerer
       WRITE_LONG BIO strref
     END
   BUT_ONLY IF_EXISTS
+
+  // fixing plot script (ToB)
+<<<<<<<< .../inlined/A7-ConvenientEENPCs/oh6400-add2.baf
+IF
+  Global("OHN_TOB_PLOT","GLOBAL",2)
+  SpellCastRES("A7_SP01","neera")
+THEN
+  RESPONSE #100
+    SetGlobal("OHN_TOB_PLOT","GLOBAL",3)
+    SetGlobalTimer("ohn_cast_nrd","oh6400",ONE_ROUND)
+END
+>>>>>>>>
+  EXTEND_TOP ~OH6400.BCS~ ~.../inlined/A7-ConvenientEENPCs/oh6400-add2.baf~
 
 
 ////////////////////////////////////
