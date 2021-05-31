@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOD: Convenient Enhanced Edition NPCs</title>
+    <meta name="description" content="Modyfikacja przeznaczona do gier BG:EE, BG2:EE i EET (Enhanced Edition Trilogy), pozwalająca na modyfikację nowych postaci zaprezentowanych przez studio Beamdog." />
+    <meta name="keywords" content="bgee, bg2ee, eet, mod, tweaks" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div><a name="top" id="top"></a></div>
+    <div id="language">
+      <ul>
+        <li><a href="readme.html">English</a></li>
+        <li title="French"><a href="readme-french.html">Français</a></li>
+        <li title="German"><a href="readme-german.html">Deutsch</a></li>
+        <li title="Polish">Polski</li>
+      </ul>
+    </div>
+
+    <header>
+      <h1 class="title">Convenient Enhanced Edition NPCs</h1>
+      <div class="subtitle">Modyfikacja przeznaczona do gier BG:EE, BG2:EE i EET (Enhanced Edition Trilogy), pozwalająca na modyfikację nowych postaci zaprezentowanych przez studio Beamdog.</div>
+      <hr />
+      <p class="about"><strong>Autor: Argent77</strong></p>
+      <ul id="globalnav" class="about">
+        <li><strong>Pobierz</strong> (<a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>Pobierz</strong> (<a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>)</li>
+        <li><strong>Dyskusja</strong> (<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>Dyskusja</strong> (<a href="https://forums.beamdog.com/discussion/43074">Beamdog</a>)</li>
+        <li><a href="https://github.com/Argent77/A7-NoEENPCs">Projekt</a></li>
+        <li>Wersja: 4.2</li>
+      </ul>
+      <hr />
+      <nav>
+        <ul>
+          <li><a href="#overview">Ogólny zarys</a></li>
+          <li><a href="#compatibility">Kompatybilność</a></li>
+          <li><a href="#installation">Instalacja</a></li>
+          <li><a href="#components">Komponenty</a></li>
+          <li><a href="#credits">Autorzy</a></li>
+          <li><a href="#changelog">Historia wersji</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================== I N T R O D U C T I O N ================== -->
+      <section id="overview">
+        <h2>Ogólny zarys</h2>
+        <p>Ta modyfikacja jest przeznaczona dla BG:EE, BG:SOD, BG2:EE oraz <abbr title="Enhanced Edition Trilogy">EET</abbr>.</p>
+        <p>Nowi bohaterowie wprowadzeni w BG:EE i BG2:EE niekoniecznie mogą trafić w gusta każdego gracza. Modyfikacja ta proponuje zestaw opcji pozwalających dostosować tychże bohaterów według własnego wyobrażenia. Możesz sprawić, że będą bardziej pasywni, dając ci większą kontrolę nad tym czy i kiedy można ich spotkać w grze. Niektóre wydarzenia zostały lekko zmodyfikowane, aby uczynić te zmiany możliwymi. </p>
+        <p>Modyfikacja umożliwia też całkowite usunięcie jednego lub kilku BN z gry. W takim wypadku możesz sprawić, że ich osobisty ekwipunek lub przedmioty związane z ich misjami będą dostępne dla wszystkich w sklepach lub jako łup do znalezienia w grze.</p>
+        <p>Dodatkowe komponenty pozwalają na wybór alternatywnych portretów dla BN lub zmianę ich klas i podklas. Szczegółowe informacje można znaleźć w dalszej części dokumentu.</p>
+        <hr class="spacer" />
+        <p>Jeśli masz jakieś pytania, odwiedź <a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">forum SHS</a> lub <a href="https://forums.beamdog.com/discussion/43074">forum Beamdog</a>. Najnowsza wersja modyfikacji dostępna jest na stronie <a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">Spellhold Studios</a> lub na platformie <a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>.</p>
+        <div class="back">
+          <a class="novisit" href="#top">POWRÓT NA GÓRĘ</a>
+        </div>
+      </section>
+
+      <!-- ================== C O M P A T I B I L I T Y ================== -->
+      <section id="compatibility">
+        <h2>Kompatybilność</h2>
+        <p>"Ta modyfikacja powinna być kompatybilna z każdą modyfikacją, która nie zmienia w znaczący sposób lokacji lub skryptów startowych dla BN dodanych w wersji Enhanced Edition. Obecnie jedynie dodatek „EE_content_tweaks”, którego autorem jest Pecca, nie jest z nią kompatybilny w przypadku kampanii BG:EE. Niniejsza modyfikacja sprawdzi, czy „EE_content_tweaks” został zainstalowany i w takim wypadku nie zainstaluje stosownych komponentów.</p>
+        <p>Modyfikacja ta jest również w pełni kompatybilna z grą Siege of Dragonspear, jednakże opcje dostosowujące niektórych BN z SoD będą nieco ograniczone, ze względu na ich ścisły związek z fabułą.</p>
+        <p><strong>WAŻNE:</strong> Wersja 4.0 tej modyfikacji przeszła wiele strukturalnych zmian. <u>Nie</u> należy jej instalować wraz z wcześniejszymi wersjami tej modyfikacji (3.5 lub wcześniejszymi)!</p>
+        <div class="back">
+          <a class="novisit" href="#top">POWRÓT NA GÓRĘ</a>
+        </div>
+      </section>
+
+      <!-- ================== I N S T A L L A T I O N ================== -->
+      <section id="installation">
+        <h2>Instalacja</h2>
+        <p>Jest to modyfikacja WeiDU, co oznacza, iż jest bardzo prosta w instalacji. Wystarczy rozpakować pobrane archiwum do katalogu z grą (tam, gdzie znajduje się plik „chitin.key”), a następnie uruchomić plik <em>„setup-A7-ConvenientEENPCs.exe”</em> (Windows) lub <em>„setup-A7-ConvenientEENPCs.command”</em> (macOS). Po wykonaniu wszystkich instrukcji możliwe będzie rozpoczęcie gry.</p>
+        <p>Po instalacji tej modyfikacji zaleca się rozpoczęcie nowej gry.</p>
+        <p>Aby odinstalować modyfikację, wystarczy uruchomić ponownie plik <em>„setup-A7-ConvenientEENPCs.exe”</em> lub <em>„setup-A7-ConvenientEENPCs.command”</em> i postępować zgodnie z pojawiającymi się komunikatami.</p>
+        <div class="back">
+          <a class="novisit" href="#top">POWRÓT NA GÓRĘ</a>
+        </div>
+      </section>
+
+      <!-- ================== C O M P O N E N T S ================== -->
+      <section id="components">
+        <h2>Komponenty</h2>
+        <h4>Grupa: Pojawienie się w grze</h4>
+        <ol class="gappedlist">
+          <li>
+            <p><strong>Modyfikuj BN dodanych w edycji EE <em>(BG:EE, BG:SOD, BG2:EE oraz EET)</em></strong></p>
+            <ol>
+              <li>Zablokuj wszystkich BN: Wyłącza wszystkich BN jednocześnie</li>
+              <li>Ustaw wszystkich BN jako pasywnych: Ustawia pasywnymi wszystkich BN</li>
+              <li>Decyduj indywidualnie dla każdego BN: Patrz niżej</li>
+            </ol>
+            <hr class="spacer" />
+            <p><strong>Poniższe komponenty są dostępne, tylko jeśli wybrano komponent „Decyduj indywidualnie dla każdego BN”:</strong></p>
+          </li>
+          <li>
+            <p><strong>Modyfikuj indywidualnie: Baeloth</strong></p>
+            <ol>
+              <li>Zablokuj Baelotha <em>(tylko BG:EE i EET)</em>: Komponent ten zapobiega pojawieniu się Baelotha w BG:EE. (Nie ma wpływu na kampanie Kręgi Podmroku i Siege of Dragonspear.)</li>
+              <li>Ustaw Baelotha pasywnym <em>(tylko BG:EE i EET)</em>: Komponent ten skraca do minimum przerywnik filmowy, podczas którego Baeloth pojawia się po raz pierwszy i uniemożliwia mrocznemu elfowi rozpoczęcie rozmowy.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zablokuj Dorna (BG:EE, BG:SOD, BG2:EE i EET)</strong></p>
+            <p>Komponent ten zapobiega pojawieniu się Dorna w BG:EE, BG:SOD oraz BG2:EE.</p>
+          </li>
+          <li>
+            <p><strong>Modyfikuj indywidualnie: Hexxat</strong></p>
+            <ol>
+              <li>Zablokuj Hexxat <em>(tylko BG2:EE i EET)</em>: Komponent ten zapobiega pojawieniu się Hexxat i związanych z nią BN w BG2:EE.</li>
+              <li>Ustaw Hexxat pasywną <em>(tylko BG2:EE i EET)</em>: Komponent ten uniemożliwia Hexxat rozpoczęcie rozmowy.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modyfikuj indywidualnie: Neera</strong></p>
+            <ol>
+              <li>Zablokuj Neerę <em>(BG:EE, BG:SOD, BG2:EE i EET)</em>: Komponent ten zapobiega pojawieniu się Neery w BG:EE, BG:SOD oraz BG2:EE. W BG2:EE komponent ten aktywuje przerywnik filmowy w Dzielnicy mostów tylko w przypadku rozpoczęcia rozmowy z Neerą.</li>
+              <li>Ustaw Neerę pasywną <em>(BG:EE, BG2:EE i EET)</em>: W BG:EE komponent ten uniemożliwia Neerze rozpoczęcie rozmowy. Można ją spotkać niedaleko miejsca, w którym rozgrywa się przerywnik filmowy z Czerwonymi Magami, po tym, jak miejscowi odbędą rozmowę o okolicznych morderstwach.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Modyfikuj indywidualnie: Rasaad</strong></p>
+            <ol>
+              <li>Zablokuj Rasaada <em>(BG:EE, BG:SOD, BG2:EE i EET)</em>: Komponent ten zapobiega pojawieniu się Rasaada w BG:EE, BG:SOD oraz BG2:EE.</li>
+              <li>Ustaw Rasaada pasywnym <em>(tylko BG2:EE i EET)</em>: Komponent ten aktywuje przerywnik filmowy w Targowie tylko w przypadku rozpoczęcia rozmowy z Rasaadem, którego można spotkać nieopodal fontanny.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Włącz dostępność przedmiotów związanych z BN'ami dla wszystkich</strong></p>
+            <p>Ten komponent pozwala na zdobycie, u różnych kupców bądź jako łup zebrany z pojemników lub ciał zabitych istot, przedmiotów osobistych dostępnych normalnie dla zablokowanych BN, lub związanych z wykonywanymi dla nich zadaniami. Poniższe przedmioty zostały przeniesione (a ich opisy w niektórych wypadkach zostały zmodyfikowane):</p>
+            <p><strong>Baeloth:</strong></p>
+            <ul>
+              <li>BG:EE: Jego specjalny pierścień można teraz kupić w „Tanich Towarach Szczęściarza Aello” we Wrotach Baldura z dużą zniżką, zaś opis przedmiotu został zmodyfikowany. Dodatkowo poprawiłem lekko pasywny efekt we właściwościach ładunków, czyniąc go wartym uwagi. <em>Uwaga: Z powodów technicznych pierścień nie będzie dostępny po zainstalowaniu SoD.</em></li>
+            </ul>
+            <p><strong>Dorn:</strong></p>
+            <ul>
+              <li>BG:EE: Rękawice chwytania pocisków można teraz kupić w Gospodzie w Brodzie Ulgotha.</li>
+              <li>BG:EE: Złoty pas z Urnst, Elfia kolczuga oraz Albruin +1 są teraz dostępne w Kuźni Grzmiącego Młota w Beregoście.</li>
+              <li>BG:EE: Amulet blokowania czarów jest teraz dostępny w Gospodzie Feldeposta w Beregoście.</li>
+              <li>BG2:EE: Łuski srebrnego smoka mogą zostać wyciągnięte ze zwłok smoczycy Adalon, jeśli się ją zaatakuje. Cespenar jest w stanie wykuć z nich przedmiot podczas rozgrywania kampanii Tron Bhaala.</li>
+              <li>BG2:EE: Kolejne łuski znajdują się przy ciele Łowczyni, strzegącej ostatniej pieczęci na najniższym poziomie Twierdzy Strażnika.</li>
+              <li>BG2:EE: Święty miecz długi Tyra +3 można znaleźć na poziomie labiryntu w Twierdzy Strażnika, a dokładniej w pomieszczeniu, w którym należy pokonać Upiora demona.</li>
+              <li>BG2:EE: Hełmy chwały +1 można kupić u Ribalda Kramarza oraz u kupca w Targowie.</li>
+              <li>BG2:EE: Można od teraz ukraść Różdżkę cienistego kroku Saemonovi Havarianowi w Amkethranie.</li>
+              <li>BG2:EE: Mikstury widzenia są dostępne u pasera Rogera w kanałach pod Dzielnicą Świątynną oraz u siostry Farielle w Saradush.</li>
+              <li>BG2:EE: Ostrze Otchłani znajduje się od teraz w posiadaniu Raamilata w Suldanessellar.</li>
+              <li>BG2:EE: Dodałem również do gry bardzo potężne Spiżowe ostrze +5. Powinno być ono dostępne podczas misji dla Dorna, ale jest nieużywane. Znajduje się obecnie przy ciele Berenna w Świątyni ognistych olbrzymów.</li>
+            </ul>
+            <p><strong>Hexxat:</strong></p>
+            <ul>
+              <li>BG2:EE: Pierścień przeciw jadowi jest obecnie noszony przez Mae'vara.</li>
+              <li>BG2:EE: Szepczące trzewiki można od teraz kupić u Ribalda Kramarza.</li>
+              <li>BG2:EE: Jadeitowy kieł stanowi obecnie część specjalnej oferty Ribalda, dostępnej po powrocie z Podmroku.</li>
+            </ul>
+            <p><strong>Neera:</strong></p>
+            <ul>
+              <li>BG:EE: Sakiewkę na klejnoty Neery można teraz kupić w Gospodzie Pod Pomocną Dłonią.</li>
+              <li>BG:EE: Pas Adoya jest teraz dostępny w Gospodzie Feldeposta w Beregoście.</li>
+              <li>BG2:EE: Pas Adoya i Szata inwokacji zostały dodane do asortymentu Ribalda Kramarza.</li>
+              <li>BG2:EE: Thayański diadem znajduje się teraz w posiadaniu Rayica Gethrasa, Zakapturzonego Czarodzieja, którego należy zgładzić podczas misji dla Mae'vara.</li>
+              <li>BG2:EE: Młot Cegłę +2 oraz Tunikę Ślepego Oka można teraz nabyć u kupca w Targowie.</li>
+              <li>BG2:EE: Tarcza Fyrusa Khala +2 została dodana do specjalnej oferty Ribalda Kramarza, dostępnej po powrocie z Podmroku.</li>
+              <li>BG2:EE: Wytwórca strzał z Promenady Waukeen o imieniu Perter ma od teraz w ofercie Dziką procę +1.</li>
+              <li>BG2:EE: Różdżkę biczów można obecnie znaleźć przy ciele zniewolonego maga w ukrytym legowisku łupieżców umysłów w kanałach pod Dzielnicą Świątynną.</li>
+            </ul>
+            <p><strong>Rasaad:</strong></p>
+            <ul>
+              <li>BG:EE: Buty zwane Wędrowcami księżycowego światła mogą być używane przez dowolnego Mnicha Słonecznej Duszy i można je znaleźć przy ciele zabójczyni z Nashkel o imieniu Neira.</li>
+              <li>BG:EE: Błyszczące opaski mogą być używane przez każdego mnicha. Można je obecnie nabyć u jednego z kupców na Jarmarku Nashkel.</li>
+              <li>BG:EE: Pas potężnej pięści jest teraz noszony przez Dumę, jednego z duchów Wieży Durlaga.</li>
+              <li>BG2:EE: Buty zwane Wędrowcami księżycowego światła mogą być używane przez dowolnego Mnicha Słonecznej Duszy i znajdują się obecnie w posiadaniu Anishai, która przebywa w siedzibie gildii Mae'vara.</li>
+              <li>BG2:EE: Błyszczące opaski mogą być używane wyłącznie przez mnichów. Można je kupić u płatnerza Maheera na Promenadzie Waukeen.</li>
+              <li>BG2:EE: Pas z ogona wołu jest obecnie noszony przez Cohrvale'a. Przy zwłokach jego partnera możesz znaleźć Sławę Hojara +1, zaklęty topór słabej jakości.</li>
+              <li>BG2:EE: Broszę Wędrownych Ostrzy można od teraz kupić u Ribalda Kramarza.</li>
+              <li>BG2:EE: Płaszcz mniejszej niewrażliwości można znaleźć przy ciele króla Ixilthetocal w podwodnym mieście sahuaginów.</li>
+              <li>BG2:EE: Pierścień duplikacji został dodany do oferty pasera w siedzibie głównej Złodziei Cienia.</li>
+              <li>BG2:EE: Elence Fielding, jeden z kupców na Wzgórzach Umar ma teraz w ofercie Wilczą procę +2.</li>
+              <li>BG2:EE: Kaptur gwiazd jest noszony przez Valerię, wrogo nastawioną wojowniczkę, na którą można się natknąć w kryjówce w Dzielnicy Mostów.</li>
+              <li>BG2:EE: Kowal z Targowa może teraz sprzedać sejmitar Sokoli wzrok +2.</li>
+              <li>BG2:EE: Płaszcz celnych ciosów jest teraz dostępny u Bernarda w Miedzianym Diademie, po tym, jak Lehtinan zostanie zastąpiony przez Hendaka.</li>
+              <li>BG2:EE: Karthis al-Hezzar ma teraz w ofercie Wędrowców nocy oraz zaczarowany sejmitar zwany Promieniem Słonecznej Duszy. Karthisa można spotkać w dzikich ostępach pomiędzy Saradush a opuszczoną świątynią Bhaala.</li>
+              <li>BG2:EE: Olaf Rassmusen to jeden z zabijaków, z którymi trzeba walczyć, aby dostać się do strzeżonego budynku w Dzielnicy Świątynnej. Przy jego ciele można znaleźć Rękawice Aln Zekki.</li>
+              <li>BG2:EE: Jeden z kupców w Ust Natha ma w ofercie Płaszcz pokuty.</li>
+              <li>BG2:EE: Kapłan Cyrica z Północnego lasu, którego można spotkać po powrocie z Podmroku ma teraz na sobie Płaszcz Ciemnego Księżyca.</li>
+              <li>BG2:EE: Starszy mózg zamieszkujący legowisko łupieżców umysłów strzeże teraz zaciekle Oczów obserwatora. Wystarczy go zgładzić, a przedmiot będzie twój.</li>
+              <li>BG2:EE: Carras jest przemytnikiem z Amkethran. Jeśli mu pomożesz, będzie mógł ci sprzedać Szarfę zmierzchu.</li>
+              <li>BG2:EE: Klejnot widzenia można teraz znaleźć przy ciele Gaala, który jest przywódcą kultu Bezokiego.</li>
+            </ul>
+          </li>
+        </ol>
+        <h4>Grupa: Portrety</h4>
+        <ol class="gappedlist" start="8">
+          <li>
+            <p><strong>Zmień portret: Baeloth</strong> (<a href="preview/baeloth-preview.jpg" target="_blank">Podgląd</a>)</p>
+            <ol>
+              <li>Alternatywna wersja: Instaluje alternatywny wariant portretu przez całą grę <em>(BG:EE i EET)</em>.</li>
+              <li>Alternatywna wersja, tylko w BG2: Instaluje alternatywny wariant portretu Baelotha tylko w części BG2 <em>(tylko EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień portret: Dorn</strong> (<a href="preview/dorn-preview.jpg" target="_blank">Podgląd</a>)</p>
+            <ol>
+              <li>Styl portretu z BG2: Instaluje alternatywny wariant portretu przez całą grę <em>(BG:EE, BG2:EE i EET)</em>.</li>
+              <li>Styl portretu z BG2, tylko w BG2: Instaluje alternatywny wariant portretu Dorna tylko w części BG2 <em>(tylko EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień portret: Hexxat (styl BG2)</strong> (<a href="preview/clara_hexxat-preview.jpg" target="_blank">Podgląd</a>)</p>
+            <p>Instaluje alternatywny wariant portretu Hexxat <em>(BG2:EE i EET)</em>.</p>
+          </li>
+          <li>
+            <p><strong>Zmień portret: Neera</strong> (<a href="preview/neera-preview.jpg" target="_blank">Podgląd</a>)</p>
+            <ol>
+              <li>Styl portretu z BG2: Instaluje alternatywny wariant portretu przez całą grę <em>(BG:EE, BG2:EE i EET)</em>.</li>
+              <li>Styl portretu z BG2, tylko w BG2: Instaluje alternatywny wariant portretu Neery tylko w części BG2 <em>(tylko EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień portret: Rasaad</strong> (<a href="preview/rasaad-preview.jpg" target="_blank">Podgląd</a>)</p>
+            <ol>
+              <li>Styl portretu z BG2: Instaluje alternatywny wariant portretu przez całą grę <em>(BG:EE, BG2:EE i EET)</em>.</li>
+              <li>Styl portretu z BG2, tylko w BG2: Instaluje alternatywny wariant portretu Rasaada tylko w części BG2 <em>(tylko EET)</em>.</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Ulepszony portret: Wilson</strong> (<a href="preview/wilson-preview.jpg" target="_blank">Podgląd</a>)</p>
+            <p>Instaluje ulepszony portret Wilsona <em>(BG2:EE i EET)</em>.</p>
+          </li>
+        </ol>
+        <h4>Grupa: Zmiany klas</h4>
+        <p><strong>Uwaga:</strong> Zmiany klas i podklas ograniczają się do statystyk, umiejętności i zdolności konkretnych BN. Zmiany te nie dotyczą dialogów i zadań związanych z danym BN. Osobisty ekwipunek może jednakże być zaktualizowany, by spełnić wymagania nowej klasy lub podklasy.</p>
+        <ol class="gappedlist" start="14">
+          <li>
+            <p><strong>Zmień klasę/podklasę: Baeloth <em>(BG:EE, SoD i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+              </li>
+              <li><p><strong>Mag:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Mag”.</p></li>
+              <li><p><strong>Mistrz odrzucania:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Mistrz odrzucania”.</p></li>
+              <li><p><strong>Mistrz przywołań:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Mistrz przywołań”.</p></li>
+              <li><p><strong>Mistrz poznaniaDiviner:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Mistrz poznania”.</p></li>
+              <li><p><strong>Mistrz zauroczeń:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Mistrz zauroczeń”.</p></li>
+              <li><p><strong>Iluzjonista:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Iluzjonista”.</p></li>
+              <li><p><strong>Mistrz inwokacji:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Mistrz inwokacji”.</p></li>
+              <li><p><strong>Nekromanta:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Nekromanta”.</p></li>
+              <li><p><strong>Mistrz przemian:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Mistrz przemian”.</p></li>
+              <li><p><strong>Dziki mag:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Dziki mag”.</p></li>
+              <li><p><strong>Uczeń smoka:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę czarownika: „Uczeń smoka”.</p></li>
+              <li><p><strong>Czarownik chaosu:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę czarownika: „Czarownik chaosu”. <em>(wymaga zainstalowania modyfikacji „Chaos Sorcerer Kit”, której autorem jest Argent77)</em></p></li>
+              <li><p><strong>Adept cienia:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę maga: „Adept cienia”. <em>(wymaga zainstalowania modyfikacji „Shadow Magic”, której autorem jest Artemius_I)</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Dorn <em>(BG:EE, SoD, BG2:EE i EET)</em></strong></p>
+            <ol>
+              <li><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</li>
+            </ol>
+            <p><em><strong>Uwaga:</strong> Misja związana z wątkiem Dorna jest zbyt ściśle powiązana z jego klasą, by pozwolić na jakiekolwiek zmiany w tym zakresie.</em></p>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Neera <em>(BG:EE, SoD, BG2:EE i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+                <p><em><strong>Uwaga:</strong> Zadanie Neery w Tronie Bhaala wymaga rzucenia przez nią, na pewnym jego etapie, Lekkomyślnego zaklęcia Nahala. Komponent ten poluzowuje te wymagania, pozwalając na kontynuowanie zadania po rzuceniu dowolnego czaru lub zdolności czaropodobnej, w zależności od wybranej klasy lub podklasy.</em></p>
+              </li>
+              <li><p><strong>Czarownik chaosu:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę czarownika: „Czarownik chaosu”. <em>(wymaga zainstalowania modyfikacji „Chaos Sorcerer Kit”, której autorem jest Argent77)</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Rasaad <em>(BG:EE, SoD, BG2:EE i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+              </li>
+              <li><p><strong>Mnich:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Mnich”.</p></li>
+              <li><p><strong>Srebrna Gwiazda Selûne:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę kapłana: „Srebrna Gwiazda Selûne”. <em>(wymaga zainstalowania komponentu "Srebrna Gwiazda Selûne" z modyfikacji "Divine Remix".)</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: M'Khiin <em>(SoD i EET)</em></strong></p>
+            <ol>
+              <li><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</li>
+            </ol>
+            <p><em><strong>Uwaga:</strong> Zdolności rasowe M'Khiina nie pozwalają na dokonanie zmian w jego oryginalnej klasie.</em></p>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Glint <em>(SoD i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+              </li>
+              <li><p><strong>Kapłan:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Kapłan”.</p></li>
+              <li><p><strong>Wojownik/Kapłan:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Wojownik/Kapłan”.</p></li>
+              <li><p><strong>Kapłan/Iluzjonista:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Kapłan/Iluzjonista”.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Voghiln <em>(SoD i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+              </li>
+              <li><p><strong>Bard:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Bard”.</p></li>
+              <li><p><strong>Fechmistrz:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę barda: „Fechmistrz”.</p></li>
+              <li><p><strong>Złodziej:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Złodziej”.</p></li>
+              <li><p><strong>Zawadiaka:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę złodzieja: „Zawadiaka”.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Corwin <em>(SoD i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+              </li>
+              <li><p><strong>Łowca:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Łowca”.</p></li>
+              <li><p><strong>Tropiciel:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę łowcy: „Tropiciel”.</p></li>
+              <li><p><strong>Wojownik:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Wojownik”.</p></li>
+              <li><p><strong>Zabójca magów:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę wojownika: „Zabójca magów”.</p></li>
+              <li><p><strong>Kapłan:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Kapłan”.</p></li>
+              <li><p><strong>Kapłan Tyra:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę kapłana: „Kapłan Tyra”.</p></li>
+              <li><p><strong>Obserwator Helma:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę kapłana: „Obserwator Helma”.</p></li>
+              <li><p><strong>Paladyn:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Paladyn”.</p></li>
+              <li><p><strong>Kawaler:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę paladyna: „Kawaler”.</p></li>
+              <li><p><strong>Inkwizytor:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę paladyna: „Inkwizytor”.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Hexxat <em>(BG2:EE i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+              </li>
+              <li><p><strong>Zabójca:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę złodzieja: „Zabójca”.</p></li>
+              <li><p><strong>Tancerz cieni:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę złodzieja: „Tancerz cieni”.</p></li>
+              <li><p><strong>Mag/Złodziej:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Mag/Złodziej”.</p></li>
+              <li><p><strong>Mag/Zabójca:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Mag/Zabójca”.</p></li>
+              <li><p><strong>Mag/Tancerz cieni:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Mag/Tancerz cieni”.</p></li>
+              <li><p><strong>Nekromanta/Złodziej:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Nekromanta/Złodziej”.</p></li>
+              <li><p><strong>Wojownik/Złodziej:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Wojownik/Złodziej”.</p></li>
+              <li><p><strong>Wojownik/Zabójca:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Wojownik/Zabójca”.</p></li>
+              <li><p><strong>Wojownik/Tancerz cieni:</strong> Resetuje poziom postaci do 1 i ustawia następującą kombinację wieloklasową: „Wojownik/Tancerz cieni”.</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>Zmień klasę/podklasę: Clara <em>(BG2:EE i EET)</em></strong></p>
+            <ol>
+              <li><p><strong>Zresetuj tylko poziom:</strong> Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.</p></li>
+              <li>
+                <p><strong>Wybierz klasę:</strong> Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.</p>
+                <p><em><strong>Uwaga:</strong> Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!</em></p>
+              </li>
+              <li><p><strong>Łowca nagród:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę złodzieja: „Łowca nagród”.</p></li>
+              <li><p><strong>Zawadiaka:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę złodzieja: „Zawadiaka”.</p></li>
+              <li><p><strong>Tancerz cieni:</strong> Resetuje poziom postaci do 1 i ustawia następującą podklasę złodzieja: „Tancerz cieni”.</p></li>
+              <li><p><strong>Bard:</strong> Resetuje poziom postaci do 1 i ustawia klasę na „Bard”.</p></li>
+            </ol>
+          </li>
+        </ol>
+        <div class="back">
+          <a class="novisit" href="#top">POWRÓT NA GÓRĘ</a>
+        </div>
+      </section>
+
+      <!-- ================== C R E D I T S ================== -->
+      <section id="credits">
+        <h2>Autorzy</h2>
+        <p><strong>Writing, coding &amp; testing:</strong> <a href="http://www.shsforums.net/user/14985-argent77/">Argent77</a></p>
+        <p><strong>French translation:</strong> Gwendolyne</p>
+        <p><strong>Polish translation:</strong> Cahir</p>
+        <p><strong>Russian translation:</strong> Arkie</p>
+        <p><strong>Alternate character portraits:</strong> Lava Del'Vortel, Argent77</p>
+        <p><strong>Additional help:</strong> Lava Del'Vortel</p>
+        <hr class="spacer" />
+        <h3>Copyright Notice:</h3>
+        <div class="important">
+          <div>
+            <a rel="license" id="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+            </a>
+          </div>
+          <p>"Convenient Enhanced Edition NPCs" is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
+          <hr class="spacer" />
+          <p>Baldur's Gate: Enhanced Edition, Siege of Dragonspear and Baldur's Gate II: Enhanced Edition &copy; Beamdog.</p>
+        </div>
+        <div class="back">
+          <a class="novisit" href="#top">POWRÓT NA GÓRĘ</a>
+        </div>
+      </section>
+
+      <!-- ================== V E R S I O N   H I S T O R Y ================== -->
+      <section id="changelog">
+        <h2>Historia wersji</h2>
+        <h6>Version 4.3</h6>
+        <ul>
+          <li>Improved passive Neera in BG2:EE</li>
+          <li>Fixed Neera's ToB quest progression after a class or kit change</li>
+          <li>Fixed usability issues with Baeloth's ring in BG:EE</li>
+          <li>Fixed usability issues with Rasaad's items "Moonlight Walkers" and "Glimmering Bands" in BG2:EE</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 4.2</h6>
+        <ul>
+          <li>Added Project Infinity metadata</li>
+          <li>Removed a Dorn reference in BGEE if Dorn has been disabled</li>
+          <li>Fixed potential display issues with component names in WeiDU.log and Project Infinity</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 4.1</h6>
+        <ul>
+          <li>Added Russian translation (thanks Arkie)</li>
+          <li>Fixed installation issue in component "Change portrait: Baeloth"</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 4.0</h6>
+        <ul>
+          <li>Changed mod name to "Convenient Enhanced Edition NPCs"</li>
+          <li>Added options to change classes or kits of selected NPCs</li>
+          <li>Added options to change portraits for NPCs</li>
+          <li>Added "Passive Rasaad" for BG:EE</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.5</h6>
+        <ul>
+          <li>Fixed consistency issues with Neera and Rasaad in EET</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.4</h6>
+        <ul>
+          <li>Added French translation (thanks Gwendolyne)</li>
+          <li>Spelling and formatting fixes in Polish readme</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.3</h6>
+        <ul>
+          <li>Restructured mod components to make it possible to disable NPCs or make them passive on a per NPC basis</li>
+          <li>Added German translation</li>
+          <li>Added Polish translation (thanks Cahir)</li>
+          <li>Fixed BG1 passive Neera in EET</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.2</h6>
+        <ul>
+          <li>Added Siege of Dragonspear support</li>
+          <li>Fixed a bug in BG2:EE where Rasaad can still appear even when disabled</li>
+          <li>Relaxed restrictions of Baeloth's ring</li>
+          <li>Various minor fixes and improvements</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.1</h6>
+        <ul>
+          <li>Fixed an incorrect check in component "Make NPC-specific items available for everyone"</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 3.0</h6>
+        <ul>
+          <li>Added new component "Make NPC-specific items available for everyone"</li>
+          <li>Increased compatibility with mods (see Compatibility section)</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 2.1</h6>
+        <ul>
+          <li>Fixed a missing game check for "Passive Neera" component</li>
+          <li>Internal restructurings</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 2.0</h6>
+        <ul>
+          <li>Added option to keep all or individual NPCs from initiating conversations or events on their own</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>Version 1.0</h6>
+        <ul>
+          <li>Initial release</li>
+        </ul>
+        <div class="back">
+          <a class="novisit" href="#top">POWRÓT NA GÓRĘ</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
