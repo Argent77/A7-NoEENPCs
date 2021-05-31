@@ -114,6 +114,7 @@ Poniższe komponenty są dostępne, tylko jeśli wybrano komponent „Decyduj in
     BG:EE: Błyszczące opaski mogą być używane przez każdego mnicha. Można je obecnie nabyć u jednego z kupców na Jarmarku Nashkel.
     BG:EE: Pas potężnej pięści jest teraz noszony przez Dumę, jednego z duchów Wieży Durlaga.
     BG2:EE: Buty zwane Wędrowcami księżycowego światła mogą być używane przez dowolnego Mnicha Słonecznej Duszy i znajdują się obecnie w posiadaniu Anishai, która przebywa w siedzibie gildii Mae'vara.
+    BG2:EE: Błyszczące opaski mogą być używane wyłącznie przez mnichów. Można je kupić u płatnerza Maheera na Promenadzie Waukeen.
     BG2:EE: Pas z ogona wołu jest obecnie noszony przez Cohrvale'a. Przy zwłokach jego partnera możesz znaleźć Sławę Hojara +1, zaklęty topór słabej jakości.
     BG2:EE: Broszę Wędrownych Ostrzy można od teraz kupić u Ribalda Kramarza.
     BG2:EE: Płaszcz mniejszej niewrażliwości można znaleźć przy ciele króla Ixilthetocal w podwodnym mieście sahuaginów.
@@ -185,6 +186,7 @@ Uwaga: Misja związana z wątkiem Dorna jest zbyt ściśle powiązana z jego kla
   1. Zresetuj tylko poziom: Resetuje poziom postaci do 1, bez dokonywania zmian w obecnej klasie lub podklasie.
   2. Wybierz klasę: Opcja ta pozwala na wybór dowolnej kombinacji klasy/podklasy.
 	 Uwaga: Niektóre kombinacje klas mogą zaburzać poczucie immersji lub mogą mieć niepożądane skutki w grze. Używać na własne ryzyko!
+   Uwaga: Zadanie Neery w Tronie Bhaala wymaga rzucenia przez nią, na pewnym jego etapie, Lekkomyślnego zaklęcia Nahala. Komponent ten poluzowuje te wymagania, pozwalając na kontynuowanie zadania po rzuceniu dowolnego czaru lub zdolności czaropodobnej, w zależności od wybranej klasy lub podklasy.
   3. Czarownik chaosu: Resetuje poziom postaci do 1 i ustawia następującą podklasę czarownika: „Czarownik chaosu”. (wymaga zainstalowania modyfikacji „Chaos Sorcerer Kit”, której autorem jest Argent77) 	
 
 17. Zmień klasę/podklasę: Rasaad (BG:EE, SoD, BG2:EE i EET)
