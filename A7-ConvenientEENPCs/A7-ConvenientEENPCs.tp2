@@ -69,6 +69,7 @@ BEGIN @1  // Disable all NPCs
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   GROUP @50 // Appearance
   DESIGNATED 1
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-DISABLE_ALL~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7DisableBaeloth END
@@ -87,6 +88,7 @@ BEGIN @3  // Make all NPCs passive
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   GROUP @50 // Appearance
   DESIGNATED 2
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-PASSIVE_ALL~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7PassiveBaeloth END
@@ -103,6 +105,7 @@ BEGIN @5  // Decide for each NPC individually
   SUBCOMPONENT @10  // Modify Enhanced Edition NPCs
   GROUP @50 // Appearance
   DESIGNATED 3
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-DECIDE_INDIVIDUALLY~
 
 
 ////////////////////////////////////////
@@ -115,6 +118,7 @@ BEGIN @101  // Disable Baeloth
   SUBCOMPONENT @11  // Modify individually: Baeloth
   GROUP @50 // Appearance
   DESIGNATED 101
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-BAELOTH_DISABLE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7DisableBaeloth END
@@ -125,6 +129,7 @@ BEGIN @201  // Make Baeloth passive
   SUBCOMPONENT @11  // Modify individually: Baeloth
   GROUP @50 // Appearance
   DESIGNATED 201
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-BAELOTH_PASSIVE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7PassiveBaeloth END
@@ -139,6 +144,7 @@ BEGIN @102  // Disable Dorn
   REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @1000    // This component requires either BG:EE, BG2:EE or EET to be installed.
   GROUP @50 // Appearance
   DESIGNATED 102
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-DORN_DISABLE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7DisableDorn END
@@ -154,6 +160,7 @@ BEGIN @103  // Disable Hexxat
   SUBCOMPONENT @13  // Modify individually: Hexxat
   GROUP @50 // Appearance
   DESIGNATED 103
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-HEXXAT_DISABLE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7DisableHexxat END
@@ -164,6 +171,7 @@ BEGIN @202  // Make Hexxat passive
   SUBCOMPONENT @13  // Modify individually: Hexxat
   GROUP @50 // Appearance
   DESIGNATED 203
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-HEXXAT_PASSIVE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7PassiveHexxat END
@@ -179,6 +187,7 @@ BEGIN @104  // Disable Neera
   SUBCOMPONENT @14  // Modify individually: Neera
   GROUP @50 // Appearance
   DESIGNATED 104
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-NEERA_DISABLE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7DisableNeera END
@@ -189,6 +198,7 @@ BEGIN @203  // Make Neera passive
   SUBCOMPONENT @14  // Modify individually: Neera
   GROUP @50 // Appearance
   DESIGNATED 204
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-NEERA_PASSIVE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7PassiveNeera END
@@ -204,6 +214,7 @@ BEGIN @105  // Disable Rasaad
   SUBCOMPONENT @15  // Modify individually: Rasaad
   GROUP @50 // Appearance
   DESIGNATED 105
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-RASAAD_DISABLE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7DisableRasaad END
@@ -214,6 +225,7 @@ BEGIN @204  // Make Rasaad passive
   SUBCOMPONENT @15  // Modify individually: Rasaad
   GROUP @50 // Appearance
   DESIGNATED 205
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-RASAAD_PASSIVE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7PassiveRasaad END
@@ -235,6 +247,7 @@ BEGIN @301  // Make NPC-specific items available for everyone
                           (MOD_IS_INSTALLED ~EE_content_tweaks.tp2~ 1)))  @1006   // This mod is not compatible with Pecca's EE_content_tweaks.
   GROUP @50 // Appearance
   DESIGNATED 301
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-NPC_ITEMS_FOR_ALL~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -266,6 +279,7 @@ BEGIN @401 // Alternate version
   SUBCOMPONENT @400  // Change portrait: Baeloth
   GROUP @51 // Portraits
   DESIGNATED 400
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-BAELOTH_ALTERNATE~
 
   COPY ~%MOD_FOLDER%/portraits/a7_blthl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_blthm.bmp~ ~override~
@@ -285,6 +299,7 @@ BEGIN @402 // Alternate version, in BG2 only
   SUBCOMPONENT @400  // Change portrait: Baeloth
   GROUP @51 // Portraits
   DESIGNATED 401
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-BAELOTH_ALTERNATE_BG2~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -322,6 +337,7 @@ BEGIN @403 // BG2 style
   SUBCOMPONENT @410  // Change portrait: Dorn
   GROUP @51 // Portraits
   DESIGNATED 410
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-DORN_BG2_STYLE_ALL~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -351,6 +367,7 @@ BEGIN @404 // BG2 style, in BG2 only
   SUBCOMPONENT @410  // Change portrait: Dorn
   GROUP @51 // Portraits
   DESIGNATED 411
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-DORN_BG2_STYLE_BG2~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -394,6 +411,7 @@ BEGIN @420 // Change portrait: Hexxat (BG2 style)
   FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
   GROUP @51 // Portraits
   DESIGNATED 420
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-HEXXAT_BG2_STYLE~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -441,6 +459,7 @@ BEGIN @403 // BG2 style
   SUBCOMPONENT @430  // Change portrait: Neera
   GROUP @51 // Portraits
   DESIGNATED 430
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-NEERA_BG2_STYLE_ALL~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -470,6 +489,7 @@ BEGIN @404 // BG2 style, in BG2 only
   SUBCOMPONENT @430  // Change portrait: Neera
   GROUP @51 // Portraits
   DESIGNATED 431
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-NEERA_BG2_STYLE_BG2~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -514,6 +534,7 @@ BEGIN @403 // BG2 style
   SUBCOMPONENT @440  // Change portrait: Rasaad
   GROUP @51 // Portraits
   DESIGNATED 440
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-RASAAD_BG2_STYLE_ALL~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -543,6 +564,7 @@ BEGIN @404 // BG2 style, in BG2 only
   SUBCOMPONENT @440  // Change portrait: Rasaad
   GROUP @51 // Portraits
   DESIGNATED 441
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-RASAAD_BG2_STYLE_BG2~
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
 
@@ -584,6 +606,7 @@ BEGIN @450 // Improved portrait: Wilson
   REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002         // This component requires either BG2:EE or EET to be installed.
   GROUP @51 // Portraits
   DESIGNATED 450
+  LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-WILSON_IMPROVED~
 
   COPY ~%MOD_FOLDER%/portraits/wilsonl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/wilsonm.bmp~ ~override~
@@ -601,6 +624,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 500
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -630,6 +654,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 501
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -660,6 +685,7 @@ BEGIN @501 // Mage
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 502
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_MAGE~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -684,6 +710,7 @@ BEGIN @502 // Abjurer
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 503
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ABJURER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -714,6 +741,7 @@ BEGIN @503 // Conjurer
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 504
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CONJURER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -744,6 +772,7 @@ BEGIN @504 // Diviner
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 505
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_DIVINER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -774,6 +803,7 @@ BEGIN @505 // Enchanter
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 506
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ENCHANTER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -804,6 +834,7 @@ BEGIN @506 // Illusionist
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 507
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ILLUSIONIST~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -834,6 +865,7 @@ BEGIN @507 // Invoker
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 508
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_INVOKER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -864,6 +896,7 @@ BEGIN @508 // Necromancer
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 509
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_NECROMANCER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -894,6 +927,7 @@ BEGIN @509 // Transmuter
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 510
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_TRANSMUTER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -924,6 +958,7 @@ BEGIN @510 // Wild Mage
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 511
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_WILDMAGE~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -948,6 +983,7 @@ BEGIN @511 // Dragon Disciple
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 512
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_DRAGON_DISCIPLE~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -977,6 +1013,7 @@ BEGIN @512 // Chaos Sorcerer
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 513
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CHAOS_SORCERER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1006,6 +1043,7 @@ BEGIN @513 // Shadow Adept
   SUBCOMPONENT @500 // Change class/kit: Baeloth
   GROUP @52 // Class changes
   DESIGNATED 514
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_SHADOW_ADEPT~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1042,6 +1080,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @520 // Change class/kit: Dorn
   GROUP @52 // Class changes
   DESIGNATED 520
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-DORN_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1062,6 +1101,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @540 // Change class/kit: Neera
   GROUP @52 // Class changes
   DESIGNATED 540
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1078,6 +1118,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @540 // Change class/kit: Neera
   GROUP @52 // Class changes
   DESIGNATED 541
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -1147,6 +1188,7 @@ BEGIN @541 // Chaos Sorcerer
   SUBCOMPONENT @540 // Change class/kit: Neera
   GROUP @52 // Class changes
   DESIGNATED 542
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_CHAOS_SORCERER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1206,6 +1248,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
   DESIGNATED 560
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1222,6 +1265,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
   DESIGNATED 561
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -1251,6 +1295,7 @@ BEGIN @561 // Monk
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
   DESIGNATED 562
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_MONK~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1272,6 +1317,7 @@ BEGIN @562 // Silverstar of Selune
   SUBCOMPONENT @560 // Change class/kit: Rasaad
   GROUP @52 // Class changes
   DESIGNATED 563
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_SILVERSTAR_OF_SELUNE~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1318,6 +1364,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @580 // Change class/kit: M'Khiin
   GROUP @52 // Class changes
   DESIGNATED 580
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-MKHIIN_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1338,6 +1385,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @600 // Change class/kit: Glint
   GROUP @52 // Class changes
   DESIGNATED 600
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1352,6 +1400,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @600 // Change class/kit: Glint
   GROUP @52 // Class changes
   DESIGNATED 601
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -1374,6 +1423,7 @@ BEGIN @601 // Cleric
   SUBCOMPONENT @600 // Change class/kit: Glint
   GROUP @52 // Class changes
   DESIGNATED 602
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CLERIC~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1393,6 +1443,7 @@ BEGIN @602 // Fighter/Cleric
   SUBCOMPONENT @600 // Change class/kit: Glint
   GROUP @52 // Class changes
   DESIGNATED 603
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_FIGHTER_CLERIC~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1412,6 +1463,7 @@ BEGIN @603 // Cleric/Illusionist
   SUBCOMPONENT @600 // Change class/kit: Glint
   GROUP @52 // Class changes
   DESIGNATED 604
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CLERIC_ILLUSIONIST~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1445,6 +1497,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @620 // Change class/kit: Voghiln
   GROUP @52 // Class changes
   DESIGNATED 620
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1462,6 +1515,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @620 // Change class/kit: Voghiln
   GROUP @52 // Class changes
   DESIGNATED 621
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -1484,6 +1538,7 @@ BEGIN @621 // Bard
   SUBCOMPONENT @620 // Change class/kit: Voghiln
   GROUP @52 // Class changes
   DESIGNATED 622
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_BARD~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1505,6 +1560,7 @@ BEGIN @622 // Blade
   SUBCOMPONENT @620 // Change class/kit: Voghiln
   GROUP @52 // Class changes
   DESIGNATED 623
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_BLADE~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1526,6 +1582,7 @@ BEGIN @623 // Thief
   SUBCOMPONENT @620 // Change class/kit: Voghiln
   GROUP @52 // Class changes
   DESIGNATED 624
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_THIEF~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1551,6 +1608,7 @@ BEGIN @624 // Swashbuckler
   SUBCOMPONENT @620 // Change class/kit: Voghiln
   GROUP @52 // Class changes
   DESIGNATED 625
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_SWASHBUCKLER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1580,6 +1638,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 640
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1594,6 +1653,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 641
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -1616,6 +1676,7 @@ BEGIN @641 // Ranger
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 642
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_RANGER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1634,6 +1695,7 @@ BEGIN @642 // Stalker
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 643
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_STALKER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1652,6 +1714,7 @@ BEGIN @643 // Fighter
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 644
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_FIGHTER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1670,6 +1733,7 @@ BEGIN @644 // Wizard Slayer
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 645
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_WIZARD_SLAYER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1688,6 +1752,7 @@ BEGIN @645 // Cleric
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 646
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CLERIC~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1720,6 +1785,7 @@ BEGIN @646 // Priest of Tyr
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 647
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PRIEST_OF_TYR~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1752,6 +1818,7 @@ BEGIN @647 // Priest of Helm
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 648
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PRIEST_OF_HELM~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1784,6 +1851,7 @@ BEGIN @648 // Paladin
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 649
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PALADIN~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1808,6 +1876,7 @@ BEGIN @649 // Cavalier
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 650
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CAVALIER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1842,6 +1911,7 @@ BEGIN @650 // Inquisitor
   SUBCOMPONENT @640 // Change class/kit: Corwin
   GROUP @52 // Class changes
   DESIGNATED 651
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_INQUISITOR~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1879,6 +1949,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 660
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1895,6 +1966,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 661
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -1919,6 +1991,7 @@ BEGIN @661  // Assassin
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 662
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_ASSASSIN~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1939,6 +2012,7 @@ BEGIN @662  // Shadowdancer
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 663
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_SHADOWDANCER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1959,6 +2033,7 @@ BEGIN @663  // Mage/Thief
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 664
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_THIEF~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -1989,6 +2064,7 @@ BEGIN @664  // Mage/Assassin
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 665
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_ASSASSIN~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2019,6 +2095,7 @@ BEGIN @665  // Mage/Shadowdancer
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 666
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_SHADOWDANCER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2049,6 +2126,7 @@ BEGIN @666  // Necromancer/Thief
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 667
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_NECROMANCER_THIEF~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2079,6 +2157,7 @@ BEGIN @667  // Fighter/Thief
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 668
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_THIEF~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2099,6 +2178,7 @@ BEGIN @668  // Fighter/Assassin
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 669
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_ASSASSIN~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2119,6 +2199,7 @@ BEGIN @669  // Fighter/Shadowdancer
   SUBCOMPONENT @660 // Change class/kit: Hexxat
   GROUP @52 // Class changes
   DESIGNATED 670
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_SHADOWDANCER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2143,6 +2224,7 @@ BEGIN @521 // Reset level only
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 680
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_RESET~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2159,6 +2241,7 @@ BEGIN @522 // Choose your class
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 681
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_CUSTOM~
 
   INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
 
@@ -2183,6 +2266,7 @@ BEGIN @681 // Bounty Hunter
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 682
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_BOUNTY_HUNTER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2203,6 +2287,7 @@ BEGIN @682  // Swashbuckler
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 683
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_SWASHBUCKLER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2223,6 +2308,7 @@ BEGIN @683  // Shadowdancer
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 684
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_SHADOW_DANCER~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
@@ -2243,6 +2329,7 @@ BEGIN @684  // Bard
   SUBCOMPONENT @680 // Change class/kit: Clara
   GROUP @52 // Class changes
   DESIGNATED 685
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_BARD~
 
   INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
