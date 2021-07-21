@@ -231,14 +231,17 @@ a:hover img, a:active img {
   height: 2.0625rem;
 }
 
-details.faq {
+details {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
+details > summary {
+  cursor: help;
+}
+
 details.faq > summary {
   font-weight: bold;
-  cursor: help;
 }
 
 details.faq ul {
@@ -325,4 +328,10 @@ details.faq ul > li:before {
   border-color: black;
   border-style: solid;
   padding: 0 0.2rem;
+}
+
+.desc {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: help;
 }
