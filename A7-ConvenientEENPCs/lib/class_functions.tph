@@ -41,6 +41,7 @@
 // A7_GET_NUM_CLASSES:          Return number of classes defined by the given class id (1 for single class, 2 or 3 for valid multiclass values)
 // A7_GET_CLASS_KIT:            Retrieve numeric and symbolic names of class and kit
 // A7_LOOKUP_TABLE_VALUE:       Return value from given 2da table at specified column if key is matching
+// A7_BAELOTH_FIX:              Fixes Baeloth-related content to avoid conflicts with a class change or reset.
 
 
 OUTER_SET TRUECLASS = 0x4000
@@ -2443,5 +2444,19 @@ BEGIN
         END
       END
     END
+  END
+END
+
+
+// Fixes Baeloth-related content to avoid conflicts with a class change or reset.
+DEFINE_ACTION_FUNCTION A7_BAELOTH_FIX
+BEGIN
+  ACTION_IF (GAME_INCLUDES ~sod~) BEGIN
+    // Ensures that Baeloth survives the fight with M'Khiin's goblin spirits
+    COPY_EXISTING ~bdcut204.bcs~ ~override~
+      DECOMPILE_AND_PATCH BEGIN
+        REPLACE_TEXTUALLY CASE_INSENSITIVE ~ApplyDamage("BAELOTH",[1-9]+,~ ~ApplyDamage("BAELOTH",0,~
+      END
+    BUT_ONLY IF_EXISTS
   END
 END

@@ -646,6 +646,8 @@ BEGIN @521 // Reset level only
   // (optional)  Update NPC-specific items to be usable by new class/kit
   // (optional)  Update dialogs, etc. to adapt NPC to new class/kit
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @522 // Choose your class
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -677,6 +679,8 @@ BEGIN @522 // Choose your class
     ABORT @1012 // Operation cancelled by the user.
   END
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @501 // Mage
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -701,6 +705,8 @@ BEGIN @501 // Mage
     LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
+
+  LAF A7_BAELOTH_FIX END
 
 
 BEGIN @502 // Abjurer
@@ -733,6 +739,8 @@ BEGIN @502 // Abjurer
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @503 // Conjurer
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -763,6 +771,8 @@ BEGIN @503 // Conjurer
     LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
+
+  LAF A7_BAELOTH_FIX END
 
 
 BEGIN @504 // Diviner
@@ -795,6 +805,8 @@ BEGIN @504 // Diviner
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @505 // Enchanter
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -825,6 +837,8 @@ BEGIN @505 // Enchanter
     LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
+
+  LAF A7_BAELOTH_FIX END
 
 
 BEGIN @506 // Illusionist
@@ -857,6 +871,8 @@ BEGIN @506 // Illusionist
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @507 // Invoker
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -887,6 +903,8 @@ BEGIN @507 // Invoker
     LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
+
+  LAF A7_BAELOTH_FIX END
 
 
 BEGIN @508 // Necromancer
@@ -919,6 +937,8 @@ BEGIN @508 // Necromancer
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @509 // Transmuter
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -950,6 +970,8 @@ BEGIN @509 // Transmuter
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @510 // Wild Mage
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -974,6 +996,8 @@ BEGIN @510 // Wild Mage
     LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
+
+  LAF A7_BAELOTH_FIX END
 
 
 BEGIN @511 // Dragon Disciple
@@ -1004,6 +1028,8 @@ BEGIN @511 // Dragon Disciple
     END
   BUT_ONLY IF_EXISTS
 
+  LAF A7_BAELOTH_FIX END
+
 
 BEGIN @512 // Chaos Sorcerer
   REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
@@ -1033,6 +1059,8 @@ BEGIN @512 // Chaos Sorcerer
         num_spells = spell
     END
   BUT_ONLY IF_EXISTS
+
+  LAF A7_BAELOTH_FIX END
 
 
 BEGIN @513 // Shadow Adept
@@ -1067,6 +1095,8 @@ BEGIN @513 // Shadow Adept
     LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
   BUT_ONLY IF_EXISTS
+
+  LAF A7_BAELOTH_FIX END
 
 
 //////////////////////////////////
