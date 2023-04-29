@@ -286,10 +286,42 @@ END
 // Add Dorn's items to the game
 DEFINE_ACTION_FUNCTION A7ItemsDorn
 BEGIN
+  // Rancor +1
+  COPY_EXISTING ~sw2hd1.itm~ ~override~
+    // remove Dorn references from item description
+    SAY IDENTIFIED_DESC @50006  // This ebony two-handed sword is covered with...
+
+    // make weapon's combat ability available to everyone
+    LPF DELETE_ITEM_EQEFFECT
+      INT_VAR opcode_to_delete = 232
+    END
+    PATCH_FOR_EACH resource IN ~OHDSW2~ ~OHDSW1~ BEGIN
+      LPF ADD_ITEM_EQEFFECT
+        INT_VAR
+          opcode = 232    // Cast spell on condition
+          target = 1      // Self
+          parameter2 = 12 // Killed([ANYONE]) / instant
+          timing = 2      // While equipped
+        STR_VAR
+          resource
+      END
+    END
+  BUT_ONLY
+
+  // THAC0 bonus should last for 24 hours
+  COPY_EXISTING ~ohdsw2.spl~ ~override~
+    LPF ALTER_SPELL_EFFECT
+      INT_VAR
+        match_opcode = 206  // Protection from spell
+        timing = 0          // Instant/Limited
+        duration = 7200     // 24 h
+    END
+  BUT_ONLY
+
   // BG1 portion
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    // Gloves of Missile Snaring
     COPY_EXISTING ~ulgoth.sto~ ~override~
-      // Gloves of Missile Snaring
       ADD_STORE_ITEM ~brac18~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
@@ -302,22 +334,18 @@ BEGIN
       ADD_STORE_ITEM ~chan12~ AFTER ~chan01~ #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
+    // Amulet of Spell Warding
     COPY_EXISTING ~inn3351.sto~ ~override~
-      // Amulet of Spell Warding
       ADD_STORE_ITEM ~amul25~ AT 1 #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
     // Rancor +1
-    COPY_EXISTING ~sw2hd1.itm~ ~override~
-      // remove Dorn references from item description
-      SAY IDENTIFIED_DESC @50006  // This ebony two-handed sword is covered with...
-    BUT_ONLY
     COPY_EXISTING ~gardus.cre~ ~override~
       ADD_CRE_ITEM ~sw2hd1~ #0 #0 #0 ~NONE~ ~WEAPON2 WEAPON3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
     BUT_ONLY
 
+    // Fallorain's Plate
     COPY_EXISTING ~tam.cre~ ~override~
-      // Fallorain's Plate
       ADD_CRE_ITEM ~plat02~ #0 #0 #0 ~NONE~ ~ARMOR INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
     BUT_ONLY
   END
@@ -343,10 +371,6 @@ BEGIN
     BUT_ONLY
 
     // Rancor +1
-    COPY_EXISTING ~sw2hd1.itm~ ~override~
-      // remove Dorn references from item description
-      SAY IDENTIFIED_DESC @50006  // This ebony two-handed sword is covered with...
-    BUT_ONLY
     COPY_EXISTING ~demfig01.cre~ ~override~
       ADD_CRE_ITEM ~sw2hd1~ #0 #0 #0 ~NONE~ ~WEAPON2 WEAPON3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
     BUT_ONLY
@@ -440,8 +464,8 @@ BEGIN
       END
     BUT_ONLY
 
-    // Shortbow +3
     COPY_EXISTING ~ar18thif.cre~ ~override~
+      // Shortbow +3
       ADD_CRE_ITEM ~bow26~ #0 #0 #0 ~NONE~ ~WEAPON2 WEAPON3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
       // also add a score of Arrows +2
       ADD_CRE_ITEM ~arow11~ #20 #0 #0 ~NONE~ ~QUIVER1 QUIVER2 QUIVER3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
@@ -455,28 +479,28 @@ DEFINE_ACTION_FUNCTION A7ItemsNeera
 BEGIN
   // BG1 portion
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    // Gem Bag
     COPY_EXISTING ~friend.sto~ ~override~
-      // Gem Bag
       ADD_STORE_ITEM ~bag02~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
+    // Adoy's Belt
     COPY_EXISTING ~inn3351.sto~ ~override~
-      // Adoy's Belt
       ADD_STORE_ITEM ~nebelt01~ AT 1 #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
+    // Rugged Leathers +2
     COPY_EXISTING ~caldo.cre~ ~override~
-      // Rugged Leathers +2
       ADD_CRE_ITEM ~leat25~ #0 #0 #0 ~NONE~ ~ARMOR INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
     BUT_ONLY
   END
 
   // BG2 portion
   ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
-    // Adoy's Belt
-    // Robe of Invocation
     COPY_EXISTING ~ribald.sto~ ~override~
+      // Adoy's Belt
       ADD_STORE_ITEM ~nebelt01~ AFTER ~amul14~ #0 #0 #0 ~IDENTIFIED~ #1
+      // Robe of Invocation
       ADD_STORE_ITEM ~ohnrobe2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
