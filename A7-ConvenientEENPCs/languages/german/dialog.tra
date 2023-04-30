@@ -11,3 +11,13 @@
 
 // Dorn
 @10200 = ~So, wie die Straßen im Moment aussehen, sieht man hier nicht mehr so viele davon. Unshey hat die Zeit genutzt, um ein neues Buch zu schreiben, und dann kamen in letzter Zeit Khalid und Jaheira und warteten unruhig in der Ecke da drüben. In Schichten haben sie geschlafen, damit sie ja diejenigen nicht verpassen, auf die sie warten … Wen haben wir sonst noch? Mal seh'n, Landrin wohnt im obersten Stock und säuft wie ein Loch, und dann war da noch … nun, Tarnesh … Tut mir wirklich leid, dass er Euch Probleme bereitet hat. Er war überaus witzig und freundlich, bis er hörte, dass Besucher am Tor sind … Wir dulden hier keine Kämpfe. Wir haben diesbezüglich strenge Vorschriften, doch die Wachen sagen, er hat Euch aus dem Schatten heraus angesprungen, ohne dass Ihr etwas dagegen tun konntet … Das ist so ziemlich alles. Alle anderen sind mindestens seit zwei Monaten hier. Wir sind so überfüllt, dass einige schon meinten, die Leute sollten mit ihrem zusammengerollten Bettzeug in den Tempel gehen.~
+
+
+// Item-related
+@11000 = ~Oh, bevor ich es vergesse, ein reisender Magier bot mir einmal ein Sortiment von verzauberten Krügen als Bezahlung für meine Dienste an. Ich möchte Euch gerne einen davon als Zeichen meiner Dankbarkeit für die Rettung meiner Geschäfte überreichen. Werdet Ihr ihn annehmen?~
+@11001 = ~Aber ja, natürlich.~
+@11002 = ~Tut mir leid, aber ich bin nicht interessiert.~
+@11003 = ~Lasst mich nur noch ein paar letzte Anpassungen vornehmen... Hier, bitte sehr!~
+@11004 = ~Vielen Dank. Ich würde jetzt gerne Eure Dienste in Anspruch nehmen.~
+@11005 = ~Vielen Dank. Ich mache mich dann auf den Weg.~
+@11006 = ~Ihr wisst nicht, was Ihr verpasst. Aber ich werde Euch nicht dazu zwingen.~

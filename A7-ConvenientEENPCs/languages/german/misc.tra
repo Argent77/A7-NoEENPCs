@@ -45,6 +45,45 @@ Fertigkeit: Schleuder
 Typ: 1-händig
 Mindeststärke: 3~
 
+// Modified version of BG1 strref 28299 and BG2 strref 93696
+@50006 = ~Dieser ebenholzfarbene Zweihänder ist mit Schriftzeichen übersät, die Ihr nicht entziffern könnt. Jeder, der guten Herzens ist, wird von Gefühlen der Schuld und Beklemmung überwältigt, sobald er den Griff berührt.
+
+EIGENSCHAFTEN:
+
+Jeder verursachte Tod erhöht den ETW0-Bonus für 24 Stunden um -1.
+
+ETW0-Bonus: -1, -2 wenn jemand in den letzen 24 Stunden damit getötet wurde
+Schaden: 1W10 +1 (Klinge)
+Initiativefaktor: 9
+Fertigkeit: Zweihänder
+Typ: 2-händig
+Mindeststärke: 14
+
+Gewicht: 12~
+
+// Modified version of BG2 strref 99908
+@50007 = ~Gefunden in einer zufälligen Gesteinsformation in den Windspeerhügeln, ist da etwas an diesem glatten Stück Holz, das Euch annehmen lässt, dass es mehr ist als ein einfacher Stock. Wahrscheinlich ist es die Form … oder auch nicht, gibt es doch unzählige ähnlich geformte Stöcke unter fast jedem anderen Baum auf der Welt. Oder ist es die Art, wie die Rinde entfernt und die Oberfläche sorgfältig glatt geschliffen wurde? Aber am wahrscheinlichsten ist das, was Euch an diesem Stock so fasziniert, die Art, wie die Luft um ihn herum – und in seinem INNEREN – unnatürlich glitzert. Ja, jetzt wo Ihr darüber nachdenkt, ist es ganz sicher das Glitzern, das ihn von anderen, gewöhnlichen Stöcken unterscheidet. Da ist definitiv etwas Besonderes … etwas Fabelhaftes … an ihm.
+
+EIGENSCHAFTEN:
+
+Glitzerstaub
+ Reichweite: 13,5 m
+ Dauer: Sofort
+ Bereich: 4,5 m Radius
+
+Mindestintelligenz: 9
+
+Gewicht: 1~
+
+// Modified version of BG2 strref 88870
+@50008 = ~Dieser stattliche Zinnhumpen liegt überraschend gut in Eurer Hand – oder vielleicht auch nicht überraschend, denn es ist offenbar Eurer. „<CHARNAME>“ ist in großen, eckigen Buchstaben darauf eingraviert. Wenn Ihr ihn in der Hand haltet, fühlt ihr, wie Euch ein seltsames Gefühl der Kraft durchströmt, ähnlich wie die kurze Euphorie, die oft vor einem langen elenden Tag einsetzt. Der Humpen war ein Geschenk des Gastwirts Vyatri als Zeichen seiner Dankbarkeit für die Aufklärung der Tierangriffe in Handelstreff.
+
+EIGENSCHAFTEN:
+
+Stellt 2W8 Trefferpunkte wieder her (3x täglich)
+
+Gewicht: 3~
+
 
 // Updated biographies: Neera
 @51000 = ~Als Ihr NEERA nach ihrer Vergangenheit fragt, erzählt sie, dass sie schon seit etlichen Monaten auf der Flucht vor den roten Magiern sei. Sie scheint vorschnell und unbedacht zu sein, aber Ihr habt auch gehört, dass Anwender Unbändiger Magie zu den mächtigsten Magiern zählen … solange sie keinen Unfall auslösen.

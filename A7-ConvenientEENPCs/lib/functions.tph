@@ -3,11 +3,7 @@
 DEFINE_ACTION_FUNCTION A7DisableBaeloth
 BEGIN
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
-    ACTION_IF (GAME_IS ~eet~) BEGIN
-      OUTER_TEXT_SPRINT script ~BG2900.BCS~
-    END ELSE BEGIN
-      OUTER_TEXT_SPRINT script ~AR2900.BCS~
-    END
+    OUTER_TEXT_SPRINT script ~%bg1_area_prefix%2900.BCS~
     ACTION_IF (FILE_EXISTS_IN_GAME ~%script%~) BEGIN
       COPY_EXISTING ~%script%~ ~override~
         DECOMPILE_AND_PATCH BEGIN
@@ -80,11 +76,7 @@ DEFINE_ACTION_FUNCTION A7DisableRasaad
 BEGIN
   // BG1 portion
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
-    ACTION_IF (GAME_IS ~eet~) BEGIN
-      OUTER_TEXT_SPRINT rasaad_script ~BG4800.BCS~
-    END ELSE BEGIN
-      OUTER_TEXT_SPRINT rasaad_script ~AR4800.BCS~
-    END
+    OUTER_TEXT_SPRINT rasaad_script ~%bg1_area_prefix%4800.BCS~
     ACTION_IF (FILE_EXISTS_IN_GAME ~%rasaad_script%~) BEGIN
       COPY_EXISTING ~%rasaad_script%~ ~override~
         DECOMPILE_AND_PATCH BEGIN
@@ -294,10 +286,42 @@ END
 // Add Dorn's items to the game
 DEFINE_ACTION_FUNCTION A7ItemsDorn
 BEGIN
+  // Rancor +1
+  COPY_EXISTING ~sw2hd1.itm~ ~override~
+    // remove Dorn references from item description
+    SAY IDENTIFIED_DESC @50006  // This ebony two-handed sword is covered with...
+
+    // make weapon's combat ability available to everyone
+    LPF DELETE_ITEM_EQEFFECT
+      INT_VAR opcode_to_delete = 232
+    END
+    PATCH_FOR_EACH resource IN ~OHDSW2~ ~OHDSW1~ BEGIN
+      LPF ADD_ITEM_EQEFFECT
+        INT_VAR
+          opcode = 232    // Cast spell on condition
+          target = 1      // Self
+          parameter2 = 12 // Killed([ANYONE]) / instant
+          timing = 2      // While equipped
+        STR_VAR
+          resource
+      END
+    END
+  BUT_ONLY
+
+  // THAC0 bonus should last for 24 hours
+  COPY_EXISTING ~ohdsw2.spl~ ~override~
+    LPF ALTER_SPELL_EFFECT
+      INT_VAR
+        match_opcode = 206  // Protection from spell
+        timing = 0          // Instant/Limited
+        duration = 7200     // 24 h
+    END
+  BUT_ONLY
+
   // BG1 portion
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    // Gloves of Missile Snaring
     COPY_EXISTING ~ulgoth.sto~ ~override~
-      // Gloves of Missile Snaring
       ADD_STORE_ITEM ~brac18~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
@@ -310,9 +334,19 @@ BEGIN
       ADD_STORE_ITEM ~chan12~ AFTER ~chan01~ #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
+    // Amulet of Spell Warding
     COPY_EXISTING ~inn3351.sto~ ~override~
-      // Amulet of Spell Warding
       ADD_STORE_ITEM ~amul25~ AT 1 #0 #0 #0 ~IDENTIFIED~ #1
+    BUT_ONLY
+
+    // Rancor +1
+    COPY_EXISTING ~gardus.cre~ ~override~
+      ADD_CRE_ITEM ~sw2hd1~ #0 #0 #0 ~NONE~ ~WEAPON2 WEAPON3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    BUT_ONLY
+
+    // Fallorain's Plate
+    COPY_EXISTING ~tam.cre~ ~override~
+      ADD_CRE_ITEM ~plat02~ #0 #0 #0 ~NONE~ ~ARMOR INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
     BUT_ONLY
   END
 
@@ -334,6 +368,31 @@ BEGIN
         STR_VAR
         item_to_add = ~OHDHSWD~
       END
+    BUT_ONLY
+
+    // Rancor +1
+    COPY_EXISTING ~demfig01.cre~ ~override~
+      ADD_CRE_ITEM ~sw2hd1~ #0 #0 #0 ~NONE~ ~WEAPON2 WEAPON3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    BUT_ONLY
+
+    // Wand of Glitterdust
+    COPY_EXISTING ~ohdwand1.itm~ ~override~
+      // update location-specific references in item description
+      SAY IDENTIFIED_DESC @50007  // Found amongst a random formation of rocks in the Windspear Hills,...
+    BUT_ONLY
+    COPY_EXISTING ~ar1200.are~ ~override~
+      LPF ADD_AREA_ITEM
+        INT_VAR
+        container_to_add_to = 5
+        charges1 = 5
+        STR_VAR
+        item_to_add = ~OHDWAND1~
+      END
+    BUT_ONLY
+
+    // Plate of the Dark +1
+    COPY_EXISTING ~uddoor02.cre~ ~override~
+      ADD_CRE_ITEM ~plat05~ #0 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
     BUT_ONLY
 
     // Helm of the Noble +1
@@ -394,6 +453,23 @@ BEGIN
     COPY_EXISTING ~ribald3.sto~ ~override~
       ADD_STORE_ITEM ~ohhdag01~ AFTER ~dagg15~ #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
+
+    // Periapt of Life Protection
+    COPY_EXISTING ~ar1401.are~ ~override~
+      LPF ADD_AREA_ITEM
+        INT_VAR
+        container_to_add_to = 1
+        STR_VAR
+        item_to_add = ~AMUL23~
+      END
+    BUT_ONLY
+
+    COPY_EXISTING ~ar18thif.cre~ ~override~
+      // Shortbow +3
+      ADD_CRE_ITEM ~bow26~ #0 #0 #0 ~NONE~ ~WEAPON2 WEAPON3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+      // also add a score of Arrows +2
+      ADD_CRE_ITEM ~arow11~ #20 #0 #0 ~NONE~ ~QUIVER1 QUIVER2 QUIVER3 INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    BUT_ONLY
   END
 END
 
@@ -403,22 +479,28 @@ DEFINE_ACTION_FUNCTION A7ItemsNeera
 BEGIN
   // BG1 portion
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+    // Gem Bag
     COPY_EXISTING ~friend.sto~ ~override~
-      // Gem Bag
       ADD_STORE_ITEM ~bag02~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
+
+    // Adoy's Belt
     COPY_EXISTING ~inn3351.sto~ ~override~
-      // Adoy's Belt
       ADD_STORE_ITEM ~nebelt01~ AT 1 #0 #0 #0 ~IDENTIFIED~ #1
+    BUT_ONLY
+
+    // Rugged Leathers +2
+    COPY_EXISTING ~caldo.cre~ ~override~
+      ADD_CRE_ITEM ~leat25~ #0 #0 #0 ~NONE~ ~ARMOR INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
     BUT_ONLY
   END
 
   // BG2 portion
   ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
-    // Adoy's Belt
-    // Robe of Invocation
     COPY_EXISTING ~ribald.sto~ ~override~
+      // Adoy's Belt
       ADD_STORE_ITEM ~nebelt01~ AFTER ~amul14~ #0 #0 #0 ~IDENTIFIED~ #1
+      // Robe of Invocation
       ADD_STORE_ITEM ~ohnrobe2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
 
@@ -452,6 +534,55 @@ BEGIN
     // Wooden Horse Necklace
     COPY_EXISTING ~tdr10a.cre~ ~override~
       ADD_CRE_ITEM ~ohnamul2~ #0 #0 #0 ~NONE~ ~AMULET INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    BUT_ONLY
+
+    // <CHARNAME>'s Tankard
+    COPY_EXISTING ~ohntank.itm~ ~override~
+      SAY UNIDENTIFIED_DESC @50008  // This handsome pewter tankard conforms to the shape of your hand...
+    BUT_ONLY
+    COMPILE ~%MOD_FOLDER%/dialogs/neera_items.d~
+
+    // The Grave Binder +2
+    COPY_EXISTING ~ar0805.are~ ~override~
+      LPF ADD_AREA_ITEM
+        INT_VAR
+        container_to_add_to = 1
+        STR_VAR
+        item_to_add = ~DAGG04~
+      END
+    BUT_ONLY
+
+    // Dagger of Venom +2
+    COPY_EXISTING ~thief6.cre~ ~override~
+      ADD_CRE_ITEM ~misc75~ #0 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    BUT_ONLY
+
+    // Robe of the Neutral Archmagi
+    COPY_EXISTING ~gorsta11.cre~ ~override~
+      // make existing item available from one of the WK 1st floor statues
+      LPF REMOVE_CRE_ITEM_FLAGS
+        STR_VAR
+          item_to_change = ~CLCK16~
+          flags = ~UNDROPPABLE~
+      END
+    BUT_ONLY
+
+    // Kazrah's Shield +4
+    COPY_EXISTING ~werewyv2.cre~ ~override~
+      ADD_CRE_ITEM ~ohbshld1~ #0 #0 #0 ~none~ ~inv1 inv2 inv3 inv4 inv5 inv6 inv7 inv8 inv9 inv10 inv11 inv12 inv13 inv14 inv15 inv16~
+    BUT_ONLY
+
+    // Cloak of the Lich
+    COPY_EXISTING ~marlowe.cre~ ~override~
+      ADD_CRE_ITEM ~ohbclck1~ #0 #0 #0 ~NONE~ ~INV1 INV2 INV3 INV4 INV5 INV6 INV7 INV8 INV9 INV10 INV11 INV12 INV13 INV14 INV15 INV16~
+    BUT_ONLY
+    COPY_EXISTING ~marlowe2.bcs~ ~override~
+      // item is dropped when Marlowe is killed by the lich
+      DECOMPILE_AND_PATCH BEGIN
+        PATCH_IF (INDEX_BUFFER(~DropInventory()~) < 0) BEGIN
+          REPLACE_TEXTUALLY ~\(ActionOverride("marlowe",ApplySpell(Myself,\)~ ~ActionOverride("marlowe",DropInventory())%LNL%\1~
+        END
+      END
     BUT_ONLY
   END
 END

@@ -53,6 +53,50 @@ Requires:
 
 Weight: 0~
 
+// Modified version of BG1 strref 28299 and BG2 strref 93696
+@50006 = ~This ebony two-handed sword is covered with inscriptions that you cannot decipher. Individuals who are good of heart are overcome with feelings of guilt and anxiety when they hold this blade.
+
+STATISTICS:
+
+Combat abilities:
+– Any death that it causes has a chance to grant the wielder an increase of +1 to his to-hit rolls for 24 hours
+
+THAC0: +1, +2 if it has slain someone within the past 24 hours
+Damage: 1d10+1 (slashing)
+Speed Factor: 9
+Proficiency Type: Two-handed Sword
+Type: Two-handed
+Requires: 
+ 14 Strength
+
+Weight: 12~
+
+// Modified version of BG2 strref 99908
+@50007 = ~Found amongst a random formation of rocks in the Windspear Hills, there's something about this smooth piece of wood that makes you think it's more than simply a stick. Perhaps it's the shape—though that's unlikely, as there are many similarly shaped sticks to be found under nearly any tree—or the way the bark has been removed and the surface carefully polished to a smooth finish. But most likely what's intriguing you about the stick is the way the air around it—and WITHIN it—glitters with an unnatural light. Yes, now that you think about it, the glittering is definitely what sets this apart from other, more mundane sticks. There's definitely something different... something fabulous... about this one.
+
+STATISTICS:
+
+Charge abilities:
+– Glitterdust
+  Range: 45 ft.
+  Duration: Instant
+  Area of Effect: 15-ft. radius
+
+Requires:
+ 9 Intelligence
+
+Weight: 1~
+
+// Modified version of BG2 strref 88870
+@50008 = ~This handsome pewter tankard conforms to the shape of your hand surprisingly well—or perhaps unsurprisingly, as it appears to be yours. "<CHARNAME>" is engraved upon it in large, angular characters. You feel an odd strength course through you when you hold it, not unlike the brief euphoria which often precedes, by one long, fitful sleep, an even longer day of misery. The tankard was a present from the innkeeper Vyatri as a token of his gratitude for solving the animal attacks in Trademeet.
+
+STATISTICS:
+
+Charge abilities:
+– Restore 2d8 Hit Points three times per day
+
+Weight: 3~
+
 
 // Updated biographies: Neera
 @51000 = ~When asked about her past, NEERA says she has been on the run from Red Wizards for months and months. She seems quick-thinking and a little glib, but you have heard that practitioners of wild magic are among the most powerful spellcasters... as long as they don't have an accident.

@@ -11,3 +11,13 @@
 
 // Dorn
 @10200 = ~With the roads being what they are right now, there aren't too many faces around here that are new anymore. Unshey's been taking this time to write a new book, and Khalid and Jaheira have been waiting anxiously in the corner over there, sleeping in shifts to make sure they don't miss whoever it is they're waiting for... Who else? Let's see, Landrin's on the top floor, drinking up a storm, and then there was... well, Tarnesh... I'm really sorry he caused you trouble—he was all wit and charm until he heard that there were visitors at the gate... We don't allow any fighting here. We have very strict rules about that sort of thing but the guards say he jumped out of the shadows at you and there was nothing you could do... That's really about it. Everyone else has been here for the past two months, at least. We're so full that there's even been talk of letting people throw down their bedrolls in the temple.~
+
+
+// Item-related
+@11000 = ~Oh, before I forget, a travelling mage once offered me an assortment of enchanted tankards as payment for my services. I would gladly offer you one of them as a token of my gratitude for saving my business. Will you accept it?~
+@11001 = ~Yes, I will.~
+@11002 = ~Sorry, but I'm not interested.~
+@11003 = ~Just let me make some final adjustments... Here you go!~
+@11004 = ~Thank you. I'd like to see your services, please.~
+@11005 = ~Thank you. I'll be on my way.~
+@11006 = ~You don't know what you're missing. But I won't force you.~
