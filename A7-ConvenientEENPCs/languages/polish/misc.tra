@@ -32,7 +32,7 @@ Specjalne:
 
 Waga: 1~
 @50004 = ~Proca Corwin +2~
-@50005 = ~This enchanted sling enhances the wielder's dexterity, allowing them to aim more accurately. Moreover, its exceptionally balanced design helps the wielder to continue aiming at the target without the need to readjust their stance. When scoring a critical hit, the shot will explode into a shower of rock splinters that stuns the target for a short time.
+@50005 = ~Ta magiczna proca ulepsza zręczność osoby, która ją dzierży, poprawiając celność jej strzałów. Ponadto jej niezwykle wyważona konstrukcja pomaga dzierżącemu ją strzelcowi kontynuować celowanie bez konieczności ciągłego poprawiania pozycji. Przy trafieniu krytycznym pociski z niej wystrzelone rozpryskują się na odłamki, które na krótki czas ogłuszają cel.
 
 Specjalne:
 – Zręczność: +1
@@ -51,6 +51,52 @@ Wymagania:
 – Siła: 3
 
 Waga: 0~
+
+// Modified version of BG1 strref 28299 and BG2 strref 93696
+@50006 = ~Ten ciemnej, hebanowej barwy dwuręczny miecz pokrywają inskrypcje, których nie jesteś w stanie rozszyfrować. Kiedy trzymają go w dłoniach istoty o dobrym sercu, ogarnia je poczucie winy oraz niepokój.
+
+PARAMETRY:
+
+Specjalne:
+– Miecz otrzymuje przez dwadzieścia cztery godziny premię +1 do testów trafienia jeżeli za jego pomocą zgładzono jakąś istotę.
+
+Obrażenia: 1k10 +1
+TraK0: +1, +2 jeśli w przeciągu ostatnich dwudziestu czterech godzin za pomocą miecza odebrano życie jakiejś istocie. 
+Typ obrażeń: sieczne
+Opóźnienie: 9
+Rodzaj biegłości: miecz oburęczny
+Typ broni: 2-ręczna
+
+Wymagania:
+– Siła: 14
+
+Waga: 12~
+
+// Modified version of BG2 strref 99908
+@50007 = ~Kawałek drewna znaleziony między skałami na Wzgórzach Wichrowych Włóczni. Jest w nim coś niezwykłego, co pozwala myśleć, że jest czymś więcej, niż tylko zwykłym kijem. Być może chodzi o kształt, chociaż podobne patyki można znaleźć pod niemal każdym drzewem, lub sposób, w jaki usunięto korę i wypolerowano jego powierzchnię. Najbardziej intrygujący jest jednak sposób, w jaki powietrze wokół kija, oraz w jego wnętrzu, lśni nienaturalnym światłem. Tak, to zdecydowanie ten blask jest tym, co odróżnia ten kij od innych, bardziej przyziemnych patyków. Jest w nim coś innego... coś wspaniałego...
+
+PARAMETRY:
+
+Właściwości ładunków:
+– Błyszczący pył
+Zasięg: 15 metrów
+Czas działania: natychmiastowy
+Obszar działania: w promieniu 5 metrów
+
+Wymagania:
+– Inteligencja: 9
+
+Waga: 1~
+
+// Modified version of BG2 strref 88870
+@50008 = ~Ten piękny, cynowo-ołowiany kufel zaskakująco dobrze pasuje do kształtu twej dłoni – a może i niezaskakująco, skoro wydaje się być twój. Imię „<CHARNAME>” zostało nań wygrawerowane wielkimi, zaokrąglonymi literami. Trzymając go, czujesz dziwny przypływ siły, niepodobny do chwilowej euforii, którą zwykle poprzedza długi i niespokojny sen czy dzień pełen nieszczęść. Kufel ten podarował ci karczmarz Vyatri jako podziękowanie za rozwiązanie problemu ataków zwierząt w Targowie.
+
+PARAMETRY:
+
+Właściwości ładunków:
+– Przywraca 2k8 punktów życia, trzy razy dziennie
+
+Waga: 3~
 
 
 // Updated biographies: Neera

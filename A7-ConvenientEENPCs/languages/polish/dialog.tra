@@ -11,3 +11,13 @@
 
 // Dorn
 @10200 = ~Ponieważ drogi wyglądają tak, jak wyglądają, ostatnio nieczęsto widujemy nowe twarze. Unshey pisze nową książkę, a Khalid i Jaheira siedzą w rogu i niecierpliwie na kogoś czekają, śpią na zmianę, żeby tylko go nie przegapić, ktokolwiek to jest... Kto jeszcze? Niech pomyślę, na samej górze mieszka Landrin, która zapija się od rana do wieczora, jest jeszcze... aha... Tarnesh... Przykro mi, że sprawił wam tyle kłopotów... dopóki nie usłyszał, że u bramy pojawili się podróżni, był wprost uroczy... Nie tolerujemy tu bójek ani kłótni. Bardzo rygorystycznie tego przestrzegamy, ale strażnicy powiedzieli, że wyskoczył na was z ciemności i nic nie mogliście na to poradzić... To chyba wszyscy. Cała reszta przebywa tutaj przynajmniej od dwóch miesięcy. Zajazd jest tak przepełniony, że zastanawialiśmy się, czy nie pozwolić podróżnym sypiać w świątyni.~
+
+
+// Item-related
+@11000 = ~Aha, zanim zapomnę, pewien wędrowny czarodziej wręczył mi kiedyś rozmaite magiczne kufle jako zapłatę za moje usługi. Z przyjemnością ci jeden odstąpię w podziękowaniu za uratowanie mojego interesu. Zechcesz go przyjąć?~
+@11001 = ~Tak, chętnie.~
+@11002 = ~Przykro mi, nie interesuje mnie to.~
+@11003 = ~Daj mi tylko chwilę na kilka ostatnich poprawek... Proszę!~
+@11004 = ~Dziękuję. Czy mogę zobaczyć jakie oferujesz usługi?~
+@11005 = ~Dziękuję. Muszę już ruszać w drogę.~
+@11006 = ~Nie masz pojęcia co tracisz. No ale nie zmuszę cię.~
