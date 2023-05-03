@@ -16,7 +16,7 @@
 // Item-related
 @11000 = ~Aha, zanim zapomnę, pewien wędrowny czarodziej wręczył mi kiedyś rozmaite magiczne kufle jako zapłatę za moje usługi. Z przyjemnością ci jeden odstąpię w podziękowaniu za uratowanie mojego interesu. Zechcesz go przyjąć?~
 @11001 = ~Tak, chętnie.~
-@11002 = ~Przykro mi, nie interesuje mnie to.~
+@11002 = ~Przykro mi, nie jestem zainteresowany.~ ~Przykro mi, nie jestem zainteresowana.~
 @11003 = ~Daj mi tylko chwilę na kilka ostatnich poprawek... Proszę!~
 @11004 = ~Dziękuję. Czy mogę zobaczyć jakie oferujesz usługi?~
 @11005 = ~Dziękuję. Muszę już ruszać w drogę.~
