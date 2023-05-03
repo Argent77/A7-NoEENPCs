@@ -51,7 +51,49 @@ Nécessite : 3 en Force
 
 Poids : 0~
 
+// Modified version of BG1 strref 28299 and BG2 strref 93696
+@50006 = ~Cette épée noire à deux mains est recouverte d'inscriptions que vous êtes incapable de déchiffrer. Les individus au cœur pur sont pris d'un sentiment de culpabilité et d'anxiété lorsqu'ils manient cette lame.
 
+PARAMÈTRES :
+
+Capacités de combat :
+- Chaque adversaire abattu avec cette lame accorde une chance d'obtenir un bonus de +1 à ses jets de toucher pendant 24 heures
+
+TAC0 : +1, +2 si elle a tué quelqu'un dans les dernières 24 heures
+Dégâts : 1d10 +1 (tranchant)
+Facteur de vitesse : 9
+Type de compétence : épée à deux mains
+Type : arme à deux mains
+Nécessite :
+ 14 en Force
+
+Poids : 12~
+
+// Modified version of BG2 strref 99908
+@50007 = ~Quelque chose dans ce morceau de bois lisse trouvé au milieu une formation rocheuse des Collines de Lancevent vous fait penser que c'est plus qu'un simple bâton. Peut-être est-ce sa forme ? Bien que ce soit peu probable, car on trouve de nombreux bâtons de forme similaire sous n'importe quel arbre, ou bien la façon dont on a retiré son écorce et poli aussi soigneusement sa surface. Mais très probablement, ce qui vous intrigue le plus, c'est la lumière surnaturelle qui brille autour de lui, et à L'INTÉRIEUR. Oui, maintenant que vous y pensez, ce scintillement est vraiment ce qui le distingue des autres bâtons, plus ordinaires. Celui-ci a quelque chose de différent... quelque chose de fabuleux...
+
+PARAMÈTRES :
+
+Capacités de charge :
+- Poussière scintillante
+  Portée : 13,5 mètres
+  Durée : instantanée
+  Zone d'effet : rayon de 4,5 mètres
+
+Nécessite :
+ 9 en Intelligence
+
+Poids : 1~
+
+// Modified version of BG2 strref 88870
+@50008 = ~Cette belle chope en étain épouse étonnamment bien la forme de votre main, ou peut-être pas si étonnamment, car c'est la vôtre. Le nom « <CHARNAME> » y a été gravé en gros caractères angulaires. Vous ressentez une étrange force vous traverser lorsque vous la tenez, non sans rappeler la brève euphorie qui précède souvent un long sommeil agité et un jour d'abattement encore plus long. La chope est un cadeau de Vyatri, le tavernier, un témoignage de sa gratitude pour avoir résolu le conflit à l'origine des attaques d'animaux à Franc-Marché.
+
+PARAMÈTRES :
+
+Capacités de charge :
+- Restaure 2d8 points de vie trois fois par jour
+
+Poids : 3~
 
 // Updated biographies: Neera
 @51000 = ~Interrogée sur son passé, NEERA raconte que cela fait des mois qu'elle fuit les Magiciens Rouges. Elle paraît avoir l'esprit vif et un rien désinvolte, mais vous avez entendu dire que les entropistes font partie des lanceurs de sorts les plus puissants qui soient... aussi longtemps qu'il ne leur arrive pas d'accident.

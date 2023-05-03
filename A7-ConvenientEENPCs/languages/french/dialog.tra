@@ -11,3 +11,13 @@
 
 // Dorn
 @10200 = ~Les routes étant ce qu'elles sont en ce moment, il n'y a plus beaucoup de nouvelles têtes par ici. Unshey en profite pour écrire un nouveau livre et Khalid et Jaheira attendent anxieusement dans le coin là-bas, prenant des quarts pour être sûrs de ne pas manquer la personne qu'ils attendent... Qui d'autre ? Voyons voir, Landrin est à l'étage, en train de finir une énième bouteille, et il y avait également... Tarnesh... Je regrette réellement qu'il vous ait causé des ennuis ; il était tout sourire jusqu'à ce qu'il entende qu'il y avait des visiteurs à la porte... Les bagarres ne sont pas autorisées ici. Nous avons des règles très strictes pour ce genre de choses, mais les gardes disent qu'il a jailli de l'ombre et s'est jeté sur vous et que vous ne pouviez rien y faire... Voilà, c'est à peu près tout. Tous les autres sont là depuis au moins deux mois. Il y a tellement de monde qu'on a même envisagé de laisser les gens s'installer dans le temple pour dormir.~
+
+
+// Item-related
+@11000 = ~Oh, j'allais oublier, un voyageur versé dans l'art de la magie m'a un jour offert un magnifique assortiment de chopes enchantées en guise de paiement pour mes services. Je souhaiterais vous faire cadeau de l'une d'entre elles, un gage de ma gratitude pour avoir sauvé mon établissement. Qu'en pensez-vous ?~
+@11001 = ~Oui, avec plaisir.~
+@11002 = ~Non merci, cela ne m'intéresse pas.~
+@11003 = ~Permettez-moi de faire un petit ajustement... Et voilà !~
+@11004 = ~Merci de votre attention. J'aimerais voir vos services, s'il vous plaît.~
+@11005 = ~Je vous remercie. Il est temps pour moi de me mettre en route.~
+@11006 = ~Vous ne savez pas à côté de quoi vous passez. Mais je n'insisterai pas.~
