@@ -1,9 +1,11 @@
 // *** EET-specific initializations ***
 
 ACTION_IF (GAME_IS ~eet~) BEGIN
+  OUTER_SET bg1_strref = 200000
   OUTER_SET bg2_chapter = 12
   OUTER_SPRINT bg1_area_prefix ~BG~
 END ELSE BEGIN
+  OUTER_SET bg1_strref = 0
   OUTER_SET bg2_chapter = 0
   OUTER_SPRINT bg1_area_prefix ~AR~
 END

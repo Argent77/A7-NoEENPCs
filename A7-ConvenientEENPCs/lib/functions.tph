@@ -35,7 +35,8 @@ BEGIN
   END
 
   ACTION_IF (GAME_IS ~bgee eet~) BEGIN
-    COMPILE ~%MOD_FOLDER%/dialogs/dorn_bg1.d~
+    OUTER_SET bg1_strref_18576 = bg1_strref + 18576
+    COMPILE EVAL ~%MOD_FOLDER%/dialogs/dorn_bg1.d~
   END
 END
 

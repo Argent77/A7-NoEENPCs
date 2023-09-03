@@ -4,7 +4,7 @@
 ADD_TRANS_TRIGGER ~NESSIE~ 5 ~!Global("DORNExists","GLOBAL",0)~ DO 1 UNLESS ~"DORNExists"~
 
 EXTEND_BOTTOM ~NESSIE~ 5
-  + ~Global("DORNExists","GLOBAL",0)~ + #18576 /* So who are the new faces here now? */ + Nessie.NewFaces
+  + ~Global("DORNExists","GLOBAL",0)~ + #%bg1_strref_18576% /* So who are the new faces here now? */ + Nessie.NewFaces
 END
 
 APPEND ~NESSIE~
