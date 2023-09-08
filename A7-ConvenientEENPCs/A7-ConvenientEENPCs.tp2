@@ -1,6 +1,6 @@
 BACKUP ~weidu_external/backup/A7-ConvenientEENPCs~
 SUPPORT ~https://forums.beamdog.com/discussion/43074~
-VERSION ~v4.3~
+VERSION ~v4.4~
 
 ALWAYS
   // required because of non-standard BACKUP path
