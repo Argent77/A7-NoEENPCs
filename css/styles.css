@@ -72,6 +72,14 @@ ul {
   list-style-type: square;
 }
 
+li > ul {
+  list-style-type: disc;
+}
+
+li > ul > li > ul {
+  list-style-type: circle;
+}
+
 li {
   line-height: 1.5;
 }
@@ -325,4 +333,10 @@ details.faq ul > li:before {
   border-color: black;
   border-style: solid;
   padding: 0 0.2rem;
+}
+
+.desc {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: help;
 }
