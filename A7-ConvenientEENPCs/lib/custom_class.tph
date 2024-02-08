@@ -3,6 +3,7 @@ INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 // Handles everything to change class/kit of the current character
 DEFINE_PATCH_FUNCTION A7_CHANGE_CUSTOM_CLASS
 INT_VAR
+  keep_innates = 0  // 0: clear all innate abilities, 1: keep innate abilities
   class_id = 0
   kit_id = 0
 BEGIN
@@ -15,7 +16,7 @@ BEGIN
     DEFAULT SET spell = 0
   END
 
-  LPF A7_RESET_CLASS STR_VAR class = EVAL ~%class_id%~ kit = EVAL ~%kit_id%~ END
+  LPF A7_RESET_CLASS INT_VAR keep_innates STR_VAR class = EVAL ~%class_id%~ kit = EVAL ~%kit_id%~ END
   LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
 
   // restoring/adding mage spell selection

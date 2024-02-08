@@ -1,0 +1,28 @@
+// Turn Caelar Argent into a controllable follower during Avernus boss battle
+IF
+  !InParty(Myself)
+  Global("bd_caelar_in_party","locals",0)
+  Global("bd_caelar_fate","global",2)
+  Global("a7_caelar_follower","locals",0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    SetGlobal("a7_caelar_follower","locals",1)
+    ChangeEnemyAlly(Myself,FAMILIAR)
+    AddFamiliar()
+    SetInterrupt(TRUE)
+END
+
+// Restore neutral allegiance after the battle is over
+IF
+  Global("a7_caelar_follower","locals",1)
+  Global("bd_plot","global",570)
+  CombatCounter(0)
+THEN
+  RESPONSE #100
+    SetInterrupt(FALSE)
+    RemoveFamiliar()
+    ChangeEnemyAlly(Myself,NEUTRAL)
+    SetInterrupt(TRUE)
+    Continue()
+END

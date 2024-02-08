@@ -28,6 +28,10 @@
 
 @301 = ~NSC-spezifische Gegenstaende allen zugaenglich machen~
 
+@310 = ~Verbuendete Caelar Argent im Endkampf in Avernus~
+@311 = ~Schliesst sich als kontrollierbare Begleiterin an, wenn in der Gruppe kein freier Platz ist~
+@312 = ~Schliesst sich immer als kontrollierbare Begleiterin an~
+
 // Portraits
 @400 = ~Portrait austauschen: Baeloth~
 @401 = ~Alternative Version~
@@ -109,6 +113,12 @@
 @683 = ~Schattentaenzer~
 @684 = ~Barde~
 
+@690 = ~Klassenwechsel: Caelar Argent (Siehe Hinweise in der Readme!)~
+@691 = ~Ritter~
+@692 = ~Inquisitor~
+@693 = ~Geisterjaeger~
+
+// Setup messages
 @1000 = ~Diese Komponente benoetigt BG:EE, BG2:EE oder EET.~
 @1001 = ~Diese Komponente benoetigt BG:EE oder EET.~
 @1002 = ~Diese Komponente benoetigt BG2:EE oder EET.~

@@ -268,6 +268,31 @@ BEGIN @301  // Make NPC-specific items available for everyone
   END
 
 
+///////////////////////////////////////////////////////
+//    Allied Caelar Argent in Avernus boss battle    //
+///////////////////////////////////////////////////////
+
+BEGIN @311  // Joins as controllable follower if no free party slots available
+  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+  SUBCOMPONENT @310 // Allied Caelar Argent in Avernus boss battle
+  GROUP @50 // Appearance
+  DESIGNATED 311
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-CAELAR_FOLLOWER_CONDITIONAL~
+
+  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  LAF A7CaelarFollower INT_VAR forced = 0 END
+
+BEGIN @312  // Always joins as controllable follower
+  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+  SUBCOMPONENT @310 // Allied Caelar Argent in Avernus boss battle
+  GROUP @50 // Appearance
+  DESIGNATED 312
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-CAELAR_FOLLOWER_ALWAYS~
+
+  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  LAF A7CaelarFollower INT_VAR forced = 1 END
+
+
 ////////////////////////////////////
 //    Change portrait: Baeloth    //
 ////////////////////////////////////
@@ -2380,4 +2405,137 @@ BEGIN @684  // Bard
     END
     LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
     LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
+  BUT_ONLY IF_EXISTS
+
+
+///////////////////////////////////////////
+//    Change class/kit: Caelar Argent    //
+///////////////////////////////////////////
+
+BEGIN @521 // Reset level only
+  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+  GROUP @52 // Class changes
+  DESIGNATED 690
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_RESET~
+
+  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+
+  COPY_EXISTING ~bdcaela3.cre~ ~override~
+    LPF A7_RESET_CLASS INT_VAR keep_innates = 1 END
+    LPF A7_SET_CRE_PROFICIENCIES
+      INT_VAR
+        num_proficiencies = 3
+      STR_VAR
+        proficiency_0 = ~90,2~  // Long Swords
+        proficiency_1 = ~112,1~ // Sword and Shield
+        proficiency_2 = ~89,1~  // Bastard Swords
+    END
+  BUT_ONLY IF_EXISTS
+
+
+BEGIN @522 // Choose your class
+  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+  GROUP @52 // Class changes
+  DESIGNATED 691
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_CUSTOM~
+
+  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+
+  LAF A7_GET_CLASS_KIT_INTERACTIVE
+    STR_VAR cre_resref = ~bdcaela3~
+    RET success class_id kit_id
+  END
+
+  ACTION_IF (success) BEGIN
+    COPY_EXISTING ~bdcaela3.cre~ ~override~
+      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR keep_innates = 1 class_id kit_id END
+    BUT_ONLY IF_EXISTS
+  END ELSE BEGIN
+    ABORT @1012 // Operation cancelled by the user.
+  END
+
+
+BEGIN @691 // Cavalier
+  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+  GROUP @52 // Class changes
+  DESIGNATED 692
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_CAVALIER~
+
+  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+
+  COPY_EXISTING ~bdcaela3.cre~ ~override~
+    LPF A7_RESET_CLASS
+      INT_VAR
+        keep_innates = 1
+      STR_VAR
+        class = ~PALADIN~
+        kit = ~CAVALIER~
+    END
+    LPF A7_SET_CRE_PROFICIENCIES
+      INT_VAR
+        num_proficiencies = 3
+      STR_VAR
+        proficiency_0 = ~90,2~  // Long Swords
+        proficiency_1 = ~112,1~ // Sword and Shield
+        proficiency_2 = ~89,1~  // Bastard Swords
+    END
+  BUT_ONLY IF_EXISTS
+
+
+BEGIN @692 // Inquisitor
+  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+  GROUP @52 // Class changes
+  DESIGNATED 693
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_INQUISITOR~
+
+  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+
+  COPY_EXISTING ~bdcaela3.cre~ ~override~
+    LPF A7_RESET_CLASS
+      INT_VAR
+        keep_innates = 1
+      STR_VAR
+        class = ~PALADIN~
+        kit = ~INQUISITOR~
+    END
+    LPF A7_SET_CRE_PROFICIENCIES
+      INT_VAR
+        num_proficiencies = 3
+      STR_VAR
+        proficiency_0 = ~90,2~  // Long Swords
+        proficiency_1 = ~112,1~ // Sword and Shield
+        proficiency_2 = ~89,1~  // Bastard Swords
+    END
+  BUT_ONLY IF_EXISTS
+
+
+BEGIN @693 // Undead Hunter
+  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+  GROUP @52 // Class changes
+  DESIGNATED 694
+  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_UNDEAD_HUNTER~
+
+  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+
+  COPY_EXISTING ~bdcaela3.cre~ ~override~
+    LPF A7_RESET_CLASS
+      INT_VAR
+        keep_innates = 1
+      STR_VAR
+        class = ~PALADIN~
+        kit = ~UNDEAD_HUNTER~
+    END
+    LPF A7_SET_CRE_PROFICIENCIES
+      INT_VAR
+        num_proficiencies = 3
+      STR_VAR
+        proficiency_0 = ~90,2~  // Long Swords
+        proficiency_1 = ~112,1~ // Sword and Shield
+        proficiency_2 = ~89,1~  // Bastard Swords
+    END
   BUT_ONLY IF_EXISTS

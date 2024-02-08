@@ -28,6 +28,10 @@
 
 @301 = ~Rendre les objets specifiques a chaque PNJ utilisables par tous~
 
+@310 = ~Allied Caelar Argent in Avernus boss battle~
+@311 = ~Joins as controllable follower if no free party slots available~
+@312 = ~Always joins as controllable follower~
+
 // Portraits
 @400 = ~Changer le portrait de Baeloth~
 @401 = ~Version alternative~
@@ -108,6 +112,11 @@
 @682 = ~Bretteur~
 @683 = ~Maitre des ombres~
 @684 = ~Barde~
+
+@690 = ~Modifier la classe et le profil de Caelar Argent (Voir les notes dans le readme !)~
+@691 = ~Cavalier~
+@692 = ~Inquisiteur~
+@693 = ~Chasseur de Morts-Vivants~
 
 // Setup messages
 @1000 = ~Ce composant necessite l'installation de BG:EE, BG2:EE ou EET.~

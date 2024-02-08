@@ -28,6 +28,10 @@
 
 @301 = ~Wlacz dostepnosc przedmiotow zwiazanych z BN'ami dla wszystkich~
 
+@310 = ~Allied Caelar Argent in Avernus boss battle~
+@311 = ~Joins as controllable follower if no free party slots available~
+@312 = ~Always joins as controllable follower~
+
 // Portraits
 @400 = ~Zmien portret: Baeloth~
 @401 = ~Alternatywna wersja~
@@ -108,6 +112,11 @@
 @682 = ~Zawadiaka~
 @683 = ~Tancerz cieni~
 @684 = ~Bard~
+
+@690 = ~Change class/kit: Caelar Argent (See notes in readme!)~
+@691 = ~Cavalier~
+@692 = ~Inquisitor~
+@693 = ~Undead Hunter~
 
 // Setup messages
 @1000 = ~Komponent ten wymaga uprzedniego zainstalowania BG:EE, BG2:EE lub EET.~

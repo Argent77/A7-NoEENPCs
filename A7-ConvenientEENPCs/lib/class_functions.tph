@@ -50,6 +50,7 @@ OUTER_SET TRUECLASS = 0x4000
 DEFINE_PATCH_FUNCTION A7_RESET_CLASS
 INT_VAR
   remove_items = 1  // 0: unequip unusable items, 1: remove unusable items except critical items
+  keep_innates = 0  // 0: clear all innate abilities, 1: keep innate abilities
 STR_VAR
   class = ~~  // class number or name, empty string: use current CRE class
   kit = ~~    // kit number or name (from kitlist.2da), empty string: use current CRE kit
@@ -117,7 +118,7 @@ BEGIN
   LPF A7_RESET_CRE_LORE END
 
   // remove spell entries (known and memorized)
-  LPF A7_REMOVE_CRE_SPELLS INT_VAR level = cur_level class = cur_class kit = cur_kit END
+  LPF A7_REMOVE_CRE_SPELLS INT_VAR keep_innates level = cur_level class = cur_class kit = cur_kit END
 
   // add (known) priest/druid spells
   LPF A7_ADD_CRE_PRIEST_SPELLS END
@@ -756,6 +757,7 @@ END
 // Remove all known and memorized spells based on given class/kit/level definitions
 DEFINE_PATCH_FUNCTION A7_REMOVE_CRE_SPELLS
 INT_VAR
+  keep_innates = 0
   level = 20
   class = "-1"
   kit = "-1"
@@ -766,8 +768,10 @@ BEGIN
   // removing all known mage spells
   LPF A7_REMOVE_CRE_KNOWN_SPELLS INT_VAR type = 1 END
 
-  // removing all known innate spells found in CLAB file of original class/kit
-  LPF A7_REMOVE_CRE_KNOWN_SPELLS INT_VAR type = 2 skip_unique = 1 level class kit END
+  PATCH_IF (NOT keep_innates) BEGIN
+    // removing all known innate spells found in CLAB file of original class/kit
+    LPF A7_REMOVE_CRE_KNOWN_SPELLS INT_VAR type = 2 skip_unique = 1 level class kit END
+  END
 
   // removing all memorized priest spells
   LPF A7_REMOVE_CRE_MEMORIZED_SPELLS INT_VAR type = 0 END
@@ -775,8 +779,10 @@ BEGIN
   // removing all memorized mage spells
   LPF A7_REMOVE_CRE_MEMORIZED_SPELLS INT_VAR type = 1 END
 
-  // removing all memorized innate spells found in CLAB file of original class/kit
-  LPF A7_REMOVE_CRE_MEMORIZED_SPELLS INT_VAR type = 2 reset_slots = 2 skip_unique = 1 level class kit END
+  PATCH_IF (NOT keep_innates) BEGIN
+    // removing all memorized innate spells found in CLAB file of original class/kit
+    LPF A7_REMOVE_CRE_MEMORIZED_SPELLS INT_VAR type = 2 reset_slots = 2 skip_unique = 1 level class kit END
+  END
 END
 
 
