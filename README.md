@@ -53,6 +53,10 @@ The following components are only available when selecting subcomponent "Decide 
 
 - **Make NPC-specific items available for everyone:** This component allows you to acquire personal or quest-related items of disabled NPC(s) from merchants all over the game or as loot from containers or creatures. It is only available if you select to disable all or individual NPCs.
 
+- **Allied Caelar Argent in Avernus boss battle *(BG:SOD and EET)*:** This component allows you to control Caelar Argent if she joins the battle as an ally. The following options allow you to refine her behavior even further:
+  - **Joins as controllable follower if no free party slots available:** Retains the original behavior of the game by letting Caelar Argent join as a regular party member if a free slot is available.
+  - **Always joins as controllable follower:** Prevents Caelar Argent from joining the party when invited, even if there is a free party slot available. This option is mostly useful for players who want to solo the whole game.
+
 ### NPC Portraits
 
 - **Change portrait: Baeloth** Installs an alternate portrait variant for the whole game (BG:EE and EET) or only for the BG2 part (EET only).
@@ -156,3 +160,10 @@ The following components are only available when selecting subcomponent "Decide 
   - **Swashbuckler**: Resets her level to 1 and applies the thief kit "Swashbuckler".
   - **Shadowdancer**: Resets her level to 1 and applies the thief kit "Shadowdancer".
   - **Bard**: Resets her level to 1 and applies the class "Bard".
+
+- **Change class/kit: Caelar Argent (SoD and EET)**: *Caution: With any of these options installed mage or priest spells gained by level up won't be available since the party has no opportunity to rest in Avernus to memorize her spells. Moreover, you won't be able to level up Caelar at all if she joins as a follower.*
+  - **Reset level only**: Resets her level to 1, but makes no changes to her current class or kit.
+  - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
+  - **Cavalier**: Resets her level to 1 and applies the paladin kit "Cavalier".
+  - **Inquisitor**: Resets her level to 1 and applies the paladin kit "Inquisitor".
+  - **Undead Hunter**: Resets her level to 1 and applies the paladin kit "Undead Hunter".
