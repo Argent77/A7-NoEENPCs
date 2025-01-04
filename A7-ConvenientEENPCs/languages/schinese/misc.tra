@@ -1,0 +1,129 @@
+// -*- coding: utf-8 -*-
+
+@50000 = ~This ring has been known to be in possession of a drow torturer of some repute. How he came to part with this ring or his current whereabouts are not known.
+
+STATISTICS:
+
+Equipped abilities:
+- Damage penalty vs. genies: -5
+- THAC0 penalty vs. genies: -5
+- May only be removed with a Remove Curse spell
+
+Charged ability once per day:
+- Random elemental damage to user
+- Chance to create a random gem in the user's inventory
+
+Weight: 0~
+@50001 = ~Sun Soul Monk~
+@50002 = ~These comfortable boots provide the wearer with exceptional arch support, allowing them to perform feats that would lead to crippling back pain in ordinary people.
+
+STATISTICS:
+
+Equipped abilities:
+– Armor Class: +2
+
+Weight: 1~
+@50003 = ~These polished bracers reflect harsh light into the eyes of the wearer's foes, distracting them from parrying incoming hits.
+
+STATISTICS:
+
+Equipped abilities:
+– THAC0: +2
+
+Weight: 1~
+@50004 = ~Corwin's Sling +2~
+@50005 = ~This enchanted sling enhances the wielder's dexterity, allowing them to aim more accurately. Moreover, its exceptionally balanced design helps the wielder to continue aiming at the target without the need to readjust their stance. When scoring a critical hit, the shot will explode into a shower of rock splinters that stuns the target for a short time.
+
+Equipped abilities:
+– Dexterity: +1
+– Extra 1/2 attack per round
+
+Combat abilities:
+– On a critical hit, target is stunned for 3 rounds (Save vs. Death negates)
+
+STATISTICS:
+
+THAC0: +2
+Damage: +2
+Speed Factor: 4
+Proficiency Type: Sling
+Type: One-handed
+Requires:
+ 3 Strength
+
+Weight: 0~
+
+// Modified version of BG1 strref 28299 and BG2 strref 93696
+@50006 = ~This ebony two-handed sword is covered with inscriptions that you cannot decipher. Individuals who are good of heart are overcome with feelings of guilt and anxiety when they hold this blade.
+
+STATISTICS:
+
+Combat abilities:
+– Any death that it causes has a chance to grant the wielder an increase of +1 to his to-hit rolls for 24 hours
+
+THAC0: +1, +2 if it has slain someone within the past 24 hours
+Damage: 1d10+1 (slashing)
+Speed Factor: 9
+Proficiency Type: Two-handed Sword
+Type: Two-handed
+Requires: 
+ 14 Strength
+
+Weight: 12~
+
+// Modified version of BG2 strref 99908
+@50007 = ~Found amongst a random formation of rocks in the Windspear Hills, there's something about this smooth piece of wood that makes you think it's more than simply a stick. Perhaps it's the shape—though that's unlikely, as there are many similarly shaped sticks to be found under nearly any tree—or the way the bark has been removed and the surface carefully polished to a smooth finish. But most likely what's intriguing you about the stick is the way the air around it—and WITHIN it—glitters with an unnatural light. Yes, now that you think about it, the glittering is definitely what sets this apart from other, more mundane sticks. There's definitely something different... something fabulous... about this one.
+
+STATISTICS:
+
+Charge abilities:
+– Glitterdust
+  Range: 45 ft.
+  Duration: Instant
+  Area of Effect: 15-ft. radius
+
+Requires:
+ 9 Intelligence
+
+Weight: 1~
+
+// Modified version of BG2 strref 88870
+@50008 = ~This handsome pewter tankard conforms to the shape of your hand surprisingly well—or perhaps unsurprisingly, as it appears to be yours. "<CHARNAME>" is engraved upon it in large, angular characters. You feel an odd strength course through you when you hold it, not unlike the brief euphoria which often precedes, by one long, fitful sleep, an even longer day of misery. The tankard was a present from the innkeeper Vyatri as a token of his gratitude for solving the animal attacks in Trademeet.
+
+STATISTICS:
+
+Charge abilities:
+– Restore 2d8 Hit Points three times per day
+
+Weight: 3~
+
+
+// Updated biographies: Neera
+@51000 = ~When asked about her past, NEERA says she has been on the run from Red Wizards for months and months. She seems quick-thinking and a little glib, but you have heard that practitioners of wild magic are among the most powerful spellcasters... as long as they don't have an accident.
+
+Despite her cheerful and capricious demeanor, you sense her past haunts her. As much as she loves unleashing the powers of her wild magic, she also seems to fear the harm it can cause.~
+
+@51001 = ~When asked about her past, NEERA shrugs. She says that, before coming to Athkatla, she wandered the Sword Coast enjoying an adventurer's life while evading the Order of Eight Staves, an organization dedicated to hunting practitioners of wild magic. She talks less about her distant past, but does not hide the fact she was banished from the High Forest for her wild magic. She is quick to laugh and to chatter, perhaps a little glibly, but lashes out whenever she senses a threat to her autonomy. She is deeply invested in protecting other wild mages and seems willing to risk almost everything to do so.~
+
+// Updated biographies: Rasaad
+@51050 = ~A worshipper of the moon goddess Selûne, the taciturn cleric Rasaad's life in service to the Sun Soul order ended in tragedy. He speaks of his brother, Gamaz, in reverent tones, even though Gamaz betrayed the Sun Soul by joining the Dark Moon sect, where he learned to worship Shar at the feet of a man named Alorgoth. Though it was his own hand that slew Gamaz, Rasaad holds Alorgoth responsible for his brother's death. He has committed himself to avenging Gamaz, and it's obvious there is little he won't sacrifice to achieve that goal.~
+
+// Updated biographies: Voghiln
+@51100 = ~When asked about his past, Voghiln speaks at considerable length of his travels in the North. Originally from Luskan, Voghiln felt the call of adventure and set out on a journey to the Spine of the World. For the next few years, he traveled among the northernmost countries, including Vaasa and the Silver Marches, building up his repertoire and his reputation as a rogue.
+
+Near the story's end, Voghiln hastily glosses over a bit where he decided to travel south for a time. No amount of persuasion convinces him to reveal why he truly left the North. Instead, Voghiln said, he came north chasing new adventures and new "womans."
+
+Despite his fondness for drink and his propensity for chasing skirts, Voghiln is a brave and talented companion who is eager to see the crusade come to an end—mostly so that he can write about it.~
+
+// Updated biographies: Corwin
+@51150 = ~When asked about her past, Schael Corwin reluctantly admits she ran wild as a child on the streets of Baldur's Gate. Her rebelliousness soon got her into trouble with the Flaming Fist.
+
+Left alone in a cell with nothing but her thoughts for company, she began to reflect on the decisions she'd made in the past and see where they would inevitably take her. When she was eventually freed, she decided to change the direction of her life. She enlisted in the Flaming Fist and rose quickly through the ranks. Soon after she realized that fighting for worldly causes was not enough and trained under the guidance of the Temple to become a priest.
+
+You sense there is little Schael Corwin would not do for her family, the Flaming Fist or the Temple.~
+
+@51151 = ~When asked about her past, Schael Corwin reluctantly admits she ran wild as a child on the streets of Baldur's Gate. Her rebelliousness soon got her into trouble with the Flaming Fist.
+
+Left alone in a cell with nothing but her thoughts for company, she began to reflect on the decisions she'd made in the past and see where they would inevitably take her. When she was eventually freed, she decided to change the direction of her life. She enlisted in the Flaming Fist and rose quickly through the ranks. Soon after she realized that fighting for worldly causes was not enough and trained under the guidance of the Order to become a paladin.
+
+You sense there is little Schael Corwin would not do for her family, the Flaming Fist or the Order.~
