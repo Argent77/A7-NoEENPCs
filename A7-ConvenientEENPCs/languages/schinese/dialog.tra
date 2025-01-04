@@ -1,23 +1,23 @@
 // -*- coding: utf-8 -*-
 
 // Neera
-@10000 = ~Hey there! Don't I know you from somewhere?~
-@10001 = ~Huh? What's this?~
+@10000 = ~嘿！我是不是在哪儿见过你？~
+@10001 = ~啊？那是怎么回事？~
 
 
 // Rasaad
-@10100 = ~Please excuse me. I'm in a hurry.~
+@10100 = ~请等下，我有急事。~
 
 
 // Dorn
-@10200 = ~With the roads being what they are right now, there aren't too many faces around here that are new anymore. Unshey's been taking this time to write a new book, and Khalid and Jaheira have been waiting anxiously in the corner over there, sleeping in shifts to make sure they don't miss whoever it is they're waiting for... Who else? Let's see, Landrin's on the top floor, drinking up a storm, and then there was... well, Tarnesh... I'm really sorry he caused you trouble—he was all wit and charm until he heard that there were visitors at the gate... We don't allow any fighting here. We have very strict rules about that sort of thing but the guards say he jumped out of the shadows at you and there was nothing you could do... That's really about it. Everyone else has been here for the past two months, at least. We're so full that there's even been talk of letting people throw down their bedrolls in the temple.~
+@10200 = ~最近在路上倒是很少看到新面孔，大概只有几个吧。昂谢是个作家，他在写一本新书；卡立德和贾希拉则待在那边的角落，睡都不敢睡，深怕错过他们正在等的人……还有谁？我瞧瞧，兰德琳在楼上喝酒，还有……呃，塔尼辛……真抱歉，他给你们制造了一堆麻烦……他以前很明理也很和善，直到听说博德之门来了些访客以后……我们店里禁止打架。我们对这方面规定蛮严的，不过守卫说是他突然偷袭你们，你们才不得不……这件事情就算了吧。这里的客人几乎都呆了至少两个月。我们的客人太多，听说有人在神殿打地铺呢。~
 
 
 // Item-related
-@11000 = ~Oh, before I forget, a travelling mage once offered me an assortment of enchanted tankards as payment for my services. I would gladly offer you one of them as a token of my gratitude for saving my business. Will you accept it?~
-@11001 = ~Yes, I will.~
-@11002 = ~Sorry, but I'm not interested.~
-@11003 = ~Just let me make some final adjustments... Here you go!~
-@11004 = ~Thank you. I'd like to see your services, please.~
-@11005 = ~Thank you. I'll be on my way.~
-@11006 = ~You don't know what you're missing. But I won't force you.~
+@11000 = ~啊，我差点忘了，有位巡游法师给了我一套魔法酒杯作为报酬，我很感激你挽救了我的生意，所以想送你一盏，你接受吗？~
+@11001 = ~好的，我接受。~
+@11002 = ~抱歉，我不感兴趣。~
+@11003 = ~那我最后再调整一下……好了给你！~
+@11004 = ~谢谢。我想看看你们有提供哪些服务。~
+@11005 = ~谢谢。我要走了。~
+@11006 = ~你不知道你错过了什么，不过我不会强求的。~

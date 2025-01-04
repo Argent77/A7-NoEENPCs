@@ -1,75 +1,75 @@
 // -*- coding: utf-8 -*-
 
-@50000 = ~This ring has been known to be in possession of a drow torturer of some repute. How he came to part with this ring or his current whereabouts are not known.
+@50000 = ~据说这枚戒指曾属于一个小有名气的卓尔拷问者，至于他怎么丢掉的这枚戒指，还有他目前的下落，则没人知道。
 
-STATISTICS:
+数据资料：
 
-Equipped abilities:
-- Damage penalty vs. genies: -5
-- THAC0 penalty vs. genies: -5
-- May only be removed with a Remove Curse spell
+装备能力：
+-伤害：-5（对抗巨灵时）
+-零级命中值：-5（对抗巨灵时）
+-只能通过“移除诅咒”法术来解除装备
 
-Charged ability once per day:
-- Random elemental damage to user
-- Chance to create a random gem in the user's inventory
+充能能力（每天一次）：
+-对使用者造成随机元素伤害
+-有机会在使用者物品栏内随机创造一颗宝石
 
-Weight: 0~
-@50001 = ~Sun Soul Monk~
-@50002 = ~These comfortable boots provide the wearer with exceptional arch support, allowing them to perform feats that would lead to crippling back pain in ordinary people.
+重量：0~
+@50001 = ~日魂武僧~
+@50002 = ~这双舒适的靴子为穿戴者提供了卓越的足弓支撑，使他们能够施展让普通人背痛难耐的技艺。
 
-STATISTICS:
+数据资料：
 
-Equipped abilities:
-– Armor Class: +2
+装备能力：
+-护甲等级：+2
 
-Weight: 1~
-@50003 = ~These polished bracers reflect harsh light into the eyes of the wearer's foes, distracting them from parrying incoming hits.
+重量：1~
+@50003 = ~这对抛光的护腕能把强光反射至穿戴者敌人的眼睛，让他们难以招架即将到来的的攻击。
 
-STATISTICS:
+数据资料：
 
-Equipped abilities:
-– THAC0: +2
+装备能力：
+-零级命中值：+2
 
-Weight: 1~
-@50004 = ~Corwin's Sling +2~
-@50005 = ~This enchanted sling enhances the wielder's dexterity, allowing them to aim more accurately. Moreover, its exceptionally balanced design helps the wielder to continue aiming at the target without the need to readjust their stance. When scoring a critical hit, the shot will explode into a shower of rock splinters that stuns the target for a short time.
+重量：1~
+@50004 = ~科温的投石索+2~
+@50005 = ~这个魔法投石索可增强持有者的敏捷，让他们更精准地命中目标。另外，它设计得非常稳定，持有者不需要调整姿态就可以持续瞄准目标。当打出致命一击时，弹丸会爆裂为大量碎石，并短暂震慑目标。
 
-Equipped abilities:
-– Dexterity: +1
-– Extra 1/2 attack per round
+装备能力：
+-敏捷：+1
+-每轮攻击次数+1/2
 
-Combat abilities:
-– On a critical hit, target is stunned for 3 rounds (Save vs. Death negates)
+战斗能力：
+-打出致命一击时，目标被震慑三轮（通过对死亡的豁免检定则无效）
 
-STATISTICS:
+数据资料：
 
-THAC0: +2
-Damage: +2
-Speed Factor: 4
-Proficiency Type: Sling
-Type: One-handed
-Requires:
- 3 Strength
+零级命中值：+2
+伤害：+2
+使用速度：4
+武器特长类别：投石索
+使用类别：单手
+需求：
+力量3
 
-Weight: 0~
+重量：0~
 
 // Modified version of BG1 strref 28299 and BG2 strref 93696
-@50006 = ~This ebony two-handed sword is covered with inscriptions that you cannot decipher. Individuals who are good of heart are overcome with feelings of guilt and anxiety when they hold this blade.
+@50006 = ~这把乌黑的双手剑上刻满你无法解读的咒文。心地善良者手持这把剑时会充满罪恶感和焦虑感。
 
-STATISTICS:
+数据资料：
 
-Combat abilities:
-– Any death that it causes has a chance to grant the wielder an increase of +1 to his to-hit rolls for 24 hours
+战斗能力：
+-任何它造成的死亡有机会在24小时内使持有者的命中掷骰+1
 
-THAC0: +1, +2 if it has slain someone within the past 24 hours
-Damage: 1d10+1 (slashing)
-Speed Factor: 9
-Proficiency Type: Two-handed Sword
-Type: Two-handed
-Requires: 
- 14 Strength
+零级命中值：+1，如果它在24小时内杀死某人则为+2
+伤害力：1d10+1（挥砍）
+使用速度：9
+武器特长类别：双手剑
+使用类别：双手
+需求：
+力量14
 
-Weight: 12~
+重量：12~
 
 // Modified version of BG2 strref 99908
 @50007 = ~Found amongst a random formation of rocks in the Windspear Hills, there's something about this smooth piece of wood that makes you think it's more than simply a stick. Perhaps it's the shape—though that's unlikely, as there are many similarly shaped sticks to be found under nearly any tree—or the way the bark has been removed and the surface carefully polished to a smooth finish. But most likely what's intriguing you about the stick is the way the air around it—and WITHIN it—glitters with an unnatural light. Yes, now that you think about it, the glittering is definitely what sets this apart from other, more mundane sticks. There's definitely something different... something fabulous... about this one.
