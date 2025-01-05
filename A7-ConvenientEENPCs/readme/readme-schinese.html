@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模组：增强版队友便利性调整</title>
+    <meta name="description" content="A mod for BG:EE, BG2:EE and EET (Enhanced Edition Trilogy) that allows you to tweak the Beamdog NPCs." />
+    <meta name="keywords" content="bgee, bg2ee, eet, mod, tweaks" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div><a name="top" id="top"></a></div>
+    <div id="language">
+      <ul>
+        <li><a href="readme.html">English</a></li>
+        <li title="French"><a href="readme-french.html">Français</a></li>
+        <li title="German"><a href="readme-german.html">Deutsch</a></li>
+        <li title="Polish"><a href="readme-polish.html">Polski</a></li>
+        <li title="Simplified Chinese">简体中文</li>
+      </ul>
+    </div>
+
+    <header>
+      <h1 class="title">增强版队友便利性调整</h1>
+      <div class="subtitle">适用于BG:EE、BG2:EE和EET的模组，允许你调整beamdog新增队友。</div>
+      <hr />
+      <p class="about"><strong>作者：Argent77</strong></p>
+      <ul id="globalnav" class="about">
+        <li><strong>下载</strong> (<a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>下载</strong> (<a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>)</li>
+        <li><strong>论坛</strong> (<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a>)</li>
+        <li><strong>论坛</strong> (<a href="https://forums.beamdog.com/discussion/43074">Beamdog</a>)</li>
+        <li><a href="https://github.com/Argent77/A7-NoEENPCs">项目</a></li>
+        <li>版本：4.6</li>
+      </ul>
+      <hr />
+      <nav>
+        <ul>
+          <li><a href="#overview">概述</a></li>
+          <li><a href="#compatibility">兼容性</a></li>
+          <li><a href="#installation">安装</a></li>
+          <li><a href="#components">组件</a></li>
+          <li><a href="#credits">致谢</a></li>
+          <li><a href="#changelog">版本历史</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================== I N T R O D U C T I O N ================== -->
+      <section id="overview">
+        <h2>概述</h2>
+        <p>本模组适用于BG:EE、BG2:EE和EET。</p>
+        <p>增强版新增队友与原版风格有些不同，可能并不符合每个人的口味。本模组提供了一些选项，可以让你按自己的舒适度调整。你可以让队友首次出现时表现得更加被动，从而对是否或何时与其接触有更多的控制权。少数事件将略有改变以实现此目的。</p>
+        <p>另外也可以简单的从游戏中移除一个或多个队友，这种情况下，他们的个人及任务物品可在商店购买、或作为战利品出现，从而让所有人都能使用。</p>
+        <p>另一个组件可以让你改善队友的肖像，或者按自己喜好改变他们的职业和宗派，具体详见下文。</p>
+        <hr class="spacer" />
+        <p>如有问题请访问<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS论坛</a>或<a href="https://forums.beamdog.com/discussion/43074">Beamdog论坛</a>，也可从<a href="http://www.shsforums.net/files/file/1135-disable-enhanced-edition-npcs/">Spellhold Studios</a>或<a href="https://github.com/Argent77/A7-NoEENPCs/releases/latest">GitHub</a>下载最新版本。</p>
+        <div class="back">
+          <a class="novisit" href="#top">回到顶部</a>
+        </div>
+      </section>
+
+      <!-- ================== C O M P A T I B I L I T Y ================== -->
+      <section id="compatibility">
+        <h2>兼容性</h2>
+        <p>“增强版队友便利性调整”应与现有的所有模组兼容，只要是不改变增强版队友起始位置和脚本的，均可以兼容。目前，只有Pecca的模组“EE_content_tweaks”已知会在BG:EE中干扰本模组，本模组将检查其是否已安装，如果检测到则拒绝安装相关组件。</p>
+        <p>本模组与《龙矛围攻》完全兼容，但是由于SoD中队友与剧情关联比较紧密，其调整选项将受到更多限制。</p>
+        <p><strong>重要提示：</strong>本模组4.0版包含多项结构性变化，请<u>勿</u>将其与本模组的早期版本（3.5或更早版本）一起安装！</p>
+        <div class="back">
+          <a class="novisit" href="#top">回到顶部</a>
+        </div>
+      </section>
+
+      <!-- ================== I N S T A L L A T I O N ================== -->
+      <section id="installation">
+        <h2>安装</h2>
+        <p>这是个WeiDU模组，安装过程非常简单，只需将下载的压缩包解压到游戏安装目录（"chitin.key"文件所在目录），运行<em>"setup-A7-ConvenientEENPCs.exe"</em> (Windows)或<em>"setup-A7-ConvenientEENPCs.command"</em> (macOS)，然后按照指令操作即可开始安装。</p>
+        <p>强烈建议安装本模组后重新开始游戏。</p>
+        <p>若要卸载，再次运行<em>"setup-A7-ConvenientEENPCs.exe"</em>或<em>"setup-A7-ConvenientEENPCs.command"</em>并按提示操作。</p>
+        <hr class="spacer" />
+        <h3>关于《龙矛围攻》（SoD）的说明</h3>
+        <p>GOG和Steam都以无法开箱即用的模式安装《龙矛围攻》扩展包。你必须先安装一个名为<a href="https://github.com/Argent77/A7-DlcMerger/releases/latest">DLC Merger</a>的模组，然后才能安装本模组或任何其他基于WeiDU的模组。</p>
+        <div class="back">
+          <a class="novisit" href="#top">回到顶部</a>
+        </div>
+      </section>
+
+      <!-- ================== C O M P O N E N T S ================== -->
+      <section id="components">
+        <h2>组件</h2>
+        <h4>类别：人物出场</h4>
+        <ol class="gappedlist">
+          <li>
+            <p><strong>修改增强版队友<em>(BG:EE、BG:SOD、BG2:EE和EET)</em></strong></p>
+            <ol>
+              <li>禁用所有队友：一次性禁用所有队友。</li>
+              <li>将所有队友设为被动：一次性将所有队友设为被动。</li>
+              <li>为每个队友单独决定：见下文。</li>
+            </ol>
+            <hr class="spacer" />
+            <p><strong>以下组件仅在选择子组件“为每个队友单独决定”时可用：</strong></p>
+          </li>
+          <li>
+            <p><strong>单独修改：贝洛斯</strong></p>
+            <ol>
+              <li>禁用贝洛斯<em>（仅限BG:EE和EET）</em>：本组件禁止贝洛斯在BG:EE中出现。（《死斗黑坑》和《龙矛围攻》不受影响。）</li>
+              <li>将贝洛斯设为被动<em>（仅限BG:EE和EET）</em>：本组件将贝洛斯出场动画减少到最低限度，并禁止其自行发起对话。</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>禁用多恩（BG:EE、BG:SOD、BG2:EE和EET）</strong></p>
+            <p>本组件禁止多恩在BG:EE、BG:SOD和BG2:EE中出现。</p>
+          </li>
+          <li>
+            <p><strong>单独修改：赫克赛特</strong></p>
+            <ol>
+              <li>禁用赫克赛特<em>（仅限BG2:EE和EET）</em>：本组件禁止赫克赛特及相关NPC在BG2:EE中出现。</li>
+              <li>将赫克赛特设为被动<em>（仅限BG2:EE和EET）</em>：本组件禁止赫克赛特自行发起对话。</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>单独修改：涅拉</strong></p>
+            <ol>
+              <li>禁用涅拉<em>（BG:EE、BG:SOD、BG2:EE和EET）</em>：本组件禁止涅拉在BG:EE、BG:SOD和BG2:EE中出现。</li>
+              <li>将涅拉设为被动<em>（BG:EE、BG2:EE和EET）</em>：在BG:EE中，本组件禁止涅拉自行发起对话。在BG2:EE中，本组件让涅拉的大桥区出场动画只能通过与她交谈触发，在市民谈论当地谋杀案后，可在红袍法师过场动画发生地附近找到她。</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>单独修改：拉萨德</strong></p>
+            <ol>
+              <li>禁用拉萨德<em>（BG:EE、BG:SOD、BG2:EE和EET）</em>：本组件禁止拉萨德在BG:EE、BG:SOD和BG2:EE中出现。</li>
+              <li>将拉萨德设为被动<em>（BG:EE、BG2:EE和EET）</em>：在BG:EE中，本组件禁止拉萨德在那西凯加入与杀手奈拉或宁博的战斗。在BG2:EE中，本组件让拉萨德的商贸集会出场动画只能通过与他交谈触发，可在喷泉附近找到他。</li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>让所有人都能使用队友专属物品</strong></p>
+            <p>本组件允许你获取已禁用队友的个人或任务物品，这些物品会分散在游戏各处的商店里、容器中或生物身上。重新安排后的物品如下：</p>
+            <p><strong>贝洛斯：</strong></p>
+            <ul>
+              <li>BG:EE：他的专属戒指可在博德之门“幸运艾罗的减价商店”中以很大的折扣买到，物品描述已修复。作为福利，我还修复了其充能能力中一个未激活的效果，让它的花费更值得一些。<em>注意：由于技术原因，如果已安装SoD则此戒指无效。</em></li>
+            </ul>
+            <p><strong>多恩：</strong></p>
+            <ul>
+              <li>BG:EE：多恩的个人武器，怨恨+1，可从铁王座顶层的加达叙身上得到。</li>
+              <li>BG:EE：法乐安的铠甲，现在由塔姆穿着，可在烛堡地下洞穴中找到他。</li>
+              <li>BG:EE：接镖手套，可在乌葛斯胡渣旅店购买。</li>
+              <li>BG:EE：恩斯特的黄金束带、精灵锁子甲和奥布林+1，都在贝尔苟斯特的雷锤铁匠铺。</li>
+              <li>BG:EE：法术防御护身符，在贝尔苟斯特的费尔德旅店。</li>
+              <li>BG2:EE：多恩的个人武器，怨恨+1，可从法拉赫身上得到，他在阿斯卡特拉大桥区的一个仓库里。</li>
+              <li>BG2:EE：闪耀之尘魔杖，藏在风矛之丘的一个容器里。</li>
+              <li>BG2:EE：黑暗之铠+1，可从一个守护通往地表世界之门的卓尔身上得到。</li>
+              <li>BG2:EE：银龙鳞片，可从艾达隆的尸体上得到，如果你决定攻击她的话。之后在ToB中塞斯潘纳可以用它打造东西。</li>
+              <li>BG2:EE：银龙鳞片，另外一种选择，可从观察者堡垒最底层、守护最终封印的“女猎人”身上得到。</li>
+              <li>BG2:EE：提尔神圣长剑+3，在观察者堡垒的迷宫层，更具体地来说，在必须击败恶魔缚灵的那个房间中。</li>
+              <li>BG2:EE：荣耀之盔+1，可在利博德·巴特门和商贸集会的一个商人处购买。</li>
+              <li>BG2:EE：暗影步法杖，可从安姆克萨蓝的赛蒙·哈瓦里安身上偷到。</li>
+              <li>BG2:EE：侦测药水，可在神殿区下水道的销赃罗杰和萨拉都什的菲兰修女处购买。</li>
+              <li>BG2:EE：深渊之剑，在索丹尼斯拉的拉米拉特身上。</li>
+              <li>BG2:EE：面具，在幽暗地域的狄摩高根雕像处完成献祭，从召唤出的恶魔武士身上得到。</li>
+              <li>BG2:EE：我还在游戏中增加了那把非常强大的“黄铜之刃+5”。这是多恩任务线的物品，但目前未启用。你可以从火巨人巢穴的贝理恩身上得到它。</li>
+            </ul>
+            <p><strong>赫克赛特：</strong></p>
+            <ul>
+              <li>BG2:EE：抗毒戒指，现在戴在麦瓦身上。</li>
+              <li>BG2:EE：靴子”消逝的耳语“，可在利博德·巴特门处购买。</li>
+              <li>BG2:EE：匕首”翡翠牙“，从幽暗地域归来后，在利博德的特别商店购买。</li>
+              <li>BG2:EE：保命护符，可在乌玛丘陵的暗影神殿里找到。</li>
+              <li>BG2:EE：短弓+3，从幽暗地域归来后，在北方森林一个盗贼身上。</li>
+            </ul>
+            <p><strong>涅拉：</strong></p>
+            <ul>
+              <li>BG:EE：涅拉的宝石袋，可在友善之臂旅店购买。</li>
+              <li>BG:EE：阿多伊的腰带，在贝尔苟斯特的费尔德旅店。</li>
+              <li>BG:EE：坚固皮甲+2，现在由卡多穿着，他和兄弟克姆要砍掉云雾峰-瀑布区域的一棵魔法树。</li>
+              <li>BG:EE：石肤术卷轴，在德奈克身上，你可以在拉斯森林东边的红袍法师秘密基地遇到他和其他的塞尔红袍法师。</li>
+              <li>BG2:EE：掘墓刀+2，可在阿斯卡特拉墓园区西北角的一个墓穴中找到。</li>
+              <li>BG2:EE：淬毒匕首+2，可从吉崔斯身上得到，他是麦瓦藏身处的一个影贼。</li>
+              <li>BG2:EE：阿多伊的腰带和聚能法袍，可在利博德·巴特门处购买。</li>
+              <li>BG2:EE：塞尔头环，在莱克·盖斯拉身上，他是麦瓦任务过程中必须杀掉的一个蒙面法师。</li>
+              <li>BG2:EE：战锤“砖头+2”和盲眼外衣，可在商贸集会的一个商人处购买。</li>
+              <li>BG2:EE：法鲁斯·卡奥之盾+2，从幽暗地域归来后，在利博德的特别商店购买。</li>
+              <li>BG2:EE：狂乱投石索+1，在渥金商场的弓箭商佩特处购买。</li>
+              <li>BG2:EE：鞭击魔杖，在神殿区下水道的夺心魔秘密巢穴中、被奴役的法师身上找到。</li>
+              <li>BG2:EE：木马项链，从德鲁伊圣林的凯蓝·林德身上得到。</li>
+              <li>BG2:EE：（主角名字）的酒杯，解决德鲁伊问题后，商贸集会的旅店老板维亚特利会把这个奇妙的物品作为礼物赠给你。</li>
+              <li>BG2:EE：中立大法师之袍，在观察者堡垒第一层的一个雕像守卫身上。</li>
+              <li>BG2:EE：卡兹拉之盾+4，在阿巴济戈的巢穴入口区域的飞龙人爱金·赛尔身上。</li>
+              <li>BG2:EE：巫妖斗篷，在安姆克萨蓝的马罗身上，可以偷窃，也可以从他的尸体上得到。</li>
+            </ul>
+            <p><strong>拉萨德：</strong></p>
+            <ul>
+              <li>BG:EE：月光行者，改为所有日魂武僧可用，可从那西凯的杀手奈拉身上得到。</li>
+              <li>BG:EE：闪光护腕，改为所有武僧可用，在那西凯嘉年华的一个商人处购买。</li>
+              <li>BG:EE：巨拳腰带，在杜拉格之塔的幽灵“骄傲”身上。</li>
+              <li>BG2:EE：月光行者，改为所有日魂武僧可用，在麦瓦公会的阿尼夏身上。</li>
+              <li>BG2:EE：闪光护腕，改为所有武僧可用，在渥金商场的武器商马赫处购买。</li>
+              <li>BG2:EE：牛尾腰带，在科瓦尔身上。他的同伴布雷格身上还有“霍迦的名气+1”，一把劣质附魔斧子。</li>
+              <li>BG2:EE：流浪剑客的胸针，在利博德·巴特门处购买。</li>
+              <li>BG2:EE：次级法术无效腰带，在沙华鱼人水下城市的依克索塞托柯尔国王身上。</li>
+              <li>BG2:EE：复制之戒，在影贼公会的黑市商人处购买。</li>
+              <li>BG2:EE：凶残投石索+2，在乌玛丘陵的艾兰丝·菲汀处购买。</li>
+              <li>BG2:EE：星辰斗篷，在瓦蕾莉亚身上，她在阿斯卡特拉大桥区的一个仓库里。</li>
+              <li>BG2:EE：弯刀“鹰眼+2”，在商贸集会的铁匠铺购买。</li>
+              <li>BG2:EE：必中斗篷，铜冠旅店的韩达克取代雷提南之后，找柏纳德购买。</li>
+              <li>BG2:EE：暗夜行者和附魔弯刀“日魂光束”，在卡希斯·阿尔海札处购买，可以在萨拉都什和废弃巴尔神殿之间的荒野中找到他。</li>
+              <li>BG2:EE：艾伦·泽克的铁手套，在神殿区守卫豪宅的欧勒夫·雷斯缪森身上。</li>
+              <li>BG2:EE：赎罪披风，在乌斯特·拿萨城的一个商人处购买。</li>
+              <li>BG2:EE：暗月披风，从幽暗地域归来后，在北方森林的希瑞克牧师身上。</li>
+              <li>BG2:EE：眼魔之眼头盔，杀死幽暗地域夺心魔巢穴的长老之脑得到。</li>
+              <li>BG2:EE：虔诚头带，在安姆克萨蓝帮助走私者卡拉斯后购买。</li>
+              <li>BG2:EE：真视宝石，在盲眼邪教首领迦尔身上。</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>凯拉·白银作为友军加入阿弗纳斯BOSS战（BG:SOD和EET）</strong></p>
+            <p>本组件让你可以控制作为友军加入战斗的凯拉·白银，可通过下列选项进一步定义她的行动模式：</p>
+            <ol>
+              <li><strong>队伍没有空余位置时作为可控跟随者加入：</strong>保持游戏原有方式，若队伍有空余位置，则让凯拉·白银作为普通队友加入。</li>
+              <li><strong>总是作为可控跟随者加入：</strong>即便队伍有空余位置，也不允许凯拉·白银加入队伍。此选项主要适用于想solo完成整个游戏的玩家。</li>
+            </ol>
+          </li>
+        </ol>
+        <h4>类别：肖像</h4>
+        <ol class="gappedlist" start="9">
+          <li>
+            <p><strong>变更肖像：贝洛斯</strong> (<a href="preview/baeloth-preview.jpg" target="_blank">预览</a>)</p>
+            <ol>
+              <li>替代版本：整个游戏变更为替代版本肖像。<em>（BG:EE和EET）</em></li>
+              <li>替代版本，仅BG2：仅BG2部分的贝洛斯肖像变更为替代版本。<em>（仅EET）</em></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更肖像：多恩</strong> (<a href="preview/dorn-preview.jpg" target="_blank">预览</a>)</p>
+            <ol>
+              <li>BG2风格版本：整个游戏变更为替代版本肖像。<em>（BG:EE、BG2:EE和EET）</em></li>
+              <li>BG2风格版本，仅BG2：仅BG2部分的多恩肖像变更为替代版本。 <em>（仅EET）</em></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更肖像：赫克赛特（BG2风格）</strong> (<a href="preview/clara_hexxat-preview.jpg" target="_blank">预览</a>)</p>
+            <p>赫克赛特肖像变更为替代版本。<em>（BG2:EE和EET）</em></p>
+          </li>
+          <li>
+            <p><strong>变更肖像：涅拉</strong> (<a href="preview/neera-preview.jpg" target="_blank">预览</a>)</p>
+            <ol>
+              <li>BG2风格版本：整个游戏变更为替代版本肖像。<em>（BG:EE、BG2:EE和EET）</em></li>
+              <li>BG2风格版本，仅BG2：仅BG2部分的涅拉肖像变更为替代版本。<em>（仅EET）</em></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更肖像：拉萨德</strong> (<a href="preview/rasaad-preview.jpg" target="_blank">预览</a>)</p>
+            <ol>
+              <li>BG2风格版本：整个游戏变更为替代版本肖像。<em>（BG:EE、BG2:EE和EET）</em></li>
+              <li>BG2风格版本，仅BG2：仅BG2部分的拉萨德肖像变更为替代版本。<em>（仅EET）</em></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>改进肖像：威尔逊</strong> (<a href="preview/wilson-preview.jpg" target="_blank">预览</a>)</p>
+            <p>为威尔逊安装改进版肖像。<em>（BG2:EE和EET）</em></p>
+          </li>
+        </ol>
+        <h4>类别：职业变更</h4>
+        <p><strong>注意：</strong>职业和宗派变更受限于队友的属性、技能和能力。他们的个人任务或对话不会相应改变，但个人装备可能会更新以符合新职业或宗派的要求。</p>
+        <ol class="gappedlist" start="15">
+          <li>
+            <p><strong>变更职业/宗派：贝洛斯<em>（BG:EE、SoD和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！ </em></p>
+              </li>
+              <li><p><strong>法师：</strong>重置等级为1，选择职业“法师”。</p></li>
+              <li><p><strong>防护师：</strong>重置等级为1，选择法师宗派“防护师”。</p></li>
+              <li><p><strong>咒法师：</strong>重置等级为1，选择法师宗派“咒法师”。</p></li>
+              <li><p><strong>预言师：</strong>重置等级为1，选择法师宗派“预言师”。</p></li>
+              <li><p><strong>附魔师：</strong>重置等级为1，选择法师宗派“附魔师”。</p></li>
+              <li><p><strong>幻术师：</strong>重置等级为1，选择法师宗派“幻术师”。</p></li>
+              <li><p><strong>塑能师：</strong>重置等级为1，选择法师宗派“塑能师”。</p></li>
+              <li><p><strong>死灵师：</strong>重置等级为1，选择法师宗派“死灵师”。</p></li>
+              <li><p><strong>转化师：</strong>重置等级为1，选择法师宗派“转化师”。</p></li>
+              <li><p><strong>狂乱法师：</strong>重置等级为1，选择法师宗派“狂乱法师”。</p></li>
+              <li><p><strong>龙脉术士：</strong>重置等级为1，选择术士宗派“龙脉术士”。</p></li>
+              <li><p><strong>Chaos Sorcerer：</strong>重置等级为1，选择自定义术士宗派"Chaos Sorcerer"。<em>（需要安装Argent77的模组"Chaos Sorcerer Kit"）</em></p></li>
+              <li><p><strong>Shadow Adept：</strong>重置等级为1，选择自定义法师宗派"Shadow Adept"。<em>（需要安装Artemius_I的模组"Shadow Magic"）</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：多恩<em>（BG:EE、SoD、BG2:EE和EET）</em></strong></p>
+            <ol>
+              <li><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</li>
+            </ol>
+            <p><em><strong>注意：</strong>多恩的个人任务与职业关联过于紧密，不允许任何职业变更。 </em></p>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：涅拉<em>（BG:EE、SoD、BG2:EE和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+                <p><em><strong>注意：</strong>涅拉在《巴尔王座》的任务线需要她在某个节点施展法术“那哈莽行咒” 以推进剧情。本组件放宽了这个限制，允许施展任意法术或类法术能力推进剧情，具体取决于所选职业和宗派。</em></p>
+              </li>
+              <li><p><strong>Chaos Sorcerer：</strong>重置等级为1，选择自定义术士宗派"Chaos Sorcerer"。 <em>（需要安装Argent77的模组"Chaos Sorcerer Kit"）</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：拉萨德<em>（BG:EE、SoD、BG2:EE和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+              </li>
+              <li><p><strong>武僧：</strong>重置等级为1，选择职业“武僧”。</p></li>
+              <li><p><strong>Silverstar of Selûne：</strong>重置等级为1，选择自定义牧师宗派"Silverstar of Selûne"。<em>（需要安装"Divine Remix"模组的"Silverstar of Selûne"组件）</em></p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：米金<em>（SoD和EET）</em></strong></p>
+            <ol>
+              <li><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</li>
+            </ol>
+            <p><em><strong>注意：</strong>由于米金种族的特殊性，不能变更她的初始职业。</em></p>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：格林特<em>（SoD和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+              </li>
+              <li><p><strong>牧师：</strong>重置等级为1，选择职业“牧师”。</p></li>
+              <li><p><strong>战士/牧师：</strong>重置等级为1，选择兼职组合“战士/牧师”。</p></li>
+              <li><p><strong>牧师/幻术师：</strong>重置等级为1，选择特殊兼职组合“牧师/幻术师”。</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：沃格林<em>（SoD和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+              </li>
+              <li><p><strong>吟游诗人：</strong>重置等级为1，选择职业“吟游诗人”。</p></li>
+              <li><p><strong>舞剑士：</strong>重置等级为1，选择吟游诗人宗派“舞剑士”。</p></li>
+              <li><p><strong>盗贼：</strong>重置等级为1，选择职业“盗贼”。</p></li>
+              <li><p><strong>游荡剑客：</strong>重置等级为1，选择盗贼宗派“游荡剑客”。</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：科温<em>（SoD和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+              </li>
+              <li><p><strong>游侠：</strong>重置等级为1，选择职业“游侠”。</p></li>
+              <li><p><strong>潜行者：</strong>重置等级为1，选择游侠宗派“潜行者”。</p></li>
+              <li><p><strong>战士：</strong>重置等级为1，选择职业“战士”。</p></li>
+              <li><p><strong>法师杀手：</strong>重置等级为1，选择战士宗派“法师杀手”。</p></li>
+              <li><p><strong>牧师：</strong>重置等级为1，选择职业“牧师”。</p></li>
+              <li><p><strong>提尔牧师：</strong>重置等级为1，选择牧师宗派“提尔牧师”。</p></li>
+              <li><p><strong>海姆牧师：</strong>重置等级为1，选择牧师宗派“海姆牧师”。</p></li>
+              <li><p><strong>圣武士：</strong>重置等级为1，选择职业“圣武士”。</p></li>
+              <li><p><strong>骑士：</strong>重置等级为1，选择圣武士宗派“骑士”。</p></li>
+              <li><p><strong>审判者：</strong>重置等级为1，选择圣武士宗派“审判者”。</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：赫克赛特<em>（BG2:EE和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+              </li>
+              <li><p><strong>刺客：</strong>重置等级为1，选择盗贼宗派“刺客”。</p></li>
+              <li><p><strong>影舞者：</strong>重置等级为1，选择盗贼宗派“影舞者”。</p></li>
+              <li><p><strong>法师/盗贼：</strong>重置等级为1，选择兼职组合“法师/盗贼”。</p></li>
+              <li><p><strong>法师/刺客：</strong>重置等级为1，选择特殊兼职组合“法师/刺客”。</p></li>
+              <li><p><strong>法师/影舞者：</strong>重置等级为1，选择特殊兼职组合“法师/影舞者”。</p></li>
+              <li><p><strong>死灵师/盗贼：</strong>重置等级为1，选择特殊兼职组合“死灵师/盗贼”。</p></li>
+              <li><p><strong>战士/盗贼：</strong>重置等级为1，选择兼职组合“战士/盗贼”。</p></li>
+              <li><p><strong>战士/刺客：</strong>重置等级为1，选择特殊兼职组合“战士/刺客”。</p></li>
+              <li><p><strong>战士/影舞者：</strong>重置等级为1，选择特殊兼职组合“战士/影舞者”。</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：克拉拉<em>（BG2:EE和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+              </li>
+              <li><p><strong>赏金猎人：</strong>重置等级为1，选择盗贼宗派“赏金猎人”。</p></li>
+              <li><p><strong>游荡剑客：</strong>重置等级为1，选择盗贼宗派“游荡剑客”。</p></li>
+              <li><p><strong>影舞者：</strong>重置等级为1，选择盗贼宗派“影舞者”。</p></li>
+              <li><p><strong>吟游诗人：</strong>重置等级为1，选择职业“吟游诗人”。</p></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>变更职业/宗派：凯拉·白银<em>（SoD和EET）</em></strong></p>
+            <ol>
+              <li><p><strong>仅重置等级：</strong>重置等级为1，职业/宗派不变。</p></li>
+              <li>
+                <p><strong>自选职业：</strong>你可以随意选择职业/宗派组合。</p>
+                <p><em><strong>注意：</strong>某些组合可能会破坏沉浸感或产生意外副作用，请谨慎使用！</em></p>
+              </li>
+              <li><p><strong>骑士：</strong>重置等级为1，选择圣武士宗派“骑士”。</p></li>
+              <li><p><strong>审判者：</strong>重置等级为1，选择圣武士宗派“审判者”。</p></li>
+              <li><p><strong>不死生物猎人：</strong>重置等级为1，选择圣武士宗派“不死生物猎人”。</p></li>
+            </ol>
+            <p><strong>注意：</strong>若安装这些选项，凯拉升级获得的法师或牧师法术将无法使用，因为队伍在阿弗纳斯没有机会休息并记忆法术。另外，如果让凯拉作为跟随者，你甚至根本不能让她升级。</p>
+          </li>
+        </ol>
+        <div class="back">
+          <a class="novisit" href="#top">回到顶部</a>
+        </div>
+      </section>
+
+      <!-- ================== C R E D I T S ================== -->
+      <section id="credits">
+        <h2>致谢</h2>
+        <p><strong>文本、代码、测试：</strong> <a href="http://www.shsforums.net/user/14985-argent77/">Argent77</a></p>
+        <p><strong>法语翻译：</strong>Gwendolyne, JohnBob</p>
+        <p><strong>波兰语翻译：</strong>Cahir, streetwraith</p>
+        <p><strong>俄语翻译：</strong>Arkie, RealApxu</p>
+        <p><strong>简体中文翻译：</strong>Esceen</p>
+        <p><strong>替代版角色肖像：</strong>Lava Del'Vortel, Argent77</p>
+        <p><strong>额外帮助：</strong>Lava Del'Vortel</p>
+        <hr class="spacer" />
+        <h3>版权声明：</h3>
+        <div class="important">
+          <div>
+            <a rel="license" id="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+            </a>
+          </div>
+          <p>"增强版队友便利性调整"采用<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享4.0国际许可协议</a>授权。</p>
+          <hr class="spacer" />
+          <p>《博德之门：增强版》、《龙矛围攻》和《博德之门Ⅱ：增强版》&copy; Beamdog.</p>
+        </div>
+        <div class="back">
+          <a class="novisit" href="#top">回到顶部</a>
+        </div>
+      </section>
+
+      <!-- ================== V E R S I O N   H I S T O R Y ================== -->
+      <section id="changelog">
+        <h2>版本历史</h2>
+        <h6>版本 4.6</h6>
+        <ul>
+          <li>增加了一个组件，可将SoD最终BOSS战中的盟友凯拉·白银变成可控跟随者</li>
+          <li>增加自定义凯拉·白银职业或宗派的选项</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 4.5</h6>
+        <ul>
+          <li>更新俄语翻译（感谢RealApxu）</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 4.4</h6>
+        <ul>
+          <li>为“让所有人都能使用队友专属物品”组件添加了更多队友专属物品，具体如下：
+            <ul>
+              <li>多恩：怨恨+1、法乐安的铠甲、闪耀之尘魔杖、黑暗之铠+1</li>
+              <li>赫克赛特：保命护符、短弓+3</li>
+              <li>涅拉：坚固皮甲+2、石肤术卷轴、掘墓刀+2、淬毒匕首+2、（主角名字）的酒杯、木马项链、中立大法师之袍、卡兹拉之盾+4、巫妖斗篷</li>
+            </ul>
+          </li>
+          <li>为Project Infinity添加了组件标签</li>
+          <li>修复贝洛斯在职业/宗派变更后的SoD剧情脚本：防止贝洛斯在出场动画中被杀死</li>
+          <li>修正EET中一条错误的BG1对话</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 4.3</h6>
+        <ul>
+          <li>改进BG2:EE中的涅拉被动组件</li>
+          <li>修复涅拉职业或宗派变更后的ToB任务进度问题</li>
+          <li>修复贝洛斯的戒指在BG:EE中的可用性问题</li>
+          <li>修复拉萨德装备“月光行者”和“闪光护腕”在BG2:EE中的可用性问题</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 4.2</h6>
+        <ul>
+          <li>增加了Project Infinity元数据</li>
+          <li>如果多恩已被禁用，则删除BGEE中的多恩引用</li>
+          <li>修复了WeiDU.log和Project Infinity中组件名称的显示问题</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 4.1</h6>
+        <ul>
+          <li>增加了俄语翻译（感谢Arkie）</li>
+          <li>修复组件“变更肖像：贝洛斯”的安装问题</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 4.0</h6>
+        <ul>
+          <li>模组名称改为“增强版队友便利性调整”</li>
+          <li>增加了变更所选队友职业或宗派的选项</li>
+          <li>增加了变更队友肖像的选项</li>
+          <li>为BG:EE增加了“被动拉萨德”组件</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 3.5</h6>
+        <ul>
+          <li>修复了EET中涅拉和拉萨德的一致性问题</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 3.4</h6>
+        <ul>
+          <li>增加了法语翻译（感谢Gwendolyne）</li>
+          <li>波兰语自述文件中的拼写和格式修正</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 3.3</h6>
+        <ul>
+          <li>重构模组架构，可基于每个队友设置为禁用或被动</li>
+          <li>增加了德语翻译</li>
+          <li>增加了波兰语翻译（感谢Cahir）</li>
+          <li>修复了EET中BG1被动涅拉组件的问题</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 3.2</h6>
+        <ul>
+          <li>增加了对《龙矛围攻》的支持</li>
+          <li>修正了BG2:EE中拉萨德被禁用依然会出现的bug</li>
+          <li>放宽了贝洛斯戒指的限制</li>
+          <li>各种小修复和改进</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 3.1</h6>
+        <ul>
+          <li>修复了组件“让所有人都能使用队友专属物品”中的错误检查</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 3.0</h6>
+        <ul>
+          <li>添加了新组件“让所有人都能使用队友专属物品”</li>
+          <li>提高与其他模组的兼容性（见兼容性部分）</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 2.1</h6>
+        <ul>
+          <li>修复了“被动涅拉”组件游戏中未检查的问题</li>
+          <li>内部结构调整</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 2.0</h6>
+        <ul>
+          <li>增加选项，禁止所有或个别队友自行发起对话或事件</li>
+        </ul>
+        <hr class="spacer" />
+        <h6>版本 1.0</h6>
+        <ul>
+          <li>初始版本</li>
+        </ul>
+        <div class="back">
+          <a class="novisit" href="#top">回到顶部</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
