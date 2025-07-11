@@ -52,7 +52,7 @@ END
 
 APPEND ~quayle~
 
-IF WEIGHT #-1 ~Global("a7_FreeWilson","GLOBAL",1)~ Quayle.FreeWilson.1
+IF WEIGHT #-1 ~Global("ohr_wilson_plot","GLOBAL",1) Global("a7_FreeWilson","GLOBAL",1) AreaCheck("AR0607") !NumTimesTalkedTo(0)~ Quayle.FreeWilson.1
   SAY #62059 /* Greetings, <GABBER>. I trust all is well? */
   ++ @10300 /* I have met Wilson, the bear. Could you please release him from his cage? */ + Quayle.FreeWilson.2
   ++ @10301 /* I wish to purchase the bear Wilson. Is he for sale? */ + Quayle.FreeWilson.3
@@ -79,10 +79,10 @@ END
 
 
 EXTEND_TOP ~qcirc01~ 0 1 2 3 4 5 6
-  + ~Global("a7_FreeWilson","GLOBAL",1) OR(2) !InMyArea("Quayle") !Allegiance("Quayle",NEUTRAL)~ + @10300 /* I have met Wilson, the bear. Could you please release him from his cage? */ + Worker.FreeWilson.1
-  + ~Global("a7_FreeWilson","GLOBAL",1) OR(2) !InMyArea("Quayle") !Allegiance("Quayle",NEUTRAL)~ + @10301 /* I wish to purchase the bear Wilson. Is he for sale? */ + Worker.FreeWilson.2
-  + ~Global("a7_FreeWilson","GLOBAL",1) InMyArea("Quayle") Allegiance("Quayle",NEUTRAL)~ + @10300 /* I have met Wilson, the bear. Could you please release him from his cage? */ + Worker.FreeWilson.10
-  + ~Global("a7_FreeWilson","GLOBAL",1) InMyArea("Quayle") Allegiance("Quayle",NEUTRAL)~ + @10301 /* I wish to purchase the bear Wilson. Is he for sale? */ + Worker.FreeWilson.10
+  + ~Global("a7_FreeWilson","GLOBAL",1) OR(3) !InMyArea("Quayle") !Allegiance("Quayle",NEUTRAL) !Global("Dead1xQBG","GLOBAL",0)~ + @10300 /* I have met Wilson, the bear. Could you please release him from his cage? */ + Worker.FreeWilson.1
+  + ~Global("a7_FreeWilson","GLOBAL",1) OR(3) !InMyArea("Quayle") !Allegiance("Quayle",NEUTRAL) !Global("Dead1xQBG","GLOBAL",0)~ + @10301 /* I wish to purchase the bear Wilson. Is he for sale? */ + Worker.FreeWilson.2
+  + ~Global("a7_FreeWilson","GLOBAL",1) InMyArea("Quayle") Allegiance("Quayle",NEUTRAL) Global("Dead1xQBG","GLOBAL",0)~ + @10300 /* I have met Wilson, the bear. Could you please release him from his cage? */ + Worker.FreeWilson.10
+  + ~Global("a7_FreeWilson","GLOBAL",1) InMyArea("Quayle") Allegiance("Quayle",NEUTRAL) Global("Dead1xQBG","GLOBAL",0)~ + @10301 /* I wish to purchase the bear Wilson. Is he for sale? */ + Worker.FreeWilson.10
 END
 
 APPEND ~qcirc01~
