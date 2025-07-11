@@ -1,0 +1,27 @@
+IF
+  Global("ohr_wilson_plot","GLOBAL",2)
+  Global("A7_FreeWilson)","AR0700",0)
+  AreaCheckObject("AR0700",Player1)
+THEN
+  RESPONSE #100
+    SetGlobal("A7_FreeWilson)","AR0700",1)
+    StartCutSceneMode()
+    ClearAllActions()
+    StartCutScene("a7_wcut1")
+END
+
+IF
+  OnCreation()
+  Global("ohr_wilson_plot","GLOBAL",3)
+  Global("A7_CagedCreatures)","AR0700",0)
+  Global("A7_WilsonCageForced","AR0700",0)
+  GlobalTimerExpired("A7_WilsonCagedTimer","AR0700")
+  // compatibility with Faldorn BG2EE
+  !Global("L#FaldornSceneryWauCag","GLOBAL",2)
+  !Global("L#FaldornSceneryWauCag","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobal("A7_CagedCreatures)","AR0700",1)
+    CreateCreatureImpassable("WAUKLEO",[2309.2325],S)
+    Continue()
+END

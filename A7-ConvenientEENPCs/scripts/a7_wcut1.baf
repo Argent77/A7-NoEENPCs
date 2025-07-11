@@ -1,0 +1,80 @@
+// Cutscene: Release Wilson from cage (after talking to circus workers)
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId("Wilson")
+    SetGlobalTimer("A7_WilsonCagedTimer","AR0700",EIGHT_HOURS)
+    FadeToColor([30.0],0)
+    Wait(2)
+    MoveViewPoint([2435.2407],INSTANT)
+    JumpToPoint([2435.2407])
+    DestroyItem("RIDRING")
+    Wait(1)
+    TriggerActivation("A7_WilsonTalk",FALSE)
+    PlaySound("AMB_D09")
+    Face(SE)
+    FadeFromColor([30.0],0)
+    Wait(2)
+    StartDialogNoSet(Player1)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    Wait(2)
+    JumpToPoint([2478.2445])
+    Face(NW)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player2)
+    Wait(2)
+    JumpToPoint([2487.2371])
+    Face(SW)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player3)
+    Wait(2)
+    JumpToPoint([2386.2450])
+    Face(NE)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player4)
+    Wait(2)
+    JumpToPoint([2534.2405])
+    Face(W)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player5)
+    Wait(2)
+    JumpToPoint([2529.2334])
+    Face(SW)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player6)
+    Wait(2)
+    JumpToPoint([2555.2456])
+    Face(NWW)
+END

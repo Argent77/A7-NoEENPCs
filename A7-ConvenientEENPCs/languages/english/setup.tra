@@ -26,6 +26,8 @@
 @203 = ~Make Neera passive~
 @204 = ~Make Rasaad passive~
 
+@220 = ~Move Wilson to Waukeen's Promenade~
+
 @301 = ~Make NPC-specific items available for everyone~
 
 @310 = ~Allied Caelar Argent in Avernus boss battle~
@@ -132,6 +134,7 @@
 @1010 = ~This component requires the mod "Shadow Magic" to be installed.~
 @1011 = ~This component requires the mod component "Divine Remix -> Silverstar of Selune" to be installed.~
 @1012 = ~Operation cancelled by the user.~
+@1013 = ~This component is only available if Rasaad has been disabled.~
 
 // Custom class selection
 @2000 = ~Current class: %cur_class_title% (%cur_class_name%), kit: %cur_kit_title% (%cur_kit_name%)~

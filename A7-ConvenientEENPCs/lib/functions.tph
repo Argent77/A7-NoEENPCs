@@ -881,3 +881,173 @@ BEGIN
     END
   END
 END
+
+
+/**
+ * Adds a new Door entry to the current WED file with optional tile mappings.
+ *
+ * INT_VAR num_tiles                  Number of tilemap entries
+ * INT_VAR tilemap_0, tilemap_1, ...  Tilemap index for each tilemapping definition
+ * INT_VAR tile_0, tile_1, ...        Secondary tile index for each tilemap definition
+ */
+DEFINE_PATCH_FUNCTION ADD_WED_DOOR
+INT_VAR
+  num_tiles = 0
+  // tilemap_0 = 0
+  // ...
+  // tile_0 = 2001
+  // ...
+STR_VAR
+  name = ~~
+BEGIN
+  SET tiles_added = 0
+  FOR (i = 0; i < num_tiles; ++i) BEGIN
+    PATCH_IF (VARIABLE_IS_SET $tilemap(~%i%~)) BEGIN
+      SET tiles_added += 1
+    END ELSE BEGIN
+      SET i = num_tiles
+    END
+  END
+
+  SET failed = 0
+  PATCH_IF (~%name%~ STR_EQ ~~) BEGIN
+    SET failed = 1
+    PATCH_WARN ~WARNING: Door name not specified~
+  END ELSE PATCH_IF (tiles_added < num_tiles) BEGIN
+    SET failed = 1
+    PATCH_WARN ~WARNING: Not enough tile indices defined (expected: %num_tiles%, found: %tiles_added%)~
+  END
+
+  PATCH_IF (NOT failed) BEGIN
+    SET size_tilemap = 10
+    SET size_tilemap_idx = 2
+    SET size_door = 26
+
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x18 ofs_doors
+
+    // calculating tileset index and polygon offsets for the new door
+    SET tilemap_index = 0
+    SET ofs_poly = 0
+    FOR (i = 0; i < num_doors; ++i) BEGIN
+      SET ofs = ofs_doors + i * size_door
+      READ_SHORT (ofs + 0x0a) first_index
+      READ_SHORT (ofs + 0x0c) num_indices
+      SET new_index = first_index + num_indices
+      PATCH_IF (new_index > tilemap_index) BEGIN
+        SET tilemap_index = new_index
+      END
+
+      READ_LONG (ofs + 0x12) new_ofs_poly
+      SET ofs_poly = (new_ofs_poly > ofs_poly) ? new_ofs_poly : ofs_poly
+      READ_LONG (ofs + 0x16) new_ofs_poly
+      SET ofs_poly = (new_ofs_poly > ofs_poly) ? new_ofs_poly : ofs_poly
+    END
+
+    // adding door structure
+    SET ofs_newdoor = ofs_doors + num_doors * size_door
+    INSERT_BYTES ofs_newdoor size_door
+    WRITE_ASCIIE (ofs_newdoor + 0x00) ~%name%~ (8) // door name
+    WRITE_SHORT (ofs_newdoor + 0x08) 1  // is door?
+    WRITE_SHORT (ofs_newdoor + 0x0a) tilemap_index
+    WRITE_SHORT (ofs_newdoor + 0x0c) num_tiles
+    WRITE_SHORT (ofs_newdoor + 0x12) ofs_poly
+    WRITE_SHORT (ofs_newdoor + 0x16) ofs_poly
+    SET num_doors += 1
+    WRITE_LONG 0x0c num_doors
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_door
+        offset = ofs_doors
+        ref_offset = 0x18 // doors offset
+    END
+
+    // adding tile mapping
+    READ_LONG 0x1c ofs_doortiles
+    SET ofs_newtiles = ofs_doortiles + tilemap_index * size_tilemap_idx
+    SET size_newtiles = num_tiles * size_tilemap_idx
+    INSERT_BYTES ofs_newtiles size_newtiles
+    FOR (i = 0; i < num_tiles; ++i) BEGIN
+      SET cur_ofs = ofs_newtiles + i * size_tilemap_idx
+      WRITE_SHORT cur_ofs $tilemap(~%i%~)
+    END
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_newtiles
+        offset = ofs_doortiles
+        ref_offset = 0x1c // door tilemap lookup offset
+    END
+
+    // updating secondary tile indices in overlay 0
+    READ_LONG 0x08 num_overlays
+    READ_LONG 0x10 ofs_overlays
+    PATCH_IF (num_overlays > 0) BEGIN
+      READ_LONG (ofs_overlays + 0x10) ofs_tilemap
+      READ_LONG (ofs_overlays + 0x14) ofs_tilemap_lookup
+      FOR (i = 0; i < num_tiles; ++i) BEGIN
+        PATCH_IF (VARIABLE_IS_SET $tile(~%i%~)) BEGIN
+          SET map_idx = $tilemap(~%i%~)
+          SET tile_idx = $tile(~%i%~)
+          READ_SHORT (ofs_tilemap_lookup + map_idx * size_tilemap_idx) tilemap_idx
+          SET ofs = ofs_tilemap + tilemap_idx * size_tilemap
+          WRITE_SHORT (ofs + 0x04) tile_idx
+        END
+      END
+    END
+  END
+END
+
+/**
+ * Updates all WED offsets based on specified parameters.
+ *
+ * INT_VAR size         Amount of data added (positive value) or removed (negative value) from the structure type referenced by "ref_offset".
+ * INT_VAR ref_offset   Absolute offset of field containing the offset of the structure type that changed size.
+ *                      This field and offset fields containing the same offset and are positioned before are excluded from the update.
+ */
+DEFINE_PATCH_FUNCTION __UPDATE_WED_OFFSETS
+INT_VAR
+  size = 0
+  ref_offset = 0
+BEGIN
+  PATCH_IF (size != 0 && ref_offset > 0) BEGIN
+    READ_LONG ref_offset offset
+
+    // main structure
+    PATCH_FOR_EACH ofs IN 0x10 0x14 0x18 0x1c BEGIN
+      WRITE_LONG ofs (THIS > offset || THIS == offset && ofs > ref_offset) ? THIS + size : THIS
+    END
+
+    READ_LONG 0x14 ofs_header2
+    PATCH_FOR_EACH ofs IN 0x04 0x08 0x0c 0x10 BEGIN
+      SET cur_ofs = ofs_header2 + ofs
+      WRITE_LONG cur_ofs (THIS > offset || THIS == offset && cur_ofs > ref_offset) ? THIS + size : THIS
+    END
+    
+    // overlays
+    READ_LONG 0x08 num_ovls
+    READ_LONG 0x10 ofs_ovls
+    FOR (i = 0; i < num_ovls; ++i) BEGIN
+      SET ofs_ovl = ofs_ovls + i * 24
+      PATCH_FOR_EACH ofs IN 0x10 0x14 BEGIN
+        SET cur_ofs = ofs_ovl + ofs
+        WRITE_LONG cur_ofs (THIS > offset || THIS == offset && cur_ofs > ref_offset) ? THIS + size : THIS
+      END
+    END
+
+    // doors
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x18 ofs_doors
+    READ_LONG 0x1c ofs_door_tilemap
+    FOR (i = 0; i < num_doors; ++i) BEGIN
+      SET ofs_door = ofs_doors + i * 26
+      PATCH_FOR_EACH ofs IN 0x12 0x16 BEGIN
+        SET cur_ofs = ofs_door + ofs
+        WRITE_LONG cur_ofs (THIS > offset || THIS == offset && cur_ofs > ref_offset) ? THIS + size : THIS
+      END
+    END
+  END
+END

@@ -1,0 +1,170 @@
+// Relocate Wilson from Rasaad's Dark Moon Heretic Temple map (OH4100) to Waukeen's Promenade (AR0700)
+
+INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+
+ACTION_FOR_EACH prefix IN ~a0700~ ~a0700n~ BEGIN
+  OUTER_FOR (i = 0; i < 100; ++i) BEGIN
+    ACTION_IF (i < 10) BEGIN
+      OUTER_SPRINT resref ~%prefix%0%i%~
+    END ELSE BEGIN
+      OUTER_SPRINT resref ~%prefix%%i%~
+    END
+    ACTION_IF (NOT FILE_EXISTS_IN_GAME ~%resref%.PVRZ~) BEGIN
+      ACTION_IF (~%prefix%~ STR_EQ ~a0700n~) BEGIN
+        OUTER_SET pvrz_index_night = i
+        OUTER_SPRINT pvrz_resref_night ~%resref%~
+      END ELSE BEGIN
+        OUTER_SET pvrz_index_day = i
+        OUTER_SPRINT pvrz_resref_day ~%resref%~
+      END
+      OUTER_SET i = 100
+    END
+  END
+END
+
+COPY_EXISTING ~%MOD_FOLDER%/graphics/a0700-cage-bars-day.pvrz~ ~override/%pvrz_resref_day%.pvrz~
+              ~%MOD_FOLDER%/graphics/a0700-cage-bars-night.pvrz~ ~override/%pvrz_resref_night%.pvrz~
+
+OUTER_SET map_w = 80
+OUTER_SET map_h = 60
+OUTER_SET block_x = 36
+OUTER_SET block_y = 35
+OUTER_SET block_w = 2
+OUTER_SET block_h = 2
+OUTER_SET num_blocks = block_w * block_h
+
+// Patching TIS
+COPY_EXISTING ~ar0700.tis~ ~override~
+              ~ar0700n.tis~ ~override~
+  PATCH_IF (~%SOURCE_RES%~ STR_EQ ~ar0700n~) BEGIN
+    SET pvrz_index = pvrz_index_night
+    SPRINT tile_array ~tile_night~
+  END ELSE BEGIN
+    SET pvrz_index = pvrz_index_day
+    SPRINT tile_array ~tile_day~
+  END
+  READ_LONG 0x08 num_tiles
+  READ_LONG 0x0c tile_size
+  PATCH_IF (tile_size != 0x0c) BEGIN
+    PATCH_FAIL ~Incompatible TIS file: %SOURCE_FILE%~
+  END
+  READ_LONG 0x10 ofs_tiles
+  FOR (i = 0; i < num_blocks; ++i) BEGIN
+    SET ofs = ofs_tiles + num_tiles * tile_size
+    SET x = (i MODULO block_w) * 64
+    SET y = (i / block_w) * 64
+    INSERT_BYTES ofs tile_size
+    WRITE_LONG (ofs + 0x00) pvrz_index
+    WRITE_LONG (ofs + 0x04) x
+    WRITE_LONG (ofs + 0x08) y
+    SET $EVAL ~%tile_array%~(~%i%~) = num_tiles
+    SET num_tiles += 1
+  END
+  WRITE_LONG 0x08 num_tiles
+BUT_ONLY
+
+// Patching WED
+ACTION_FOR_EACH resref IN ~ar0700~ ~ar0700n~ BEGIN
+  COPY_EXISTING ~%resref%.wed~ ~override~
+    PATCH_IF (~%SOURCE_RES%~ STR_EQ ~ar0700n~) BEGIN
+      SET pvrz_index = pvrz_index_night
+      SPRINT tile_array ~tile_night~
+    END ELSE BEGIN
+      SET pvrz_index = pvrz_index_day
+      SPRINT tile_array ~tile_day~
+    END
+
+    FOR (i = 0; i < num_blocks; ++i) BEGIN
+      SET tile_idx = $EVAL ~%tile_array%~(~%i%~)
+      SET $tile(~%i%~) = tile_idx
+      SET x = (i MODULO block_w)
+      SET y = (i / block_w)
+      SET tilemap_idx = (block_x + x) + (block_y + y) * map_w
+      SET $tilemap(~%i%~) = tilemap_idx
+    END
+
+    LPF ADD_WED_DOOR
+      INT_VAR
+        num_tiles = num_blocks
+      STR_VAR
+        name = ~A7_WCAGE~
+    END
+  BUT_ONLY
+END
+
+// Patching ARE
+COPY_EXISTING ~ar0700.are~ ~override~
+  // adding info region
+  LPF fj_are_structure
+    INT_VAR
+      fj_type = 1   // info
+      fj_box_left = 2216
+      fj_box_top = 2261
+      fj_box_right = 2384
+      fj_box_bottom = 2381
+      fj_cursor_idx = 18
+      fj_flags = BIT8 // deactivated
+      fj_loc_x = 2435
+      fj_loc_y = 2407
+      fj_vertex_0 = 2216 | (2329 << 16)
+      fj_vertex_1 = 2297 | (2381 << 16)
+      fj_vertex_2 = 2384 | (2314 << 16)
+      fj_vertex_3 = 2303 | (2261 << 16)
+    STR_VAR
+      fj_structure_type = ~region~
+      fj_name = ~A7_WilsonTalk~
+      fj_reg_script = ~A7_WTLK~
+  END
+
+  // adding door
+  LPF fj_are_structure
+    INT_VAR
+      fj_flags = BIT0 | BIT5 // open, cannot close
+      fj_open_box_left = "-1"
+      fj_open_box_top = "-1"
+      fj_open_box_right = 0
+      fj_open_box_bottom = 0
+      fj_closed_box_left = "-1"
+      fj_closed_box_top = "-1"
+      fj_closed_box_right = 0
+      fj_closed_box_bottom = 0
+      fj_cursor_idx = 30
+      fj_trap_loc_x = 2370
+      fj_trap_loc_y = 2306
+      fj_open_loc_x = 2370
+      fj_open_loc_y = 2306
+      fj_closed_loc_x = 2370
+      fj_closed_loc_y = 2306
+    STR_VAR
+      fj_structure_type = ~door~
+      fj_name = ~A7_WCAGE~
+      fj_door_wed_id = ~A7_WCAGE~
+      fj_door_open_wav = ~AMB_D09~
+      fj_door_close_wav = ~AMB_D09B~
+      fj_travel_trigger = ~~
+  END
+BUT_ONLY
+
+// Scripts
+COPY_EXISTING ~ar0700.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~CreateCreatureImpassable("WAUKLEO",\[[0-9]+\.[0-9]+\],[S0])~
+                      ~CreateCreatureImpassable("WILSON9",[2309.2325],S)
+                       ActionOverride("Wilson",CreateItem("RIDRING",0,0,0)
+                       ActionOverride("Wilson",XEquipItem("RIDRING",Myself,SLOT_BELT,EQUIP))
+                       TriggerActivation("A7_WilsonTalk",TRUE)~
+  END
+BUT_ONLY
+
+EXTEND_TOP ~ar0700.bcs~ ~%MOD_FOLDER%/scripts/ar0700-top.baf~
+
+COMPILE ~%MOD_FOLDER%/scripts/a7_wcut1.baf~
+        ~%MOD_FOLDER%/scripts/a7_wcut2.baf~
+        ~%MOD_FOLDER%/scripts/a7_wtlk.baf~
+
+// Dialogs
+OUTER_SET journal_10380 = RESOLVE_STR_REF(@10380)
+OUTER_SET journal_10381 = RESOLVE_STR_REF(@10381)
+OUTER_SET journal_10384 = RESOLVE_STR_REF(@10384)
+OUTER_SET journal_10385 = RESOLVE_STR_REF(@10385)
+COMPILE EVAL ~%MOD_FOLDER%/dialogs/wilson_bg2.d~

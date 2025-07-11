@@ -1,0 +1,25 @@
+// Trigger region: Talk to Wilson in cage
+IF
+  Clicked([ANYONE])
+  Allegiance(LastTrigger,PC)
+  Range(LastTrigger,12)
+THEN
+  RESPONSE #100
+    ActionOverride("Wilson",StartDialogNoSet(LastTrigger))
+END
+
+IF
+  Clicked([ANYONE])
+  !Range(LastTrigger,12)
+THEN
+  RESPONSE #100
+    DisplayStringHead(Myself,14702) // You are too far away to use that.
+END
+
+IF
+  Clicked([ANYONE])
+  !Allegiance(LastTrigger,PC)
+THEN
+  RESPONSE #100
+    NoAction()
+END

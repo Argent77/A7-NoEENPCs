@@ -13,6 +13,31 @@
 @10200 = ~With the roads being what they are right now, there aren't too many faces around here that are new anymore. Unshey's been taking this time to write a new book, and Khalid and Jaheira have been waiting anxiously in the corner over there, sleeping in shifts to make sure they don't miss whoever it is they're waiting for... Who else? Let's see, Landrin's on the top floor, drinking up a storm, and then there was... well, Tarnesh... I'm really sorry he caused you trouble—he was all wit and charm until he heard that there were visitors at the gate... We don't allow any fighting here. We have very strict rules about that sort of thing but the guards say he jumped out of the shadows at you and there was nothing you could do... That's really about it. Everyone else has been here for the past two months, at least. We're so full that there's even been talk of letting people throw down their bedrolls in the temple.~
 
 
+// Wilson - Circus
+@10300 = ~I have met Wilson, the bear. Could you please release him from his cage?~
+@10301 = ~I wish to purchase the bear Wilson. Is he for sale?~
+@10302 = ~Oh, he told you his name already? He must see something special in you.~
+@10303 = ~I wouldn't ordinarily part with any of our animals but I'll make an exception in your case. You have saved us from Kalah after all.~
+@10304 = ~I'm sorry, <GABBER>. None of our animals are for sale.~
+@10305 = ~But since you've saved the circus from Kalah's enslavement I'll make an exception.~
+@10306 = ~The bear is yours. He'll await you outside.~
+@10307 = ~You might want to discuss it with Quayle. He makes the decisions around here.~
+
+// Wilson
+@10350 = ~Be patient, Wilson! I promised to set you free.~
+@10351 = ~I could try to force the bars open.~
+@10352 = ~Wilson, you are free!~
+@10353 = ~(You cannot exert enough force to bend the bars to the side. They are too massive.)~
+
+// Wilson - Journal
+@10380 = ~A bear named Wilson is held caged by the circus on Waukeen's Promenade. I can honestly say Wilson is the most eloquent bear I've ever encountered.~
+@10381 = ~A bear named Wilson is held caged by the circus on Waukeen's Promenade. I can honestly say Wilson is the most eloquent bear I've ever encountered. I promised I would see him freed.~
+@10382 = ~The owner of the circus, Quayle, agreed to release Wilson from imprisonment. And he did so for free, in gratitude for saving him from Kalah's enslavement. I should tell Wilson immediately.~
+@10383 = ~The circus workers agreed to release Wilson from imprisonment. And they did so for free, in gratitude for saving them from Kalah's enslavement. I should tell Wilson immediately.~
+@10384 = ~I freed Wilson the bear. It seems that after his imprisonment, he feels more comfortable with me than he does alone.~
+@10385 = ~I freed Wilson the bear. It seems that after his imprisonment, he feels more comfortable with me than he does alone. I would like to take him with me, but it would be a selfish thing to do. He is safer in the wilderness outside of Athkatla.~
+
+
 // Item-related
 @11000 = ~Oh, before I forget, a travelling mage once offered me an assortment of enchanted tankards as payment for my services. I would gladly offer you one of them as a token of my gratitude for saving my business. Will you accept it?~
 @11001 = ~Yes, I will.~
