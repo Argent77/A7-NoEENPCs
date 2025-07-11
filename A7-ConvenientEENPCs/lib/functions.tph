@@ -91,6 +91,13 @@ BEGIN
           REPLACE_TEXTUALLY CASE_INSENSITIVE ~^[%TAB% ]*Global("bd_rasaad_spawn","bd7000",0)~ ~False()~
         END BUT_ONLY
     END
+
+    ACTION_IF (FILE_EXISTS_IN_GAME ~bd7100.bcs~) BEGIN
+      COPY_EXISTING ~bd7100.bcs~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY CASE_INSENSITIVE ~^[%TAB% ]*Global("bd_move_rasaad","bd7100",0)~ ~False()~
+        END BUT_ONLY
+    END
   END
 
   // BG2 portion
