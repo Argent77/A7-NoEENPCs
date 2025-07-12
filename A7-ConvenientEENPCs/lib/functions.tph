@@ -900,14 +900,8 @@ INT_VAR
 STR_VAR
   name = ~~
 BEGIN
-  SET tiles_added = 0
-  FOR (i = 0; i < num_tiles; ++i) BEGIN
-    PATCH_IF (VARIABLE_IS_SET $tilemap(~%i%~)) BEGIN
-      SET tiles_added += 1
-    END ELSE BEGIN
-      SET i = num_tiles
-    END
-  END
+  // validating parameters
+  LPF __VALIDATE_ARRAY INT_VAR count = num_tiles STR_VAR name = ~tilemap~ RET tiles_added = result END
 
   SET failed = 0
   PATCH_IF (~%name%~ STR_EQ ~~) BEGIN
@@ -922,15 +916,20 @@ BEGIN
     SET size_tilemap = 10
     SET size_tilemap_idx = 2
     SET size_door = 26
+    SET size_poly = 18
 
     READ_LONG 0x0c num_doors
+    READ_LONG 0x14 ofs_header2
     READ_LONG 0x18 ofs_doors
+    READ_LONG ofs_header2 num_wallpolys
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
 
     // calculating tileset index and polygon offsets for the new door
     SET tilemap_index = 0
-    SET ofs_poly = 0
+    SET ofs_poly = ofs_wallpolys + num_wallpolys * size_poly
     FOR (i = 0; i < num_doors; ++i) BEGIN
       SET ofs = ofs_doors + i * size_door
+      // tileset indices
       READ_SHORT (ofs + 0x0a) first_index
       READ_SHORT (ofs + 0x0c) num_indices
       SET new_index = first_index + num_indices
@@ -938,10 +937,13 @@ BEGIN
         SET tilemap_index = new_index
       END
 
-      READ_LONG (ofs + 0x12) new_ofs_poly
-      SET ofs_poly = (new_ofs_poly > ofs_poly) ? new_ofs_poly : ofs_poly
-      READ_LONG (ofs + 0x16) new_ofs_poly
-      SET ofs_poly = (new_ofs_poly > ofs_poly) ? new_ofs_poly : ofs_poly
+      // door polygon offsets
+      FOR (j = 0; j < 2; ++j) BEGIN
+        READ_SHORT (ofs + 0x0e + j * 2) next_poly_count
+        READ_LONG (ofs + 0x12 + j * 4) next_poly_ofs
+        SET next_poly_ofs += next_poly_count * size_poly
+        SET ofs_poly = (next_poly_ofs > ofs_poly) ? next_poly_ofs : ofs_poly
+      END
     END
 
     // adding door structure
@@ -951,8 +953,8 @@ BEGIN
     WRITE_SHORT (ofs_newdoor + 0x08) 1  // is door?
     WRITE_SHORT (ofs_newdoor + 0x0a) tilemap_index
     WRITE_SHORT (ofs_newdoor + 0x0c) num_tiles
-    WRITE_SHORT (ofs_newdoor + 0x12) ofs_poly
-    WRITE_SHORT (ofs_newdoor + 0x16) ofs_poly
+    WRITE_LONG (ofs_newdoor + 0x12) ofs_poly
+    WRITE_LONG (ofs_newdoor + 0x16) ofs_poly
     SET num_doors += 1
     WRITE_LONG 0x0c num_doors
 
@@ -960,7 +962,6 @@ BEGIN
     LPF __UPDATE_WED_OFFSETS
       INT_VAR
         size = size_door
-        offset = ofs_doors
         ref_offset = 0x18 // doors offset
     END
 
@@ -978,7 +979,6 @@ BEGIN
     LPF __UPDATE_WED_OFFSETS
       INT_VAR
         size = size_newtiles
-        offset = ofs_doortiles
         ref_offset = 0x1c // door tilemap lookup offset
     END
 
@@ -1002,19 +1002,50 @@ BEGIN
 END
 
 /**
+ * Validates the number of array elements.
+ *
+ * INT_VAR count  Min. number of expected array elements.
+ * STR_VAR name   Name of the array.
+ * RET result     Determined number of array elements.
+ */
+DEFINE_PATCH_FUNCTION __VALIDATE_ARRAY
+INT_VAR
+  count = 0
+STR_VAR
+  name = ~~
+RET
+  result
+BEGIN
+  SET result = 0
+  FOR (i = 0; i < count; ++i) BEGIN
+    PATCH_IF (VARIABLE_IS_SET $EVAL ~%name%~(~%i%~)) BEGIN
+      SET result += 1
+    END ELSE BEGIN
+      SET i = count
+    END
+  END
+END
+
+/**
  * Updates all WED offsets based on specified parameters.
  *
  * INT_VAR size         Amount of data added (positive value) or removed (negative value) from the structure type referenced by "ref_offset".
+ * INT_VAR offset       (Optional) Offset value to compare against. (Default: determine from "ref_offset")
  * INT_VAR ref_offset   Absolute offset of field containing the offset of the structure type that changed size.
  *                      This field and offset fields containing the same offset and are positioned before are excluded from the update.
+ * INT_VAR is_poly      Indicates whether a doorpoly structure has been added or removed.
  */
 DEFINE_PATCH_FUNCTION __UPDATE_WED_OFFSETS
 INT_VAR
   size = 0
+  offset = "-1"
   ref_offset = 0
+  is_poly = 0
 BEGIN
   PATCH_IF (size != 0 && ref_offset > 0) BEGIN
-    READ_LONG ref_offset offset
+    PATCH_IF (offset < 0) BEGIN
+      READ_LONG ref_offset offset
+    END
 
     // main structure
     PATCH_FOR_EACH ofs IN 0x10 0x14 0x18 0x1c BEGIN
@@ -1022,9 +1053,10 @@ BEGIN
     END
 
     READ_LONG 0x14 ofs_header2
+    SET ref_offset2 = is_poly ? ofs_header2 + 0x04 : 0x7fffffff
     PATCH_FOR_EACH ofs IN 0x04 0x08 0x0c 0x10 BEGIN
       SET cur_ofs = ofs_header2 + ofs
-      WRITE_LONG cur_ofs (THIS > offset || THIS == offset && cur_ofs > ref_offset) ? THIS + size : THIS
+      WRITE_LONG cur_ofs (THIS > offset || THIS == offset && (cur_ofs > ref_offset || cur_ofs > ref_offset2)) ? THIS + size : THIS
     END
     
     // overlays
