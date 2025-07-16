@@ -26,6 +26,8 @@
 @203 = ~Neera bleibt passiv~
 @204 = ~Rasaad bleibt passiv~
 
+@220 = ~Wilson nach Waukeens Promenade versetzen~
+
 @301 = ~NSC-spezifische Gegenstaende allen zugaenglich machen~
 
 @310 = ~Verbuendete Caelar Argent im Endkampf in Avernus~
@@ -132,6 +134,7 @@
 @1010 = ~Diese Komponente benoetigt die Modifikation "Shadow Magic".~
 @1011 = ~Diese Komponente benoetigt die Mod-Komponente "Divine Remix -> Silberstern der Selune".~
 @1012 = ~Vorgang wurde vom Nutzer abgebrochen.~
+@1013 = ~Diese Komponente ist nur verfuegbar, wenn Rasaad deaktiviert wurde.~
 
 // Custom class selection
 @2000 = ~Aktuelle Klasse: %cur_class_title% (%cur_class_name%), Kit: %cur_kit_title% (%cur_kit_name%)~

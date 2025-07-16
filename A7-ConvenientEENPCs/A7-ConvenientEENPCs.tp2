@@ -57,6 +57,9 @@ LANGUAGE  ~Russian (translation: Arkie)~
           ~A7-ConvenientEENPCs/languages/russian/dialog.tra~
 LANGUAGE  ~Simplified Chinese (translation: Esceen)~
           ~schinese~
+          ~A7-ConvenientEENPCs/languages/english/setup.tra~
+          ~A7-ConvenientEENPCs/languages/english/misc.tra~
+          ~A7-ConvenientEENPCs/languages/english/dialog.tra~
           ~A7-ConvenientEENPCs/languages/schinese/setup.tra~
           ~A7-ConvenientEENPCs/languages/schinese/misc.tra~
           ~A7-ConvenientEENPCs/languages/schinese/dialog.tra~
@@ -233,6 +236,21 @@ BEGIN @204  // Make Rasaad passive
 
   INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
   LAF A7PassiveRasaad END
+
+
+//////////////////////////////////////////////
+//    Move Wilson to Waukeen's Promenade    //
+//////////////////////////////////////////////
+
+BEGIN @220  // Move Wilson to Waukeen's Promenade
+  REQUIRE_PREDICATE (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) ||
+                    (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 105) @1013  // This component is only available if Rasaad has been disabled.
+  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @1002   // This component requires either BG2:EE or EET to be installed.
+  GROUP @50 // Appearance
+  DESIGNATED 220
+  LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-WILSON_RELOCATED~
+
+  INCLUDE ~%MOD_FOLDER%/lib/wilson_relocate.tph~
 
 
 //////////////////////////////////////////////////////////

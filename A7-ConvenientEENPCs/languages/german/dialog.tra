@@ -13,6 +13,31 @@
 @10200 = ~So, wie die Straßen im Moment aussehen, sieht man hier nicht mehr so viele davon. Unshey hat die Zeit genutzt, um ein neues Buch zu schreiben, und dann kamen in letzter Zeit Khalid und Jaheira und warteten unruhig in der Ecke da drüben. In Schichten haben sie geschlafen, damit sie ja diejenigen nicht verpassen, auf die sie warten … Wen haben wir sonst noch? Mal seh'n, Landrin wohnt im obersten Stock und säuft wie ein Loch, und dann war da noch … nun, Tarnesh … Tut mir wirklich leid, dass er Euch Probleme bereitet hat. Er war überaus witzig und freundlich, bis er hörte, dass Besucher am Tor sind … Wir dulden hier keine Kämpfe. Wir haben diesbezüglich strenge Vorschriften, doch die Wachen sagen, er hat Euch aus dem Schatten heraus angesprungen, ohne dass Ihr etwas dagegen tun konntet … Das ist so ziemlich alles. Alle anderen sind mindestens seit zwei Monaten hier. Wir sind so überfüllt, dass einige schon meinten, die Leute sollten mit ihrem zusammengerollten Bettzeug in den Tempel gehen.~
 
 
+// Wilson - Circus
+@10300 = ~Ich habe Wilson, den Bär, kennengelernt. Könntet Ihr ihn bitte aus seinem Käfig freilassen?~
+@10301 = ~Ich möchte diesen Bären gern kaufen. Ist er verkäuflich?~
+@10302 = ~Oh, er hat Euch bereits seinen Namen verraten? Er muss in Euch etwas besonderes erkannt haben.~
+@10303 = ~Normalerweise würde ich mich von keinen unserer Tiere trennen, aber in Eurem Fall mache ich mal eine Ausnahme. Ihr habt uns schließlich vor Kalah gerettet.~
+@10304 = ~Es tut mir Leid, <GABBER>. Unsere Tiere sind nicht verkäuflich.~
+@10305 = ~Aber da Ihr uns vor Kalahs Verknechtung bewahrt habt, mach ich mal eine Ausnahme.~
+@10306 = ~Der Bär gehört Euch. Er wartet draußen auf Euch.~
+@10307 = ~Das solltet Ihr besser mit Quayle besprechen. Er trifft hier alle Entscheidungen.~
+
+// Wilson
+@10350 = ~Habt Geduld, Wilson! Ich versprach doch, Euch zu befreien.~
+@10351 = ~Ich könnte versuchen, die Gitterstäbe mit Gewalt zu öffnen.~
+@10352 = ~Wilson, Ihr seid frei!~
+@10353 = ~(Ihr könnt nicht genug Kraft aufbringen, um die Gitterstäbe zur Seite zu biegen. Sie sind dafür zu massiv.)~
+
+// Wilson - Journal
+@10380 = ~Ein Bär mit dem Namen Wilson wird auf Waukeens Promenade in einem Käfig gefangen gehalten. Ich muss ehrlich sagen, Wilson ist der wortgewandteste Bär, dem ich jemals begegnete.~
+@10381 = ~Ein Bär mit dem Namen Wilson wird auf Waukeens Promenade in einem Käfig gefangen gehalten. Ich muss ehrlich sagen, Wilson ist der wortgewandteste Bär, dem ich jemals begegnete. Ich versprach ihm die Freiheit.~
+@10382 = ~Der Zirkusbesitzer Quayle erklärte sich bereit, Wilson aus seiner Gefangenschaft zu befreien. Als Dank für die Rettung des Zirkus tat er dies sogar ohne weitere Gegenleistung. Das sollte ich sofort Wilson mitteilen.~
+@10383 = ~Die Zirkusangehörigen erklärten sich bereit, Wilson aus seiner Gefangenschaft zu befreien. Als Dank für die Rettung des Zirkus taten sie dies sogar ohne weitere Gegenleistung. Das sollte ich sofort Wilson mitteilen.~
+@10384 = ~Wilson ist frei. Es scheint, dass er sich nach seiner Gefangenschaft in meiner Gesellschaft wohler fühlt, als allein draußen in der Wildnis.~
+@10385 = ~Wilson ist frei. Es scheint, dass er sich nach seiner Gefangenschaft in meiner Gesellschaft wohler fühlt, als allein draußen in der Wildnis. Ich würde ihn gerne mit mir nehmen, doch dies wäre selbstsüchtig. In der Wildnis außerhalb von Athkatla ist er sicherer.~
+
+
 // Item-related
 @11000 = ~Oh, bevor ich es vergesse, ein reisender Magier bot mir einmal ein Sortiment von verzauberten Krügen als Bezahlung für meine Dienste an. Ich möchte Euch gerne einen davon als Zeichen meiner Dankbarkeit für die Rettung meiner Geschäfte überreichen. Werdet Ihr ihn annehmen?~
 @11001 = ~Aber ja, natürlich.~
