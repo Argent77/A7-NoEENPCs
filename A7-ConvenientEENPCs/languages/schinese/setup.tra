@@ -26,6 +26,8 @@
 @203 = ~将涅拉设为被动~
 @204 = ~将拉萨德设为被动~
 
+@220 = ~将威尔逊移至渥金商场~
+
 @301 = ~让所有人都能使用队友专属物品~
 
 @310 = ~凯拉·白银作为友军加入阿弗纳斯BOSS战~
@@ -132,6 +134,7 @@
 @1010 = ~本组件需要模组“Shadow Magic”。~
 @1011 = ~本组件需要模组“Divine Remix”的组件“Silverstar of Selune”。~
 @1012 = ~用户取消操作。~
+@1013 = ~本组件仅在拉萨德被禁用时可用。~
 
 // Custom class selection
 @2000 = ~当前职业：%cur_class_title%（%cur_class_name%），宗派：%cur_kit_title%（%cur_kit_name%）~

@@ -13,6 +13,31 @@
 @10200 = ~鉴于目前道路的状况，这里已经很少有新面孔了。昂谢一直在利用这段时间写一本新书，而卡立德和贾希拉则在那边的角落焦急地等待着，轮流睡觉以确保不会错过他们在等的人……还有谁？让我想想，兰德琳在顶层大喝特喝，然后是……嗯，塔尼辛……我真的很抱歉他给你带来了麻烦——他本来很明理也很和善，直到听说门口有访客……我们这里不允许任何打斗。我们对此类事情有非常严格的规定，但警卫说他从阴影中跳出来对你动手，你根本无法避免……这就是全部了。其他人都在这里待了至少两个月了。我们这里人满为患，甚至有人提议让人们在神殿里打地铺。~
 
 
+// Wilson - Circus
+@10300 = ~I have met Wilson, the bear. Could you please release him from his cage?~
+@10301 = ~I wish to purchase the bear Wilson. Is he for sale?~
+@10302 = ~Oh, he told you his name already? He must see something special in you.~
+@10303 = ~I wouldn't ordinarily part with any of our animals but I'll make an exception in your case. You have saved us from Kalah after all.~
+@10304 = ~I'm sorry, <GABBER>. None of our animals are for sale.~
+@10305 = ~But since you've saved the circus from Kalah's enslavement I'll make an exception.~
+@10306 = ~The bear is yours. He'll await you outside.~
+@10307 = ~You might want to discuss it with Quayle. He makes the decisions around here.~
+
+// Wilson
+@10350 = ~Be patient, Wilson! I promised to set you free.~
+@10351 = ~I could try to force the bars open.~
+@10352 = ~Wilson, you are free!~
+@10353 = ~(You cannot exert enough force to bend the bars to the side. They are too massive.)~
+
+// Wilson - Journal
+@10380 = ~A bear named Wilson is held caged by the circus on Waukeen's Promenade. I can honestly say Wilson is the most eloquent bear I've ever encountered.~
+@10381 = ~A bear named Wilson is held caged by the circus on Waukeen's Promenade. I can honestly say Wilson is the most eloquent bear I've ever encountered. I promised I would see him freed.~
+@10382 = ~The owner of the circus, Quayle, agreed to release Wilson from imprisonment. And he did so for free, in gratitude for saving him from Kalah's enslavement. I should tell Wilson immediately.~
+@10383 = ~The circus workers agreed to release Wilson from imprisonment. And they did so for free, in gratitude for saving them from Kalah's enslavement. I should tell Wilson immediately.~
+@10384 = ~I freed Wilson the bear. It seems that after his imprisonment, he feels more comfortable with me than he does alone.~
+@10385 = ~I freed Wilson the bear. It seems that after his imprisonment, he feels more comfortable with me than he does alone. I would like to take him with me, but it would be a selfish thing to do. He is safer in the wilderness outside of Athkatla.~
+
+
 // Item-related
 @11000 = ~啊，我差点忘了，有位巡游法师给了我一套魔法酒杯作为报酬，我很感激你挽救了我的生意，所以想送你一盏，你接受吗？~
 @11001 = ~好的，我接受。~
