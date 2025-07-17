@@ -14,28 +14,28 @@
 
 
 // Wilson - Circus
-@10300 = ~I have met Wilson, the bear. Could you please release him from his cage?~
-@10301 = ~I wish to purchase the bear Wilson. Is he for sale?~
-@10302 = ~Oh, he told you his name already? He must see something special in you.~
-@10303 = ~I wouldn't ordinarily part with any of our animals but I'll make an exception in your case. You have saved us from Kalah after all.~
-@10304 = ~I'm sorry, <GABBER>. None of our animals are for sale.~
-@10305 = ~But since you've saved the circus from Kalah's enslavement I'll make an exception.~
-@10306 = ~The bear is yours. He'll await you outside.~
-@10307 = ~You might want to discuss it with Quayle. He makes the decisions around here.~
+@10300 = ~我见过威尔逊了，那头熊。你可以把他从笼子里放出来吗？~
+@10301 = ~我想买下那头熊威尔逊，卖不卖？~
+@10302 = ~哦，他都告诉你名字了？想必是看到了你的特别之处。~
+@10303 = ~我一般不会抛弃我们的动物，但你的情况是个例外，毕竟是你从卡拉手中救了我们。~
+@10304 = ~抱歉，<GABBER>。我们的动物不卖。~
+@10305 = ~但既然是你救了我们，让我们不再受卡拉的奴役，我会把这次作为一个例外。~
+@10306 = ~那头熊是你的了，他会在外面等你。~
+@10307 = ~你可能要跟奎里谈谈，在这儿是他说了算。~
 
 // Wilson
-@10350 = ~Be patient, Wilson! I promised to set you free.~
-@10351 = ~I could try to force the bars open.~
-@10352 = ~Wilson, you are free!~
-@10353 = ~(You cannot exert enough force to bend the bars to the side. They are too massive.)~
+@10350 = ~耐心点，威尔逊！我承诺会给你自由。~
+@10351 = ~我可以试试把围栏拉开。~
+@10352 = ~威尔逊，你自由了！~
+@10353 = ~（你的力量不足以把围栏拉弯到边上，它太厚重了。）~
 
 // Wilson - Journal
 @10380 = ~一头叫威尔逊的熊被渥金商场的马戏团抓住了。我可以坦白说威尔逊是我遇见过的最令人动心的熊。~
 @10381 = ~一头叫威尔逊的熊被渥金商场的马戏团抓住了。我可以坦白说威尔逊是我遇见过的最令人动心的熊。我承诺会放他自由。~
-@10382 = ~The owner of the circus, Quayle, agreed to release Wilson from imprisonment. And he did so for free, in gratitude for saving him from Kalah's enslavement. I should tell Wilson immediately.~
-@10383 = ~The circus workers agreed to release Wilson from imprisonment. And they did so for free, in gratitude for saving them from Kalah's enslavement. I should tell Wilson immediately.~
-@10384 = ~I freed Wilson the bear. It seems that after his imprisonment, he feels more comfortable with me than he does alone.~
-@10385 = ~I freed Wilson the bear. It seems that after his imprisonment, he feels more comfortable with me than he does alone. I would like to take him with me, but it would be a selfish thing to do. He is safer in the wilderness outside of Athkatla.~
+@10382 = ~马戏团的拥有者奎里同意释放威尔逊，由于我从卡拉的奴役中救了他，出于感激他什么都没要求。我应该马上告诉威尔逊这个消息。~
+@10383 = ~马戏团的工作人员同意释放威尔逊，由于我从卡拉的奴役中救了他们，出于感激他们什么都没要求。我应该马上告诉威尔逊这个消息。~
+@10384 = ~我释放了一头叫威尔逊的熊。不再被囚禁后，他似乎更喜欢跟我在一起，而不是独自行动。~
+@10385 = ~我释放了一头叫威尔逊的熊。不再被囚禁后，他似乎更喜欢跟我在一起，而不是独自行动。虽然我也想带上他，但那样太自私了，他在阿斯卡特拉外面的荒野中会更安全。~
 
 
 // Item-related
