@@ -1,6 +1,6 @@
 // Relocate Wilson from Rasaad's Dark Moon Heretic Temple map (OH4100) to Waukeen's Promenade (AR0700)
 
-INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/a7_wed_lib.tph~
 
 ACTION_FOR_EACH prefix IN ~a0700~ ~a0700n~ BEGIN
   OUTER_FOR (i = 0; i < 100; ++i) BEGIN
@@ -81,13 +81,14 @@ ACTION_FOR_EACH resref IN ~ar0700~ ~ar0700n~ BEGIN
       SET y = (i / block_w)
       SET tilemap_idx = (block_x + x) + (block_y + y) * map_w
       SET $tilemap(~%i%~) = tilemap_idx
+      SET $tilemap(~%i%~ ~swap~) = 1
     END
 
     LPF ADD_WED_DOOR
       INT_VAR
-        num_tiles = num_blocks
+        num_tilemaps = num_blocks
       STR_VAR
-        name = ~A7_WCAGE~
+        door_name = ~A7_WCAGE~
     END
   BUT_ONLY
 END
@@ -119,7 +120,7 @@ COPY_EXISTING ~ar0700.are~ ~override~
   // adding door
   LPF fj_are_structure
     INT_VAR
-      fj_flags = BIT0 | BIT5 // open, cannot close
+      fj_flags = BIT5 // cannot close
       fj_open_box_left = "-1"
       fj_open_box_top = "-1"
       fj_open_box_right = 0

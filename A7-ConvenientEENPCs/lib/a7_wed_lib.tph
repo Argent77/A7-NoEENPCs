@@ -1,0 +1,2695 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// A library for patching WED resources
+//
+// Author:  Argent77
+// License: MIT
+// Date:    2025-07-20
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+OUTER_SPRINT WED_LIB_VERSION ~1.0~
+
+/**
+ * An action function that creates an empty WED file with 5 predefined empty overlay structures.
+ *
+ * INT_VAR silent   Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR resref   Resource reference of the resulting WED file. Length must not exceed 8 characters.
+ * STR_VAR path     Destination folder for WED file. (Default: "override")
+ * RET success      Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_ACTION_FUNCTION CREATE_WED
+
+/**
+ * A patch function that checks whether WED offsets are valid and in the correct order.
+ *
+ * INT_VAR silent   Specify 1 to suppress any feedback messages. (Default: 0)
+ * RET success      Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION VALIDATE_WED_OFFSETS
+
+/**
+ * A patch function that rebuilds the wallgroups section in the current WED file.
+ * This function should be called whenever wall polygons have been added or modified.
+ *
+ * INT_VAR silent         Specify 1 to suppress any feedback messages. (Default: 0)
+ * RET success            Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION UPDATE_WED_WALLGROUPS
+
+/**
+ * A patch function that adds a new wall polygon to the current WED file.
+ *
+ * INT_VAR flags                    Polygon flags. (Default: 0)
+ * INT_VAR height                   Polygon height: (Default: -1)
+ * INT_VAR num_vertices             Number of vertices to add. Omit to autodetect vertex entries.
+ * INT_VAR vertex_0, vertex_1, ...  Array "vertex" with "num_vertices" vertex coordinates,
+ *                                  as "X coordinate | (Y coordinate << 16)".
+ * INT_VAR silent                   Specify 1 to suppress any feedback messages. (Default: 0)
+ * RET success                      Returns 1 if the operation was successful, 0 otherwise.
+ * RET offset                       Returns the offset of the added wall polygon if successful, -1 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION ADD_WED_WALL_POLY
+
+/**
+ * A patch function that removes a wall polygon from the current WED file.
+ *
+ * INT_VAR polygon_index    Index of the wall polygon structure to remove.
+ * INT_VAR silent           Specify 1 to suppress any feedback messages. (Default: 0)
+ * RET success              Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION REMOVE_WED_WALL_POLY
+
+/**
+ * A patch function that patches base attributes of a wall polygon.
+ *
+ * INT_VAR polygon_index            Index of the wall polygon to patch.
+ * INT_VAR flags                    New polygon flags. (Default: no change)
+ * INT_VAR height                   New polygon height. (Default: no change)
+ * INT_VAR num_vertices             Number of vertices to add. If this parameter is specified then the current
+ *                                  polygon vertices are replaced with the given vertices. (Default: no change)
+ * INT_VAR vertex_0, vertex_1, ...  Array "vertex" with "num_vertices" vertex coordinates,
+ *                                  as "X coordinate | (Y coordinate << 16)".
+ *                                  This array is only considered if "num_vertices" is defined.
+ * INT_VAR silent                   Specify 1 to suppress any feedback messages. (Default: 0)
+ * RET success                      Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION ALTER_WED_WALL_POLY
+
+/**
+ * A patch function that assigns new tilemap definitions to an overlay structure in the current WED file.
+ *
+ * INT_VAR overlay_index          Index of the overlay structure where the tilemap definitions should by assigned to.
+ *                                New overlay structures are inserted if needed. Allowed range: 0 - 7
+ * INT_VAR width                  Width of the overlay, in tiles. (Default: 1)
+ * INT_VAR height                 Height of the overlay, in tiles. (Default: 1)
+ * INT_VAR unique                 Unique tile count. (Default: 0)
+ * INT_VAR type                   Movement type. Available types: 0=Default, 1=Disabled, 2=Alternate. (Default: 0)
+ * INT_VAR tilemap_0, ...         Array "tilemap" with "num_tilemaps" entries. Number of required entries is calculated
+ *                                from "width" and "height".
+ *                                Tilemap entries allow you to define optional fields for more fine-tuning:
+ *                                - "tilemap_x" itself contains the primary tilemap (start) index value.
+ *                                - "tilemap_x_count" defines the count of tiles for the primary tile. (Default: 1)
+ *                                - "tilemap_x_second" defines a secondary (alternate) tile index. (Default: -1)
+ *                                - "tilemap_x_flags" defines the overlay layer(s) to use. (Default: 0)
+ *                                - "tilemap_x_speed" defines the speed of animated tiles. (Default: 0)
+ * INT_VAR tilemap_index_0, ...   Array "tilemap_index" with tilemap-to-tile-index mappings. Each tilemap definition
+ *                                is associated with "tilemap_x_count" tilemap index definitions.
+ *                                For non-existing definitions it is assumed that tile index is equal to current
+ *                                tilemap index..
+ * INT_VAR silent                 Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR tileset                Resref of the associated tileset (TIS) file. (Default: [empty])
+ * RET success                    Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION SET_WED_OVERLAY
+
+/**
+ * A patch function that clears all fields and removes all tilemaps and tilemap indices from an overlay structure
+ * in the current WED file.
+ *
+ * INT_VAR overlay_index    Index of the overlay structure to clear.
+ * INT_VAR silent           Specify 1 to suppress any feedback messages. (Default: 0)
+ * RET success              Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION CLEAR_WED_OVERLAY
+
+/**
+ * A patch function that adds a new door structure to the current WED file, with optional tilemap definitions.
+ *
+ * INT_VAR num_tilemaps               Number of tilemap entries to add. Omit to autodetect tilemap entries.
+ * INT_VAR tilemap_0, tilemap_1, ...  Array "tilemap" with "num_tilemaps" tilemap indices.
+ *                                    The following optional field is supported:
+ *                                    - "tilemap_x_swap" indicates whether primary and secondary tile indices should
+ *                                      swap places. It allows to reverse the open/closed states of door tiles.
+ *                                      (Default: 0)
+ * INT_VAR tile_0, tile_1, ...        Array "tile" with secondary tile indices, one for each tilemap definition,
+ *                                    that applied to the overlay tilemap structures.
+ * INT_VAR silent                     Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name                  Name of the door structure. May not be longer than 8 characters.
+ * RET success                        Returns 1 if the operation was successful, 0 otherwise.
+ * RET offset                         Returns the offset of the added door structure if successful, -1 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION ADD_WED_DOOR
+
+/**
+ * A patch function that assigns new tilemap definitions to an existing door structure in the current WED file.
+ * Old tilemap definitions are replaced.
+ *
+ * INT_VAR door_index                 Index of the door structure where the tilemap definition should be added.
+ *                                    Omit if you specify the door structure by name.
+ * INT_VAR num_tilemaps               Number of tilemap entries to add. Omit to autodetect tilemap entries.
+ * INT_VAR tilemap_0, tilemap_1, ...  Array "tilemap" with "num_tilemaps" tilemap indices.
+ *                                    The following optional field is supported:
+ *                                    - "tilemap_x_swap" indicates whether primary and secondary tile indices should
+ *                                      swap places. It allows to reverse the open/closed states of door tiles.
+ *                                      (Default: 0)
+ * INT_VAR tile_0, tile_1, ...        Array "tile" with secondary tile indices, one for each tilemap definition,
+ *                                    that applied to the overlay tilemap structures.
+ * INT_VAR silent                     Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name                  Name of the door structure where the tilemap definition should be added.
+ *                                    Omit if you specify the door structure by index.
+ * RET success                        Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION SET_WED_DOOR_TILEMAPS
+
+/**
+ * A patch function that adds a new (open or closed) polygon to an existing door structure in the current WED file.
+ *
+ * INT_VAR door_index               Index of the door structure where the polygon should be added. Omit if you specify
+ *                                  the door structure by name.
+ * INT_VAR closed                   Specify 0 to define a new open polygon, specify 1 to define a new closed polygon.
+ *                                  (Default: 0)
+ * INT_VAR flags                    Polygon flags. (Default: 0)
+ * INT_VAR height                   Polygon height. (Default: -1)
+ * INT_VAR num_vertices             Number of vertices to add. Omit to autodetect vertex entries.
+ * INT_VAR vertex_0, vertex_1, ...  Array "vertex" with "num_vertices" vertex coordinates,
+ *                                  as "X coordinate | (Y coordinate << 16)".
+ * INT_VAR silent                   Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name                Name of the door structure where the polygon should be added. Omit if you specify
+ *                                  the door structure by index.
+ * RET success                      Returns 1 if the operation was successful, 0 otherwise.
+ * RET offset                       Returns the offset of the added door polygon if successful, -1 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION ADD_WED_DOOR_POLY
+
+/**
+ * A patch function that removes a door structure from the current WED file.
+ *
+ * INT_VAR door_index   Index of the door structure to remove. Omit if you specify the door structure by name.
+ * INT_VAR silent       Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name    Name of the door structure to remove. Omit if you specify the door structure by index.
+ * RET success          Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION REMOVE_WED_DOOR
+
+/**
+ * A patch function that removes existing tilemap definitions from a door structure in the current WED file.
+ *
+ * INT_VAR door_index   Index of the door structure with the tilemap definitions to remove. Omit if you specify the
+ *                      door structure by name.
+ * INT_VAR silent       Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name    Name of the door structure with the tilemap definitions to remove. Omit if you specify the
+ *                      door structure by index.
+ * RET success          Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION REMOVE_WED_DOOR_TILEMAPS
+
+/**
+ * A patch function that removes a (open or closed) polygon from a door structure in the current WED file.
+ *
+ * INT_VAR closed           Specify 0 to define a new open polygon, specify 1 to define a new closed polygon.
+ * INT_VAR polygon_index    Index of the polygon structure to remove.
+ * INT_VAR door_index       Index of the door structure with the polygon to remove. Omit if you specify the door
+ *                          structure by name.
+ * INT_VAR silent           Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name        Name of the door structure with the polygon to remove. Omit if you specify the door
+ *                          structure by index.
+ * RET success              Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION REMOVE_WED_DOOR_POLY
+
+/**
+ * A patch function that patches base attributes of a door structure.
+ *
+ * INT_VAR door_index   Index of the door structure to patch. Omit if you specify the door structure by name.
+ * INT_VAR closed       Initial open/close state of the door. 0=open, 1=closed. (Default: no change)
+ * INT_VAR silent       Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name    Name of the door structure to patch. Omit if you specify the door structure by index.
+ * STR_VAR name         New name of the door structure. (Default: no change)
+ * RET success          Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION ALTER_WED_DOOR
+
+/**
+ * A patch function that patches base attributes of a (open or closed) door polygon.
+ *
+ * INT_VAR door_index               Index of the door structure with the polygon to patch. Omit if you specify the
+ *                                  door structure by name.
+ * INT_VAR closed                   Specify 0 to patch an open polygon, specify 1 to define a closed polygon.
+ * INT_VAR polygon_index            Index of the (open or closed) door polygon to patch.
+ * INT_VAR flags                    New polygon flags. (Default: no change)
+ * INT_VAR height                   New polygon height. (Default: no change)
+ * INT_VAR num_vertices             Number of vertices to add. If this parameter is specified then the current
+ *                                  polygon vertices are replaced with the given vertices. (Default: no change)
+ * INT_VAR vertex_0, vertex_1, ...  Array "vertex" with "num_vertices" vertex coordinates,
+ *                                  as "X coordinate | (Y coordinate << 16)".
+ *                                  This array is only considered if "num_vertices" is defined.
+ * INT_VAR silent                   Specify 1 to suppress any feedback messages. (Default: 0)
+ * STR_VAR door_name                Name of the door structure with the polygon to patch. Omit if you specify the door
+ *                                  structure by index.
+ * RET success                      Returns 1 if the operation was successful, 0 otherwise.
+ */
+// DEFINE_PATCH_FUNCTION ALTER_WED_DOOR_POLY
+
+
+/////////////////////////////////////////////////// Implementation ///////////////////////////////////////////////////
+
+
+// An action function that creates an empty WED file with 5 predefined empty overlay structures.
+DEFINE_ACTION_FUNCTION CREATE_WED
+INT_VAR
+  silent = 0
+STR_VAR
+  resref = ~~
+  path = ~override~
+RET
+  success
+BEGIN
+  OUTER_SET success = 1
+
+  ACTION_IF (~%resref%~ STR_EQ ~~) BEGIN
+    OUTER_SET success = 0
+    ACTION_IF (NOT silent) BEGIN
+      WARN ~WARNING: No resref specified.~
+    END
+  END ELSE ACTION_IF (STRING_LENGTH ~%resref%~ > 8) BEGIN
+    OUTER_SET success = 0
+    ACTION_IF (NOT silent) BEGIN
+      WARN ~WARNING: resref name is too long.~
+    END
+  END
+
+  ACTION_IF (~%path%~ STR_EQ ~~) BEGIN
+    // failsafe path definition to prevent file creation in the system's root folder
+    OUTER_SPRINT path ~.~
+  END
+
+  ACTION_IF (success) BEGIN
+<<<<<<<< .../inlined/a7_wed_lib/blank
+>>>>>>>>
+    COPY ~.../inlined/a7_wed_lib/blank~ ~%path%/%resref%.WED~
+      SET size_wed = 172
+
+      DELETE_BYTES 0 BUFFER_LENGTH
+      INSERT_BYTES 0 size_wed
+      WRITE_ASCII 0 ~WED V1.3~ (8)
+
+      // initial primary header values
+      SET cur_ofs = 0x08
+      PATCH_FOR_EACH value IN 5 0 0x20 0x98 0xac ~%size_wed%~ BEGIN
+        WRITE_LONG cur_ofs value
+        SET cur_ofs += 4
+      END
+
+      // initial secondary header values
+      SET cur_ofs = 0x98
+      PATCH_FOR_EACH value IN 0 ~%size_wed%~ ~%size_wed%~ ~%size_wed%~ ~%size_wed%~ BEGIN
+        WRITE_LONG cur_ofs value
+        SET cur_ofs += 4
+      END
+
+      // default overlay structures
+      SET cur_ofs = 0x20
+      FOR (i = 0; i < 5; ++i) BEGIN
+        WRITE_LONG (cur_ofs + 0x10) size_wed
+        WRITE_LONG (cur_ofs + 0x14) size_wed
+        SET cur_ofs += 24
+      END
+  END
+END
+
+
+// Checks whether WED offsets are valid and in the correct order.
+DEFINE_PATCH_FUNCTION VALIDATE_WED_OFFSETS
+INT_VAR
+  silent = 0
+  // repair = 0
+RET
+  success
+BEGIN
+  SET success = 1
+
+  READ_LONG 0x08 num_overlays
+  READ_LONG 0x0c num_doors
+  READ_LONG 0x10 ofs_overlays
+  READ_LONG 0x14 ofs_header2
+  READ_LONG 0x18 ofs_doors
+  READ_LONG 0x1c ofs_tilemaps
+  READ_LONG ofs_header2 num_wallpolys
+  READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+  READ_LONG (ofs_header2 + 0x08) ofs_vertices
+  READ_LONG (ofs_header2 + 0x0c) ofs_wallgroups
+  READ_LONG (ofs_header2 + 0x10) ofs_poly_lookups
+
+  SET ref_ofs = 0x20
+  PATCH_IF (ofs_overlays != ref_ofs) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard overlays offset (found: %x, expected: %x)~ (ofs_overlays ref_ofs)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+
+  SET ref_ofs = ofs_overlays + num_overlays * 24
+  PATCH_IF (ofs_header2 != ref_ofs) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard secondary header offset (found: %x, expected: %x)~ (ofs_header2 ref_ofs)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+
+  SET ref_ofs = ofs_header2 + 0x14
+  PATCH_IF (ofs_doors != ref_ofs) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard doors offset (found: %x, expected: %x)~ (ofs_doors ref_ofs)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+
+  SET ofs_tm = 0
+  SET ofs_tmi = 0
+  FOR (i = 0; i < num_overlays; ++i) BEGIN
+    SET ofs_ovl = ofs_overlays + i * 24
+    READ_SHORT ofs_ovl w
+    READ_SHORT (ofs_ovl + 0x02) h
+    SET tm_count = w * h
+    READ_LONG (ofs_ovl + 0x10) cur_ofs_tm
+    SET ofs = cur_ofs_tm + tm_count * 10
+    SET ofs_tm = (ofs > ofs_tm) ? ofs : ofs_tm
+
+    SET tmi = 0
+    FOR (j = 0; j < tm_count; ++j) BEGIN
+      SET ofs2 = cur_ofs_tm + j * 10
+      READ_SHORT ofs2 t_idx
+      READ_SHORT (ofs2 + 0x02) t_count
+      SET tmi = (t_idx + t_count > tmi) ? t_idx + t_count : tmi
+    END
+    READ_LONG (ofs_ovl + 0x14) cur_ofs_tmi
+    SET cur_ofs_tmi += tmi * 2
+    SET ofs_tmi = (cur_ofs_tmi > ofs_tmi) ? cur_ofs_tmi : ofs_tmi
+  END
+
+  SET ref_ofs = ofs_doors + num_doors * 26
+  PATCH_IF (ofs_tilemaps != ofs_tm && ofs_tilemaps != ref_ofs) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard door tilemap lookup offset (found: %x, expected: %x or %x)~ (ofs_tilemaps ofs_tm ref_ofs)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+
+  PATCH_IF (ofs_wallgroups != ofs_tmi) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard wallgroups offset (found: %x, expected: %x)~ (ofs_wallgroups ofs_tmi)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+
+  PATCH_IF (num_overlays > 0) BEGIN
+    READ_SHORT ofs_overlays width
+    READ_SHORT (ofs_overlays + 0x02) height
+  END ELSE BEGIN
+    SET width = 0
+    SET height = 0
+  END
+
+  SET wg_width = (width * 64 + 639) / 640
+  SET wg_height = (height * 64 + 479) / 480
+  SET num_wg = wg_width * wg_height
+  SET ref_ofs = ofs_wallgroups + num_wg * 4
+
+  PATCH_IF (ofs_wallpolys != ref_ofs) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard wall polygons offset (found: %x, expected: %x)~ (ofs_wallpolys ref_ofs)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+
+  SET ofs_wpl = ofs_wallpolys + num_wallpolys * 18
+  FOR (i = 0; i < num_doors; ++i) BEGIN
+    SET cur_ofs = ofs_doors + i * 26
+    FOR (j = 0; j < 2; ++j) BEGIN
+      READ_SHORT (cur_ofs + 0x0e + j * 2) count
+      READ_LONG (cur_ofs + 0x12 + j * 4) ofs_p
+      SET ofs = ofs_p + count * 18
+      SET ofs_wpl = (ofs > ofs_wpl) ? ofs : ofs_wpl
+    END
+  END
+
+  PATCH_IF (ofs_poly_lookups != ofs_wpl) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard polygon lookups offset (found: %x, expected: %x)~ (ofs_poly_lookups ofs_wpl)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+
+  SET p_count = 0
+  FOR (i = 0; i < num_wg; ++i) BEGIN
+    SET cur_ofs = ofs_wallgroups + i * 4
+    READ_SHORT cur_ofs idx
+    READ_SHORT (cur_ofs + 0x02) count
+    SET value = idx + count
+    SET p_count = (value > p_count) ? value : p_count
+  END
+
+  SET ref_ofs = ofs_poly_lookups + p_count * 2
+  PATCH_IF (ofs_vertices != ref_ofs) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      SPRINTF msg ~Non-standard vertices offset (found: %x, expected: %x)~ (ofs_vertices ref_ofs)
+      PATCH_WARN ~WARNING: %msg%~
+    END
+  END
+END
+
+
+// A patch function that rebuilds the wallgroups section in the current WED file.
+DEFINE_PATCH_FUNCTION UPDATE_WED_WALLGROUPS
+BEGIN
+  SET size_door = 26
+  SET size_poly = 18
+  SET size_vertex = 4
+  SET size_wallgroup = 4
+  SET size_lookup = 2
+  READ_LONG 0x14 ofs_header2
+  READ_LONG (ofs_header2 + 0x0c) ofs_wallgroups
+  READ_LONG (ofs_header2 + 0x10) ofs_polylookups
+
+  // getting tileset dimensions
+  READ_LONG 0x08 num_overlays
+  PATCH_IF (num_overlays > 0) BEGIN
+    READ_LONG 0x10 ofs_overlays
+    READ_SHORT ofs_overlays width
+    READ_SHORT (ofs_overlays + 0x02) height
+  END ELSE BEGIN
+    SET width = 0
+    SET height = 0
+  END
+
+  // Wallgroup dimension: 640x480
+  PATCH_IF (width > 0 && height > 0) BEGIN
+    LPF __CALCULATE_WALLGROUP_COUNT INT_VAR width height RET num_wallgroups = count wg_width = x wg_height = y END
+    SET wg_x = 640
+    SET wg_y = 480
+
+    // clearing wallgroup definitions
+    SET num_polylookups = 0
+    FOR (i = 0; i < num_wallgroups; ++i) BEGIN
+      SET ofs = ofs_wallgroups + i * size_wallgroup
+      READ_SHORT ofs first
+      READ_SHORT (ofs + 0x02) count
+      SET num_polylookups = (first + count > num_polylookups) ? first + count : num_polylookups
+      WRITE_LONG ofs 0
+    END
+
+    // removing polygon lookups
+    SET size_polylookups = num_polylookups * size_lookup
+    DELETE_BYTES ofs_polylookups size_polylookups
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = 0 - size_polylookups
+        ref_offset = ofs_header2 + 0x10 // polygon lookup offset
+    END
+
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x18 ofs_doors
+    READ_LONG ofs_header2 num_wallpolys
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+    READ_LONG (ofs_header2 + 0x10) ofs_polylookups
+
+    // calculating total number of available (wall and door) polygons
+    SET next_poly_offset = ofs_wallpolys + num_wallpolys * size_poly
+    FOR (i = 0; i < num_doors; ++i) BEGIN
+      SET door_offset = ofs_doors + i * size_door
+      FOR (j = 0; j < 2; ++j) BEGIN
+        SET rel_num_poly = 0x0e + j * 2
+        SET rel_ofs_poly = 0x12 + j * 4
+        READ_SHORT (door_offset + rel_num_poly) count
+        READ_LONG (door_offset + rel_ofs_poly) ofs
+        SET ofs = ofs + count * size_poly
+        SET next_poly_offset = (ofs > next_poly_offset) ? ofs : next_poly_offset
+      END
+    END
+    SET num_polygons = (next_poly_offset - ofs_wallpolys) / size_poly
+
+    // generating new wallgroup definitions
+    SET polygon_index = 0
+    FOR (wg_idx = 0; wg_idx < num_wallgroups; ++wg_idx) BEGIN SET $lookup(~%wg_idx%~) = 0 END
+
+    // accumulate polygon indices in temporary array
+    FOR (poly_idx = 0; poly_idx < num_polygons; ++poly_idx) BEGIN
+      SET ofs = ofs_wallpolys + poly_idx * size_poly
+      READ_SSHORT (ofs + 0x0a) min_x
+      READ_SSHORT (ofs + 0x0c) max_x
+      READ_SSHORT (ofs + 0x0e) min_y
+      READ_SSHORT (ofs + 0x10) max_y
+      SET wg_min_x = min_x / wg_x
+      SET wg_min_x = (wg_min_x < 0) ? 0 : wg_min_x
+      SET wg_min_x = (wg_min_x >= wg_width) ? wg_width - 1 : wg_min_x
+      SET wg_max_x = max_x / wg_x
+      SET wg_max_x = (wg_max_x < 0) ? 0 : wg_max_x
+      SET wg_max_x = (wg_max_x >= wg_width) ? wg_width - 1 : wg_max_x
+      SET wg_min_y = min_y / wg_y
+      SET wg_min_y = (wg_min_y < 0) ? 0 : wg_min_y
+      SET wg_min_y = (wg_min_y >= wg_height) ? wg_height - 1 : wg_min_y
+      SET wg_max_y = max_y / wg_y
+      SET wg_max_y = (wg_max_y < 0) ? 0 : wg_max_y
+      SET wg_max_y = (wg_max_y >= wg_height) ? wg_height - 1 : wg_max_y
+
+      FOR (y = wg_min_y; y <= wg_max_y; ++y) BEGIN
+        FOR (x = wg_min_x; x <= wg_max_x; ++x) BEGIN
+          SET wg_idx = x + y * wg_width
+          SET lookup_idx = $lookup(~%wg_idx%~)
+          SET $lookup(~%wg_idx%~ ~%lookup_idx%~) = poly_idx
+          SET $lookup(~%wg_idx%~) = lookup_idx + 1
+        END
+      END
+    END
+
+    SET num_polylookups = 0
+    FOR (wg_idx = 0; wg_idx < num_wallgroups; ++wg_idx) BEGIN num_polylookups += $lookup(~%wg_idx%~) END
+
+    SET size_polylookups = num_polylookups * size_lookup
+    INSERT_BYTES ofs_polylookups size_polylookups
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_polylookups
+        ref_offset = ofs_header2 + 0x10 // polygon lookup offset
+    END
+
+    READ_LONG (ofs_header2 + 0x0c) ofs_wallgroups
+    READ_LONG (ofs_header2 + 0x10) ofs_polylookups
+
+    // update wallgroup entries with data from lookup array
+    FOR (wg_idx = 0; wg_idx < num_wallgroups; ++wg_idx) BEGIN
+      // updating wallgroup
+      SET ofs_wg = ofs_wallgroups + wg_idx * size_wallgroup
+      SET polygon_count = $lookup(~%wg_idx%~)
+      WRITE_SHORT ofs_wg polygon_index
+      WRITE_SHORT (ofs_wg + 0x02) polygon_count
+
+      // populating lookup indices
+      FOR (poly_idx = 0; poly_idx < polygon_count; ++poly_idx) BEGIN
+        SET ofs_lookup = ofs_polylookups + (polygon_index + poly_idx) * size_lookup
+        WRITE_SHORT ofs_lookup $lookup(~%wg_idx%~ ~%poly_idx%~)
+      END
+
+      SET polygon_index += polygon_count
+    END
+  END
+END
+
+
+// A patch function that adds a new wall polygon to the current WED file.
+DEFINE_PATCH_FUNCTION ADD_WED_WALL_POLY
+INT_VAR
+  flags = 0
+  height = "-1"
+  num_vertices = "-1"
+  // vertex_0 = x | (y << 16)
+  // ...
+  silent = 0
+RET
+  success
+  offset
+BEGIN
+  SET success = 1
+  SET offset = "-1"
+
+  // validating array
+  LPF __VALIDATE_ARRAY INT_VAR count = num_vertices STR_VAR name = ~vertex~ RET result END
+  PATCH_IF (num_vertices < 0) BEGIN
+    SET num_vertices = result
+  END ELSE PATCH_IF (result < num_vertices) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Not enough vertex entries defined (expected: %num_vertices%, found: %result%)~
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_poly = 18
+    SET size_vertex = 4
+    READ_LONG 0x14 ofs_header2
+    READ_LONG ofs_header2 num_wallpolys
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+    READ_LONG (ofs_header2 + 0x08) ofs_vertices
+
+    // calculating bounding box
+    LPF __GET_POLY_BOUNDS INT_VAR count = num_vertices STR_VAR array_name = ~vertex~ RET min_x max_x min_y max_y END
+
+    // calculating vertex index
+    LPF __FIND_NEXT_WALLPOLY_VERTEX_INDEX RET vertex_index END
+
+    // adding polygon
+    SET ofs_newpoly = ofs_wallpolys + num_wallpolys * size_poly
+    INSERT_BYTES ofs_newpoly size_poly
+    WRITE_LONG (ofs_newpoly + 0x00) vertex_index
+    WRITE_LONG (ofs_newpoly + 0x04) num_vertices
+    WRITE_BYTE (ofs_newpoly + 0x08) flags
+    WRITE_BYTE (ofs_newpoly + 0x09) height
+    WRITE_SHORT (ofs_newpoly + 0x0a) min_x
+    WRITE_SHORT (ofs_newpoly + 0x0c) max_x
+    WRITE_SHORT (ofs_newpoly + 0x0e) min_y
+    WRITE_SHORT (ofs_newpoly + 0x10) max_y
+
+    // updating polygon count
+    SET num_wallpolys += 1
+    WRITE_LONG ofs_header2 num_wallpolys
+
+    READ_LONG (ofs_header2 + 4) ofs_wp
+    READ_LONG (ofs_header2 + 8) ofs_v
+    READ_LONG (ofs_header2 + 12) ofs_wg
+    READ_LONG (ofs_header2 + 16) ofs_look
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_poly
+        ref_offset = ofs_header2 + 0x04 // wall polygons offset
+    END
+
+    READ_LONG (ofs_header2 + 4) ofs_wp
+    READ_LONG (ofs_header2 + 8) ofs_v
+    READ_LONG (ofs_header2 + 12) ofs_wg
+    READ_LONG (ofs_header2 + 16) ofs_look
+
+    // adding vertices
+    READ_LONG (ofs_header2 + 0x08) ofs_vertices
+    SET size_newvertices = num_vertices * size_vertex
+    SET ofs_newvertices = ofs_vertices + vertex_index * size_vertex
+    INSERT_BYTES ofs_newvertices size_newvertices
+    FOR (i = 0; i < num_vertices; ++i) BEGIN
+      SET ofs = ofs_newvertices + i * size_vertex
+      WRITE_LONG ofs $vertex(~%i%~)
+    END
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_newvertices
+        ref_offset = ofs_header2 + 0x08 // global vertices offset
+    END
+
+    READ_LONG (ofs_header2 + 4) ofs_wp
+    READ_LONG (ofs_header2 + 8) ofs_v
+    READ_LONG (ofs_header2 + 12) ofs_wg
+    READ_LONG (ofs_header2 + 16) ofs_look
+
+    // updating vertex indices
+    LPF __UPDATE_WED_POLY_INDICES
+      INT_VAR
+        index = vertex_index
+        count = num_vertices
+        ref_offset = ofs_newpoly  // offset of the added wall polygon
+    END
+
+    LPF __ADD_POLY_TO_WALLGROUP INT_VAR polygon_offset = ofs_newpoly END
+
+    // preparing return value
+    READ_LONG 0x14 ofs_header2
+    READ_LONG ofs_header2 num_wallpolys
+    PATCH_IF (num_wallpolys > 0) BEGIN
+      READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+      SET offset = ofs_wallpolys + (num_wallpolys - 1) * size_poly
+    END
+  END
+END
+
+
+// A patch function that removes a wall polygon from the current WED file.
+DEFINE_PATCH_FUNCTION REMOVE_WED_WALL_POLY
+INT_VAR
+  polygon_index = "-1"
+  silent = 0
+RET
+  success
+BEGIN
+  SET success = 1
+
+  SET size_poly = 18
+  SET size_vertex = 4
+  READ_LONG 0x14 ofs_header2
+  READ_LONG ofs_header2 num_wallpolys
+
+  PATCH_IF (polygon_index < 0 || polygon_index >= num_wallpolys) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Polygon index is out of bounds: %polygon_index%~
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+    READ_LONG (ofs_header2 + 0x08) ofs_vertices
+    SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+
+    // removing vertices
+    READ_LONG polygon_offset vertex_index
+    READ_LONG (polygon_offset + 0x04) num_vertices
+    WRITE_LONG (polygon_offset + 0x04) 0
+    SET vertices_offset = ofs_vertices + vertex_index * size_vertex
+    SET vertices_size = num_vertices * size_vertex
+    DELETE_BYTES vertices_offset vertices_size
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = 0 - vertices_size
+        ref_offset = ofs_header2 + 0x08 // global vertices offset
+    END
+
+    // updating vertex indices
+    LPF __UPDATE_WED_POLY_INDICES
+      INT_VAR
+        index = vertex_index
+        count = 0 - num_vertices
+        ref_offset = polygon_offset // offset of the wall polygon where vertices have been removed
+    END
+
+    // removing polygon from wallgroups
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+    SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+    LPF __REMOVE_POLY_FROM_WALLGROUP INT_VAR polygon_offset END
+
+    // removing polygon
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+    SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+    DELETE_BYTES polygon_offset size_poly
+    SET num_wallpolys -= 1
+    WRITE_LONG ofs_header2 num_wallpolys
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = 0 - size_poly
+        ref_offset = ofs_header2 + 0x04 // wallpoly offset
+    END
+  END
+END
+
+
+// A patch function that patches attributes of a wall polygon.
+DEFINE_PATCH_FUNCTION ALTER_WED_WALL_POLY
+INT_VAR
+  polygon_index = "-1"
+  flags = 0x100
+  height = 0x100
+  num_vertices = "-1"
+  // vertex_0 = x | (y << 16)
+  // ...
+  silent = 0
+RET
+  success
+BEGIN
+  SET success = 1
+
+  READ_LONG 0x14 ofs_header2
+  READ_LONG ofs_header2 num_wallpolys
+  PATCH_IF (polygon_index < 0 || polygon_index >= num_wallpolys) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Polygon index is out of bounds: %polygon_index%~
+    END
+  END
+
+  PATCH_IF (success && num_vertices > 0) BEGIN
+    LPF __VALIDATE_ARRAY INT_VAR count = num_vertices STR_VAR name = ~vertex~ RET result END
+    PATCH_IF (result < num_vertices) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Not enough vertex entries defined (expected: %num_vertices%, found: %result%)~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_poly = 18
+    SET size_vertex = 4
+
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+    SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+
+    PATCH_IF (flags != 0x100) BEGIN
+      WRITE_BYTE (polygon_offset + 0x08) flags
+    END
+
+    PATCH_IF (height != 0x100) BEGIN
+      WRITE_BYTE (polygon_offset + 0x09) height
+    END
+
+    PATCH_IF (num_vertices >= 0) BEGIN
+      READ_LONG (ofs_header2 + 0x08) ofs_vertices
+      // removing old polygon vertices
+      READ_LONG polygon_offset vertex_index
+      READ_LONG (polygon_offset + 0x04) count
+      WRITE_LONG (polygon_offset + 0x04) 0
+      SET vertices_offset = ofs_vertices + vertex_index * size_vertex
+      SET vertices_size = count * size_vertex
+      DELETE_BYTES vertices_offset vertices_size
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = 0 - vertices_size
+          ref_offset = ofs_header2 + 0x08 // global vertices offset
+      END
+
+      // updating vertex indices
+      LPF __UPDATE_WED_POLY_INDICES
+        INT_VAR
+          index = vertex_index
+          count = 0 - count
+          ref_offset = polygon_offset // offset of the wall polygon where vertices have been removed
+      END
+
+      // removing polygon from wallgroups
+      READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+      SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+      LPF __REMOVE_POLY_FROM_WALLGROUP INT_VAR polygon_offset END
+
+      // adding new polygon vertices
+      // calculating bounding box
+      LPF __GET_POLY_BOUNDS INT_VAR count = num_vertices STR_VAR array_name = ~vertex~ RET min_x max_x min_y max_y END
+
+      // adding vertices
+      READ_LONG (ofs_header2 + 0x08) ofs_vertices
+      SET size_newvertices = num_vertices * size_vertex
+      SET ofs_newvertices = ofs_vertices + vertex_index * size_vertex
+      INSERT_BYTES ofs_newvertices size_newvertices
+      FOR (i = 0; i < num_vertices; ++i) BEGIN
+        SET ofs = ofs_newvertices + i * size_vertex
+        WRITE_LONG ofs $vertex(~%i%~)
+      END
+
+      WRITE_LONG (polygon_offset + 0x04) num_vertices
+      WRITE_SHORT (polygon_offset + 0x0a) min_x
+      WRITE_SHORT (polygon_offset + 0x0c) max_x
+      WRITE_SHORT (polygon_offset + 0x0e) min_y
+      WRITE_SHORT (polygon_offset + 0x10) max_y
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = size_newvertices
+          ref_offset = ofs_header2 + 0x08 // global vertices offset
+      END
+
+      // updating vertex indices
+      LPF __UPDATE_WED_POLY_INDICES
+        INT_VAR
+          index = vertex_index
+          count = num_vertices
+          ref_offset = polygon_offset  // offset of the wall polygon
+      END
+
+      // adding polygon to wallgroups
+      READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+      SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+      LPF __ADD_POLY_TO_WALLGROUP INT_VAR polygon_offset END
+    END
+  END
+END
+
+
+// A patch function that assigns new tilemap definitions to an overlay structure in the current WED file.
+DEFINE_PATCH_FUNCTION SET_WED_OVERLAY
+INT_VAR
+  overlay_index = "-1"
+  width = 1
+  height = 1
+  unique = 0
+  type = 0
+  // tilemap_0 = 0
+  // tilemap_0_count = 1
+  // tilemap_0_second = "-1"
+  // tilemap_0_flags = 0
+  // tilemap_0_speed = 0
+  // ...
+  // tilemap_index_0 = 0
+  // ...
+  silent = 0
+STR_VAR
+  tileset = ~~
+RET
+  success
+BEGIN
+  SET success = 1
+
+  PATCH_IF (overlay_index < 0 || overlay_index > 7) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Overlay index is out of bounds: %overlay_index%~
+    END
+  END
+
+  PATCH_IF (width < 1 || height < 1) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Overlay width and height must be greater than 0.~
+    END
+  END
+
+  PATCH_IF (success && width > 80 && NOT silent) BEGIN
+    PATCH_PRINT ~INFO: Tileset width should not be greater than 80 (found: %width%)~
+  END
+
+  PATCH_IF (success && height > 60 && NOT silent) BEGIN
+    PATCH_PRINT ~INFO: Tileset width should not be greater than 60 (found: %height%)~
+  END
+
+  PATCH_IF (success) BEGIN
+    SET num_tilemaps = width * height
+    // validating array
+    LPF __VALIDATE_ARRAY INT_VAR count = num_tilemaps STR_VAR name = ~tilemap~ RET result END
+    PATCH_IF (result < num_tilemaps) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Not enough tilemap entries defined (expected: %num_tilemaps%, found: %result%)~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    // adding overlay structures if needed
+    LPF __ENSURE_OVERLAY_COUNT INT_VAR min_size = overlay_index + 1 RET success END
+  END
+
+  PATCH_IF (success) BEGIN
+    // removing existing overlay content
+    LPF CLEAR_WED_OVERLAY INT_VAR overlay_index silent RET success END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_overlay = 24
+    SET size_tilemap = 10
+    SET size_tilemap_index = 2
+    SET size_wallgroup = 4
+    SET size_poly_lookup = 2
+
+    READ_LONG 0x08 num_overlays
+    READ_LONG 0x10 ofs_overlays
+    SET overlay_offset = ofs_overlays + overlay_index * size_overlay
+
+    // determining current primary overlay dimensions (may be needed later)
+    READ_SHORT ofs_overlays w
+    READ_SHORT (ofs_overlays + 0x02) h
+    LPF __CALCULATE_WALLGROUP_COUNT INT_VAR width = w height = h RET num_wallgroups = count END
+
+    // adding tilemaps
+    READ_LONG (overlay_offset + 0x10) tilemaps_offset
+    SET tilemaps_size = num_tilemaps * size_tilemap
+    INSERT_BYTES tilemaps_offset tilemaps_size
+
+    SET index_count = 0
+    FOR (i = 0; i < num_tilemaps; ++i) BEGIN
+      SET pri = $tilemap(~%i%~)
+      SET count = VARIABLE_IS_SET $tilemap(~%i%~ ~count~) ? $tilemap(~%i%~ ~count~) : 1
+      SET sec = VARIABLE_IS_SET $tilemap(~%i%~ ~second~) ? VARIABLE_IS_SET $tilemap(~%i%~ ~second~) : "-1"
+      SET flags = VARIABLE_IS_SET $tilemap(~%i%~ ~flags~) ? VARIABLE_IS_SET $tilemap(~%i%~ ~flags~) : 0
+      SET speed = VARIABLE_IS_SET $tilemap(~%i%~ ~speed~) ? $tilemap(~%i%~ ~speed~) : 0
+      SET ofs = tilemaps_offset + i * size_tilemap
+      WRITE_SHORT ofs pri
+      WRITE_SHORT (ofs + 0x02) count
+      WRITE_SHORT (ofs + 0x04) sec
+      WRITE_BYTE (ofs + 0x06) flags
+      WRITE_BYTE (ofs + 0x07) speed
+      SET index_count += count
+    END
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = tilemaps_size
+        ref_offset = overlay_offset + 0x10 // tilemap offset
+    END
+
+    // adding tilemap indices
+    READ_LONG (overlay_offset + 0x10) tilemaps_offset
+    READ_LONG (overlay_offset + 0x14) tilemap_index_offset
+    SET tilemap_index_size = index_count * size_tilemap_index
+    INSERT_BYTES tilemap_index_offset tilemap_index_size
+
+    FOR (i = 0; i < num_tilemaps; ++i) BEGIN
+      SET tm_ofs = tilemaps_offset + i * size_tilemap
+      READ_SHORT tm_ofs index
+      READ_SHORT (tm_ofs + 0x02) count
+      FOR (j = 0; j < count; ++j) BEGIN
+        SET cur_idx = index + j
+        SET value = VARIABLE_IS_SET $tilemap_index(~%cur_idx%~) ? $tilemap_index(~%cur_idx%~) : cur_idx
+        SET cur_ofs = tilemap_index_offset + cur_idx * size_tilemap_index
+        WRITE_SHORT cur_ofs value
+      END
+    END
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = tilemap_index_size
+        ref_offset = overlay_offset + 0x14 // tilemap lookup offset
+    END
+
+    // setting remaining fields
+    WRITE_SHORT overlay_offset width
+    WRITE_SHORT (overlay_offset + 0x02) height
+    WRITE_ASCIIE (overlay_offset + 0x04) ~%tileset%~ (8)
+    WRITE_SHORT (overlay_offset + 0x0c) unique
+    WRITE_SHORT (overlay_offset + 0x0e) type
+
+    // Overlay 0 defines number of available wallgroups
+    PATCH_IF (overlay_index == 0) BEGIN
+      READ_SHORT ofs_overlays width
+      READ_SHORT (ofs_overlays + 0x02) height
+      LPF __CALCULATE_WALLGROUP_COUNT INT_VAR width height RET num_wallgroups_new = count END
+
+      READ_LONG 0x14 ofs_header2
+      READ_LONG (ofs_header2 + 0x0c) ofs_wallgroups
+      PATCH_IF (num_wallgroups_new < num_wallgroups) BEGIN
+        // removing existing wallgroup definitions
+
+        // removing excess polygon lookup indices
+        READ_LONG (ofs_header2 + 0x10) ofs_lookups
+        SET index_count = 0
+        FOR (i = num_wallgroups_new; i < num_wallgroups; ++i) BEGIN
+          SET ofs = ofs_wallgroups + i * size_wallgroup
+          READ_SHORT (ofs + 0x02) count
+          SET index_count += count
+        END
+        PATCH_IF (index_count > 0) BEGIN
+          SET remove_size = index_count * size_poly_lookup
+          DELETE_BYTES ofs_lookups remove_size
+
+          // updating offsets
+          LPF __UPDATE_WED_OFFSETS
+            INT_VAR
+              size = 0 - remove_size
+              ref_offset = ofs_header2 + 0x10 // polygon lookup offset
+          END
+        END
+
+        // removing excess wallgroups
+        SET remove_size = (num_wallgroups - num_wallgroups_new) * size_wallgroup
+        SET remove_ofs = ofs_wallgroups + num_wallgroups_new * size_wallgroup
+        DELETE_BYTES remove_ofs remove_size
+
+        // updating offsets
+        LPF __UPDATE_WED_OFFSETS
+          INT_VAR
+            size = 0 - remove_size
+            ref_offset = ofs_header2 + 0x0c // wallgroup offset
+        END
+
+        // rebuilding wallgroup definitions
+        LPF UPDATE_WED_WALLGROUPS END
+      END ELSE PATCH_IF (num_wallgroups_new > num_wallgroups) BEGIN
+        // adding new wallgroup definitions
+        SET add_size = (num_wallgroups_new - num_wallgroups) * size_wallgroup
+        SET add_ofs = ofs_wallgroups + num_wallgroups * size_wallgroup
+        INSERT_BYTES add_ofs add_size
+
+        PATCH_IF (num_wallgroups > 0) BEGIN
+          SET ofs = ofs_wallgroups + (num_wallgroups - 1) * size_wallgroup
+          READ_SHORT ofs index
+          READ_SHORT (ofs + 0x02) count
+          SET new_index = index + count
+          FOR (i = num_wallgroups; i < num_wallgroups_new; ++i) BEGIN
+            SET ofs = ofs_wallgroups + i * size_wallgroup
+            WRITE_SHORT ofs new_index
+          END
+        END
+
+        // updating offsets
+        LPF __UPDATE_WED_OFFSETS
+          INT_VAR
+            size = add_size
+            ref_offset = ofs_header2 + 0x0c // wallgroup offset
+        END
+
+        // rebuilding wallgroup definitions
+        LPF UPDATE_WED_WALLGROUPS END
+      END
+    END
+  END
+END
+
+
+// A patch function that clears all fields and removes all tilemaps and tilemap indices from an overlay structure in
+// the current WED file.
+DEFINE_PATCH_FUNCTION CLEAR_WED_OVERLAY
+INT_VAR
+  overlay_index = "-1"
+  silent = 0
+RET
+  success
+BEGIN
+  SET success = 1
+
+  READ_LONG 0x08 num_overlays
+  PATCH_IF (overlay_index < 0 || overlay_index >= num_overlays) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Overlay index is out of bounds: %overlay_index%~
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_overlay = 24
+    SET size_tilemap = 10
+    SET size_tilemap_index = 2
+    READ_LONG 0x10 ofs_overlays
+
+    SET overlay_offset = ofs_overlays + overlay_index * size_overlay
+    READ_SHORT overlay_offset ovl_width
+    READ_SHORT (overlay_offset + 0x02) ovl_height
+    SET num_tilemaps = ovl_width * ovl_height
+    PATCH_IF (num_tilemaps > 0) BEGIN
+      // counting tilemap indices
+      READ_LONG (overlay_offset + 0x10) ofs_tilemaps
+      SET num_indices = 0
+      FOR (i = 0 ofs = ofs_tilemaps; i < num_tilemaps; i += 1 ofs += size_tilemap) BEGIN
+        SET num_indices += SHORT_AT (ofs + 0x02)
+      END
+
+      // removing tilemap indices
+      READ_LONG (overlay_offset + 0x14) ofs_indices
+      SET size_tm_indices = num_indices * size_tilemap_index
+      DELETE_BYTES ofs_indices size_tm_indices
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = 0 - size_tm_indices
+          ref_offset = overlay_offset + 0x14 // tilemap lookup offset
+      END
+
+      // removing tilemaps
+      READ_LONG (overlay_offset + 0x10) ofs_tilemaps
+      SET size_tilemaps = num_tilemaps * size_tilemap
+      DELETE_BYTES ofs_tilemaps size_tilemaps
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = 0 - size_tilemaps
+          ref_offset = overlay_offset + 0x10 // tilemap offset
+      END
+    END
+
+    // clearing remaining overlay fields
+    WRITE_LONG overlay_offset 0 // width and height
+    WRITE_ASCII (overlay_offset + 0x04) ~~ (8)  // tileset resref
+    WRITE_LONG (overlay_offset + 0x0c) 0  // unique tiles and movement type
+  END
+END
+
+
+// A patch function that adds a new door entry to the current WED file, with optional tilemap definitions.
+DEFINE_PATCH_FUNCTION ADD_WED_DOOR
+INT_VAR
+  num_tilemaps = "-1"
+  // tilemap_0 = 0
+  // tilemap_0_swap = 0
+  // ...
+  // tile_0 = 0
+  // ...
+  silent = 0
+STR_VAR
+  door_name = ~~
+RET
+  success
+  offset
+BEGIN
+  SET success = 1
+  SET offset = "-1"
+
+  PATCH_IF (~%door_name%~ STR_EQ ~~) BEGIN
+    SET success = 0
+    PATCH_IF (NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Door name not specified~
+    END
+  END
+
+  // autodetecting tilemap array size
+  PATCH_IF (num_tilemaps < 0) BEGIN
+    FOR (num_tilemaps = 0; VARIABLE_IS_SET $tilemap(~%num_tilemaps%~); ++num_tilemaps) BEGIN END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_door = 26
+
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x14 ofs_header2
+    READ_LONG 0x18 ofs_doors
+
+    // calculating tileset index and polygon offsets for the new door
+    LPF __FIND_NEXT_DOOR_TILEMAP_INDEX RET tilemap_index END
+    LPF __FIND_NEXT_DOOR_POLY_OFFSET RET polygon_offset END
+
+    // adding door structure
+    SET ofs_newdoor = ofs_doors + num_doors * size_door
+    INSERT_BYTES ofs_newdoor size_door
+    WRITE_ASCIIE (ofs_newdoor + 0x00) ~%door_name%~ (8) // door name
+    WRITE_SHORT (ofs_newdoor + 0x08) 1  // is door?
+    WRITE_SHORT (ofs_newdoor + 0x0a) tilemap_index
+    // WRITE_SHORT (ofs_newdoor + 0x0c) 0  // updated in SET_WED_DOOR_TILEMAPS below
+    WRITE_LONG (ofs_newdoor + 0x12) polygon_offset
+    WRITE_LONG (ofs_newdoor + 0x16) polygon_offset
+    SET num_doors += 1
+    WRITE_LONG 0x0c num_doors
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_door
+        ref_offset = 0x18 // doors offset
+    END
+
+    // adding tile mapping
+    LPF SET_WED_DOOR_TILEMAPS INT_VAR door_index = num_doors - 1 num_tilemaps silent RET success END
+  END
+
+  // preparing return value
+  PATCH_IF (success) BEGIN
+    READ_LONG 0x0c num_doors
+    PATCH_IF (num_doors > 0) BEGIN
+      READ_LONG 0x18 ofs_doors
+      SET offset = ofs_doors + (num_doors - 1) * size_door
+    END
+  END
+END
+
+
+// A patch function that sets new tilemap definitions to an existing door structure in the current WED file.
+DEFINE_PATCH_FUNCTION SET_WED_DOOR_TILEMAPS
+INT_VAR
+  door_index = "-1"
+  num_tilemaps = "-1"
+  // tilemap_0 = 0
+  // tilemap_0_swap = 0
+  // ...
+  // tile_0 = 0
+  // ...
+  silent = 0
+STR_VAR
+  door_name = ~~
+RET
+  success
+BEGIN
+  SET success = 1
+
+  PATCH_IF (door_index < 0 && NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    LPF __FIND_WED_DOOR STR_VAR door_name RET door_index END
+    PATCH_IF (door_index < 0) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door not found (%door_name%)~
+      END
+    END
+  END
+
+  READ_LONG 0x0c num_doors
+  PATCH_IF (success) BEGIN
+    PATCH_IF (door_index < 0 || door_index >= num_doors) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door index is out of bounds: %door_index%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    // validating array
+    LPF __VALIDATE_ARRAY INT_VAR count = num_tilemaps STR_VAR name = ~tilemap~ RET result END
+    PATCH_IF (num_tilemaps < 0) BEGIN
+      SET num_tilemaps = result
+    END ELSE PATCH_IF (result < num_tilemaps) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Not enough tile indices defined (expected: %num_tilemaps%, found: %result%)~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_door = 26
+    SET size_tilemap = 10
+    SET size_tilemap_idx = 2
+
+    READ_LONG 0x18 ofs_doors
+    SET door_offset = ofs_doors + door_index * size_door
+    READ_SHORT (door_offset + 0x0a) tilemap_index
+    READ_SHORT (door_offset + 0x0c) num_tilemap_indices
+
+    // removing old tilemap entries
+    PATCH_IF (num_tilemap_indices > 0) BEGIN
+      LPF REMOVE_WED_DOOR_TILEMAPS INT_VAR door_index silent RET success END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    // adding new tilemap entries
+    READ_LONG 0x1c ofs_doortiles
+    SET ofs_newtiles = ofs_doortiles + tilemap_index * size_tilemap_idx
+    SET size_newtiles = num_tilemaps * size_tilemap_idx
+    INSERT_BYTES ofs_newtiles size_newtiles
+    FOR (i = 0; i < num_tilemaps; ++i) BEGIN
+      SET cur_ofs = ofs_newtiles + i * size_tilemap_idx
+      WRITE_SHORT cur_ofs $tilemap(~%i%~)
+    END
+    // updating door tilemap count
+    WRITE_SHORT (door_offset + 0x0c) num_tilemaps
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_newtiles
+        ref_offset = 0x1c // door tilemap lookup offset
+    END
+
+    // updating tilemap indices
+    LPF __UPDATE_WED_TILEMAP_INDICES
+      INT_VAR
+        index = tilemap_index
+        count = num_tilemaps
+        ref_offset = door_offset  // current door offset
+    END
+
+    // updating secondary tile indices in overlay 0
+    READ_LONG 0x08 num_overlays
+    READ_LONG 0x10 ofs_overlays
+    PATCH_IF (num_overlays > 0) BEGIN
+      READ_LONG (ofs_overlays + 0x10) ofs_tilemap
+      READ_LONG (ofs_overlays + 0x14) ofs_tilemap_lookup
+      FOR (i = 0; i < num_tilemaps; ++i) BEGIN
+        PATCH_IF (VARIABLE_IS_SET $tile(~%i%~)) BEGIN
+          SET map_idx = $tilemap(~%i%~)
+          SET swap = VARIABLE_IS_SET $tilemap(~%i%~ ~swap~) ? $tilemap(~%i%~ ~swap~) != 0 : 0
+          SET tile_idx = $tile(~%i%~)
+
+          SET tilemap_offset = ofs_tilemap + map_idx * size_tilemap
+          PATCH_IF (swap) BEGIN
+            SET pri_tile_idx = tile_idx
+            READ_SHORT tilemap_offset tilemap_lookup_idx
+            SET tilemap_idx_offset = ofs_tilemap_lookup + tilemap_lookup_idx * size_tilemap_idx
+            READ_SSHORT tilemap_idx_offset tile_idx
+            WRITE_SHORT tilemap_idx_offset pri_tile_idx
+          END
+          WRITE_SHORT (tilemap_offset + 0x04) tile_idx
+        END
+      END
+    END
+  END
+END
+
+
+// A patch function that adds a new (open or closed) polygon to an existing door structure in the current WED file.
+DEFINE_PATCH_FUNCTION ADD_WED_DOOR_POLY
+INT_VAR
+  door_index = "-1"
+  closed = 0
+  flags = 0
+  height = "-1"
+  num_vertices = "-1"
+  // vertex_0 = x | (y << 16)
+  // ...
+  silent = 0
+STR_VAR
+  door_name = ~~
+RET
+  success
+  offset
+BEGIN
+  SET success = 1
+  SET offset = "-1"
+
+  PATCH_IF (door_index < 0 && NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    LPF __FIND_WED_DOOR STR_VAR door_name RET door_index END
+    PATCH_IF (door_index < 0) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door not found (%door_name%)~
+      END
+    END
+  END
+
+  READ_LONG 0x0c num_doors
+  PATCH_IF (success) BEGIN
+    PATCH_IF (door_index < 0 || door_index >= num_doors) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door index is out of bounds: %door_index%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    // validating array
+    LPF __VALIDATE_ARRAY INT_VAR count = num_vertices STR_VAR name = ~vertex~ RET result END
+    PATCH_IF (num_vertices < 0) BEGIN
+      SET num_vertices = result
+    END ELSE PATCH_IF (result < num_vertices) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Not enough vertex entries defined (expected: %num_vertices%, found: %result%)~
+      END
+    END
+  END
+
+  PATCH_IF (num_vertices >= 0 && success) BEGIN
+    SET closed = (closed != 0)  // normalize to 0 or 1
+    SET size_door = 26
+    SET size_poly = 18
+    SET size_vertex = 4
+
+    // calculating bounding box
+    LPF __GET_POLY_BOUNDS INT_VAR count = num_vertices STR_VAR array_name = ~vertex~ RET min_x max_x min_y max_y END
+
+    // calculating vertex index
+    LPF __FIND_NEXT_DOOR_VERTEX_INDEX INT_VAR door_index closed RET vertex_index END
+
+    // adding polygon
+    READ_LONG 0x18 ofs_doors
+    SET door_offset = ofs_doors + door_index * size_door
+    SET rel_num_poly = 0x0e + closed * 2
+    SET rel_ofs_poly = 0x12 + closed * 4
+    READ_SHORT (door_offset + rel_num_poly) num_poly
+    READ_LONG (door_offset + rel_ofs_poly) ofs_poly
+    SET ofs_newpoly = ofs_poly + num_poly * size_poly
+    INSERT_BYTES ofs_newpoly size_poly
+    WRITE_LONG (ofs_newpoly + 0x00) vertex_index
+    WRITE_LONG (ofs_newpoly + 0x04) num_vertices
+    WRITE_BYTE (ofs_newpoly + 0x08) flags
+    WRITE_BYTE (ofs_newpoly + 0x09) height
+    WRITE_SHORT (ofs_newpoly + 0x0a) min_x
+    WRITE_SHORT (ofs_newpoly + 0x0c) max_x
+    WRITE_SHORT (ofs_newpoly + 0x0e) min_y
+    WRITE_SHORT (ofs_newpoly + 0x10) max_y
+
+    // updating polygon count
+    SET num_poly += 1
+    WRITE_SHORT (door_offset + rel_num_poly) num_poly
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_poly
+        ref_offset = door_offset + rel_ofs_poly // polygons (open/closed) offset of the current door entry
+    END
+
+    LPF __ADD_POLY_TO_WALLGROUP INT_VAR polygon_offset = ofs_newpoly END
+
+    // adding vertices
+    READ_LONG 0x14 ofs_header2
+    READ_LONG (ofs_header2 + 0x08) ofs_vertices
+    SET size_newvertices = num_vertices * size_vertex
+    SET ofs_newvertices = ofs_vertices + vertex_index * size_vertex
+    INSERT_BYTES ofs_newvertices size_newvertices
+    FOR (i = 0; i < num_vertices; ++i) BEGIN
+      SET ofs = ofs_newvertices + i * size_vertex
+      WRITE_LONG ofs $vertex(~%i%~)
+    END
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = size_newvertices
+        ref_offset = ofs_header2 + 0x08 // global vertices offset
+    END
+
+    // updating vertex indices
+    LPF __UPDATE_WED_POLY_INDICES
+      INT_VAR
+        index = vertex_index
+        count = num_vertices
+        ref_offset = ofs_newpoly  // offset of the added door polygon
+    END
+
+    // preparing return value
+    READ_LONG 0x18 ofs_doors
+    SET door_offset = ofs_doors + door_index * size_door
+    READ_SHORT (door_offset + rel_num_poly) num_poly
+    PATCH_IF (num_poly > 0) BEGIN
+      READ_LONG (door_offset + rel_ofs_poly) ofs_poly
+      SET offset = ofs_poly + (num_poly - 1) * size_poly
+    END
+  END
+END
+
+
+// A patch function that removes a door structure from the current WED file.
+DEFINE_PATCH_FUNCTION REMOVE_WED_DOOR
+INT_VAR
+  door_index = "-1"
+  silent = 0
+STR_VAR
+  door_name = ~~
+RET
+  success
+BEGIN
+  SET success = 1
+  PATCH_IF (door_index < 0 && NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    LPF __FIND_WED_DOOR STR_VAR door_name RET door_index END
+    PATCH_IF (door_index < 0) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door not found (%door_name%)~
+      END
+    END
+  END
+
+  READ_LONG 0x0c num_doors
+  PATCH_IF (success) BEGIN
+    PATCH_IF (door_index < 0 || door_index >= num_doors) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door index is out of bounds: %door_index%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_door = 26
+
+    READ_LONG 0x18 ofs_doors
+    SET door_offset = ofs_doors + door_index * size_door
+
+    // removing door polygons
+    FOR (i = 1; i >= 0; --i) BEGIN
+      SET rel_num_poly = 0x0e + i * 2
+      READ_SHORT (door_offset + rel_num_poly) num_polys
+      FOR (j = num_polys - 1; j >= 0; --j) BEGIN
+        LPF REMOVE_WED_DOOR_POLY
+          INT_VAR
+            closed = i
+            polygon_index = j
+            door_index
+            silent
+        END
+      END
+    END
+
+    READ_LONG 0x18 ofs_doors
+    SET door_offset = ofs_doors + door_index * size_door
+
+    // removing door tilemaps
+    LPF REMOVE_WED_DOOR_TILEMAPS INT_VAR door_index silent RET success END
+
+    PATCH_IF (success) BEGIN
+      // removing door structure
+      READ_LONG 0x18 ofs_doors
+      SET door_offset = ofs_doors + door_index * size_door
+      DELETE_BYTES door_offset size_door
+      SET num_doors -= 1
+      WRITE_LONG 0x0c num_doors
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = 0 - size_door
+          ref_offset = 0x18 // door offset
+      END
+    END
+  END
+END
+
+
+// A patch function that removes existing tilemap definitions from a door structure in the current WED file.
+DEFINE_PATCH_FUNCTION REMOVE_WED_DOOR_TILEMAPS
+INT_VAR
+  door_index = "-1"
+  silent = 0
+STR_VAR
+  door_name = ~~
+RET
+  success
+BEGIN
+  SET success = 1
+  PATCH_IF (door_index < 0 && NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    LPF __FIND_WED_DOOR STR_VAR door_name RET door_index END
+    PATCH_IF (door_index < 0) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door not found (%door_name%)~
+      END
+    END
+  END
+
+  READ_LONG 0x0c num_doors
+  PATCH_IF (success) BEGIN
+    PATCH_IF (door_index < 0 || door_index >= num_doors) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door index is out of bounds: %door_index%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_door = 26
+    SET size_tilemap = 10
+    SET size_tilemap_idx = 2
+
+    READ_LONG 0x18 ofs_doors
+    READ_LONG 0x1c ofs_tilemap_lookups
+    SET door_offset = ofs_doors + door_index * size_door
+
+    READ_SHORT (door_offset + 0x0a) first_tilemap_index
+    READ_SHORT (door_offset + 0x0c) num_tilemap_indices
+    READ_LONG 0x08 num_overlays
+    PATCH_IF (num_overlays > 0) BEGIN
+      READ_LONG 0x10 ofs_overlays
+      READ_LONG (ofs_overlays + 0x10) ofs_tilemap
+      READ_LONG (ofs_overlays + 0x14) ofs_tilemap_lookup
+
+      // clearing secondary tile definitions from overlay structure
+      FOR (i = 0; i < num_tilemap_indices; ++i) BEGIN
+        // getting tilemap lookup index from door structure
+        SET ofs = ofs_tilemap_lookups + (first_tilemap_index + i) * size_tilemap_idx
+        READ_SHORT ofs tilemap_value
+        // clearing secondary tile definition
+        SET ofs = ofs_tilemap + tilemap_value * size_tilemap
+        WRITE_SHORT (ofs + 0x04) "-1"
+      END
+    END
+
+    // removing tilemap indices
+    PATCH_IF (num_tilemap_indices > 0) BEGIN
+      SET ofs_tilemap_indices = ofs_tilemap_lookups + first_tilemap_index * size_tilemap_idx
+      SET size_tilemap_indices = num_tilemap_indices * size_tilemap_idx
+      DELETE_BYTES ofs_tilemap_indices size_tilemap_indices
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = 0 - size_tilemap_indices
+          ref_offset = 0x1c // door tilemap lookup offset
+      END
+
+      // updating tilemap indices
+      LPF __UPDATE_WED_TILEMAP_INDICES
+        INT_VAR
+          index = first_tilemap_index
+          count = 0 - num_tilemap_indices
+          ref_offset = door_offset  // current door offset
+      END
+    END
+  END
+END
+
+
+// A patch function that removes a (open or closed) polygon from a door structure in the current WED file.
+DEFINE_PATCH_FUNCTION REMOVE_WED_DOOR_POLY
+INT_VAR
+  closed = 0
+  polygon_index = "-1"
+  door_index = "-1"
+  silent = 0
+STR_VAR
+  door_name = ~~
+RET
+  success
+BEGIN
+  SET success = 1
+
+  PATCH_IF (door_index < 0 && NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    LPF __FIND_WED_DOOR STR_VAR door_name RET door_index END
+    PATCH_IF (door_index < 0) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door not found (%door_name%)~
+      END
+    END
+  END
+
+  READ_LONG 0x0c num_doors
+  PATCH_IF (success) BEGIN
+    PATCH_IF (door_index < 0 || door_index >= num_doors) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door index is out of bounds: %door_index%~
+      END
+    END
+  END
+
+  SET closed = (closed != 0)  // normalize to 0 or 1
+  SET size_door = 26
+  SET size_poly = 18
+  SET size_vertex = 4
+
+  READ_LONG 0x18 ofs_doors
+  SET door_offset = ofs_doors + door_index * size_door
+  SET rel_num_poly = 0x0e + closed * 2
+  SET rel_ofs_poly = 0x12 + closed * 4
+  READ_SHORT (door_offset + rel_num_poly) num_polys
+  READ_LONG (door_offset + rel_ofs_poly) ofs_polys
+
+  PATCH_IF (success) BEGIN
+    PATCH_IF (polygon_index < 0 || polygon_index >= num_polys) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Polygon index is out of bounds: %polygon_index%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    READ_LONG 0x14 ofs_header2
+
+    READ_LONG (ofs_header2 + 0x08) ofs_vertices
+    SET poly_offset = ofs_polys + polygon_index * size_poly
+    LPF __REMOVE_POLY_FROM_WALLGROUP INT_VAR polygon_offset = poly_offset END
+
+    // removing vertices
+    READ_LONG (ofs_header2 + 0x08) ofs_vertices
+    SET poly_offset = ofs_polys + polygon_index * size_poly
+    READ_LONG poly_offset vertex_index
+    READ_LONG (poly_offset + 0x04) num_vertices
+    SET vertices_offset = ofs_vertices + vertex_index * size_vertex
+    SET vertices_size = num_vertices * size_vertex
+    DELETE_BYTES vertices_offset vertices_size
+    WRITE_LONG (poly_offset + 0x04) 0
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = 0 - vertices_size
+        ref_offset = ofs_header2 + 0x08 // global vertices offset
+    END
+
+    // updating vertex indices
+    LPF __UPDATE_WED_POLY_INDICES
+      INT_VAR
+        index = vertex_index
+        count = 0 - num_vertices
+        ref_offset = poly_offset  // offset of the door polygon
+    END
+
+    // removing polygon
+    DELETE_BYTES poly_offset size_poly
+    SET num_polys -= 1
+    WRITE_SHORT (door_offset + rel_num_poly) num_polys
+
+    // updating offsets
+    LPF __UPDATE_WED_OFFSETS
+      INT_VAR
+        size = 0 - size_poly
+        ref_offset = door_offset + rel_ofs_poly // polygons (open/closed) offset of the current door entry
+    END
+  END
+END
+
+
+// A patch function that patches base attributes of a door structure.
+DEFINE_PATCH_FUNCTION ALTER_WED_DOOR
+INT_VAR
+  door_index = "-1"
+  closed = "-1"
+  silent = 0
+STR_VAR
+  door_name = ~~
+  name = ~~
+RET
+  success
+BEGIN
+  SET success = 1
+
+  PATCH_IF (door_index < 0 && NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    LPF __FIND_WED_DOOR STR_VAR door_name RET door_index END
+    PATCH_IF (door_index < 0) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door not found (%door_name%)~
+      END
+    END
+  END
+
+  READ_LONG 0x0c num_doors
+  PATCH_IF (success) BEGIN
+    PATCH_IF (door_index < 0 || door_index >= num_doors) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door index is out of bounds: %door_index%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET size_door = 26
+
+    READ_LONG 0x18 ofs_doors
+    SET door_offset = ofs_doors + door_index * size_door
+
+    PATCH_IF (NOT ~%name%~ STR_EQ ~~) BEGIN
+      WRITE_ASCIIE door_offset ~%name%~ (8)
+    END
+
+    PATCH_IF (closed != "-1") BEGIN
+      SET closed = (closed != 0)
+      WRITE_SHORT (door_offset + 0x08) closed
+    END
+  END
+END
+
+
+// A patch function that patches base attributes of a (open or closed) door polygon.
+DEFINE_PATCH_FUNCTION ALTER_WED_DOOR_POLY
+INT_VAR
+  door_index = "-1"
+  closed = "-1"
+  polygon_index = "-1"
+  flags = 0x100
+  height = 0x100
+  num_vertices = "-1"
+  // vertex_0 = x | (y << 16)
+  // ...
+  silent = 0
+STR_VAR
+  door_name = ~~
+RET
+  success
+BEGIN
+  SET success = 1
+
+  PATCH_IF (door_index < 0 && NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    LPF __FIND_WED_DOOR STR_VAR door_name RET door_index END
+    PATCH_IF (door_index < 0) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door not found (%door_name%)~
+      END
+    END
+  END
+
+  READ_LONG 0x0c num_doors
+  PATCH_IF (success) BEGIN
+    PATCH_IF (door_index < 0 || door_index >= num_doors) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Door index is out of bounds: %door_index%~
+      END
+    END
+  END
+
+  SET closed = (closed != 0)  // normalize to 0 or 1
+  SET size_door = 26
+  SET size_poly = 18
+  SET size_vertex = 4
+
+  READ_LONG 0x18 ofs_doors
+  SET door_offset = ofs_doors + door_index * size_door
+  SET rel_num_poly = 0x0e + closed * 2
+  SET rel_ofs_poly = 0x12 + closed * 4
+  READ_SHORT (door_offset + rel_num_poly) num_polys
+  READ_LONG (door_offset + rel_ofs_poly) ofs_polys
+
+  PATCH_IF (success) BEGIN
+    PATCH_IF (polygon_index < 0 || polygon_index >= num_polys) BEGIN
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Polygon index is out of bounds: %polygon_index%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    SET polygon_offset = ofs_polys + polygon_index * size_poly
+
+    PATCH_IF (flags != 0x100) BEGIN
+      WRITE_BYTE (polygon_offset + 0x08) flags
+    END
+
+    PATCH_IF (height != 0x100) BEGIN
+      WRITE_BYTE (polygon_offset + 0x09) height
+    END
+
+    PATCH_IF (num_vertices >= 0) BEGIN
+      READ_LONG 0x14 ofs_header2
+      READ_LONG (ofs_header2 + 0x08) ofs_vertices
+
+      // removing old polygon vertices
+      READ_LONG polygon_offset vertex_index
+      READ_LONG (polygon_offset + 0x04) count
+      WRITE_LONG (polygon_offset + 0x04) 0
+      SET vertices_offset = ofs_vertices + vertex_index * size_vertex
+      SET vertices_size = count * size_vertex
+      DELETE_BYTES vertices_offset vertices_size
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = 0 - vertices_size
+          ref_offset = ofs_header2 + 0x08 // global vertices offset
+      END
+
+      // updating vertex indices
+      LPF __UPDATE_WED_POLY_INDICES
+        INT_VAR
+          index = vertex_index
+          count = 0 - count
+          ref_offset = polygon_offset // offset of the wall polygon where vertices have been removed
+      END
+
+      // removing polygon from wallgroups
+      READ_LONG (door_offset + rel_ofs_poly) ofs_polys
+      SET polygon_offset = ofs_polys + polygon_index * size_poly
+      LPF __REMOVE_POLY_FROM_WALLGROUP INT_VAR polygon_offset END
+
+      // adding new polygon vertices
+      // calculating bounding box
+      LPF __GET_POLY_BOUNDS INT_VAR count = num_vertices STR_VAR array_name = ~vertex~ RET min_x max_x min_y max_y END
+
+      // adding vertices
+      READ_LONG (ofs_header2 + 0x08) ofs_vertices
+      SET size_newvertices = num_vertices * size_vertex
+      SET ofs_newvertices = ofs_vertices + vertex_index * size_vertex
+      INSERT_BYTES ofs_newvertices size_newvertices
+      FOR (i = 0; i < num_vertices; ++i) BEGIN
+        SET ofs = ofs_newvertices + i * size_vertex
+        WRITE_LONG ofs $vertex(~%i%~)
+      END
+
+      WRITE_LONG (polygon_offset + 0x04) num_vertices
+      WRITE_SHORT (polygon_offset + 0x0a) min_x
+      WRITE_SHORT (polygon_offset + 0x0c) max_x
+      WRITE_SHORT (polygon_offset + 0x0e) min_y
+      WRITE_SHORT (polygon_offset + 0x10) max_y
+
+      // updating offsets
+      LPF __UPDATE_WED_OFFSETS
+        INT_VAR
+          size = size_newvertices
+          ref_offset = ofs_header2 + 0x08 // global vertices offset
+      END
+
+      // updating vertex indices
+      LPF __UPDATE_WED_POLY_INDICES
+        INT_VAR
+          index = vertex_index
+          count = num_vertices
+          ref_offset = polygon_offset  // offset of the wall polygon
+      END
+
+      // adding polygon to wallgroups
+      READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+      SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+      LPF __ADD_POLY_TO_WALLGROUP INT_VAR polygon_offset END
+    END
+  END
+END
+
+
+/**
+ * Used internally: Ensures that the current WED file contains at least the specified number of overlay structures.
+ *
+ * INT_VAR min_size   Minimum number of overlay structures.
+ * RET success        Returns 1 if the operation was successful, 0 otherwise.
+ */
+DEFINE_PATCH_FUNCTION __ENSURE_OVERLAY_COUNT
+INT_VAR
+  min_size = 0
+RET
+  success
+BEGIN
+  SET success = 1
+
+  PATCH_IF (min_size > 0 && min_size < 8) BEGIN
+    SET size_overlay = 24
+    SET size_door = 26
+    SET size_tilemap_index = 2
+
+    READ_LONG 0x08 num_overlays
+    PATCH_IF (num_overlays < min_size) BEGIN
+      // determining tilemap and tilemap index offsets for the new overlay structures
+      READ_LONG 0x0c num_doors
+      READ_LONG 0x18 ofs_doors
+      READ_LONG 0x1c ofs_tilemaps
+      SET ofs_tilemap = ofs_doors + num_doors * size_door
+      SET ofs_tilemap_index = ofs_tilemaps
+      FOR (i = num_doors - 1; i >= 0; --i) BEGIN
+        SET ofs = ofs_doors + i * size_door
+        READ_SHORT (ofs + 0x0a) first
+        READ_SHORT (ofs + 0x0c) count
+        SET ofs_tilemap_index = ofs_tilemaps + (first + count) * size_tilemap_index
+        SET i = 0
+      END
+
+      // adding new overlay structures
+      READ_LONG 0x10 ofs_overlays
+      WHILE (num_overlays < min_size) BEGIN
+        SET ofs_newoverlay = ofs_overlays + num_overlays * size_overlay
+        INSERT_BYTES ofs_newoverlay size_overlay
+        WRITE_LONG (ofs_newoverlay + 0x10) ofs_tilemap
+        WRITE_LONG (ofs_newoverlay + 0x14) ofs_tilemap_index
+        SET num_overlays += 1
+        WRITE_LONG 0x08 num_overlays
+
+        // updating offsets
+        LPF __UPDATE_WED_OFFSETS
+          INT_VAR
+            size = size_overlay
+            ref_offset = 0x10 // overlays offset
+        END
+      END
+    END
+  END
+END
+
+/**
+ * Used internally: Validates the number of array elements.
+ *
+ * INT_VAR count  Min. number of expected array elements. Specify negative value to ignore expected size. (Default: -1)
+ * STR_VAR name   Name of the array.
+ * RET result     Determined number of array elements.
+ */
+DEFINE_PATCH_FUNCTION __VALIDATE_ARRAY
+INT_VAR
+  count = "-1"
+STR_VAR
+  name = ~~
+RET
+  result
+BEGIN
+  FOR (result = 0; (count < 0 || result < count) && VARIABLE_IS_SET $EVAL ~%name%~(~%result%~); ++result) BEGIN END
+END
+
+/**
+ * Used internally: Returns the tilemap index that can be used by a new door entry.
+ *
+ * RET tilemap_index  The tilemap index.
+ */
+DEFINE_PATCH_FUNCTION __FIND_NEXT_DOOR_TILEMAP_INDEX
+RET
+  tilemap_index
+BEGIN
+  SET tilemap_index = 0
+
+  SET size_door = 26
+  READ_LONG 0x0c num_doors
+  READ_LONG 0x18 ofs_doors
+
+  // calculating tileset index for the new door
+  FOR (door_idx = num_doors - 1; door_idx >= 0; --door_idx) BEGIN
+    SET ofs = ofs_doors + door_idx * size_door
+    READ_SHORT (ofs + 0x0a) first_index
+    READ_SHORT (ofs + 0x0c) num_indices
+    SET new_index = first_index + num_indices
+    SET tilemap_index = (new_index > tilemap_index) ? new_index : tilemap_index
+
+    SET door_idx = 0
+  END
+END
+
+/**
+ * Used internally: Returns the polygon offset that can be used by a new door entry.
+ *
+ * RET polygon_offset  The door polygon offset.
+ */
+DEFINE_PATCH_FUNCTION __FIND_NEXT_DOOR_POLY_OFFSET
+RET
+  polygon_offset
+BEGIN
+  SET size_door = 26
+  SET size_poly = 18
+  READ_LONG 0x0c num_doors
+  READ_LONG 0x14 ofs_header2
+  READ_LONG 0x18 ofs_doors
+  READ_LONG ofs_header2 num_wallpolys
+  READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+
+  SET polygon_offset = ofs_wallpolys + num_wallpolys * size_poly
+
+  FOR (door_idx = num_doors - 1; door_idx >= 0; --door_idx) BEGIN
+    SET ofs = ofs_doors + door_idx * size_door
+
+    // scanning closed and open polygon offsets
+    FOR (j = 1; j >= 0; --j) BEGIN
+      READ_SHORT (ofs + 0x0e + j * 2) next_poly_count
+      READ_LONG (ofs + 0x12 + j * 4) next_poly_ofs
+      SET next_poly_ofs += next_poly_count * size_poly
+      SET polygon_offset = (next_poly_ofs > polygon_offset) ? next_poly_ofs : polygon_offset
+    END
+
+    SET door_idx = 0
+  END
+END
+
+/**
+ * Used internally: Determines the vertex index for the next door polygon structure at the given location.
+ *
+ * INT_VAR door_index   Index of the door structure where the new polygon should be added.
+ * INT_VAR closed       Specify 0 for open polygon and 1 for closed polygon.
+ * RET vertex_index     Start index of vertices for the new door polygon structure.
+ */
+DEFINE_PATCH_FUNCTION __FIND_NEXT_DOOR_VERTEX_INDEX
+INT_VAR
+  door_index = "-1"
+  closed = 0
+RET
+  vertex_index
+BEGIN
+  SET vertex_index = 0
+  READ_LONG 0x0c num_doors
+  PATCH_IF (door_index >= 0 && door_index < num_doors) BEGIN
+    SET closed = (closed != 0)  // normalize open state
+    SET size_door = 26
+    SET size_poly = 18
+
+    // backtracking from door polys
+    READ_LONG 0x18 ofs_doors
+    FOR (i = door_index; i >= 0; --i) BEGIN
+      SET door_ofs = ofs_doors + i * size_door
+      FOR (j = closed; j >= 0; --j) BEGIN
+        READ_SHORT (door_ofs + 0x0e + j * 2) num_polys
+        PATCH_IF (num_polys > 0) BEGIN
+          READ_LONG (door_ofs + 0x12 + j * 4) ofs_polys
+          SET poly_ofs = ofs_polys + (num_polys - 1) * size_poly
+          READ_LONG poly_ofs first_index
+          READ_LONG (poly_ofs + 0x04) count
+          SET next = first_index + count
+          SET vertex_index = (next > vertex_index) ? next : vertex_index
+        END
+      END
+      SET closed = 1  // consider all polygon types in preceding door structures
+    END
+  
+    // backtracking from wallpolys
+    PATCH_IF (vertex_index == 0) BEGIN
+      READ_LONG 0x14 ofs_header2
+      READ_LONG ofs_header2 num_wallpoly
+      PATCH_IF (num_wallpoly > 0) BEGIN
+        READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+        SET poly_ofs = ofs_wallpolys + (num_wallpoly - 1) * size_poly
+        READ_LONG poly_ofs first_index
+        READ_LONG (poly_ofs + 0x04) count
+        SET vertex_index = first_index + count
+      END
+    END
+  END
+END
+
+/**
+ * Used internally: Determines the vertex index for the next wall polygon structure.
+ *
+ * RET vertex_index   Start index of vertices for the new wall polygon structure.
+ */
+DEFINE_PATCH_FUNCTION __FIND_NEXT_WALLPOLY_VERTEX_INDEX
+RET
+  vertex_index
+BEGIN
+  SET vertex_index = 0
+
+  READ_LONG 0x14 ofs_header2
+  READ_LONG ofs_header2 num_wallpoly
+  READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+  READ_LONG (ofs_header2 + 0x08) ofs_vertices
+  FOR (i = num_wallpoly - 1; i >= 0; --i) BEGIN
+    SET poly_ofs = ofs_wallpolys + i * 18
+    READ_LONG poly_ofs first_index
+    READ_LONG (poly_ofs + 0x04) count
+    SET vertex_index = first_index + count
+    SET i = 0
+  END
+END
+
+/**
+ * Used internally: Calculates the bounding box of the given vertices.
+ * Vertices can be fetched from a specified array or buffer offset.
+ * Bounding box defaults to (-1, 0),(-1, 0) if no vertices are available.
+ *
+ * INT_VAR count            Number of vertex elements to consider.
+ * INT_VAR vertices_offset  Start offset of the vertices to scan. Omit to use "array_name" instead.
+ * STR_VAR array_name       Name of the array. Omit to use "vertices_offset" instead.
+ * RET min_x, max_x, min_y, max_y   Min/Max bounds in horizontal and vertical direction.
+ */
+DEFINE_PATCH_FUNCTION __GET_POLY_BOUNDS
+INT_VAR
+  count = 0
+  vertices_offset = "-1"
+STR_VAR
+  array_name = ~~
+RET
+  min_x max_x min_y max_y
+BEGIN
+  SET exists = (count > 0 && (vertices_offset >= 0 || (NOT ~%array_name%~ STR_EQ ~~ && VARIABLE_IS_SET $EVAL ~%array_name%~(~0~))))
+  PATCH_IF (exists) BEGIN
+    min_x = 32767
+    max_x = "-32768"
+    min_y = 32767
+    max_y = "-32768"
+    SET is_array = (NOT ~%array_name%~ STR_EQ ~~)
+    FOR (i = 0; i < count; ++i) BEGIN
+      PATCH_IF (is_array) BEGIN
+        SET v = $EVAL ~%array_name%~(~%i%~)
+      END ELSE BEGIN
+        READ_LONG (vertices_offset + i * 4) v
+      END
+      SET x = v & 0xffff
+      SET x = (x & 0x8000) != 0 ? 0 - (BNOT x) - 1 : x
+      SET min_x = (x < min_x) ? x : min_x
+      SET max_x = (x > max_x) ? x : max_x
+      SET y = (v >> 16) & 0xffff
+      SET y = (y & 0x8000) != 0 ? 0 - (BNOT y) - 1 : y
+      SET min_y = (y < min_y) ? y : min_y
+      SET max_y = (y > max_y) ? y : max_y
+    END
+  END ELSE BEGIN
+    SET min_x = "-1"
+    SET max_x = 0
+    SET min_y = "-1"
+    SET max_y = 0
+  END
+END
+
+/**
+ * Used internally: Returns the index of the first door that matches the specified name.
+ *
+ * STR_VAR door_name  Name of the door structure.
+ * RET door_index     Index of the door structure if found, -1 otherwise.
+ */
+DEFINE_PATCH_FUNCTION __FIND_WED_DOOR
+STR_VAR
+  door_name = ~~
+RET
+  door_index
+BEGIN
+  SET door_index = "-1"
+  PATCH_IF (NOT ~%door_name%~ STR_EQ ~~) BEGIN
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x18 ofs_doors
+    FOR (i = 0; i < num_doors; ++i) BEGIN
+      SET ofs = ofs_doors + i * 26
+      READ_ASCII ofs cur_name (8) NULL
+      PATCH_IF (~%cur_name%~ STR_EQ ~%door_name%~) BEGIN
+        SET door_index = i
+        SET i = num_doors
+      END
+    END
+  END
+END
+
+/**
+ * Used internally: Updates all WED offsets based on specified parameters.
+ *
+ * INT_VAR size         Amount of data added (positive value) or removed (negative value) from the structure type
+ *                      referenced by "ref_offset".
+ * INT_VAR ref_offset   Absolute offset of the field containing the offset of the structure type that changed in size.
+ *                      This field and offset fields containing the same offset and are positioned before are skipped
+ *                      by the update.
+ */
+DEFINE_PATCH_FUNCTION __UPDATE_WED_OFFSETS
+INT_VAR
+  size = 0
+  ref_offset = 0
+BEGIN
+  PATCH_IF (size != 0 && ref_offset > 0) BEGIN
+    READ_LONG ref_offset offset
+
+    // indicates whether the reference offset has already been processed
+    SET ref_passed = 0
+
+    // main header
+    PATCH_FOR_EACH ofs IN 0x10 0x14 0x18 0x1c BEGIN
+      WRITE_LONG ofs (THIS > offset || THIS == offset && ref_passed) ? THIS + size : THIS
+      SET ref_passed |= (ofs == ref_offset)
+    END
+
+    // overlays
+    READ_LONG 0x08 num_ovls
+    READ_LONG 0x10 ofs_ovls
+    FOR (i = 0; i < num_ovls; ++i) BEGIN
+      SET ofs_ovl = ofs_ovls + i * 24
+      PATCH_FOR_EACH ofs IN 0x10 0x14 BEGIN
+        SET cur_ofs = ofs_ovl + ofs
+        WRITE_LONG cur_ofs (THIS > offset || THIS == offset && ref_passed) ? THIS + size : THIS
+        SET ref_passed |= (cur_ofs == ref_offset)
+      END
+    END
+
+    // secondary header
+    READ_LONG 0x14 ofs_header2
+    PATCH_FOR_EACH ofs IN 0x0c 0x04 BEGIN
+      SET cur_ofs = ofs_header2 + ofs
+      WRITE_LONG cur_ofs (THIS > offset || THIS == offset && ref_passed) ? THIS + size : THIS
+      SET ref_passed |= (cur_ofs == ref_offset)
+    END
+
+    // doors
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x18 ofs_doors
+    FOR (i = 0; i < num_doors; ++i) BEGIN
+      SET ofs_door = ofs_doors + i * 26
+      PATCH_FOR_EACH ofs IN 0x12 0x16 BEGIN
+        SET cur_ofs = ofs_door + ofs
+        WRITE_LONG cur_ofs (THIS > offset || THIS == offset && ref_passed) ? THIS + size : THIS
+        SET ref_passed |= (cur_ofs == ref_offset)
+      END
+    END
+
+    // secondary header (continued)
+    PATCH_FOR_EACH ofs IN 0x10 0x08 BEGIN
+      SET cur_ofs = ofs_header2 + ofs
+      WRITE_LONG cur_ofs (THIS > offset || THIS == offset && ref_passed) ? THIS + size : THIS
+      SET ref_passed |= (cur_ofs == ref_offset)
+    END
+  END
+END
+
+/**
+ * Used internally: Updates door tilemap index definitions in the current WED file.
+ *
+ * INT_VAR index        Index of the first tilemap definition that has been added or removed.
+ * INT_VAR count        Number of tilemap definitions to update. Specify a positive value if definitions have
+ *                      been added. Specify a negative value if definitions have been removed.
+ * INT_VAR ref_offset   Absolute offset of the door polygon structure where tilemap definitions have been added
+ *                      or removed.
+ */
+DEFINE_PATCH_FUNCTION __UPDATE_WED_TILEMAP_INDICES
+INT_VAR
+  index = 0
+  count = 0
+  ref_offset = 0
+BEGIN
+  SET size_door = 26
+  PATCH_IF (index >= 0 && count != 0 && ref_offset > 0) BEGIN
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x18 ofs_doors
+    FOR (door_idx = 0; door_idx < num_doors; ++door_idx) BEGIN
+      SET ofs_door = ofs_doors + door_idx * size_door
+      WRITE_SHORT (ofs_door + 0x0a) (THIS > index || (THIS == index && ofs_door > ref_offset)) ? THIS + count : THIS
+    END
+  END
+END
+
+/**
+ * Used internally: Updates vertex index definitions in the current WED file.
+ *
+ * INT_VAR index        Index of the first vertex that has been added or removed.
+ * INT_VAR count        Number of vertices to update. Specify a positive value if vertices have been added.
+ *                      Specify a negative value if vertices have been removed.
+ * INT_VAR ref_offset   Absolute offset of the polygon structure where vertices have been added or removed.
+ */
+DEFINE_PATCH_FUNCTION __UPDATE_WED_POLY_INDICES
+INT_VAR
+  index = 0
+  count = 0
+  ref_offset = 0
+BEGIN
+  SET size_door = 26
+  SET size_poly = 18
+  PATCH_IF (index >= 0 && count != 0 && ref_offset > 0) BEGIN
+    // updating indices in wallpolys
+    READ_LONG 0x14 ofs_header2
+    READ_LONG ofs_header2 num_wallpolys
+    READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+    FOR (poly_idx = 0; poly_idx < num_wallpolys; ++poly_idx) BEGIN
+      SET cur_ofs = ofs_wallpolys + poly_idx * size_poly
+      PATCH_IF (cur_ofs != ref_offset) BEGIN
+        WRITE_LONG cur_ofs (THIS > index || (THIS == index && cur_ofs > ref_offset)) ? THIS + count : THIS
+      END
+    END
+
+    // updating indices in door polys
+    READ_LONG 0x0c num_doors
+    READ_LONG 0x18 ofs_doors
+    FOR (door_idx = 0; door_idx < num_doors; ++door_idx) BEGIN
+      SET ofs_door = ofs_doors + door_idx * size_door
+      FOR (i = 0; i < 2; ++i) BEGIN
+        READ_SHORT (ofs_door + 0x0e + i * 2) num_poly
+        READ_LONG (ofs_door + 0x12 + i * 4) ofs_poly
+        FOR (poly_idx = 0; poly_idx < num_poly; ++poly_idx) BEGIN
+          SET cur_ofs = ofs_poly + poly_idx * size_poly
+          PATCH_IF (cur_ofs != ref_offset) BEGIN
+            WRITE_LONG cur_ofs (THIS > index || (THIS == index && cur_ofs > ref_offset)) ? THIS + count : THIS
+          END
+        END
+      END
+    END
+  END
+END
+
+/**
+ * Used internally: Calculates the number of required wallgroup definitions for the specified tileset dimension.
+ *
+ * INT_VAR width    Number of tiles in horizontal direction.
+ * INT_VAR height   Number of tiles in vertical direction.
+ * RET count        Number of required wallgroup definitions.
+ * RET x            Number of wallgroups per row.
+ * RET y            Number of wallgroup rows.
+ */
+DEFINE_DIMORPHIC_FUNCTION __CALCULATE_WALLGROUP_COUNT
+INT_VAR
+  width = 0
+  height = 0
+RET
+  count x y
+BEGIN
+  OUTER_SET count = 0
+  OUTER_SET x = 0
+  OUTER_SET y = 0
+
+  ACTION_IF (width > 0 && height > 0) BEGIN
+    OUTER_SET wg_x = 640
+    OUTER_SET wg_y = 480
+    OUTER_SET x = (width * 64 + wg_x - 1) / wg_x
+    OUTER_SET y = (height * 64 + wg_y - 1) / wg_y
+    OUTER_SET count = x * y
+  END
+END
+
+/**
+ * Used internally: Adds the specified (wall or door) polygon to the wallgroup section.
+ *
+ * INT_VAR polygon_index    Absolute index of the polygon. Omit if you specify the polygon by offset.
+ * INT_VAR polygon_offset   Absolute index of the polygon. Omit if you specify the polygon by index.
+ */
+DEFINE_PATCH_FUNCTION __ADD_POLY_TO_WALLGROUP
+INT_VAR
+  polygon_index = "-1"
+  polygon_offset = 0
+BEGIN
+  SET size_poly = 18
+  SET size_wallgroup = 4
+  SET size_lookup = 2
+  READ_LONG 0x14 ofs_header2
+  READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+
+  PATCH_IF (polygon_index < 0 && polygon_offset > 0) BEGIN
+    SET polygon_index = (polygon_offset - ofs_wallpolys) / size_poly
+  END
+
+  // Wallgroup dimension: 640x480
+  PATCH_IF (polygon_index >= 0) BEGIN
+    SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+    READ_LONG 0x08 num_overlays
+    PATCH_IF (num_overlays > 0) BEGIN
+      READ_LONG 0x10 ofs_overlays
+      READ_SHORT ofs_overlays width
+      READ_SHORT (ofs_overlays + 0x02) height
+    END ELSE BEGIN
+      SET width = 0
+      SET height = 0
+    END
+
+    PATCH_IF (width > 0 && height > 0) BEGIN
+      LPF __CALCULATE_WALLGROUP_COUNT INT_VAR width height RET num_wallgroups = count wg_width = x wg_height = y END
+      SET wg_x = 640
+      SET wg_y = 480
+
+      READ_SSHORT (polygon_offset + 0x0a) min_x
+      READ_SSHORT (polygon_offset + 0x0c) max_x
+      READ_SSHORT (polygon_offset + 0x0e) min_y
+      READ_SSHORT (polygon_offset + 0x10) max_y
+      SET wg_min_x = min_x / wg_x
+      SET wg_min_x = (wg_min_x < 0) ? 0 : wg_min_x
+      SET wg_min_x = (wg_min_x >= wg_width) ? wg_width - 1 : wg_min_x
+      SET wg_max_x = max_x / wg_x
+      SET wg_max_x = (wg_max_x < 0) ? 0 : wg_max_x
+      SET wg_max_x = (wg_max_x >= wg_width) ? wg_width - 1 : wg_max_x
+      SET wg_min_y = min_y / wg_y
+      SET wg_min_y = (wg_min_y < 0) ? 0 : wg_min_y
+      SET wg_min_y = (wg_min_y >= wg_height) ? wg_height - 1 : wg_min_y
+      SET wg_max_y = max_y / wg_y
+      SET wg_max_y = (wg_max_y < 0) ? 0 : wg_max_y
+      SET wg_max_y = (wg_max_y >= wg_height) ? wg_height - 1 : wg_max_y
+
+      FOR (y = wg_min_y; y <= wg_max_y; ++y) BEGIN
+        FOR (x = wg_min_x; x <= wg_max_x; ++x) BEGIN
+          READ_LONG (ofs_header2 + 0x0c) ofs_wallgroups
+          READ_LONG (ofs_header2 + 0x10) ofs_polylookups
+          SET wg_idx = x + y * wg_width
+          SET wg_offset = ofs_wallgroups + wg_idx * size_wallgroup
+          READ_SHORT wg_offset first
+          READ_SHORT (wg_offset + 0x02) count
+          WRITE_SHORT (wg_offset + 0x02) (count + 1)
+
+          // adding new polygon lookup entry
+          SET lookup_offset = ofs_polylookups + (first + count) * size_lookup
+          INSERT_BYTES lookup_offset size_lookup
+          WRITE_SHORT lookup_offset polygon_index
+
+          // updating offsets
+          LPF __UPDATE_WED_OFFSETS
+            INT_VAR
+              size = size_lookup
+              ref_offset = ofs_header2 + 0x10 // Polygon lookup offset
+          END
+
+          // updating wallgroup indices
+          LPF __UPDATE_WALLGROUP_INDICES
+            INT_VAR
+              index = wg_idx
+              num_wallgroups
+          END
+        END
+      END
+    END
+  END
+END
+
+/**
+ * Used internally: Removes the specified (wall or door) polygon from the wallgroup section.
+ *
+ * INT_VAR polygon_index    Absolute index of the polygon. Omit if you specify the polygon by offset.
+ * INT_VAR polygon_offset   Absolute index of the polygon. Omit if you specify the polygon by index.
+ */
+DEFINE_PATCH_FUNCTION __REMOVE_POLY_FROM_WALLGROUP
+INT_VAR
+  polygon_index = "-1"
+  polygon_offset = 0
+BEGIN
+  SET size_poly = 18
+  SET size_wallgroup = 4
+  SET size_lookup = 2
+  READ_LONG 0x14 ofs_header2
+  READ_LONG (ofs_header2 + 0x04) ofs_wallpolys
+  READ_LONG (ofs_header2 + 0x0c) ofs_wallgroups
+  READ_LONG (ofs_header2 + 0x10) ofs_polylookups
+
+  PATCH_IF (polygon_index < 0 && polygon_offset > 0) BEGIN
+    SET polygon_index = (polygon_offset - ofs_wallpolys) / size_poly
+  END
+
+  // Wallgroup dimension: 640x480
+  PATCH_IF (polygon_index >= 0) BEGIN
+    SET polygon_offset = ofs_wallpolys + polygon_index * size_poly
+    READ_LONG 0x08 num_overlays
+    PATCH_IF (num_overlays > 0) BEGIN
+      READ_LONG 0x10 ofs_overlays
+      READ_SHORT ofs_overlays width
+      READ_SHORT (ofs_overlays + 0x02) height
+    END ELSE BEGIN
+      SET width = 0
+      SET height = 0
+    END
+
+    PATCH_IF (width > 0 && height > 0) BEGIN
+      LPF __CALCULATE_WALLGROUP_COUNT INT_VAR width height RET num_wallgroups = count wg_width = x wg_height = y END
+      SET wg_x = 640
+      SET wg_y = 480
+
+      READ_SSHORT (polygon_offset + 0x0a) min_x
+      READ_SSHORT (polygon_offset + 0x0c) max_x
+      READ_SSHORT (polygon_offset + 0x0e) min_y
+      READ_SSHORT (polygon_offset + 0x10) max_y
+      SET wg_min_x = min_x / wg_x
+      SET wg_min_x = (wg_min_x < 0) ? 0 : wg_min_x
+      SET wg_min_x = (wg_min_x >= wg_width) ? wg_width - 1 : wg_min_x
+      SET wg_max_x = max_x / wg_x
+      SET wg_max_x = (wg_max_x < 0) ? 0 : wg_max_x
+      SET wg_max_x = (wg_max_x >= wg_width) ? wg_width - 1 : wg_max_x
+      SET wg_min_y = min_y / wg_y
+      SET wg_min_y = (wg_min_y < 0) ? 0: wg_min_y
+      SET wg_min_y = (wg_min_y >= wg_height) ? wg_height - 1 : wg_min_y
+      SET wg_max_y = max_y / wg_y
+      SET wg_max_y = (wg_max_y < 0) ? 0 : wg_max_y
+      SET wg_max_y = (wg_max_y >= wg_height) ? wg_height - 1 : wg_max_y
+
+      FOR (y = wg_min_y; y <= wg_max_y; ++y) BEGIN
+        FOR (x = wg_min_x; x <= wg_max_x; ++x) BEGIN
+          SET wg_idx = x + y * wg_width
+          SET wg_offset = ofs_wallgroups + wg_idx * size_wallgroup
+          READ_SHORT wg_offset first
+          READ_SHORT (wg_offset + 0x02) count
+
+          // finding polygon index in lookup table
+          SET found = 0
+          FOR (i = 0; i < count; ++i) BEGIN
+            SET lookup_offset = ofs_polylookups + (first + i) * size_lookup
+            READ_SHORT lookup_offset poly_idx
+            PATCH_IF (polygon_index == poly_idx) BEGIN
+              SET found = 1
+              SET i = count
+            END
+          END
+
+          // removing polygon lookup entry and updating wallgroup entry
+          PATCH_IF (found) BEGIN
+            WRITE_SHORT (wg_offset + 0x02) (count - 1)
+            DELETE_BYTES lookup_offset 2
+
+            // updating offsets
+            LPF __UPDATE_WED_OFFSETS
+              INT_VAR
+                size = "-2"
+                ref_offset = ofs_header2 + 0x10 // Polygon lookup offset
+            END
+
+            // updating wallgroup indices
+            LPF __UPDATE_WALLGROUP_INDICES
+              INT_VAR
+                index = wg_idx
+                num_wallgroups
+            END
+          END
+        END
+      END
+    END
+  END
+END
+
+/**
+ * Used internally: Updates wallgroup definitions in the current WED file.
+ *
+ * INT_VAR index            Index of the first wallgroup to update.
+ * INT_VAR num_wallgroups   Number of available wallgroup structures in the WED file. Omit to autodetect.
+ */
+DEFINE_PATCH_FUNCTION __UPDATE_WALLGROUP_INDICES
+INT_VAR
+  index = "-1"
+  num_wallgroups = "-1"
+BEGIN
+  SET size_wallgroup = 4
+  READ_LONG 0x14 ofs_header2
+  READ_LONG (ofs_header2 + 0x0c) ofs_wallgroups
+
+  PATCH_IF (num_wallgroups < 0) BEGIN
+    READ_LONG 0x08 num_overlays
+    PATCH_IF (num_overlays > 0) BEGIN
+      READ_LONG 0x10 ofs_overlays
+      READ_SHORT ofs_overlays width
+      READ_SHORT (ofs_overlays + 0x02) height
+    END ELSE BEGIN
+      SET width = 0
+      SET height = 0
+    END
+
+    PATCH_IF (width > 0 && height > 0) BEGIN
+      LPF __CALCULATE_WALLGROUP_COUNT INT_VAR width height RET num_wallgroups = count END
+    END
+  END
+
+  PATCH_IF (index < num_wallgroups) BEGIN
+    PATCH_IF (index < 0) BEGIN
+      SET index = "-1"
+      SET cur_index = 0
+    END ELSE BEGIN
+      SET ofs = ofs_wallgroups + index * size_wallgroup
+      READ_SHORT ofs cur_index
+      READ_SHORT (ofs + 0x02) count
+      SET cur_index += count
+    END
+
+    FOR (i = index + 1; i < num_wallgroups; ++i) BEGIN
+      SET ofs = ofs_wallgroups + i * size_wallgroup
+      WRITE_SHORT ofs cur_index
+      READ_SHORT (ofs + 0x02) count
+      SET cur_index += count
+    END
+  END
+END

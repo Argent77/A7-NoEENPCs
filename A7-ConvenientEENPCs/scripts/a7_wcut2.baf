@@ -12,7 +12,7 @@ THEN
     DestroyItem("RIDRING")
     Wait(1)
     TriggerActivation("A7_WilsonTalk",FALSE)
-    CloseDoor("A7_WCAGE")
+    OpenDoor("A7_WCAGE")
     Face(SE)
     FadeFromColor([30.0],0)
     Wait(2)
