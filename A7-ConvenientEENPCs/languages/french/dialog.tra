@@ -13,6 +13,31 @@
 @10200 = ~Les routes étant ce qu'elles sont en ce moment, il n'y a plus beaucoup de nouvelles têtes par ici. Unshey en profite pour écrire un nouveau livre et Khalid et Jaheira attendent anxieusement dans le coin là-bas, prenant des quarts pour être sûrs de ne pas manquer la personne qu'ils attendent... Qui d'autre ? Voyons voir, Landrin est à l'étage, en train de finir une énième bouteille, et il y avait également... Tarnesh... Je regrette réellement qu'il vous ait causé des ennuis ; il était tout sourire jusqu'à ce qu'il entende qu'il y avait des visiteurs à la porte... Les bagarres ne sont pas autorisées ici. Nous avons des règles très strictes pour ce genre de choses, mais les gardes disent qu'il a jailli de l'ombre et s'est jeté sur vous et que vous ne pouviez rien y faire... Voilà, c'est à peu près tout. Tous les autres sont là depuis au moins deux mois. Il y a tellement de monde qu'on a même envisagé de laisser les gens s'installer dans le temple pour dormir.~
 
 
+// Wilson - Circus
+@10300 = ~J'ai rencontré Wilson, l'ours. Accepteriez-vous de le libérer ?~
+@10301 = ~Je souhaiterais acheter l'ours appelé Wilson. Est-ce possible ?~
+@10302 = ~Oh, il a déjà dévoilé son nom à un inconnu ? Il a dû percevoir quelque chose de spécial en vous.~ ~Oh, il a déjà dévoilé son nom à une inconnue ? Il a dû percevoir quelque chose de spécial en vous.~
+@10303 = ~Je n'ai pas pour habitude de me séparer de nos animaux, mais dans votre cas une exception s'impose. Après tout, vous nous avez sauvés de l'emprise de Kalah.~
+@10304 = ~Désolé, <GABBER>. Nos animaux ne sont pas à vendre.~
+@10305 = ~Mais comme vous nous avez sauvés de l'emprise de Kalah, une exception s'impose.~
+@10306 = ~L'ours est à vous. Retrouvez le à l'extérieur.~
+@10307 = ~Vous devriez en discuter avec Quayle. C'est lui qui prend les décisions.~
+
+// Wilson
+@10350 = ~Patience, Wilson ! Je tiendrais ma promesse et te libérerais.~
+@10351 = ~Je pourrais essayer de tordre ces barreaux.~
+@10352 = ~Wilson, tu es libre !~
+@10353 = ~(Impossible d'exercer une force suffisante pour plier les barreaux. Ils sont beaucoup trop larges).~
+
+// Wilson - Journal
+@10380 = ~Un ours nommé Wilson est enfermé dans une des cages du cirque sur la promenade de Waukyne. Je suis catégorique, Wilson est l'ours le plus éloquent jamais rencontré.~
+@10381 = ~Un ours nommé Wilson est enfermé dans une des cages du cirque sur la promenade de Waukyne. Je suis catégorique, Wilson est l'ours le plus éloquent jamais rencontré. J'ai promis de l'aider à retrouver sa liberté.~
+@10382 = ~Quayle, le propriétaire du cirque, a accepté de libérer Wilson, en signe de gratitude, après avoir été lui-même libéré de l'emprise de Kalah. Je dois me dépêcher de le dire à Wilson.~
+@10383 = ~Les employés du cirque ont accepté de libérer Wilson, en signe de gratitude, après avoir eux-mêmes été libérés de l'emprise de Kalah. Je dois me dépêcher de le dire à Wilson.~
+@10384 = ~J'ai libéré Wilson, l'ours. Il semble qu'après avoir été enfermé, il soit plus à l'aise en ma compagnie que seul.~
+@10385 = ~J'ai libéré Wilson, l'ours. Il semble qu'après avoir été enfermé, il soit plus à l'aise en ma compagnie que seul. J'aimerais l'emmener avec moi, mais ce serait faire preuve d'égoïsme. Il sera plus en sécurité dans la nature, loin d'Athkatla.~
+
+
 // Item-related
 @11000 = ~Oh, j'allais oublier, un voyageur versé dans l'art de la magie m'a un jour offert un magnifique assortiment de chopes enchantées en guise de paiement pour mes services. Je souhaiterais vous faire cadeau de l'une d'entre elles, un gage de ma gratitude pour avoir sauvé mon établissement. Qu'en pensez-vous ?~
 @11001 = ~Oui, avec plaisir.~

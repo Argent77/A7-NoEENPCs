@@ -26,11 +26,13 @@
 @203 = ~Rendre Neera passive~
 @204 = ~Rendre Rasaad passif~
 
+@220 = ~Deplacer Wilson a la promenade de Waukyne~
+
 @301 = ~Rendre les objets specifiques a chaque PNJ utilisables par tous~
 
-@310 = ~Allied Caelar Argent in Avernus boss battle~
-@311 = ~Joins as controllable follower if no free party slots available~
-@312 = ~Always joins as controllable follower~
+@310 = ~Alliance avec Caelar Argent dans le combat final en Avernus~
+@311 = ~Caelar Argent se joint au groupe en tant qu'alliee controlee s'il n'y a pas de place libre pour elle.~
+@312 = ~Caelar Argent se joint toujours au groupe en tant qu'alliee controlee~
 
 // Portraits
 @400 = ~Changer le portrait de Baeloth~
@@ -132,6 +134,7 @@
 @1010 = ~Ce composant necessite l'installation du mod "Shadow Magic".~
 @1011 = ~Ce composant necessite l'installation du profil "Etoile d'Argent de Selune" du mod "Divine Remix".~
 @1012 = ~Operation annulee par l'utilisateur.~
+@1013 = ~Ce composant n'est disponible que si Rasaad a ete desactive.~
 
 // Custom class selection
 @2000 = ~Classe actuelle : %cur_class_title% (%cur_class_name%) - profil actuel : %cur_kit_title% (%cur_kit_name%)~
