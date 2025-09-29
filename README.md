@@ -51,6 +51,8 @@ The following components are only available when selecting subcomponent "Decide 
   - **Disable Rasaad *(BG:EE, BG:SOD, BG2:EE and EET)*:** This component prevents Rasaad from appearing in BG:EE, BG:SOD and BG2:EE.
   - **Make Rasaad passive *(BG:EE, BG2:EE and EET)*:** In BG:EE This component prevents Rasaad from joining the fight against the assassins Neira or Nimbul in Nashkel. In BG2:EE this component triggers the introduction cutscene in Trademeet only when you talk to Rasaad. He can be found near the fountain.
 
+- **Move Wilson to Waukeen's Promenade *(BG2:EE and EET, only if Rasaad has been disabled)*:** This component moves Wilson's initial appearance from the Dark Moon Heretic Temple area to Waukeen's Promenade. He is imprisoned in one of the cages that belong to the circus.
+
 - **Make NPC-specific items available for everyone:** This component allows you to acquire personal or quest-related items of disabled NPC(s) from merchants all over the game or as loot from containers or creatures. It is only available if you select to disable all or individual NPCs.
 
 - **Allied Caelar Argent in Avernus boss battle *(BG:SOD and EET)*:** This component allows you to control Caelar Argent if she joins the battle as an ally. The following options allow you to refine her behavior even further:
@@ -74,96 +76,103 @@ The following components are only available when selecting subcomponent "Decide 
 ### NPC Class Changes
 
 - **Change class/kit: Baeloth (BG:EE, SoD and EET)**
-  - **Reset level only**: Resets his level to 1, but makes no changes to his current class or kit.
+  - **Reset level**: Resets his level to 1, but makes no changes to his current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Mage**: Resets his level to 1 and applies the class "Mage".
-  - **Abjurer**: Resets his level to 1 and applies the mage kit "Abjurer".
-  - **Conjurer**: Resets his level to 1 and applies the mage kit "Conjurer".
-  - **Diviner**: Resets his level to 1 and applies the mage kit "Diviner".
-  - **Enchanter**: Resets his level to 1 and applies the mage kit "Enchanter".
-  - **Illusionist**: Resets his level to 1 and applies the mage kit "Illusionist".
-  - **Invoker**: Resets his level to 1 and applies the mage kit "Invoker".
-  - **Necromancer**: Resets his level to 1 and applies the mage kit "Necromancer".
-  - **Transmuter**: Resets his level to 1 and applies the mage kit "Transmuter".
-  - **Wild Mage**: Resets his level to 1 and applies the mage kit "Wild Mage".
-  - **Dragon Disciple**: Resets his level to 1 and applies the sorcerer kit "Dragon Disciple".
-  - **Chaos Sorcerer**: Resets his level to 1 and applies the custom sorcerer kit "Chaos Sorcerer". *(requires mod "Chaos Sorcerer Kit" by Argent77)*
-  - **Shadow Adept**: Resets his level to 1 and applies the custom mage kit "Shadow Adept". *(requires mod "Shadow Magic" by Artemius_I)*
+  - **Mage**: Applies the class "Mage". Current level and experience will be retained.
+  - **Abjurer**: Applies the mage kit "Abjurer". Current level and experience will be retained.
+  - **Conjurer**: Applies the mage kit "Conjurer". Current level and experience will be retained.
+  - **Diviner**: Applies the mage kit "Diviner". Current level and experience will be retained.
+  - **Enchanter**: Applies the mage kit "Enchanter". Current level and experience will be retained.
+  - **Illusionist**: Applies the mage kit "Illusionist". Current level and experience will be retained.
+  - **Invoker**: Applies the mage kit "Invoker". Current level and experience will be retained.
+  - **Necromancer**: Applies the mage kit "Necromancer". Current level and experience will be retained.
+  - **Transmuter**: Applies the mage kit "Transmuter". Current level and experience will be retained.
+  - **Wild Mage**: Applies the mage kit "Wild Mage". Current level and experience will be retained.
+  - **Dragon Disciple**: Applies the sorcerer kit "Dragon Disciple". Current level and experience will be retained.
+  - **Chaos Sorcerer**: Applies the custom sorcerer kit "Chaos Sorcerer". Current level and experience will be retained. *(requires mod "Chaos Sorcerer Kit" by Argent77)*
+  - **Shadow Adept**: Applies the custom mage kit "Shadow Adept". Current level and experience will be retained. *(requires mod "Shadow Magic" by Artemius_I)*
+  - **Shadow Disciple**: Applies the custom sorcerer kit "Shadow Disciple". Current level and experience will be retained. *(requires mod "Shadow Magic" by Artemius_I)*
 
 - **Change class/kit: Dorn (BG:EE, SoD, BG2:EE and EET)**
-  - **Reset level only**: Resets his level to 1, but makes no changes to his current class or kit.
+  - **Reset level**: Resets his level to 1, but makes no changes to his current experience points, class, or kit.
 
 **Note:** Dorn's personal quests are too closely linked to his profession to allow any class changes.
 
 - **Change class/kit: Neera (BG:EE, SoD, BG2:EE and EET)**
-  - **Reset level only**: Resets her level to 1, but makes no changes to her current class or kit.
+  - **Reset level**: Resets her level to 1, but makes no changes to her current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Chaos Sorcerer**: Resets her level to 1 and applies the custom sorcerer kit "Chaos Sorcerer". *(requires mod "Chaos Sorcerer Kit" by Argent77)*
+  - **Fighter / Wild Mage**: Applies the custom multiclass kit "Fighter / Wild Mage". Current level and experience will be retained.
+  - **Wild Mage / Thief**: Applies the custom multiclass kit "Wild Mage / Thief". Current level and experience will be retained.
+  - **Cleric / Wild Mage**: Applies the custom multiclass kit "Cleric / Wild Mage". Current level and experience will be retained.
+  - **Fighter / Wild Mage / Thief**: Applies the custom multiclass kit "Fighter / Wild Mage / Thief". Current level and experience will be retained.
+  - **Fighter / Wild Mage / Cleric**: Applies the custom multiclass kit "Fighter / Wild Mage / Cleric". Current level and experience will be retained.
+  - **Chaos Sorcerer**: Applies the custom sorcerer kit "Chaos Sorcerer". Current level and experience will be retained. *(requires mod "Chaos Sorcerer Kit" by Argent77)*
 
 - **Change class/kit: Rasaad (BG:EE, SoD, BG2:EE and EET)**
-  - **Reset level only**: Resets his level to 1, but makes no changes to his current class or kit.
+  - **Reset level**: Resets his level to 1, but makes no changes to his current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Monk**: Resets his level to 1 and applies the class "Monk".
-  - **Silverstar of Selûne**: Resets his level to 1 and applies the custom cleric kit "Silverstar of Selûne". *(requires component "Silverstar of Selûne" of the mod "Divine Remix")*
+  - **Monk**: Applies the class "Monk". Current level and experience will be retained.
+  - **Silverstar of Selûne**: Applies the custom cleric kit "Silverstar of Selûne". Current level and experience will be retained. *(requires component "Silverstar of Selûne" of the mod "Divine Remix")*
+  - **Brawler**: Applies the custom monk kit "Brawler". Current level and experience will be retained. *(requires component "Brawler Kit" of the mod "Artisan's Kitpack" by Artemius_I)*
 
 - **Change class/kit: M'Khiin (SoD and EET)**
-  - **Reset level only**: Resets her level to 1, but makes no changes to her current class or kit.
+  - **Reset level**: Resets her level to 1, but makes no changes to her current experience points, class, or kit.
 
 **Note:** M'Khiin's special racial traits don't allow to make changes to her original class.
 
 - **Change class/kit: Glint (SoD and EET)**
-  - **Reset level only**: Resets his level to 1, but makes no changes to his current class or kit.
+  - **Reset level**: Resets his level to 1, but makes no changes to his current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Cleric**: Resets his level to 1 and applies the class "Cleric".
-  - **Fighter/Cleric**: Resets his level to 1 and applies the multiclass combination "Fighter/Cleric".
-  - **Cleric/Illusionist**: Resets his level to 1 and applies the specialized multiclass combination "Cleric/Illusionist".
+  - **Cleric**: Applies the class "Cleric". Current level and experience will be retained.
+  - **Fighter / Cleric**: Applies the multiclass combination "Fighter / Cleric". Current level and experience will be retained.
+  - **Cleric / Illusionist**: Applies the specialized multiclass combination "Cleric / Illusionist". Current level and experience will be retained.
 
 - **Change class/kit: Voghiln (SoD and EET)**
-  - **Reset level only**: Resets his level to 1, but makes no changes to his current class or kit.
+  - **Reset level**: Resets his level to 1, but makes no changes to his current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Bard**: Resets his level to 1 and applies the class "Bard".
-  - **Blade**: Resets his level to 1 and applies the bard kit "Blade".
-  - **Thief**: Resets his level to 1 and applies the class "Thief".
-  - **Swashbuckler**: Resets his level to 1 and applies the thief kit "Swashbuckler".
+  - **Bard**: Applies the class "Bard". Current level and experience will be retained.
+  - **Blade**: Applies the bard kit "Blade". Current level and experience will be retained.
+  - **Thief**: Applies the class "Thief". Current level and experience will be retained.
+  - **Swashbuckler**: Applies the thief kit "Swashbuckler". Current level and experience will be retained.
 
 - **Change class/kit: Corwin (SoD and EET)**
-  - **Reset level only**: Resets her level to 1, but makes no changes to her current class or kit.
+  - **Reset level**: Resets her level to 1, but makes no changes to her current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Ranger**: Resets her level to 1 and applies the class "Ranger".
-  - **Stalker**: Resets her level to 1 and applies the ranger kit "Stalker".
-  - **Fighter**: Resets her level to 1 and applies the class "Fighter".
-  - **Wizard Slayer**: Resets her level to 1 and applies the fighter kit "Wizard Slayer".
-  - **Cleric**: Resets her level to 1 and applies the class "Cleric".
-  - **Priest of Tyr**: Resets her level to 1 and applies the cleric kit "Priest of Tyr".
-  - **Priest of Helm**: Resets her level to 1 and applies the cleric kit "Priest of Helm".
-  - **Paladin**: Resets her level to 1 and applies the class "Paladin".
-  - **Cavalier**: Resets her level to 1 and applies the paladin kit "Cavalier".
-  - **Inquisitor**: Resets her level to 1 and applies the paladin kit "Inquisitor".
+  - **Ranger**: Applies the class "Ranger". Current level and experience will be retained.
+  - **Stalker**: Applies the ranger kit "Stalker". Current level and experience will be retained.
+  - **Fighter**: Applies the class "Fighter". Current level and experience will be retained.
+  - **Wizard Slayer**: Applies the fighter kit "Wizard Slayer". Current level and experience will be retained.
+  - **Cleric**: Applies the class "Cleric". Current level and experience will be retained.
+  - **Priest of Tyr**: Applies the cleric kit "Priest of Tyr". Current level and experience will be retained.
+  - **Priest of Helm**: Applies the cleric kit "Priest of Helm". Current level and experience will be retained.
+  - **Paladin**: Applies the class "Paladin". Current level and experience will be retained.
+  - **Cavalier**: Applies the paladin kit "Cavalier". Current level and experience will be retained.
+  - **Inquisitor**: Applies the paladin kit "Inquisitor". Current level and experience will be retained.
 
 - **Change class/kit: Hexxat (BG2:EE and EET)**
-  - **Reset level only**: Resets her level to 1, but makes no changes to her current class or kit.
+  - **Reset level**: Resets her level to 1, but makes no changes to her current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Assassin**: Resets her level to 1 and applies the thief kit "Assassin".
-  - **Shadowdancer**: Resets her level to 1 and applies the thief kit "Shadowdancer".
-  - **Mage/Thief**: Resets her level to 1 and applies the multiclass combination "Mage/Thief".
-  - **Mage/Assassin**: Resets her level to 1 and applies the specialized multiclass combination "Mage/Assassin".
-  - **Mage/Shadowdancer**: Resets her level to 1 and applies the specialized multiclass combination "Mage/Shadowdancer".
-  - **Necromancer/Thief**: Resets her level to 1 and applies the specialized multiclass combination "Necromancer/Thief".
-  - **Fighter/Thief**: Resets her level to 1 and applies the multiclass combination "Fighter/Thief".
-  - **Fighter/Assassin**: Resets her level to 1 and applies the specialized multiclass combination "Fighter/Assassin".
-  - **Fighter/Shadowdancer**: Resets her level to 1 and applies the specialized multiclass combination "Fighter/Shadowdancer".
+  - **Assassin**: Applies the thief kit "Assassin".  Current level and experience will be retained.
+  - **Shadowdancer**: Applies the thief kit "Shadowdancer". Current level and experience will be retained.
+  - **Mage / Thief**: Applies the multiclass combination "Mage / Thief". Current level and experience will be retained.
+  - **Mage / Assassin**: Applies the specialized multiclass combination "Mage / Assassin". Current level and experience will be retained.
+  - **Mage / Shadowdancer**: Applies the specialized multiclass combination "Mage / Shadowdancer". Current level and experience will be retained.
+  - **Necromancer / Thief**: Applies the specialized multiclass combination "Necromancer / Thief". Current level and experience will be retained.
+  - **Fighter / Thief**: Applies the multiclass combination "Fighter / Thief". Current level and experience will be retained.
+  - **Fighter / Assassin**: Applies the specialized multiclass combination "Fighter / Assassin". Current level and experience will be retained.
+  - **Fighter / Shadowdancer**: Applies the specialized multiclass combination "Fighter / Shadowdancer". Current level and experience will be retained.
 
 - **Change class/kit: Clara (BG2:EE and EET)**
-  - **Reset level only**: Resets her level to 1, but makes no changes to her current class or kit.
+  - **Reset level**: Resets her level to 1, but makes no changes to her current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Bounty Hunter**: Resets her level to 1 and applies the thief kit "Bounty Hunter".
-  - **Swashbuckler**: Resets her level to 1 and applies the thief kit "Swashbuckler".
-  - **Shadowdancer**: Resets her level to 1 and applies the thief kit "Shadowdancer".
-  - **Bard**: Resets her level to 1 and applies the class "Bard".
+  - **Bounty Hunter**: Applies the thief kit "Bounty Hunter". Current level and experience will be retained.
+  - **Swashbuckler**: Applies the thief kit "Swashbuckler". Current level and experience will be retained.
+  - **Shadowdancer**: Applies the thief kit "Shadowdancer". Current level and experience will be retained.
+  - **Bard**: Applies the class "Bard".
 
 - **Change class/kit: Caelar Argent (SoD and EET)**: *Caution: With any of these options installed mage or priest spells gained by level up won't be available since the party has no opportunity to rest in Avernus to memorize her spells. Moreover, you won't be able to level up Caelar at all if she joins as a follower.*
-  - **Reset level only**: Resets her level to 1, but makes no changes to her current class or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
-  - **Cavalier**: Resets her level to 1 and applies the paladin kit "Cavalier".
-  - **Inquisitor**: Resets her level to 1 and applies the paladin kit "Inquisitor".
-  - **Undead Hunter**: Resets her level to 1 and applies the paladin kit "Undead Hunter".
+  - **Cavalier**: Applies the paladin kit "Cavalier". Current level and experience will be retained.
+  - **Inquisitor**: Applies the paladin kit "Inquisitor". Current level and experience will be retained.
+  - **Undead Hunter**: Applies the paladin kit "Undead Hunter". Current level and experience will be retained.
+  - **Priest of Lathander**: Applies the cleric kit "Priest of Lathander". Current level and experience will be retained.
