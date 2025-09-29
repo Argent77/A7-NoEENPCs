@@ -1,0 +1,803 @@
+// Default character attribute tables and convenience functions for class change operations
+// Assuming max. character level for 1.2M XP (warrior: 12, priest/wizard: 13, rogue: 15)
+
+INCLUDE ~%MOD_FOLDER%/lib/custom_class_interactive.tph~
+
+// Function Overview:
+// a7#is_class_included     Convenience function that returns whether the specified class aspect is included in a given (multi) class.
+// a7#process_cre           Performs all specified patch functions on the CRE resources associated with the current NPC.
+// a7#change_class_npc      Action function: Changes class/kit combination or resets levels according to the specified parameters.
+
+
+// Default weapon proficiencies: warrior-based (9)
+ACTION_DEFINE_ARRAY profs_warrior BEGIN
+  ~PROFICIENCYLONGSWORD~
+  ~PROFICIENCYLONGSWORD~
+  ~PROFICIENCYLONGBOW~
+  ~PROFICIENCYFLAILMORNINGSTAR~
+  ~PROFICIENCYTWOHANDEDSWORD~
+  ~PROFICIENCYFLAILMORNINGSTAR~
+  ~PROFICIENCYSWORDANDSHIELD~
+  ~PROFICIENCYLONGBOW~
+  ~PROFICIENCY2HANDED~
+END
+// Default weapon proficiencies: rogue-based (7)
+ACTION_DEFINE_ARRAY profs_rogue BEGIN
+  ~PROFICIENCYDAGGER~
+  ~PROFICIENCYCLUB~
+  ~PROFICIENCYSHORTBOW~
+  ~PROFICIENCYSHORTSWORD~
+  ~PROFICIENCYSINGLEWEAPON~
+  ~PROFICIENCYSHORTSWORD~
+  ~PROFICIENCYSCIMITARWAKISASHININJATO~
+END
+// Default weapon proficiencies: priest-based (6)
+ACTION_DEFINE_ARRAY profs_priest BEGIN
+  ~PROFICIENCYCLUB~
+  ~PROFICIENCYSLING~
+  ~PROFICIENCYMACE~
+  ~PROFICIENCYSWORDANDSHIELD~
+  ~PROFICIENCYWARHAMMER~
+  ~PROFICIENCYQUARTERSTAFF~
+END
+// Default weapon proficiencies: wizard-based (4)
+ACTION_DEFINE_ARRAY profs_wizard BEGIN
+  ~PROFICIENCYQUARTERSTAFF~
+  ~PROFICIENCYSLING~
+  ~PROFICIENCYDAGGER~
+  ~PROFICIENCYDART~
+END
+
+// Distribution weights for thieving skill points
+ACTION_DEFINE_ASSOCIATIVE_ARRAY thieving_weights BEGIN
+  // parameter => weight
+  ~pick_pockets~    => 20
+  ~open_locks~      => 60
+  ~find_traps~      => 70
+  ~move_silently~   => 30
+  ~hide_in_shadows~ => 40
+  ~detect_illusion~ => 20
+  ~set_traps~       => 15
+END
+
+// Known spells for Shaman
+ACTION_DEFINE_ARRAY known_spells_shaman BEGIN
+  // Level 1 (5)
+  ~CLERIC_CURE_LIGHT_WOUNDS~
+  ~CLERIC_ENTANGLE~
+  ~CLERIC_DOOM~
+  ~CLERIC_BLESS~
+  ~CLERIC_SHILLELAGH~
+  // Level 2 (5)
+  ~CLERIC_BARKSKIN~
+  ~CLERIC_CHARM_PERSON~
+  ~CLERIC_SLOW_POISON~
+  ~CLERIC_FLAME_BLADE~
+  ~CLERIC_RESIST_FIRE~
+  // Level 3 (4)
+  ~CLERIC_CURE_MEDIUM_WOUNDS~
+  ~CLERIC_SUMMON_INSECTS~
+  ~CLERIC_MISCAST_MAGIC~
+  ~CLERIC_CALL_LIGHTNING~
+  // Level 4 (4)
+  ~CLERIC_CURE_SERIOUS_WOUNDS~
+  ~CLERIC_CALL_WOODLAND_BEINGS~
+  ~CLERIC_DEATH_WARD~
+  ~CLERIC_POISON~
+  // Level 5 (3)
+  ~CLERIC_IRONSKIN~
+  ~CLERIC_INSECT_PLAGUE~
+  ~CLERIC_CHAOTIC_COMMANDS~
+  // Level 6 (2)
+  ~CLERIC_HEAL~
+  ~CLERIC_DOLOROUS_DECAY~
+  // Level 7 (1)
+  ~CLERIC_CREEPING_DOOM~
+END
+
+// Memorized spells for Cleric/Paladin/Ranger
+ACTION_DEFINE_ARRAY memorized_spells_cleric BEGIN
+  // Level 1 (7)
+  ~CLERIC_CURE_LIGHT_WOUNDS~
+  ~CLERIC_REMOVE_FEAR~
+  ~CLERIC_CURE_LIGHT_WOUNDS~
+  ~CLERIC_DOOM~
+  ~CLERIC_SANCTUARY~
+  ~CLERIC_BLESS~
+  ~CLERIC_REMOVE_FEAR~
+  // Level 2 (7)
+  ~CLERIC_DRAW_UPON_HOLY_MIGHT~
+  ~CLERIC_SLOW_POISON~
+  ~CLERIC_HOLD_PERSON~
+  ~CLERIC_DRAW_UPON_HOLY_MIGHT~
+  ~CLERIC_CHARM_PERSON~
+  ~CLERIC_SILENCE_15_FOOT~
+  ~CLERIC_HOLD_PERSON~
+  // Level 3 (7)
+  ~CLERIC_CURE_MEDIUM_WOUNDS~
+  ~CLERIC_MISCAST_MAGIC~
+  ~CLERIC_ANIMATE_DEAD~
+  ~CLERIC_REMOVE_PARALYSIS~
+  ~CLERIC_UNHOLY_BLIGHT~
+  ~CLERIC_ZONE_OF_SWEET_AIR~
+  ~CLERIC_CURE_MEDIUM_WOUNDS~
+  // Level 4 (5)
+  ~CLERIC_LESSER_RESTORATION~
+  ~CLERIC_CURE_SERIOUS_WOUNDS~
+  ~CLERIC_DEATH_WARD~
+  ~CLERIC_CURE_SERIOUS_WOUNDS~
+  ~CLERIC_MENTAL_DOMINATION~
+  // Level 5 (3)
+  ~CLERIC_MASS_CURE~
+  ~CLERIC_CHAOTIC_COMMANDS~
+  ~CLERIC_TRUE_SIGHT~
+  // Level 6 (3)
+  ~CLERIC_HEAL~
+  ~CLERIC_HARM~
+  ~CLERIC_WONDROUS_RECALL~
+  // Level 7 (2)
+  ~CLERIC_FINGER_OF_DEATH~
+  ~CLERIC_UNHOLY_WORD~
+END
+
+// Memorized spells for Druid
+ACTION_DEFINE_ARRAY memorized_spells_druid BEGIN
+  // Level 1 (7)
+  ~CLERIC_CURE_LIGHT_WOUNDS~
+  ~CLERIC_ENTANGLE~
+  ~CLERIC_CURE_LIGHT_WOUNDS~
+  ~CLERIC_DOOM~
+  ~CLERIC_CURE_LIGHT_WOUNDS~
+  ~CLERIC_ENTANGLE~
+  ~CLERIC_DOOM~
+  // Level 2 (7)
+  ~CLERIC_BARKSKIN~
+  ~CLERIC_CHARM_PERSON~
+  ~CLERIC_SLOW_POISON~
+  ~CLERIC_CHARM_PERSON~
+  ~CLERIC_FLAME_BLADE~
+  ~CLERIC_SLOW_POISON~
+  ~CLERIC_CHARM_PERSON~
+  // Level 3 (7)
+  ~CLERIC_CURE_MEDIUM_WOUNDS~
+  ~CLERIC_SUMMON_INSECTS~
+  ~CLERIC_MISCAST_MAGIC~
+  ~CLERIC_CALL_LIGHTNING~
+  ~CLERIC_PROTECTION_FROM_FIRE~
+  ~CLERIC_CURE_MEDIUM_WOUNDS~
+  ~CLERIC_MISCAST_MAGIC~
+  // Level 4 (5)
+  ~CLERIC_CURE_SERIOUS_WOUNDS~
+  ~CLERIC_CALL_WOODLAND_BEINGS~
+  ~CLERIC_CURE_SERIOUS_WOUNDS~
+  ~CLERIC_DEATH_WARD~
+  ~CLERIC_POISON~
+  // Level 5 (3)
+  ~CLERIC_IRONSKIN~
+  ~CLERIC_INSECT_PLAGUE~
+  ~CLERIC_CHAOTIC_COMMANDS~
+  // Level 6 (2)
+  ~CLERIC_HEAL~
+  ~CLERIC_DOLOROUS_DECAY~
+  // Level 7 (1)
+  ~CLERIC_CREEPING_DOOM~
+END
+
+// Known spells for Mage/Sorcerer
+ACTION_DEFINE_ARRAY known_spells_wizard BEGIN
+  // Level 1 (6/5)
+  ~WIZARD_ARMOR~
+  ~WIZARD_CHARM_PERSON~
+  ~WIZARD_BLINDNESS~
+  ~WIZARD_IDENTIFY~
+  ~WIZARD_MAGIC_MISSILE~
+  ~WIZARD_LARLOCH_MINOR_DRAIN~
+  // Level 2 (6/5)
+  ~WIZARD_HORROR~
+  ~WIZARD_INVISIBILITY~
+  ~WIZARD_RESIST_FEAR~
+  ~WIZARD_MIRROR_IMAGE~
+  ~WIZARD_WEB~
+  ~WIZARD_AGANNAZAR_SCORCHER~
+  // Level 3 (6/4)
+  ~WIZARD_REMOVE_MAGIC~
+  ~WIZARD_HASTE~
+  ~WIZARD_SLOW~
+  ~WIZARD_SKULL_TRAP~
+  ~WIZARD_MELF_METEOR~
+  // Level 4 (5/4)
+  ~WIZARD_STONE_SKIN~
+  ~WIZARD_EMOTION_HOPELESSNESS~
+  ~WIZARD_POLYMORPH_SELF~
+  ~WIZARD_MONSTER_SUMMONING_2~
+  ~WIZARD_SPIDER_SPAWN~
+  // Level 5 (5/3)
+  ~WIZARD_SHADOW_DOOR~
+  ~WIZARD_CHAOS~
+  ~WIZARD_BREACH~
+  ~WIZARD_ANIMATE_DEAD~
+  ~WIZARD_CLOUDKILL~
+  // Level 6 (3/2)
+  ~WIZARD_TRUE_SIGHT~
+  ~WIZARD_DEATH_SPELL~
+  ~WIZARD_MISLEAD~
+  ~WIZARD_INVISIBLE_STALKER~
+  // Level 7 (3/0)
+  ~WIZARD_FINGER_OF_DEATH~
+  ~WIZARD_MORDENKAINENS_SWORD~
+  ~WIZARD_PROJECT_IMAGE~
+  // Level 8 (2/0)
+  ~WIZARD_ABI_DALZIMS_HORRID_WILTING~
+  ~WIZARD_SIMULACRUM~
+END
+
+// Memorized spells for Mage
+ACTION_DEFINE_ARRAY memorized_spells_wizard BEGIN
+  // Level 1 (6)
+  ~WIZARD_IDENTIFY~
+  ~WIZARD_MAGIC_MISSILE~
+  ~WIZARD_IDENTIFY~
+  ~WIZARD_BLINDNESS~
+  ~WIZARD_ARMOR~
+  ~WIZARD_LARLOCH_MINOR_DRAIN~
+  // Level 2 (6)
+  ~WIZARD_WEB~
+  ~WIZARD_MIRROR_IMAGE~
+  ~WIZARD_RESIST_FEAR~
+  ~WIZARD_HORROR~
+  ~WIZARD_WEB~
+  ~WIZARD_AGANNAZAR_SCORCHER~
+  // Level 3 (6)
+  ~WIZARD_SLOW~
+  ~WIZARD_SKULL_TRAP~
+  ~WIZARD_REMOVE_MAGIC~
+  ~WIZARD_MELF_METEOR~
+  ~WIZARD_SLOW~
+  ~WIZARD_HASTE~
+  // Level 4 (5)
+  ~WIZARD_STONE_SKIN~
+  ~WIZARD_EMOTION_HOPELESSNESS~
+  ~WIZARD_MONSTER_SUMMONING_2~
+  ~WIZARD_STONE_SKIN~
+  ~WIZARD_POLYMORPH_SELF~
+  // Level 5 (5)
+  ~WIZARD_BREACH~
+  ~WIZARD_CLOUDKILL~
+  ~WIZARD_SHADOW_DOOR~
+  ~WIZARD_ANIMATE_DEAD~
+  ~WIZARD_BREACH~
+  // Level 6 (3)
+  ~WIZARD_MISLEAD~
+  ~WIZARD_DEATH_SPELL~
+  ~WIZARD_TRUE_SIGHT~
+  // Level 7 (2)
+  ~WIZARD_PROJECT_IMAGE~
+  ~WIZARD_FINGER_OF_DEATH~
+END
+
+
+/**
+ * Convenience function that returns whether the specified class aspect is included in a given (multi) class.
+ *
+ * INT_VAR class          Numeric value of the class to check.
+ * INT_VAR class_aspect   Numeric value of the class aspect.
+ * RET result             Returns 1 if "class_aspect" is included in "class", 0 otherwise.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#is_class_included
+INT_VAR
+  class = 0
+  class_aspect = 0
+RET
+  result
+BEGIN
+  OUTER_SET result = 0
+
+  ACTION_IF (class > 0 && class_aspect > 0) BEGIN
+    LAF a7#get_base_classes INT_VAR class RET class1 class2 class3 END
+    OUTER_SET result = 0
+    OUTER_FOR (idx = 1; NOT result && idx <= 3; ++idx) BEGIN
+      OUTER_SET cur_class = EVAL ~class%idx%~
+      OUTER_SET result = (cur_class == class_aspect)
+    END
+  END
+END
+
+
+/**
+ * Returns the title of the given class.
+ *
+ * INT_VAR class    Numeric class value.
+ * RET title        Title of the class, as string. Returns empty string if not available.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#get_class_title
+INT_VAR
+  class = "-1"
+RET
+  title
+BEGIN
+  OUTER_SPRINT title ~~
+
+  ACTION_IF (class != "-1") BEGIN
+    LAF a7#get_class_tokens RET_ARRAY token_map END
+
+    SILENT
+    COPY_EXISTING ~clastext.2da~ ~override~
+      READ_2DA_ENTRIES_NOW clastext_table 1
+      FOR (row = 3; row < clastext_table; ++row) BEGIN
+        SET class_id = $clastext_table(~%row%~ ~1~)
+        SPRINT kit_value $clastext_table(~%row%~ ~2~)
+        SET kit_id = (IS_AN_INT ~kit_value~) ? kit_value : (~%kit_value%~ STR_EQ ~2147483648~) ? 0x80000000 : "-1"
+        SET fallen = $clastext_table(~%row%~ ~7~)
+        PATCH_IF (class == class_id && kit_id == 16384 && fallen == 0) BEGIN
+          SET title_strref = $clastext_table(~%row%~ ~5~)
+          GET_STRREF title_strref title
+          // resolving tokens
+          INNER_PATCH_SAVE title ~%title%~ BEGIN
+            PATCH_PHP_EACH token_map AS token => name BEGIN
+              REPLACE_TEXTUALLY ~%token%~ ~%name%~
+            END
+          END
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+  END
+END
+
+/**
+ * Returns the title of the given kit.
+ *
+ * INT_VAR kit  Numeric kit value.
+ * RET title    Title of the class, as string. Returns empty string if not available.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#get_kit_title
+INT_VAR
+  kit = "-1"
+RET
+  title
+BEGIN
+  OUTER_SPRINT title ~~
+
+  ACTION_IF (kit == 16384) BEGIN
+    OUTER_SPRINT title @2012  // no kit
+  END ELSE ACTION_IF (kit != "-1") BEGIN
+    SILENT
+    COPY_EXISTING ~clastext.2da~ ~override~
+      READ_2DA_ENTRIES_NOW clastext_table 1
+      FOR (row = 3; row < clastext_table; ++row) BEGIN
+        SPRINT kit_value $clastext_table(~%row%~ ~2~)
+        SET kit_id = (IS_AN_INT ~kit_value~) ? kit_value : (~%kit_value%~ STR_EQ ~2147483648~) ? 0x80000000 : "-1"
+        SET fallen = $clastext_table(~%row%~ ~7~)
+        PATCH_IF (kit_id == kit && fallen == 0) BEGIN
+          SET title_strref = $clastext_table(~%row%~ ~5~)
+          GET_STRREF title_strref title
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+  END
+END
+
+
+/**
+ * Retrieves the specified INI options and returns them as an indexed array.
+ *
+ * STR_VAR option_0, option_1, ...  Names of the options to retrieve.
+ * RET result                       Returns the number of retrieved options.
+ * RET_ARRAY result                 Indexed array with the option definitions. Non-existing options return empty strings.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#get_ini_options
+STR_VAR
+  // option_0 = ~...~
+  // ...
+RET
+  result
+RET_ARRAY
+  result
+BEGIN
+  OUTER_SET result = 0
+  ACTION_IF (VARIABLE_IS_SET $option(~0~)) BEGIN
+    SILENT
+    COPY ~%MOD_FOLDER%/%TP2_BASE_NAME%.ini~ ~%MOD_FOLDER%/%TP2_BASE_NAME%.ini~
+      SET pos = INDEX_BUFFER(~\[%TP2_BASE_NAME%\]~)
+      PATCH_IF (pos >= 0) BEGIN
+        SET pos2 = INDEX_BUFFER(~\[[^]]+\]~ pos + 1)
+        SET pos2 = (pos2 < 0) ? BUFFER_LENGTH : pos2
+        READ_ASCII pos section (pos2 - pos)
+        INNER_PATCH ~%section%~ BEGIN
+          FOR (i = 0; VARIABLE_IS_SET $option(~%i%~); ++i) BEGIN
+            SET match = 0
+            SPRINT key $option(~%i%~)
+            REPLACE_EVALUATE ~^[ %TAB%]*%key%[ %TAB%]*=[ %TAB%]*\([^ %TAB%%WNL%]+\)~ BEGIN
+              PATCH_IF (NOT match) BEGIN
+                SPRINT $result(~%result%~) ~%MATCH1%~
+                SET result += 1
+                SET match = 1
+              END
+            END ~%MATCH0%~
+
+            PATCH_IF (NOT match) BEGIN
+              SPRINT $result(~%result%~) ~~
+              SET result += 1
+            END
+          END
+        END
+      END
+    BUT_ONLY IF_EXISTS
+    VERBOSE
+  END
+END
+
+
+/**
+ * Fetches predefined class/kit definitions from the mod's ini file
+ */
+DEFINE_ACTION_FUNCTION a7#get_predefined_class_kit
+STR_VAR
+  npc_name = ~~
+RET
+  success
+RET_ARRAY
+  class_entry
+BEGIN
+  OUTER_SET success = 0
+
+  ACTION_IF (NOT ~%npc_name%~ STR_EQ ~~) BEGIN
+    LAF a7#get_ini_options
+      STR_VAR
+        option_0 = EVAL ~%npc_name%_class~
+        option_1 = EVAL ~%npc_name%_kit~
+      RET result
+      RET_ARRAY result
+    END
+
+    OUTER_SET class = (IS_AN_INT ~result_0~) ? result_0 : IDS_OF_SYMBOL(~class~ ~%result_0%~)
+    OUTER_SET kit = (IS_AN_INT ~result_1~) ? result_1 : IDS_OF_SYMBOL(~kit~ ~%result_1%~)
+
+    ACTION_IF (class != "-1") BEGIN
+      OUTER_SET kit = (kit == "-1" || kit == 0) ? IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) : kit
+      LAF a7#get_class_title INT_VAR class RET class_title = title END
+      LAF a7#get_kit_title INT_VAR kit RET kit_title = title END
+
+      OUTER_SET $class_entry(~class~) = class
+      OUTER_SPRINT $class_entry(~class_title~) ~%class_title%~
+      OUTER_SET $class_entry(~kit~) = kit
+      OUTER_SPRINT $class_entry(~kit_title~) ~%kit_title%~
+      OUTER_SET $class_entry(~kit1~) = "-1"
+      OUTER_SET $class_entry(~kit2~) = "-1"
+      OUTER_SET $class_entry(~kit3~) = "-1"
+      OUTER_SET success = 1
+    END
+  END
+END
+
+
+/**
+ * Performs all specified patch functions on the CRE resources associated with the current NPC.
+ *
+ * STR_VAR function_0, ...  Names of the patch functions to invoke. The functions are called without parameters
+ *                          or return values.
+ */
+DEFINE_ACTION_FUNCTION a7#process_cre
+STR_VAR
+  // function_0 = ~a7#stat_change~
+  // function_1 = ~...~
+  // ...
+BEGIN
+  ACTION_IF (VARIABLE_IS_SET $function(~0~)) BEGIN
+    ACTION_IF (NOT ~%cre_resref_regexp%~ STR_EQ ~~) BEGIN
+      COPY_EXISTING_REGEXP ~%cre_resref_regexp%\.cre$~ ~override~
+        FOR (fidx = 0; VARIABLE_IS_SET $function(~%fidx%~); ++fidx) BEGIN
+          SPRINT func_name $function(~%fidx%~)
+          LPF ~%func_name%~ END
+        END
+      BUT_ONLY IF_EXISTS
+    END
+
+    OUTER_FOR (cidx = 0; VARIABLE_IS_SET $cre_resref(~%cidx%~); ++cidx) BEGIN
+      OUTER_SPRINT resref $cre_resref(~%cidx%~)
+      COPY_EXISTING ~%resref%.cre~ ~override~
+        FOR (fidx = 0; VARIABLE_IS_SET $function(~%fidx%~); ++fidx) BEGIN
+          SPRINT func_name $function(~%fidx%~)
+          LPF ~%func_name%~ END
+        END
+      BUT_ONLY IF_EXISTS
+    END
+  END
+END
+
+
+/**
+ * Changes class/kit combination or resets levels according to the specified parameters.
+ *
+ * INT_VAR reset                  Set to 1 to reset character level to 1. All other parameters are ignored if this parameter is set.
+ * INT_VAR interactive            Set to 1 to let the user select the class interactively. Only considered if "reset" parameter is
+ *                                not set. "class" and "kit" parameters are ignored if this parameter is set.
+ * INT_VAR class                  Numeric class value (CLASS.IDS). Only considered if "interactive" and "reset" are not set.
+ * INT_VAR kit                    Numeric kit value (KIT.IDS). Only considered if "interactive" and "reset" are not set.
+ * INT_VAR kit1, kit2, kit3       Numeric kit values (KIT.IDS) for a non-existing multiclass kit. Only considered if "interactive"
+ *                                and "reset" are not set and "kit" is -1. (Default: -1)
+ * INT_VAR race_override          Specify numeric race value (RACE.IDS) to override creature race for interactive class/kit selection.
+ *                                (Default: 0)
+ * INT_VAR alignment_override     Specify numeric alignment value (ALIGNMEN.IDS) to override creature alignment for interactive
+ *                                class/kit selection. (Default: 0)
+ * INT_VAR str_override, dex_override, ...  Specify value to override the specified creature attribute for interactive class/kit
+ *                                          selection. (Default: 0)
+ * STR_VAR npc_name               Symbolic name of the NPC. If "interactive" is set then this value is used to retrieve predefined
+ *                                class/kit definitions for the NPC of the specified name from the mod's .ini file. Otherwise the
+ *                                interactive class selection menu is invoked. (Default: empty string)
+ * STR_VAR cre_reference          Reference CRE resref that is used to determine current stats and attributes. This parameter is required
+ *                                if "interactive" is set. (Default: empty string)
+ * STR_VAR cre_resref_regexp      Regular expression for CRE resrefs to apply class/level changes to. (Default: empty string)
+ * STR_VAR cre_resref_0, cre_resref_1, ...  Indexed array of CRE resrefs to apply class/level changes to. Indexed resref array and
+ *                                          regular expression parameter can be used together.
+ * STR_VAR class_whitelist_name   For interactive class selection: Name of an indexed array that contains a list of classes
+ *                                (symbol or id) that are allowed for class/kit generation. Everything else will be excluded.
+ *                                This parameter will override the "class_blacklist_name" parameter if defined. (Default: no whitelist)
+ * STR_VAR kit_whitelist_name     For interactive class selection: Name of an indexed array that contains a list of kits (symbol or id),
+ *                                optionally preceded by a class filter (symbol or id) and a colon, that are allowed for class/kit generation.
+ *                                Everything else will be excluded. This parameter will override the "kit_blacklist_name" parameter if defined.
+ *                                Note that "TRUECLASS" has to be included if the unkitted class variant should be listed. (Default: no whitelist)
+ * STR_VAR class_blacklist_name   For interactive class selection: Name of an indexed array that contains a list of classes (symbol or id)
+ *                                that should be excluded from class/kit generation. Only explicit class entries are considered
+ *                                (e.g. adding "FIGHTER" but not "FIGHTER_THIEF" will still generate kit entries for the "FIGHTER_THIEF" class
+ *                                if available. (Default: no blacklist)
+ * STR_VAR kit_blacklist_name     For interactive class selection: Name of an indexed array that contains a list of kits (symbol or id),
+ *                                optionally preceded by a class filter (symbol or id) and a colon, that should be excluded from class/kit generation.
+ *                                Listed kits are excluded from all classes, including potential multiclass kit options. Note that "TRUECLASS" can be
+ *                                added to exclude unkitted class variants. (Default: no blacklist)
+ * RET class_id                   Returns the numeric class value of the character after the class/level change operation. Returns -1 on error.
+ * RET kit_id                     Returns the numeric kit value of the character after the class/level change operation. Returns -1 on error.
+ */
+DEFINE_ACTION_FUNCTION a7#change_class_npc
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+  race_override = 0
+  alignment_override = 0
+  str_override = 0
+  dex_override = 0
+  con_override = 0
+  int_override = 0
+  wis_override = 0
+  chr_override = 0
+  allow_kits = 1
+  allow_multi = 1
+  allow_multi_kits = 1
+  allow_custom_multi_kits = 1
+STR_VAR
+  npc_name = ~~
+  cre_reference = ~~
+  cre_resref_regexp = ~~
+  // cre_resref_0, cre_resref_1, ...
+  class_whitelist_name = ~~
+  kit_whitelist_name = ~~
+  class_blacklist_name = ~~
+  kit_blacklist_name = ~~
+RET
+  class_id
+  kit_id
+BEGIN
+  OUTER_SET class_id = "-1"
+  OUTER_SET kit_id = "-1"
+
+  ACTION_IF (reset != 0) BEGIN
+    // reset levels only
+    ACTION_IF (NOT ~%cre_resref_regexp%~ STR_EQ ~~) BEGIN
+      COPY_EXISTING_REGEXP ~%cre_resref_regexp%\.cre$~ ~override~
+        READ_LONG 0x18 original_xp
+        LPF a7#change_cre_class
+          INT_VAR
+            xp = 0
+          STR_VAR
+            profs_warrior           = ~~
+            profs_rogue             = ~~
+            profs_priest            = ~~
+            profs_wizard            = ~~
+            thieving_weights        = ~~
+            known_spells_shaman     = ~~
+            memorized_spells_cleric = ~~
+            memorized_spells_druid  = ~~
+            known_spells_wizard     = ~~
+            memorized_spells_wizard = ~~
+            known_spells_innate     = ~~
+            memorized_spells_innate = ~~
+          RET success
+        END
+        PATCH_IF (success) BEGIN
+          // restoring original XP
+          WRITE_LONG 0x18 original_xp
+          READ_BYTE 0x273 class_id
+          SET kit_id = ((SHORT_AT 0x244) << 16) | (SHORT_AT 0x246)
+        END ELSE BEGIN
+          PATCH_FAIL @2100  // Failed to reset character levels.
+        END
+      BUT_ONLY IF_EXISTS
+    END
+    OUTER_FOR (idx = 0; VARIABLE_IS_SET $cre_resref(~%idx%~); ++idx) BEGIN
+      OUTER_SPRINT resref $cre_resref(~%idx%~)
+      COPY_EXISTING ~%resref%.cre~ ~override~
+        READ_LONG 0x18 original_xp
+        LPF a7#change_cre_class
+          INT_VAR
+            xp = 0
+          STR_VAR
+            profs_warrior           = ~~
+            profs_rogue             = ~~
+            profs_priest            = ~~
+            profs_wizard            = ~~
+            thieving_weights        = ~~
+            known_spells_shaman     = ~~
+            memorized_spells_cleric = ~~
+            memorized_spells_druid  = ~~
+            known_spells_wizard     = ~~
+            memorized_spells_wizard = ~~
+            known_spells_innate     = ~~
+            memorized_spells_innate = ~~
+          RET success
+        END
+        PATCH_IF (success) BEGIN
+          // restoring original XP
+          WRITE_LONG 0x18 original_xp
+          READ_BYTE 0x273 class_id
+          SET kit_id = ((SHORT_AT 0x244) << 16) | (SHORT_AT 0x246)
+        END ELSE BEGIN
+          PATCH_FAIL @2100  // Failed to reset character levels.
+        END
+      BUT_ONLY IF_EXISTS
+    END
+  END ELSE BEGIN
+    // class/kit change
+    OUTER_SET mixed = "-1"
+    ACTION_IF (interactive) BEGIN
+      // checking predefined class/kit definitions from ini file
+      LAF a7#get_predefined_class_kit STR_VAR npc_name RET success RET_ARRAY class_entry END
+
+      ACTION_IF (success) BEGIN
+        // printing feedback about selected class/kit combo
+        OUTER_SPRINT new_class_title $class_entry(~class_title~)
+        OUTER_SPRINT new_kit_title $class_entry(~kit_title~)
+        OUTER_SET kit = $class_entry(~kit~)
+        OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT new_kit_name ~kit~ kit_id END
+        OUTER_SPRINT string @2009 // You have selected: class "<new_class_title>" and kit "<new_kit_title>" (<new_kit_name>).
+        LAF a7#resolve_string STR_VAR string RET msg = string END
+        PRINT ~%msg%~
+      END ELSE BEGIN
+        // invoke interactive class/kit selection if predefined values are not available
+        ACTION_IF (~%cre_reference%~ STR_EQ ~~) BEGIN
+          FAIL @2101  // No reference CRE resref specified.
+        END
+
+        // getting character attributes required for class/kit availability
+        OUTER_SET cre_suffix = (GAME_IS ~bgee~) ? 2 : 8
+        LAF a7#get_cre_attributes
+          STR_VAR cre_resref = EVAL ~%cre_reference%~
+          RET class kit race alignment str dex con int wis chr
+        END
+
+        // applying override values
+        ACTION_FOR_EACH var IN ~race~ ~alignment~ ~str~ ~dex~ ~con~ ~int~ ~wis~ ~chr~ BEGIN
+          OUTER_SET override = EVAL ~%var%_override~
+          ACTION_IF (override != 0) BEGIN
+            OUTER_SET EVAL ~%var%~ = override
+          END
+        END
+
+        // overriding "custom mc kits" option if available
+        LAF a7#get_ini_options STR_VAR option_0 = ~enable_custom_kits~ RET result RET_ARRAY result END
+        OUTER_SET allow_custom_multi_kits = (IS_AN_INT ~result_0~) ? result_0 : 1
+
+        // interactive class/kit selection
+        LAF a7#class_kit_select_interactive
+          INT_VAR
+            original_class = class
+            original_kit = kit
+            race alignment str dex con int wis chr
+            allow_kits allow_multi allow_multi_kits allow_custom_multi_kits
+          STR_VAR
+            class_whitelist_name
+            kit_whitelist_name
+            class_blacklist_name
+            kit_blacklist_name
+          RET
+            success
+          RET_ARRAY
+            class_entry
+        END
+      END
+
+      ACTION_IF (success == "-1") BEGIN
+        ABORT @1012 // Operation cancelled by the user.
+      END ELSE ACTION_IF (success == 0) BEGIN
+        FAIL @2102  // Interactive class selection failed.
+      END
+
+      // evaluating class/kit selection
+      OUTER_SET class = $class_entry(~class~)
+      OUTER_SPRINT new_class_title $class_entry(~title~)
+      OUTER_SET kit = $class_entry(~kit~)
+
+      ACTION_IF (kit == "-1") BEGIN
+        // preparing auto-creation of multiclass kit
+        OUTER_SPRINT new_kit_title $class_entry(~kit_title~)
+        OUTER_SET mixed = RESOLVE_STR_REF(~%new_kit_title%~)
+        OUTER_SET kit1 = $class_entry(~kit1~)
+        OUTER_SET kit2 = $class_entry(~kit2~)
+        OUTER_SET kit3 = $class_entry(~kit3~)
+      END
+    END
+
+    ACTION_IF (kit == "-1") BEGIN
+      // auto-creating multiclass kit
+      LAF a7#create_multikit
+        INT_VAR
+          class kit1 kit2 kit3 mixed
+          visible = 0 // unavailable for player characters
+        RET kit_id
+      END
+
+      ACTION_IF (kit_id == "-1") BEGIN
+        ACTION_GET_STRREF mixed new_kit_title
+        OUTER_SPRINT msg @2103  // Multiclass kit could not be created:
+        FAIL ~%msg% %new_kit_title%~
+      END
+
+      OUTER_SET kit = kit_id | 0x4000
+    END
+
+    // parameter validation
+    ACTION_IF (class < 1 || class > 21) BEGIN
+      OUTER_SPRINT msg @2104  // Invalid class specified:
+      FAIL ~%msg% %class%~
+    END
+
+    ACTION_IF (kit == "-1") BEGIN
+      // resetting kit to TRUCLASS
+      OUTER_SET kit = 0x4000
+    END
+
+    // performing class change
+    ACTION_IF (NOT ~%cre_resref_regexp%~ STR_EQ ~~) BEGIN
+      COPY_EXISTING_REGEXP ~%cre_resref_regexp%\.cre$~ ~override~
+        LPF a7#change_cre_class
+          INT_VAR
+            class
+            kit
+          RET
+            success
+        END
+        PATCH_IF (success) BEGIN
+          READ_BYTE 0x273 class_id
+          SET kit_id = ((SHORT_AT 0x244) << 16) | (SHORT_AT 0x246)
+        END ELSE BEGIN
+          SPRINT msg @2105  // Failed to change class:
+          PATCH_FAIL ~%msg% %SOURCE_FILE%~
+        END
+      BUT_ONLY IF_EXISTS
+    END
+    OUTER_FOR (idx = 0; VARIABLE_IS_SET $cre_resref(~%idx%~); ++idx) BEGIN
+      OUTER_SPRINT resref $cre_resref(~%idx%~)
+      COPY_EXISTING ~%resref%.cre~ ~override~
+        LPF a7#change_cre_class
+          INT_VAR
+            class
+            kit
+          RET
+            success
+        END
+        PATCH_IF (success) BEGIN
+          READ_BYTE 0x273 class_id
+          SET kit_id = ((SHORT_AT 0x244) << 16) | (SHORT_AT 0x246)
+        END ELSE BEGIN
+          SPRINT msg @2105  // Failed to change class:
+          PATCH_FAIL ~%msg% %SOURCE_FILE%~
+        END
+      BUT_ONLY IF_EXISTS
+    END
+  END
+END

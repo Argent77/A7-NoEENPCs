@@ -115,10 +115,11 @@
 @683 = ~影舞者~
 @684 = ~吟游诗人~
 
-@690 = ~变更职业/宗派：凯拉·白银（请阅读自述文件中的说明！）~
+@690 = ~变更职业/宗派：凯拉·白银~
 @691 = ~骑士~
 @692 = ~审判者~
 @693 = ~不死生物猎人~
+@694 = ~洛山达牧师~
 
 // Setup messages
 @1000 = ~本组件需要BG:EE、BG2:EE或EET。~
@@ -137,16 +138,17 @@
 @1013 = ~本组件仅在拉萨德被禁用时可用。~
 
 // Custom class selection
-@2000 = ~当前职业：%cur_class_title%（%cur_class_name%），宗派：%cur_kit_title%（%cur_kit_name%）~
-@2001 = ~可用职业：%class_entries%~
+// Translators: Text inside angle brackets are placeholders for dynamic text. Do not modify!
+@2000 = ~当前职业：<cur_class_title>，宗派：<cur_kit_title>（<cur_kit_name>）~
+@2001 = ~可用职业：<class_entries>~
 @2002 = ~请输入新职业对应的数字（若不输入则保持当前职业不变）：~
 @2003 = ~选定的职业数字不可用。~
-@2004 = ~已选择职业：%new_class_title% (%new_class_name%).~
-@2005 = ~职业“%new_class_title%”无可用宗派。~
-@2006 = ~职业“%new_class_title%”的可用宗派：%kit_entries%~
+@2004 = ~已选择职业：<new_class_title> (<new_class_name>)~
+// @2005 = ~职业“<new_class_title>”无可用宗派。~
+@2006 = ~职业“<new_class_title>”的可用宗派：<kit_entries>~
 @2007 = ~请输入新宗派对应的数字：~
 @2008 = ~选定的宗派数字不可用。~
-@2009 = ~你已选择职业“%new_class_title%”（%new_class_name%）和宗派“%new_kit_title%”（%new_kit_name%）。~
+@2009 = ~你已选择职业“<new_class_title>”和宗派“<new_kit_title>”（<new_kit_name>）。~
 @2010 = ~是否接受已选择的职业/宗派组合？（【A】接受，【S】重新开始，【C】取消）~
 @2011 = ~若接受请输入“A”，重新开始请输入“S”，取消操作请输入“C”。~
 @2012 = ~无宗派~

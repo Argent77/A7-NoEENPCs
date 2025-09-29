@@ -1,0 +1,1165 @@
+INCLUDE ~%MOD_FOLDER%/lib/lookup_2da_entries.tpp~
+INCLUDE ~%MOD_FOLDER%/lib/a7#add_kit_ex.tpa~
+
+// Function Overview:
+// a7#create_multikit           Main function: Creates a new multiclass kit based on the specified parameters.
+// a7#get_kit_class             Returns the parent class of the specified kit.
+// a7#is_multiclass             Returns whether the specified class is a multiclass.
+// a7#validate_multiclass       Evaluates the given multiclass and returns the identifiers of the individual class components.
+// a7#generate_kit_name         Autogenerates the internal kit name for the specified multiclass kit.
+// a7#generate_title            Autogenerates the kit title that is displayed on the record screen and other places of the game for the specified multiclass kit.
+// a7#generate_help             Autogenerates the kit description displayed on the record screen for the specified multiclass kit.
+// a7#get_unusable_flags        Calculates unusability flags based on the specified source kits.
+// a7#combine_table_entry       Creates a combined version of multiple table rows or columns.
+// a7#merge_kit_hlas            Attempts to create a combined class and kit HLA ability table for the current multiclass kit.
+// a7#create_weapprof_entry     Specialized function that creates a table entry for WEAPPROF.2DA based on the given parameters.
+// a7#get_validated_number      Attempts to convert a string into a number. Defined as macro for performance reasons.
+
+
+OUTER_SET TRUECLASS = 0x4000
+
+// Global initializations: create token map for specific class tokens
+ACTION_IF (NOT VARIABLE_IS_SET ~class_token_map~) BEGIN
+  SILENT
+  // ENGINEST.2DA table entries are static and can be safely cached globally
+  COPY_EXISTING ~enginest.2da~ ~override~
+    SET cur_class = IDS_OF_SYMBOL(~class~ ~FIGHTER~)
+    LPF GET_2DA_VALUE INT_VAR column = 1 STR_VAR key = ~STRREF_GUI_MIXED_NORMAL_FIGHTER~ RET result END
+    PATCH_IF (IS_AN_INT ~result~) BEGIN
+      SET $class_token_map(~%cur_class%~) = result
+    END
+
+    SET cur_class = IDS_OF_SYMBOL(~class~ ~MAGE~)
+    LPF GET_2DA_VALUE INT_VAR column = 1 STR_VAR key = ~STRREF_GUI_MIXED_KIT_MAGESCHOOL_GENERALIST~ RET result END
+    PATCH_IF (IS_AN_INT ~result~) BEGIN
+      SET $class_token_map(~%cur_class%~) = result
+    END
+
+    SET class_token_map = 1
+  BUT_ONLY
+  VERBOSE
+END
+
+
+/**
+ * Creates a new multiclass kit based on the specified parameters.
+ *
+ * INT_VAR class      Id of the kit class. Only combination classes are allowed (e.g. FIGHTER_THIEF).
+ * INT_VAR kit1       Id of the first kit to assign. The kit must be based on one of the kit classes.
+ * INT_VAR kit2       Optional id of a second kit to assign. The kit must be based on one of the kit classes. Only one kit per class aspect is allowed.
+ * INT_VAR kit3       Optional id of a third kit to assign for a triple-class combination. The kit must be based on one of the kit classes. Only one kit per class aspect is allowed.
+ * INT_VAR visible    Indicates whether the new kit will be available for the player. (Default: 0)
+ * INT_VAR mixed      Strref of the mixed name of the kit. (Default: Name based on the current class/kit combination)
+ * INT_VAR help       Strref of the kit description text. (Default: Description based on the current class/kit combination)
+ * STR_VAR kit_name   Internal kit name. (Default: Generated from the class/kit combination)
+ * RET kit_id         Returns the numeric value of the created kit. Returns -1 on error.
+ */
+DEFINE_ACTION_FUNCTION a7#create_multikit
+INT_VAR
+  class = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+  visible = 0
+  mixed = "-1"
+  help = "-1"
+  unusable = "-1"
+STR_VAR
+  kit_name = ~~
+RET
+  kit_id
+BEGIN
+  OUTER_SET kit_id = "-1"
+
+  LAF a7#validate_multiclass INT_VAR class RET success class1 class2 class3 END
+  ACTION_IF (success) BEGIN
+    OUTER_SET num_classes = (class3 > 0) ? 3 : 2
+  END ELSE BEGIN
+    WARN ~WARNING: Not a valid multiclass identifier: %class%~
+  END
+
+  // validating kit parameters
+  ACTION_IF (success) BEGIN
+    OUTER_PATCH ~~ BEGIN
+      FOR (idx = 1; idx <= 3; ++idx) BEGIN
+        SET kit = EVAL ~kit%idx%~
+        PATCH_IF (kit != 0 && kit != "-1") BEGIN
+          LOOKUP_IDS_SYMBOL_OF_INT label ~kit~ kit
+          PATCH_IF (IS_AN_INT ~label~ && label == kit) BEGIN
+            // is kit id valid?
+            PATCH_WARN ~WARNING: Parameter "kit%idx%" specifies an invalid kit (%kit%)~
+            SET success = 0
+            SET idx = 4
+          END ELSE BEGIN
+            // ensure that only one kit per base class is defined
+            LPF a7#get_kit_class INT_VAR kit RET kit_class END
+            PATCH_IF (VARIABLE_IS_SET $kit_classes(~%kit_class%~)) BEGIN
+              SET old_kit = $kit_classes(~%kit_class%~)
+              LOOKUP_IDS_SYMBOL_OF_INT kit_name1 ~kit~ old_kit
+              LOOKUP_IDS_SYMBOL_OF_INT kit_name2 ~kit~ kit
+              LOOKUP_IDS_SYMBOL_OF_INT class_name ~class~ kit_class
+              PATCH_WARN ~WARNING: Only one kit per base class allowed (%kit_name1% and %kit_name2% belong to %class_name% class)~
+              SET success = 0
+              SET idx = 4
+            END ELSE BEGIN
+              SET $kit_classes(~%kit_class%~) = kit
+            END
+          END
+        END
+      END
+    END
+  END
+
+  // generating a unique internal kit name
+  ACTION_IF (success) BEGIN
+    ACTION_IF (~%kit_name%~ STR_EQ ~~) BEGIN
+      LAF a7#generate_kit_name INT_VAR class kit1 kit2 kit3 RET kit_name END
+      ACTION_IF (~%kit_name%~ STR_EQ ~~) BEGIN
+        OUTER_SET success = 0
+        WARN ~WARNING: Internal kit name not available~
+      END
+    END
+  END
+
+  // generating a suitable class title
+  ACTION_IF (success) BEGIN
+    ACTION_IF (mixed < 0) BEGIN
+      LAF a7#generate_title INT_VAR class kit1 kit2 kit3 RET title END
+      OUTER_SET mixed = RESOLVE_STR_REF(~%title%~)
+      ACTION_IF (mixed < 0) BEGIN
+        WARN ~WARNING: Class title not available~
+      END
+    END
+  END
+
+  // generating a suitable class description
+  ACTION_IF (success) BEGIN
+    ACTION_IF (help < 0) BEGIN
+      LAF a7#generate_help INT_VAR class kit1 kit2 kit3 RET help_desc END
+      OUTER_SET help = RESOLVE_STR_REF(~%help_desc%~)
+      ACTION_IF (help < 0) BEGIN
+        WARN ~WARNING: Class description not available~
+      END
+    END
+  END
+
+  // determining "unusable" flags from base class kits
+  ACTION_IF (success) BEGIN
+    ACTION_IF (unusable < 0) BEGIN
+      LAF a7#get_unusable_flags INT_VAR kit1 kit2 kit3 RET unusable END
+    END
+  END
+
+  // defining CLAB tables for individual class aspects
+  ACTION_IF (success) BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY class_suffixes BEGIN
+      ~FIGHTER~ => ~f~
+      ~CLERIC~  => ~p~
+      ~DRUID~   => ~d~
+      ~RANGER~  => ~r~
+      ~MAGE~    => ~m~
+      ~THIEF~   => ~t~
+    END
+
+    SILENT
+    COPY_EXISTING ~kitlist.2da~ ~override~
+      READ_2DA_ENTRIES_NOW kitlist 1
+      FOR (idx = 1; idx <= 3; ++idx) BEGIN
+        SET id = EVAL ~kit%idx%~
+        PATCH_IF (id != 0 && id != "-1") BEGIN
+          FOR (row = 4; row < kitlist; ++row) BEGIN
+            PATCH_IF (VARIABLE_IS_SET $kitlist(~%row%~ ~9~)) BEGIN
+              SET kitids = $kitlist(~%row%~ ~9~)
+              PATCH_IF (id == kitids) BEGIN
+                SET classids = $kitlist(~%row%~ ~8~)
+                LOOKUP_IDS_SYMBOL_OF_INT class_name ~class~ classids
+                PATCH_IF (VARIABLE_IS_SET $class_suffixes(~%class_name%~)) BEGIN
+                  SPRINT suffix $class_suffixes(~%class_name%~)
+                  SPRINT clab_resref $kitlist(~%row%~ ~5~)
+                  PATCH_IF (FILE_EXISTS_IN_GAME ~%clab_resref%.2DA~) BEGIN
+                    SPRINT EVAL ~clab_base_%suffix%~ ~%clab_resref%.2DA~
+                  END
+                END
+                SET row = kitlist
+              END
+            END
+          END
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+
+    // ensure that all base CLAB parameters are initialized
+    ACTION_FOR_EACH suffix IN ~f~ ~p~ ~d~ ~r~ ~m~ ~t~ BEGIN
+      ACTION_IF (NOT VARIABLE_IS_SET EVAL ~clab_base_%suffix%~) BEGIN
+        OUTER_SPRINT EVAL ~clab_base_%suffix%~ ~~
+      END
+    END
+  END
+
+  // deriving table definitions associated with the specified base class kits
+  ACTION_IF (success) BEGIN
+    // getting defined base class and kit labels
+    OUTER_PATCH ~~ BEGIN
+      SET kit_class_labels = 0
+      FOR (idx = 1; idx <= 3; ++idx) BEGIN
+        SET value = EVAL ~kit%idx%~
+        PATCH_IF (value != 0 && value != "-1") BEGIN
+          LOOKUP_IDS_SYMBOL_OF_INT label ~kit~ value
+          SPRINT $kit_class_labels(~%kit_class_labels%~) ~%label%~
+          SET kit_class_labels += 1
+        END
+      END
+      LOOKUP_IDS_SYMBOL_OF_INT label ~class~ class
+      SPRINT $kit_class_labels(~%kit_class_labels%~) ~%label%~
+      SET kit_class_labels += 1
+    END
+
+    // deriving table entries
+    ACTION_FOR_EACH resref IN ~abclasrq~ ~abclsmod~ ~alignmnt~ ~backstab~ ~clascolr~ ~clasiskl~ ~clasthac~ ~clasweap~ ~clsrcreq~ ~crippstr~ ~sneakatt~ ~thiefscl~ ~thiefskl~ ~traplimt~ BEGIN
+      OUTER_SPRINT entry ~~
+      ACTION_MATCH ~%resref%~ WITH
+        ~abclasrq~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 0 OUTER_SET cumulative = 1 END
+        ~abclsmod~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 0 OUTER_SET cumulative = "-1" END
+        ~alignmnt~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 1 OUTER_SET cumulative = 0 END
+        ~backstab~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 0 OUTER_SET cumulative = 1 END
+        ~clascolr~ BEGIN OUTER_SET is_row = 0 OUTER_SET is_bool = 0 OUTER_SET cumulative = "-1" END
+        ~clasiskl~ BEGIN OUTER_SET is_row = 0 OUTER_SET is_bool = 0 OUTER_SET cumulative = "-1" END
+        ~clasthac~ BEGIN OUTER_SET is_row = 0 OUTER_SET is_bool = 0 OUTER_SET cumulative = "-1" END
+        ~clasweap~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 1 OUTER_SET cumulative = 0 END
+        ~clsrcreq~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 1 OUTER_SET cumulative = 0 END
+        ~crippstr~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 0 OUTER_SET cumulative = 1 END
+        ~sneakatt~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 0 OUTER_SET cumulative = 1 END
+        ~thiefscl~ BEGIN OUTER_SET is_row = 0 OUTER_SET is_bool = 0 OUTER_SET cumulative = 1 END
+        ~thiefskl~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 0 OUTER_SET cumulative = 0 END
+        ~traplimt~ BEGIN OUTER_SET is_row = 1 OUTER_SET is_bool = 0 OUTER_SET cumulative = "-1" END
+        DEFAULT WARN ~WARNING: Patching unexpected 2DA file: %resref%.2da~
+      END
+
+      // generating table entry
+      OUTER_FOR (i = 0; i < kit_class_labels; ++i) BEGIN
+        OUTER_SPRINT label $kit_class_labels(~%i%~)
+        SILENT
+        COPY_EXISTING ~%resref%.2da~ ~override~
+          LPF a7#combine_table_entry INT_VAR is_row is_bool cumulative STR_VAR label entry RET entry END
+        BUT_ONLY IF_EXISTS
+        VERBOSE
+      END
+      OUTER_SPRINT EVAL ~%resref%~ ~%entry%~
+    END
+
+    // Special: weapprof.2da should only retain exceptional proficiencies from the source kit unless the target class forbids it,
+    // (e.g. if Ranger->Longbow=2 and Archer->Longbow=5 then assign longbow=5, otherwise assign longbow=0)
+    SILENT
+    COPY_EXISTING ~weapprof.2da~ ~override~
+      SPRINT entry ~~
+      // applying multikit class proficiencies first to serve as reference
+      SET i = kit_class_labels - 1
+      SPRINT label $kit_class_labels(~%i%~)
+      LPF a7#combine_table_entry INT_VAR is_row = 0 is_bool = 0 cumulative = 1 STR_VAR label entry RET entry END
+
+      FOR (idx = 1; idx <= 3; ++idx) BEGIN
+        SET kit = EVAL ~kit%idx%~
+        PATCH_IF (kit != 0 && kit != "-1") BEGIN
+          LPF a7#get_kit_class INT_VAR kit RET kit_class END
+          LPF a7#create_weapprof_entry INT_VAR kit_class kit STR_VAR entry RET entry END
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+    OUTER_SPRINT weapprof ~%entry%~
+  END
+
+  ACTION_IF (success) BEGIN
+    // combining target class and source kit HLA tables into a new custom HLA table
+    LAF a7#merge_kit_hlas INT_VAR class kit1 kit2 kit3 RET success luabbr END
+  END
+
+  ACTION_IF (success) BEGIN
+    SILENT
+    LAF ADD_KIT_EX
+      INT_VAR
+        kit_class = class
+        visible
+        mixed
+        help
+      STR_VAR
+        kit_name
+        unusable
+        luabbr
+        clab_base_f
+        clab_base_p
+        clab_base_d
+        clab_base_r
+        clab_base_m
+        clab_base_t
+        abclasrq
+        abclsmod
+        alignmnt
+        backstab
+        clascolr
+        clasiskl
+        clasthac
+        clasweap
+        clsrcreq
+        crippstr
+        sneakatt
+        thiefscl
+        thiefskl
+        traplimt
+        weapprof
+      RET
+        kit_id
+    END
+    VERBOSE
+  END
+END
+
+
+/**
+ * Returns the parent class of the specified kit.
+ *
+ * INT_VAR kit    Id of the kit.
+ * RET kit_class  Id of the class associated with the kit. Returns -1 if the class could not be determined.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#get_kit_class
+INT_VAR
+  kit = "-1"
+RET
+  kit_class
+BEGIN
+  OUTER_SET kit_class = "-1"
+  ACTION_IF (kit != 0 && kit != "-1") BEGIN
+    SILENT
+    COPY_EXISTING ~kitlist.2da~ ~override~
+      READ_2DA_ENTRIES_NOW kitlist_table 1
+      FOR (row = 4; row < kitlist_table; ++row) BEGIN
+        SPRINT value $kitlist_table(~%row%~ ~9~)
+        PATCH_IF (IS_AN_INT ~value~) BEGIN
+          PATCH_IF (value == kit) BEGIN
+            SET kit_class = $kitlist_table(~%row%~ ~8~)
+            SET row = kitlist_table
+          END
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+  END
+END
+
+
+/**
+ * Returns whether the specified class is a multiclass.
+ *
+ * INT_VAR class  Numeric identifier of the multiclass to test.
+ * RET success    Returns 1 if the given class is a valid multiclass, 0 otherwise.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#is_multiclass
+INT_VAR
+  class = "-1"
+RET
+  success
+BEGIN
+  ACTION_MATCH class WITH
+    7 8 9 10 13 14 15 16 17 18 BEGIN OUTER_SET success = 1 END
+    DEFAULT OUTER_SET success = 0
+  END
+END
+
+
+/**
+ * Evaluates the given multiclass.
+ *
+ * INT_VAR class Numeric identifier of the multiclass.
+ * RET success  Returns 1 if the multiclass is valid, 0 otherwise.
+ * RET class1   Returns the id of the first class of the given multiclass.
+ * RET class2   Returns the id of the second class of the given multiclass.
+ * RET class3   Returns the id of the third class of the given multiclass (triple-class combinations only).
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#validate_multiclass
+INT_VAR
+  class = "-1"
+RET
+  success
+  class1
+  class2
+  class3
+BEGIN
+  OUTER_SET success = 0
+  OUTER_SET class1 = "-1"
+  OUTER_SET class2 = "-1"
+  OUTER_SET class3 = "-1"
+
+  LAF a7#is_multiclass INT_VAR class RET success END
+
+  ACTION_IF (success) BEGIN
+    // fetching individual classes of the multiclass
+    OUTER_SET classes = 0
+    OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT class_name ~class~ class END
+    OUTER_PATCH ~%class_name%~ BEGIN
+      SET len = BUFFER_LENGTH
+      SET p1 = 0
+      WHILE (p1 >= 0) BEGIN
+        SET p2 = INDEX_BUFFER(~_~ p1)
+        SET p2 = (p2 < 0) ? len : p2
+        PATCH_IF (p2 > p1) BEGIN
+          READ_ASCII p1 s (p2 - p1)
+          SPRINT $classes(~%classes%~) ~%s%~
+          SET classes += 1
+          SET p1 = (p2 < len) ? p2 + 1 : "-1"
+        END ELSE BEGIN
+          SET p1 = "-1"
+        END
+      END
+    END
+
+    ACTION_IF (classes > 1) BEGIN
+      OUTER_FOR (i = 0; i < classes; ++i) BEGIN
+        OUTER_SET idx = i + 1
+        OUTER_SPRINT class_name $classes(~%i%~)
+        OUTER_SET class_id = IDS_OF_SYMBOL(~class~ ~%class_name%~)
+        ACTION_IF (class_id > 0) BEGIN
+          OUTER_SET EVAL ~class%idx%~ = class_id
+        END ELSE BEGIN
+          OUTER_SET success = 0
+          OUTER_SET i = classes
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Autogenerates the internal kit name for the specified multiclass kit.
+ *
+ * INT_VAR class    Id of the multiclass.
+ * INT_VAR kit1     Id of the first kit. (Default: -1)
+ * INT_VAR kit2     Id of the second kit if available. (Default: -1)
+ * INT_VAR kit3     Id of the third kit if available (triple-classes only). (Default: -1)
+ * STR_VAR prefix   A custom prefix for the generated kit name.
+ * RET kit_name     The autogenerated kit name. Returns an empty string if the kit name could not be generated.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#generate_kit_name
+INT_VAR
+  class = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+STR_VAR
+  prefix = ~A7_NPC~
+RET
+  kit_name
+BEGIN
+  OUTER_SPRINT kit_name ~~
+
+  LAF a7#validate_multiclass INT_VAR class RET success class1 class2 class3 END
+  ACTION_IF (success) BEGIN
+    OUTER_PATCH ~~ BEGIN
+      // ensure kit names are assigned to the right base class
+      SET num_classes = (class3 > 0) ? 3 : 2
+      FOR (idx = 1; idx <= num_classes; ++idx) BEGIN
+        SET cur_class = EVAL ~class%idx%~
+        PATCH_IF (NOT VARIABLE_IS_SET $classes(~%cur_class%~)) BEGIN
+          LOOKUP_IDS_SYMBOL_OF_INT class_name ~class~ cur_class
+          SPRINT $classes(~%cur_class%~) ~%class_name%~
+        END
+
+        SET cur_kit = EVAL ~kit%idx%~
+        PATCH_IF (cur_kit != 0 && cur_kit != "-1") BEGIN
+          LOOKUP_IDS_SYMBOL_OF_INT label ~kit~ cur_kit
+          PATCH_IF (IS_AN_INT ~label~ && label == cur_kit) BEGIN
+            SET cur_kit |= TRUECLASS
+            LOOKUP_IDS_SYMBOL_OF_INT label ~kit~ cur_kit
+          END
+          LPF a7#get_kit_class INT_VAR kit = cur_kit RET kit_class END
+          SPRINT $classes(~%kit_class%~) ~%label%~
+        END
+      END
+
+      // assembling kit name in the correct order
+      SET max_len = 32 - STRING_LENGTH ~%prefix%~ - 2 // total kit name length must not exceed 32 characters
+      SET max_len_item = (max_len / num_classes) - 1
+      SPRINT kit_name ~%prefix%~
+      FOR (idx = 1; idx <= num_classes; ++idx) BEGIN
+        SET cur_class = EVAL ~class%idx%~
+        SPRINT label $classes(~%cur_class%~)
+        PATCH_IF (~%label%~ STRING_MATCHES_REGEXP ~^MAGESCHOOL_.*~ == 0) BEGIN
+          // cosmetic fix for mage specialists
+          INNER_PATCH_SAVE label ~%label%~ BEGIN REPLACE_TEXTUALLY ~MAGESCHOOL_~ ~~ END
+        END
+        SET len = STRING_LENGTH ~%label%~
+        PATCH_IF (len > max_len_item) BEGIN
+          LPF SUBSTRING INT_VAR start = 0 length = max_len_item STR_VAR string = EVAL ~%label%~ RET label = substring END
+        END
+        SPRINT kit_name ~%kit_name%_%label%~
+      END
+
+      // final existence check
+      PATCH_IF (IDS_OF_SYMBOL(~kit~ ~%kit_name%~) > 0) BEGIN
+        SET found = 0
+        PATCH_FOR_EACH suffix IN ~0~ ~1~ ~2~ ~3~ ~4~ ~5~ ~6~ ~7~ ~8~ ~9~ ~A~ ~B~ ~C~ ~D~ ~E~ ~F~ ~G~ ~H~ ~I~ ~J~ ~K~ ~L~ ~M~ ~N~ ~O~ ~P~ ~Q~ ~R~ ~S~ ~T~ ~U~ ~V~ ~W~ ~X~ ~Y~ ~Z~ BEGIN
+          PATCH_IF (NOT found) BEGIN
+            SPRINT new_kit_name ~%kit_name%%suffix%~
+            PATCH_IF (IDS_OF_SYMBOL(~kit~ ~%kit_name%~) < 0) BEGIN
+              SPRINT kit_name ~%new_kit_name%~
+              SET found = 1
+            END
+          END
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Autogenerates the kit title that is displayed on the record screen and other places of the game for the specified
+ * multiclass kit.
+ *
+ * INT_VAR class      Id of the multiclass.
+ * INT_VAR kit1       Id of the first kit. (Default: -1)
+ * INT_VAR kit2       Id of the second kit if available. (Default: -1)
+ * INT_VAR kit3       Id of the third kit if available (triple-classes only). (Default: -1)
+ * STR_VAR separator  Separator between individual class/kit names. (Default: " / ")
+ * RET title          Autogenerated kit title as string. Returns empty string if the kit title could not be generated.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#generate_title
+INT_VAR
+  class = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+STR_VAR
+  separator = ~ / ~
+RET
+  title
+BEGIN
+  OUTER_SPRINT title ~~
+
+  // generating multiclass kit title
+  LAF a7#validate_multiclass INT_VAR class RET success class1 class2 class3 END
+  ACTION_IF (success) BEGIN
+    OUTER_SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : 1
+    SILENT
+    COPY_EXISTING ~clastext.2da~ ~override~
+      READ_2DA_ENTRIES_NOW clastext_table 1
+
+      FOR (idx = 1; idx <= num_classes; ++idx) BEGIN
+        // getting class name
+        SET cur_class = EVAL ~class%idx%~
+        SET strref = "-1"
+        PATCH_IF (VARIABLE_IS_SET $class_token_map(~%cur_class%~)) BEGIN
+          SET strref = $class_token_map(~%cur_class%~)
+        END ELSE BEGIN
+          FOR (row = 3; row < clastext_table; ++row) BEGIN
+            SET class_id = $clastext_table(~%row%~ ~1~)
+            SPRINT number $clastext_table(~%row%~ ~2~) LPM a7#get_validated_number SET kit_id = number
+            SET fallen = $clastext_table(~%row%~ ~7~)
+            PATCH_IF (class_id == cur_class && kit_id == TRUECLASS && fallen == 0) BEGIN
+              SET strref = $clastext_table(~%row%~ ~5~)
+              SET row = clastext_table
+            END
+          END
+        END
+        PATCH_IF (strref >= 0 && NOT VARIABLE_IS_SET $classes(~%cur_class%~)) BEGIN
+          SET $classes(~%cur_class%~) = strref
+        END
+
+        // getting kit name
+        SET cur_kit = EVAL ~kit%idx%~
+        SET cur_kit_stripped = cur_kit BAND BNOT TRUECLASS
+        PATCH_IF (cur_kit != "-1" && cur_kit_stripped != 0) BEGIN
+          LPF a7#get_kit_class INT_VAR kit = cur_kit RET kit_class END
+          SET strref = "-1"
+          FOR (row = 3; row < clastext_table; ++row) BEGIN
+            SET class_id = $clastext_table(~%row%~ ~1~)
+            SPRINT number $clastext_table(~%row%~ ~2~) LPM a7#get_validated_number SET kit_id = number
+            PATCH_IF (class_id == kit_class & kit_id == cur_kit_stripped) BEGIN
+              SET strref = $clastext_table(~%row%~ ~5~)
+              SET row = clastext_table
+            END
+          END
+          PATCH_IF (strref >= 0) BEGIN
+            SET $classes(~%kit_class%~) = strref
+          END
+        END
+
+        // assembling title string
+        PATCH_IF (VARIABLE_IS_SET $classes(~%cur_class%~)) BEGIN
+          SET strref = $classes(~%cur_class%~)
+          GET_STRREF strref name
+          PATCH_IF (~%title%~ STR_EQ ~~) BEGIN
+            SPRINT title ~%name%~
+          END ELSE BEGIN
+            SPRINT title ~%title%%separator%%name%~
+          END
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+  END
+END
+
+
+/**
+ * Autogenerates the kit description displayed on the record screen for the specified multiclass kit.
+ *
+ * INT_VAR class      Id of the multiclass.
+ * INT_VAR kit1       Id of the first kit. (Default: -1)
+ * INT_VAR kit2       Id of the second kit if available. (Default: -1)
+ * INT_VAR kit3       Id of the third kit if available (triple-classes only). (Default: -1)
+ * RET help_desc      The autogenerated kit description as string. Returns empty string if the kit description could not be generated.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#generate_help
+INT_VAR
+  class = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+RET
+  help_desc
+BEGIN
+  OUTER_SPRINT help_desc ~~
+
+  // generating multiclass kit description
+  LAF a7#validate_multiclass INT_VAR class RET success class1 class2 class3 END
+  ACTION_IF (success) BEGIN
+    SILENT
+    COPY_EXISTING ~clastext.2da~ ~override~
+      READ_2DA_ENTRIES_NOW clastext_table 1
+
+      // preparing description string
+      LOOKUP_IDS_SYMBOL_OF_INT class_label ~class~ class
+      FOR (row = 3; row < clastext_table; ++row) BEGIN
+        SPRINT key $clastext_table(~%row%~ ~0~)
+        PATCH_IF (~%key%~ STR_EQ ~%class_label%~) BEGIN
+          SET desc_strref = $clastext_table(~%row%~ ~4~)
+          GET_STRREF desc_strref help_desc
+          SET row = clastext_table
+        END
+      END
+
+      SET num_classes = (class3 > 0) ? 3 : 2
+      FOR (idx = 1; idx <= num_classes; ++idx) BEGIN
+        // getting class description
+        SET cur_class = EVAL ~class%idx%~
+        SET strref = "-1"
+        FOR (row = 3; row < clastext_table; ++row) BEGIN
+          SET class_id = $clastext_table(~%row%~ ~1~)
+          SPRINT number $clastext_table(~%row%~ ~2~) LPM a7#get_validated_number SET kit_id = number
+          SET fallen = $clastext_table(~%row%~ ~7~)
+          PATCH_IF (class_id == cur_class && kit_id == TRUECLASS && fallen == 0) BEGIN
+            SET strref = $clastext_table(~%row%~ ~4~)
+            SET row = clastext_table
+          END
+        END
+        PATCH_IF (strref >= 0 && NOT VARIABLE_IS_SET $classes(~%cur_class%~)) BEGIN
+          SET $classes(~%cur_class%~) = strref
+        END
+
+        // getting kit description
+        SET cur_kit = EVAL ~kit%idx%~
+        SET cur_kit_stripped = cur_kit BAND BNOT TRUECLASS
+        PATCH_IF (cur_kit != "-1" && cur_kit_stripped != 0) BEGIN
+          LPF a7#get_kit_class INT_VAR kit = cur_kit RET kit_class END
+          SET strref = "-1"
+          FOR (row = 3; row < clastext_table; ++row) BEGIN
+            SET class_id = $clastext_table(~%row%~ ~1~)
+            SPRINT number $clastext_table(~%row%~ ~2~) LPM a7#get_validated_number SET kit_id = number
+            PATCH_IF (class_id == kit_class & kit_id == cur_kit_stripped) BEGIN
+              SET strref = $clastext_table(~%row%~ ~4~)
+              SET row = clastext_table
+            END
+          END
+          PATCH_IF (strref >= 0) BEGIN
+            SET $classes(~%kit_class%~) = strref
+          END
+        END
+
+        // assembling description string
+        PATCH_IF (VARIABLE_IS_SET $classes(~%cur_class%~)) BEGIN
+          SET strref = $classes(~%cur_class%~)
+          GET_STRREF strref cur_desc
+          SPRINT help_desc ~%help_desc%%WNL%%WNL%%cur_desc%~
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+  END
+END
+
+
+/**
+ * Calculates unusability flags based on the specified kits.
+ *
+ * INT_VAR kit1       Id of the first kit. (Default: -1)
+ * INT_VAR kit2       Id of the second kit if available. (Default: -1)
+ * INT_VAR kit3       Id of the third kit if available (triple-classes only). (Default: -1)
+ * RET unusable       Returns the usability mask for the new multiclass kit.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#get_unusable_flags
+INT_VAR
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+RET
+  unusable
+BEGIN
+  OUTER_SET unusable = 0
+
+  SILENT
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    READ_2DA_ENTRIES_NOW kitlist 1
+    FOR (idx = 1; idx <= 3; ++idx) BEGIN
+      SET kit_id = EVAL ~kit%idx%~
+      PATCH_IF (kit_id != 0 && kit_id != "-1") BEGIN
+        FOR (row = 4; row < kitlist; ++row) BEGIN
+          PATCH_IF (VARIABLE_IS_SET $kitlist(~%row%~ ~9~)) BEGIN
+            SET kitids = $kitlist(~%row%~ ~9~)
+            PATCH_IF (kitids == kit_id) BEGIN
+              PATCH_IF (VARIABLE_IS_SET $kitlist(~%row%~ ~7~)) BEGIN
+                SET unusable |= $kitlist(~%row%~ ~7~)
+              END
+              SET row = kitlist
+            END
+          END
+        END
+      END
+    END
+  BUT_ONLY
+  VERBOSE
+
+  ACTION_IF (unusable == 0) BEGIN
+    OUTER_SET unusable = TRUECLASS // base class unusability
+  END
+END
+
+
+/**
+ * Creates a combined version of multiple table rows or columns.
+ *
+ * INT_VAR is_row       Specifies whether the table entry is defined as row (1) or column (0). (Default: 1)
+ * INT_VAR is_bool      Indicates whether the table entry consists of boolean values (1) or numeric values (0). (Default: 1)
+ * INT_VAR cumulative   Indicates whether to take the lower value (0), higher value (1), or the first non-zero value (-1). (Default: 1)
+ * STR_VAR label        Kit or class label of the requested table entry.
+ * STR_VAR entry        Optional result from a previous function call. Specify it to combine values from multiple table entries.
+ * RET entry            The resulting table entry based on the given parameters. Header column (or row) is not included.
+ */
+DEFINE_PATCH_FUNCTION a7#combine_table_entry
+INT_VAR
+  is_row = 1
+  is_bool = 1
+  cumulative = 1
+STR_VAR
+  label = ~~
+  entry = ~~
+RET
+  entry
+BEGIN
+  PATCH_IF (NOT ~%label%~ STR_EQ ~~) BEGIN
+    // special: fix specialist mage labels
+    PATCH_IF (~%label%~ STRING_MATCHES_REGEXP ~^MAGESCHOOL_.*~ == 0) BEGIN
+      INNER_PATCH_SAVE label ~%label%~ BEGIN REPLACE_TEXTUALLY ~^MAGESCHOOL_~ ~~ END
+    END
+
+    // preparing source entry
+    SET is_empty = ~%entry%~ STR_EQ ~~
+    PATCH_IF (is_empty && INDEX_BUFFER(~\b%label%\b~) >= 0) BEGIN
+      PATCH_IF (is_row) BEGIN
+        COUNT_2DA_COLS count
+        SET count -= 1
+      END ELSE BEGIN
+        COUNT_2DA_ROWS 1 count
+        SET count -= 3
+      END
+      FOR (i = 0; i < count; ++i) BEGIN
+        SET $entry_table(~0~ ~%i%~) = 0
+      END
+    END ELSE BEGIN
+      INNER_PATCH ~%entry%~ BEGIN
+        READ_2DA_ENTRIES_NOW entry_table 1
+      END
+    END
+
+    // finding matching table entry
+    READ_2DA_ENTRIES_NOW cur_table 1
+    PATCH_IF (is_row) BEGIN
+      // processing entries as rows
+      SET row_inc = 0
+      SET col_inc = 1
+      SET cur_row = "-1"
+      SET cur_col = 1
+      FOR (row = 3; row < cur_table && cur_row < 0; ++row) BEGIN
+        SPRINT header $cur_table(~%row%~ ~0~)
+        PATCH_IF (~%header%~ STR_EQ ~%label%~) BEGIN
+          SET cur_row = row
+        END
+      END
+    END ELSE BEGIN
+      // processing entries as columns
+      SET row_inc = 1
+      SET col_inc = 0
+      SET cur_row = 3
+      SET cur_col = "-1"
+      FOR (col = 0; VARIABLE_IS_SET $cur_table(~2~ ~%col%~) && cur_col < 0; ++col) BEGIN
+        SPRINT header $cur_table(~2~ ~%col%~)
+        PATCH_IF (~%header%~ STR_EQ ~%label%~) BEGIN
+          SET cur_col = col + 1 // compensate for missing first header column entry
+        END
+      END
+    END
+
+    // processing table entry
+    PATCH_IF (cur_row >= 0 && cur_col >= 0) BEGIN
+      SET src_idx = 0 // item index in source "entry"
+      WHILE (VARIABLE_IS_SET $entry_table(~0~ ~%src_idx%~) && VARIABLE_IS_SET $cur_table(~%cur_row%~ ~%cur_col%~)) BEGIN
+        SET src_value = $entry_table(~0~ ~%src_idx%~)
+        SET dst_value = $cur_table(~%cur_row%~ ~%cur_col%~)
+
+        PATCH_IF (is_empty) BEGIN
+          // initialize entry
+          SET $entry_table(~0~ ~%src_idx%~) = dst_value
+        END ELSE PATCH_IF (cumulative) BEGIN
+          // accept higher value
+          PATCH_IF (dst_value > src_value) BEGIN
+            SET $entry_table(~0~ ~%src_idx%~) = dst_value
+          END
+        END ELSE BEGIN
+          // accept lower value
+          PATCH_IF (dst_value < src_value) BEGIN
+            SET $entry_table(~0~ ~%src_idx%~) = dst_value
+          END
+        END
+
+        SET cur_row += row_inc
+        SET cur_col += col_inc
+        SET src_idx += 1
+      END
+    END
+
+    // generating return value
+    SPRINT entry ~~
+    FOR (idx = 0; VARIABLE_IS_SET $entry_table(~0~ ~%idx%~); ++idx) BEGIN
+      SPRINT value $entry_table(~0~ ~%idx%~)
+      PATCH_IF (idx == 0) BEGIN
+        SPRINT entry ~%value%~
+      END ELSE BEGIN
+        SPRINT entry ~%entry% %value%~
+      END
+    END
+  END
+END
+
+
+/**
+ * Attempts to create a combined class and kit HLA ability table for the current multiclass kit.
+ *
+ * INT_VAR class      Id of the multiclass.
+ * INT_VAR kit1       Id of the first kit. (Default: -1)
+ * INT_VAR kit2       Id of the second kit if available. (Default: -1)
+ * INT_VAR kit3       Id of the third kit if available (triple-classes only). (Default: -1)
+ * RET success        Returns 1 if the table creation was successful, 0 otherwise.
+ * RET luabbr         Resref of the HLA table for the new multiclass kit.
+ *                    May return the parent class HLA table if no changes were made.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#merge_kit_hlas
+INT_VAR
+  class = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+RET
+  success
+  luabbr
+BEGIN
+  OUTER_SET success = 1
+  OUTER_SPRINT luabbr ~~
+
+  // combining hla tables into a new custom table
+  OUTER_SET kit_hla_resrefs = 0
+  OUTER_SPRINT class_hla_resref ~~
+  OUTER_SPRINT custom_hla_resref ~~
+  SILENT
+  COPY_EXISTING ~luabbr.2da~ ~override~
+    // getting class HLA table
+    LOOKUP_IDS_SYMBOL_OF_INT class_name ~class~ class
+    LPF GET_2DA_VALUE INT_VAR column = 1 STR_VAR key = EVAL ~%class_name%~ RET abbrev = result END
+    PATCH_IF (FILE_EXISTS_IN_GAME ~Lu%abbrev%.2da~) BEGIN
+      SPRINT luabbr ~%abbrev%~
+      SPRINT class_hla_resref ~Lu%abbrev%~
+      SET len = STRING_LENGTH ~%abbrev%~
+      LPF SUBSTRING INT_VAR start = 0 length = len - 1 STR_VAR string = EVAL ~%abbrev%~ RET hla_base = substring END
+      PATCH_FOR_EACH suffix IN ~0~ ~1~ ~2~ ~3~ ~4~ ~5~ ~6~ ~7~ ~8~ ~9~ ~a~ ~b~ ~c~ ~d~ ~e~ ~f~ ~g~ ~h~ ~i~ ~j~ ~k~ ~l~ ~m~ ~n~ ~o~ ~p~ ~q~ ~r~ ~s~ ~t~ ~u~ ~v~ ~w~ ~x~ ~y~ ~z~ BEGIN
+        SPRINT hla_name ~%hla_base%%suffix%~
+        PATCH_IF (~%custom_hla_resref%~ STR_EQ ~~ && NOT FILE_EXISTS_IN_GAME ~Lu%hla_name%.2da~ && INDEX_BUFFER(~\b%hla_name%\b~) < 0) BEGIN
+          SPRINT luabbr_custom ~%hla_name%~
+          SPRINT custom_hla_resref ~Lu%hla_name%~
+        END
+      END
+    END ELSE BEGIN
+      SET success = 0
+      PATCH_WARN ~WARNING: HLA table for the multiclass does not exist: Lu%abbrev%.2da~
+    END
+
+    // getting kit HLA tables
+    FOR (idx = 1; idx <= 3; ++idx) BEGIN
+      SET kit_value = EVAL ~kit%idx%~
+      PATCH_IF (kit_value != 0 && kit_value != "-1") BEGIN
+        LOOKUP_IDS_SYMBOL_OF_INT kit_name ~kit~ kit_value
+        LPF GET_2DA_VALUE INT_VAR column = 1 STR_VAR key = EVAL ~%kit_name%~ RET abbrev = result END
+        PATCH_IF (FILE_EXISTS_IN_GAME ~Lu%abbrev%.2da~) BEGIN
+          SPRINT $kit_hla_resrefs(~%kit_hla_resrefs%~) ~Lu%abbrev%~
+          SET kit_hla_resrefs += 1
+        END
+      END
+    END
+  BUT_ONLY
+  VERBOSE
+
+  // combining table entries and saving the result as a new HLA table
+  ACTION_IF (kit_hla_resrefs > 0 && NOT ~%class_hla_resref%~ STR_EQ ~~ && NOT ~%custom_hla_resref%~ STR_EQ ~~) BEGIN
+    // loading class table
+    SILENT
+    COPY_EXISTING ~%class_hla_resref%.2da~ ~override~
+      COUNT_2DA_COLS class_hla_cols // used as safety check further down
+      READ_2DA_ENTRIES_NOW class_hla_table 1
+      SPRINT class_hla_def_value $class_hla_table(~1~ ~0~)  // default cell value
+      FOR (row = 3; row < class_hla_table; ++row) BEGIN
+        // caching class ability SPL resrefs
+        SPRINT ability $class_hla_table(~%row%~ ~1~)
+        SET len = STRING_LENGTH ~%ability%~
+        PATCH_IF (len > 3) BEGIN
+          LPF SUBSTRING INT_VAR start = 3 length = len - 3 STR_VAR string = EVAL ~%ability%~ RET ability = substring END
+          PATCH_IF (FILE_EXISTS_IN_GAME ~%ability%.SPL~) BEGIN
+            TO_UPPER ~ability~
+            SET $hla_resrefs(~%ability%~) = 1
+          END
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+
+    // processing kit tables
+    OUTER_SET stored_hlas = 0
+    OUTER_FOR (idx = 0; idx < kit_hla_resrefs; ++idx) BEGIN
+      OUTER_SPRINT hla_resref_kit $kit_hla_resrefs(~%idx%~)
+      SILENT
+      COPY_EXISTING ~%hla_resref_kit%.2da~ ~override~
+        COUNT_2DA_COLS kit_hla_cols
+        READ_2DA_ENTRIES_NOW kit_hla_table 1
+        FOR (row = 3; row < kit_hla_table; ++row) BEGIN
+          SPRINT ability $kit_hla_table(~%row%~ ~1~)
+          SET len = STRING_LENGTH ~%ability%~
+          PATCH_IF (len > 3) BEGIN
+            LPF SUBSTRING INT_VAR start = 3 length = len - 3 STR_VAR string = EVAL ~%ability%~ RET ability = substring END
+            PATCH_IF (FILE_EXISTS_IN_GAME ~%ability%.SPL~) BEGIN
+              TO_UPPER ~ability~
+              PATCH_IF (NOT VARIABLE_IS_SET $hla_resrefs(~%ability%~)) BEGIN
+                SPRINT ability_req $kit_hla_table(~%row%~ ~7~)
+                SET len = STRING_LENGTH ~%ability_req%~
+                PATCH_IF (len > 3) BEGIN
+                  LPF SUBSTRING INT_VAR start = 3 length = len - 3 STR_VAR string = EVAL ~%ability_req%~ RET ability_req = substring END
+                  TO_UPPER ~ability_req~
+                  PATCH_IF (VARIABLE_IS_SET $hla_resrefs(~%ability_req%~)) BEGIN
+                    SPRINT ability_req ~~
+                  END
+                END ELSE BEGIN
+                  SPRINT ability_req ~~
+                END
+
+                PATCH_IF (~%ability_req%~ STR_EQ ~~) BEGIN
+                  // storing new ability for merging and updating HLA cache
+                  FOR (col = 0; col < kit_hla_cols && VARIABLE_IS_SET $kit_hla_table(~%row%~ ~%col%~); ++col) BEGIN
+                    SPRINT $stored_hlas(~%stored_hlas%~ ~%col%~) $kit_hla_table(~%row%~ ~%col%~)
+                  END
+                  SET stored_hlas += 1
+                  SET $hla_resrefs(~%ability%~) = 1
+                END
+              END
+            END
+          END
+        END
+      BUT_ONLY
+      VERBOSE
+    END
+
+    // merging stored abilities (up to 24 ability definitions allowed per HLA table)
+    OUTER_SET expanded = 0
+    OUTER_FOR (row = 3 idx = 0; row < 27 && idx < stored_hlas; ++row) BEGIN // row = 27: # abilities plus table header rows
+      ACTION_IF (VARIABLE_IS_SET $class_hla_table(~%row%~ ~1~)) BEGIN
+        // reusing existing row?
+        OUTER_SPRINT ability $class_hla_table(~%row%~ ~1~)
+        OUTER_SET available = STRING_LENGTH ~%ability%~ < 4
+      END ELSE BEGIN
+        // adding new row
+        OUTER_SET available = 1
+        OUTER_SET class_hla_table += 1
+      END
+
+      ACTION_IF (available) BEGIN
+        // assigning kit HLA entry to class HLA table
+        OUTER_SET $class_hla_table(~%row%~ ~0~) = row - 2
+        OUTER_FOR (col = 1; col < class_hla_cols; ++col) BEGIN
+          ACTION_IF (VARIABLE_IS_SET $stored_hlas(~%idx%~ ~%col%~)) BEGIN
+            OUTER_SPRINT $class_hla_table(~%row%~ ~%col%~) $stored_hlas(~%idx%~ ~%col%~)
+          END ELSE BEGIN
+            OUTER_SPRINT $class_hla_table(~%row%~ ~%col%~) ~%class_hla_def_value%~
+          END
+        END
+        OUTER_SET idx += 1
+        OUTER_SET expanded = 1
+      END
+    END
+
+    // writing custom multiclass kit HLA table to disk (only if parent table was modified)
+    ACTION_IF (expanded) BEGIN
+      OUTER_SPRINT luabbr ~%luabbr_custom%~
+<<<<<<<< .../inlined/kit_functions/blank
+>>>>>>>>
+      SILENT
+      COPY ~.../inlined/kit_functions/blank~ ~override/%custom_hla_resref%.2da~
+        DELETE_BYTES 0 BUFFER_LENGTH
+        SET ofs = 0
+        FOR (row = 0; row < class_hla_table; ++row) BEGIN
+          SPRINT line ~~
+          FOR (col = 0; VARIABLE_IS_SET $class_hla_table(~%row%~ ~%col%~); ++col) BEGIN
+            SPRINT value $class_hla_table(~%row%~ ~%col%~)
+            PATCH_IF (~%line%~ STR_EQ ~~) BEGIN
+              SPRINT line ~%value%~
+            END ELSE BEGIN
+              SPRINT line ~%line% %value%~
+            END
+          END
+          SPRINT line ~%line%%WNL%~
+          SET len = STRING_LENGTH ~%line%~
+          INSERT_BYTES ofs len
+          WRITE_ASCIIE ofs ~%line%~ (len)
+          SET ofs += len
+        END
+        PRETTY_PRINT_2DA
+      VERBOSE
+    END
+  END
+END
+
+
+/**
+ * Specialized function that creates a table entry for WEAPPROF.2DA based on the given parameters.
+ *
+ * INT_VAR kit_class  Id of the reference class.
+ * INT_VAR kit        Id of the kit.
+ * STR_VAR entry      Optional table entry that should be considered in the process.
+ * RET entry          A fully initialized table entry. Returns the content of string parameter "entry" if the table entry could not be created.
+ */
+DEFINE_PATCH_FUNCTION a7#create_weapprof_entry
+INT_VAR
+  kit_class = "-1"
+  kit = "-1"
+STR_VAR
+  entry = ~~
+RET
+  entry
+BEGIN
+  PATCH_IF (kit_class > 0 && kit != 0 && kit != "-1") BEGIN
+    LOOKUP_IDS_SYMBOL_OF_INT class_name ~class~ kit_class
+    LOOKUP_IDS_SYMBOL_OF_INT kit_name ~kit~ kit
+
+    PATCH_IF (NOT ~%entry%~ STR_EQ ~~) BEGIN
+      INNER_PATCH ~%entry%~ BEGIN
+        READ_2DA_ENTRIES_NOW entry_table 1
+      END
+    END
+
+    // searching for class and kit columns
+    SET class_col = "-1"
+    SET kit_col = "-1"
+    READ_2DA_ENTRIES_NOW weapprof 1
+    FOR (col = 3; class_col < 0 && kit_col < 0 && VARIABLE_IS_SET $weapprof(~2~ ~%col%~); ++col) BEGIN
+      SPRINT label $weapprof(~2~ ~%col%~)
+      PATCH_IF (~%label%~ STR_EQ ~%class_name%~) BEGIN
+        SET class_col = col + 1
+      END ELSE PATCH_IF (~%label%~ STR_EQ ~%kit_name%~) BEGIN
+        SET kit_col = col + 1
+      END
+    END
+
+    PATCH_IF (class_col > 0 && kit_col > 0) BEGIN
+      FOR (row = 3; row < kitlist; ++row) BEGIN
+        // entry value
+        SET col = row - 3
+        SET entry_value = 0
+        PATCH_IF (VARIABLE_IS_SET $entry_table(~0~ ~%col%~)) BEGIN
+          SPRINT v $entry_table(~0~ ~%col%~)
+          PATCH_IF (IS_AN_INT ~v~) BEGIN
+            SET entry_value = v
+          END
+        END
+
+        // class value
+        SET class_value = $kitlist(~%row%~ ~%class_col%~)
+
+        // kit value
+        SET kit_value = $kitlist(~%row%~ ~%kit_col%~)
+
+        // calculating resulting value
+        SET value = (kit_value > class_value) ? kit_value : 0
+        SET value = (entry_value > value) ? entry_value : value
+        SET $entry_table(~0~ ~%col%~) = value
+      END
+
+      // creating entry string
+      SPRINT entry ~~
+      SET num_entries = kitlist - 3
+      FOR (idx = 0; idx < num_entries; ++idx) BEGIN
+        SPRINT value $entry_table(~0~ ~%idx%~)
+        PATCH_IF (idx == 0) BEGIN
+          SPRINT entry ~%value%~
+        END ELSE BEGIN
+          SPRINT entry ~%entry% %value%~
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Attempts to convert a string into a number. Defined as macro for performance reasons.
+ *
+ * Expected variables:
+ * STR_VAR number   With the value to convert into a number.
+ * RET number       The converted numeric value. Contains a default value if the input string doesn't contain
+ *                  a valid number. (Default: -1)
+ */
+DEFINE_ACTION_MACRO a7#get_validated_number
+BEGIN
+  LOCAL_SET def_value = "-1"
+  ACTION_IF (VARIABLE_IS_SET ~default_value~ && IS_AN_INT ~default_value~) BEGIN
+    OUTER_SET def_value = default_value
+  END
+
+  ACTION_IF (IS_AN_INT ~number~) BEGIN
+    OUTER_SET number = number
+  END ELSE ACTION_IF (~%number%~ STR_EQ ~2147483648~) BEGIN
+    OUTER_SET number = 0x80000000
+  END ELSE ACTION_IF (~%number%~ STR_EQ ~4294967295~) BEGIN
+    OUTER_SET number = "-1"
+  END ELSE BEGIN
+    OUTER_SET number = def_value
+  END
+END
+
+
+/**
+ * Attempts to convert a string into a number. Defined as macro for performance reasons.
+ *
+ * Expected variables:
+ * STR_VAR number   With the value to convert into a number.
+ * RET number       The converted numeric value. Contains a default value if the input string doesn't contain
+ *                  a valid number. (Default: -1)
+ */
+DEFINE_PATCH_MACRO a7#get_validated_number
+BEGIN
+  INNER_ACTION BEGIN LAM a7#get_validated_number END
+END

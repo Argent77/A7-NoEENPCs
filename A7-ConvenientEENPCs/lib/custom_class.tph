@@ -1,278 +1,1296 @@
 INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
 
-// Handles everything to change class/kit of the current character
-DEFINE_PATCH_FUNCTION A7_CHANGE_CUSTOM_CLASS
+// Function Overview:
+// a7#collect_class_info          Dimorphic function: Generates a map of class and kit information based on the specified filters.
+// a7#init_class_filters          Creates white and black lists for classes based on the given parameters.
+// a7#init_kit_filters            Creates white and black lists for kitys based on the given parameters.
+// a7#init_class_info             Dimorphic function: Returns a map with class information.
+// a7#init_kit_info               Dimorphic function: Returns a map with kit information.
+// a7#init_race_info              Dimorphic function: Returns a map with race information for classes and kits.
+// a7#init_alignment_info         Dimorphic function: Returns a map with alignment information for classes and kits.
+// a7#init_atribute_info          Dimorphic function: Returns a map with attribute information for classes and kits.
+// a7#load_kittable_map           Dimorphic function: Generates a kittable map that is required by the function "a7#is_kit_hidden".
+// a7#is_kit_available            Dimorphic function: Determines whether the specified kit is available to player races.
+// a7#generate_multi_kit_list     Dimorphic function: Collects and returns a list of all potential kit combinations for a multiclass based on the given parameters.
+// a7#get_kit_list                Dimorphic function: Creates a list of available kits for the specified single class.
+// a7#get_class_tokens            Dimorphic function: Returns a class token map based on ENGINEST.2DA entries.
+// a7#remove_color_tags           Dimorphic function: Removes color definitions in strings.
+
+
+/**
+ * Generates a map of class and kit information based on the specified filters.
+ *
+ * INT_VAR race                     Specify a non-zero value to filter by race (RACE.IDS). (Default: 0)
+ * INT_VAR alignment                Specify a non-zero value to filter by alignment (ALIGNMEN.IDS). (Default: 0)
+ * INT_VAR str                      Specify a non-zero value to filter by min. strength. (Default: 0)
+ * INT_VAR dex                      Specify a non-zero value to filter by min. dexterity. (Default: 0)
+ * INT_VAR con                      Specify a non-zero value to filter by min. constitution. (Default: 0)
+ * INT_VAR int                      Specify a non-zero value to filter by min. intelligence. (Default: 0)
+ * INT_VAR wis                      Specify a non-zero value to filter by min. wisdom. (Default: 0)
+ * INT_VAR chr                      Specify a non-zero value to filter by min. charisma. (Default: 0)
+ * INT_VAR allow_kits               Boolean value that indicates whether kits and specialist mages should be included in the search.
+ *                                  (Default: 1)
+ * INT_VAR allow_multi              Boolean value that indicates whether multiclass combinations should be included in the search.
+ *                                  (Default: 1)
+ * INT_VAR allow_multi_kits         Boolean value that indicates whether true multiclass kits should be included in the search.
+ *                                  This parameter is only considered if "allow_kits" and "allow_multi" are enabled. (Default: 1)
+ * INT_VAR allow_custom_multi_kits  Boolean value that indicates whether to include potential (non-existing) multiclass kits
+ *                                  that are compatible with the specified filters. This parameter is only considered if
+ *                                  "allow_multi_kits" is enabled. (Default: 0)
+ * STR_VAR trueclass_title          String for the special "unkitted" kit option. (Default: "No kit")
+ * STR_VAR class_whitelist_name     Name of an indexed array that contains a list of classes (symbol or id) that are allowed for
+ *                                  class/kit generation. Everything else will be excluded. This parameter will override the
+ *                                  "class_blacklist_name" parameter if defined. (Default: no whitelist)
+ * STR_VAR kit_whitelist_name       Name of an indexed array that contains a list of kits (symbol or id), optionally preceded by
+ *                                  a class filter (symbol or id) and a colon, that are allowed for class/kit generation. Everything
+ *                                  else will be excluded. This parameter will override the "kit_blacklist_name" parameter if defined.
+ *                                  Note that "TRUECLASS" has to be included if the unkitted class variant should be listed.
+ *                                  (Default: no whitelist)
+ * STR_VAR class_blacklist_name     Name of an indexed array that contains a list of classes (symbol or id) that should be excluded
+ *                                  from class/kit generation. Only explicit class entries are considered (e.g. adding "FIGHTER"
+ *                                  but not "FIGHTER_THIEF" will still generate kit entries for the "FIGHTER_THIEF" class if available.
+ *                                  (Default: no blacklist)
+ * STR_VAR kit_blacklist_name       Name of an indexed array that contains a list of kits (symbol or id), optionally preceded by a
+ *                                  class filter (symbol or id) and a colon, that should be excluded from class/kit generation. Listed kits
+ *                                  are excluded from all classes, including potential multiclass kit options. Note that "TRUECLASS" can be
+ *                                  added to exclude unkitted class variants. (Default: no blacklist)
+ * RET class_map                    Number of root entries in the returned class map.
+ * RET_ARRAY class_map              Map structure containing information about all compatible classes and kits.
+ *
+ * "class_map" structure:
+ * class_map => # class entries
+ * $class_map(<cls_idx>) => class id (CLASS.IDS)
+ * $class_map(<cls_idx> "symbol") => symbolic class name
+ * $class_map(<cls_idx> "title") => class name for display
+ * $class_map(<cls_idx> "kit") => # kits available for the class, including TRUECLASS meta-kit
+ * $class_map(<cls_idx> "kit" <kit_idx>) => kit id (KIT.IDS) of existing kit; -1 for potential (non-existing) multiclass kit
+ * $class_map(<cls_idx> "kit" <kit_idx> "symbol") => symbolic kit name (auto-generated for potential multiclass kits)
+ * $class_map(<cls_idx> "kit" <kit_idx> "title") => kit name for display (auto-generated for potential multiclass kits)
+ * $class_map(<cls_idx> "kit" <kit_idx> "kit1") => kit id of first multiclass aspect (potential multiclass kit only)
+ * $class_map(<cls_idx> "kit" <kit_idx> "kit2") => kit id of second multiclass aspect (potential multiclass kit only)
+ * $class_map(<cls_idx> "kit" <kit_idx> "kit3") => kit id of third multiclass aspect (potential multiclass kit only)
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#collect_class_info
 INT_VAR
-  keep_innates = 0  // 0: clear all innate abilities, 1: keep innate abilities
-  class_id = 0
-  kit_id = 0
+  race = 0
+  alignment = 0
+  str = 0
+  dex = 0
+  con = 0
+  int = 0
+  wis = 0
+  chr = 0
+  allow_kits = 1
+  allow_multi = 1
+  allow_multi_kits = 1
+  allow_custom_multi_kits = 0
+STR_VAR
+  trueclass_title = ~no kit~
+  class_whitelist_name = ~~
+  kit_whitelist_name = ~~
+  class_blacklist_name = ~~
+  kit_blacklist_name = ~~
+RET
+  class_map
+RET_ARRAY
+  class_map
 BEGIN
-  // getting original mage spell selection
-  LPF A7_GET_CLASS_KIT RET old_class = class_id END
-  PATCH_MATCH old_class WITH
-    1 5 7 10 13 14 17 19 BEGIN
-      LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell = spell_resref RET_ARRAY spell = spell_resref END
-    END
-    DEFAULT SET spell = 0
+  // CLASTEXT.2DA   Defines extended class and kit information
+  // KITLIST.2DA    Defines extended kit information
+  // ABCLASRQ.2DA   Defines min. stat requirements for the class
+  // ALIGNMNT.2DA   Defines supported alignments for the class
+  // CLSRCREQ.2DA   Defines supported races for the class
+  OUTER_SET class_map = 0
+
+  ACTION_IF (~%trueclass_title%~ STR_EQ ~~) BEGIN
+    OUTER_SPRINT trueclass_title ~no kit~
   END
 
-  LPF A7_RESET_CLASS INT_VAR keep_innates STR_VAR class = EVAL ~%class_id%~ kit = EVAL ~%kit_id%~ END
-  LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
+  // validating and normalizing filter parameters
+  ACTION_IF (race < 0 || race > 7) BEGIN
+    WARN ~WARNING: Ignoring invalid race filter: %race%~
+    OUTER_SET race = 0
+  END
 
-  // restoring/adding mage spell selection
-  PATCH_MATCH class_id WITH
-    1 5 7 10 13 14 17 BEGIN // mage, bard
-      PATCH_IF (spell = 0) BEGIN
-        // Adding set of learned spells
-        PATCH_FOR_EACH symbol IN ~WIZARD_BLINDNESS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_LARLOCH_MINOR_DRAIN~
-                                 ~WIZARD_HORROR~ ~WIZARD_INVISIBILITY~ ~WIZARD_STINKING_CLOUD~
-                                 ~WIZARD_HOLD_PERSON~ ~WIZARD_SLOW~ BEGIN
-          LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spell_%spell%~ = resref END // adding spells
-          LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-          SET spell += 1
+  ACTION_IF ((alignment & 0xcc) != 0) BEGIN
+    WARN ~WARNING: Ignoring invalid alignment filter: %alignment%~
+    OUTER_SET alignment = 0
+  END
+
+  // attribute filter parameters (variable "attr_filters" indicates whether attribute filters are defined)
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY attr_params_map BEGIN
+    ~str~ => ~strength~
+    ~dex~ => ~dexterity~
+    ~con~ => ~constitution~
+    ~int~ => ~intelligence~
+    ~wis~ => ~wisdom~
+    ~chr~ => ~charisma~
+  END
+  OUTER_SET attr_filters = 0
+  ACTION_PHP_EACH attr_params_map AS var => title BEGIN
+    OUTER_SET value = EVAL ~%var%~
+    ACTION_IF (value < 0 || value > 25) BEGIN
+      WARN ~WARNING: Ignoring invalid %title% filter: %value%~
+      OUTER_SET EVAL ~%var%~ = 0
+    END
+    OUTER_SET attr_filters |= EVAL ~%var%~ != 0
+  END
+
+  // normalizing boolean parameter
+  OUTER_SET allow_kits = (allow_kits != 0)
+  OUTER_SET allow_multi = (allow_multi != 0)
+  OUTER_SET allow_multi_kits = allow_kits && allow_multi && (allow_multi_kits != 0)
+  OUTER_SET allow_custom_multi_kits = allow_multi_kits && (allow_custom_multi_kits != 0)
+
+
+  // Initializing white and black lists for classes and kits
+  LAF a7#init_class_filters STR_VAR class_whitelist_name class_blacklist_name RET whitelist_class blacklist_class RET_ARRAY whitelist_class blacklist_class END
+  LAF a7#init_kit_filters STR_VAR kit_whitelist_name kit_blacklist_name RET whitelist_kit blacklist_kit RET_ARRAY whitelist_kit blacklist_kit END
+
+  // loading kittable information
+  LAF a7#load_kittable_map RET_ARRAY kittable_map END
+
+  // Initializing map with race information for classes/kits
+  LAF a7#init_race_info INT_VAR race RET class_race_info kit_race_info RET_ARRAY class_race_info kit_race_info END
+
+  // Initializing map with alignment information for classes/kits
+  LAF a7#init_alignment_info INT_VAR alignment RET class_align_info kit_align_info RET_ARRAY class_align_info kit_align_info END
+
+  // Initializing map with attribute information for classes/kits
+  LAF a7#init_atribute_info INT_VAR str dex con int wis chr RET class_attr_info kit_attr_info RET_ARRAY class_attr_info kit_attr_info END
+
+  // Initializing map with class information
+  LAF a7#init_class_info
+    STR_VAR
+      whitelist_class_name = ~whitelist_class~
+      blacklist_class_name = ~blacklist_class~
+      class_race_info_name = ~class_race_info~
+      class_align_info_name = ~class_align_info~
+      class_attr_info_name = ~class_attr_info~
+    RET class_info
+    RET_ARRAY class_info
+  END
+
+  // Initializing map with kit information
+  LAF a7#init_kit_info
+    INT_VAR race allow_kits
+    STR_VAR
+      whitelist_kit_name = ~whitelist_kit~
+      blacklist_kit_name = ~blacklist_kit~
+      kittable_map_name = ~kittable_map~
+      kit_race_info_name = ~kit_race_info~
+      kit_align_info_name = ~kit_align_info~
+      kit_attr_info_name = ~kit_attr_info~
+    RET kit_info
+    RET_ARRAY kit_info
+  END
+
+
+  // generating class/kit map
+  OUTER_FOR (class_idx = 0; class_idx < class_info; ++class_idx) BEGIN
+    // processing class
+    OUTER_SET class_id = $class_info(~%class_idx%~)
+    OUTER_SET class1 = $class_info(~%class_idx%~ ~class1~)
+    OUTER_SET class2 = $class_info(~%class_idx%~ ~class2~)
+    OUTER_SET class3 = $class_info(~%class_idx%~ ~class3~)
+    OUTER_SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : 1
+
+    OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT class_label ~class~ class_id END
+    OUTER_SPRINT class_title $class_info(~%class_idx%~ ~title~)
+    OUTER_SET $class_map(~%class_map%~) = class_id
+    OUTER_SPRINT $class_map(~%class_map%~ ~symbol~) ~%class_label%~
+    OUTER_SPRINT $class_map(~%class_map%~ ~title~) ~%class_title%~
+
+    OUTER_SET num_kits = 0
+    OUTER_SET $class_map(~%class_map%~ ~kit~) = num_kits
+    OUTER_FOR (kit_idx = "-1"; kit_idx < kit_info; ++kit_idx) BEGIN
+      OUTER_SET kit_class = (kit_idx < 0) ? class_id : $kit_info(~%kit_idx%~ ~class~)
+      ACTION_IF (kit_class == class_id) BEGIN
+        // processing kit
+        OUTER_SET kit_ref = (kit_idx < 0) ? 0 : $kit_info(~%kit_idx%~ ~ref~)
+        OUTER_SET kit_id = (kit_idx < 0) ? 0x4000 : $kit_info(~%kit_idx%~)
+
+        ACTION_IF (kit_idx < 0) BEGIN
+          ACTION_IF (kit_class == 1) BEGIN
+            OUTER_SPRINT kit_label ~MAGESCHOOL_GENERALIST~
+          END ELSE BEGIN
+            OUTER_SPRINT kit_label ~TRUECLASS~
+          END
+          OUTER_SPRINT kit_title ~%trueclass_title%~
+        END ELSE BEGIN
+          OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT kit_label ~kit~ kit_id END
+          OUTER_SPRINT kit_title $kit_info(~%kit_idx%~ ~title~)
+        END
+        OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~) = kit_id
+        OUTER_SPRINT $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~symbol~) ~%kit_label%~
+        OUTER_SPRINT $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~title~) ~%kit_title%~
+        OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~kit1~) = "-1"
+        OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~kit2~) = "-1"
+        OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~kit3~) = "-1"
+
+        OUTER_SET num_kits += 1
+        OUTER_SET $class_map(~%class_map%~ ~kit~) = num_kits
+      END
+    END
+
+    // determining potential multiclass kits
+    ACTION_IF (allow_custom_multi_kits && num_classes > 1) BEGIN
+      // all possible kit class combinations
+      ACTION_DEFINE_ARRAY kit_combos BEGIN 0b001 0b010 0b100 0b011 0b101 0b110 0b111 END
+      ACTION_PHP_EACH kit_combos AS _ => bitmask BEGIN
+        OUTER_SET has_kit1 = (bitmask & BIT0) != 0
+        OUTER_SET has_kit2 = (bitmask & BIT1) != 0
+        OUTER_SET has_kit3 = (bitmask & BIT2) != 0
+        ACTION_IF (num_classes > 2 || NOT has_kit3) BEGIN
+/*
+"multi_kits" structure:
+multi_kits => # kit definitions
+$multi_kits(<kit_idx>) => always -1 (potential multiclass kit)
+$multi_kits(<kit_idx> "symbol") => symbolic kit name
+$multi_kits(<kit_idx> "title") => kit name for display
+$multi_kits(<kit_idx> "kit1") => kit id of first multiclass aspect
+$multi_kits(<kit_idx> "kit2") => kit id of second multiclass aspect
+$multi_kits(<kit_idx> "kit3") => kit id of third multiclass aspect
+*/
+          LAF a7#generate_multi_kit_list
+            INT_VAR class = class_id has_kit1 has_kit2 has_kit3
+            STR_VAR kit_info_name = ~kit_info~
+            RET multi_kits
+            RET_ARRAY multi_kits
+          END
+
+          OUTER_FOR (kit_idx = 0; kit_idx < multi_kits; ++kit_idx) BEGIN
+            OUTER_SET kit_id = $multi_kits(~%kit_idx%~)
+            OUTER_SET kit_supported = 1
+
+            // performing checks for each defined base kit
+            OUTER_FOR (base_idx = 1; kit_supported && base_idx <= 3; ++base_idx) BEGIN
+              OUTER_SET base_kit = $multi_kits(~%kit_idx%~ ~kit%base_idx%~)
+
+              ACTION_IF (base_kit != 0 && base_kit != "-1") BEGIN
+                ACTION_IF (kit_supported) BEGIN
+                  // filter by white/black list
+                  OUTER_SET kit_supported = (NOT whitelist_kit && NOT blacklist_kit) ||
+                                            (whitelist_kit && (VARIABLE_IS_SET $whitelist_kit(~%base_kit%~ ~0~) || VARIABLE_IS_SET $whitelist_kit(~%base_kit%~ ~%class_id%~))) ||
+                                            (blacklist_kit && NOT (VARIABLE_IS_SET $blacklist_kit(~%base_kit%~ ~0~) || VARIABLE_IS_SET $blacklist_kit(~%base_kit%~ ~%class_id%~)))
+                END
+              END
+            END
+
+            ACTION_IF (kit_supported) BEGIN
+              OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~) = "-1"
+              OUTER_SPRINT $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~symbol~) $multi_kits(~%kit_idx%~ ~symbol~)
+              OUTER_SPRINT $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~title~) $multi_kits(~%kit_idx%~ ~title~)
+              OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~kit1~) = $multi_kits(~%kit_idx%~ ~kit1~)
+              OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~kit2~) = $multi_kits(~%kit_idx%~ ~kit2~)
+              OUTER_SET $class_map(~%class_map%~ ~kit~ ~%num_kits%~ ~kit3~) = $multi_kits(~%kit_idx%~ ~kit3~)
+
+              OUTER_SET num_kits += 1
+              OUTER_SET $class_map(~%class_map%~ ~kit~) = num_kits
+            END
+          END
         END
       END
-      LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell STR_VAR spells = ~spell~ END
     END
-    19 BEGIN  // sorcerer
-      PATCH_IF (spell = 0) BEGIN
-        // Adding set of learned spells
-        PATCH_FOR_EACH symbol IN ~WIZARD_BLINDNESS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_LARLOCH_MINOR_DRAIN~ BEGIN
-          LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spell_%spell%~ = resref END
-          SET spell += 1
-        END
-      END
-      LPF A7_ADD_CRE_GRANTED_SPELLS
-        INT_VAR
-          spell_type = 1
-          num_spells = spell
-      END
-    END
-    21 BEGIN  // shaman
-      // Adding set of learned spells
-      PATCH_FOR_EACH symbol IN ~CLERIC_CURE_LIGHT_WOUNDS~ ~CLERIC_ENTANGLE~ ~CLERIC_SHILLELAGH~ ~CLERIC_DOOM~ BEGIN
-        LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spell_%spell%~ = resref END
-        SET spell += 1
-      END
-      LPF A7_ADD_CRE_GRANTED_SPELLS
-        INT_VAR
-          spell_type = 0
-          num_spells = spell
-      END
-    END
-    DEFAULT
+
+    OUTER_SET class_map += 1
   END
 END
 
 
-// Interact with user to choose desired class and kit combination
-DEFINE_ACTION_FUNCTION A7_GET_CLASS_KIT_INTERACTIVE
+/**
+ * Creates white and black lists for classes based on the given parameters.
+ *
+ * STR_VAR class_whitelist_name     Name of an indexed array that contains a list of white-listed classes (symbol or id).
+ * STR_VAR class_blacklist_name     Name of an indexed array that contains a list of black-listed classes (symbol or id).
+ * RET whitelist_class              Set to 1 if a whitelist exists.
+ * RET blacklist_class              Set to 1 if a blacklist exists.
+ * RET_ARRAY whitelist_class        Map of white-listed classes with (<class_id> => 1) entries.
+ * RET_ARRAY blacklist_class        Map of black-listed classes with (<class_id> => 1) entries.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#init_class_filters
 STR_VAR
-  cre_resref = ~~ // CRE resref of the character for retrieving original class/kit
+  class_whitelist_name = ~~
+  class_blacklist_name = ~~
 RET
-  success   // whether user accepts choices
-  class_id  // chosen class id
-  kit_id    // chosen kit id
+  whitelist_class
+  blacklist_class
+RET_ARRAY
+  whitelist_class
+  blacklist_class
 BEGIN
-  OUTER_SET success = 0
-  OUTER_SET class_id = 0
-  OUTER_SET kit_id = 0
-
-  // Supported actions
-  OUTER_SET ACCEPT = 1
-  OUTER_SET STARTOVER = 0
-  OUTER_SET CANCEL = "-1"
-  OUTER_SET $actions(~A~) = ACCEPT
-  OUTER_SET $actions(~S~) = STARTOVER
-  OUTER_SET $actions(~C~) = CANCEL
-
-  OUTER_TEXT_SPRINT TRUECLASS_NAME ~TRUECLASS~
-  OUTER_SPRINT TRUECLASS_TITLE @2012 // no kit
-
-  ACTION_IF (~%WEIDU_OS%~ STR_EQ ~win32~) BEGIN
-    OUTER_TEXT_SPRINT NL ~%WNL%~
+  // generating associative white/black list map for classes with (<class_id> => 1) entries
+  OUTER_SET whitelist_class = 0
+  OUTER_SET blacklist_class = 0
+  ACTION_IF (NOT ~%class_whitelist_name%~ STR_EQ ~~ && VARIABLE_IS_SET $EVAL ~%class_whitelist_name%~(~0~)) BEGIN
+    OUTER_SPRINT array_name ~%class_whitelist_name%~
+    OUTER_SPRINT map_name ~whitelist_class~
+  END ELSE ACTION_IF (NOT ~%class_blacklist_name%~ STR_EQ ~~ && VARIABLE_IS_SET $EVAL ~%class_blacklist_name%~(~0~)) BEGIN
+    OUTER_SPRINT array_name ~%class_blacklist_name%~
+    OUTER_SPRINT map_name ~blacklist_class~
   END ELSE BEGIN
-    OUTER_TEXT_SPRINT NL ~%LNL%~
+    OUTER_SPRINT array_name ~~
+    OUTER_SPRINT map_name ~~
   END
 
-  PRINT @2013 // Gathering class information...
-
-  // getting current class/kit ids
-  OUTER_SET cur_class_id = 1
-  OUTER_SET cur_kit_id = TRUECLASS
-  COPY_EXISTING - ~%cre_resref%.cre~ ~override~
-    READ_ASCII 0 sig (8) NULL
-    PATCH_IF (~%sig%~ STR_EQ ~CRE V1.0~) BEGIN
-      SET cur_class_id = BYTE_AT 0x273
-      SET cur_kit_id = (SHORT_AT 0x246) | ((SHORT_AT 0x244) << 16) // words in big-endian, word content in little-endian
-      LPF A7_GET_CLASS_INFO INT_VAR class_id = cur_class_id RET cur_class_name = class_name cur_class_title = class_title END
-      PATCH_IF (cur_kit_id = TRUECLASS) BEGIN
-        TEXT_SPRINT cur_kit_name ~%TRUECLASS_NAME%~
-        TEXT_SPRINT cur_kit_title ~%TRUECLASS_TITLE%~
-      END ELSE BEGIN
-        LPF A7_GET_KIT_INFO INT_VAR kit_id = cur_kit_id RET cur_kit_name = kit_name cur_kit_title = kit_title END
+  // assembling class map
+  ACTION_IF (NOT ~%array_name%~ STR_EQ ~~ && NOT ~%map_name%~ STR_EQ ~~) BEGIN
+    OUTER_SET EVAL ~%map_name%~ = 1
+    OUTER_FOR (i = 0; VARIABLE_IS_SET $EVAL ~%array_name%~(~%i%~); ++i) BEGIN
+      OUTER_SPRINT label $EVAL ~%array_name%~(~%i%~)
+      OUTER_SET value = IDS_OF_SYMBOL(~class~ ~%label%~)
+      ACTION_IF (value <= 0 && IS_AN_INT ~label~) BEGIN
+        OUTER_SET value = label
+      END
+      ACTION_IF (value > 0) BEGIN
+        OUTER_SET $EVAL ~%map_name%~(~%value%~) = 1
       END
     END
-  BUT_ONLY IF_EXISTS
+  END
+END
 
-  // creating list of available classes and kits
-  OUTER_PATCH ~~ BEGIN
-    LPF A7_SEARCH_CLASS_KIT RET num_classes num_kits RET_ARRAY classes kits END
-/*
-class_list: number of available entries
-$class_list(idx "id"): class id of idx-th entry
-$class_list(idx "name"): symbolic class name of idx-th entry
-$class_list(idx "title"): descriptive class name of idx-th entry
 
-$class_kits(clsid): number of available kits for class id (including TRUECLASS)
-$class_kits(clsid idx "id"): kit id of idx-th entry for given class id
-$class_kits(clsid idx "name"): symbolic kit name of idx-th entry for given class id
-$class_kits(clsid idx "title"): descriptive kit name of idx-th entry for given class id
-*/
-    SET class_list = 0
-    TEXT_SPRINT class_entries ~~
-    FOR (ci = 0; ci < num_classes; ++ci) BEGIN
-      SET class_id = $classes(~%ci%~)
-      TEXT_SPRINT class_name $classes(~%ci%~ ~name~)
-      TEXT_SPRINT class_title $classes(~%ci%~ ~title~)
-      SET num = ci + 1
-      TEXT_SPRINT class_entries ~%class_entries%%NL% %num%] %class_title% (%class_name%)~
-      SET $class_list(~%class_list%~ ~id~) = class_id
-      TEXT_SPRINT $class_list(~%class_list%~ ~name~) ~%class_name%~
-      TEXT_SPRINT $class_list(~%class_list%~ ~title~) ~%class_title%~
-      SET class_list += 1
+/**
+ * Creates white and black lists for kitys based on the given parameters.
+ *
+ * STR_VAR kit_whitelist_name     Name of an indexed array that contains a list of white-listed kits (symbol or id),
+ *                                optionally preceded by a class filter and colon.
+ * STR_VAR kit_blacklist_name     Name of an indexed array that contains a list of black-listed classes (symbol or id)
+ *                                optionally preceded by a class filter and colon.
+ * RET whitelist_kit              Set to 1 if a whitelist exists.
+ * RET blacklist_kit              Set to 1 if a blacklist exists.
+ * RET_ARRAY whitelist_kit        Map of white-listed kits with (<kit_id>, <class_id> => 1) entries.
+ *                                "class_id" == 0 is placeholder for all classes.
+ * RET_ARRAY blacklist_kit        Map of black-listed kits with (<kit_id>, <class_id> => 1) entries.
+ *                                "class_id" == 0 is placeholder for all classes.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#init_kit_filters
+STR_VAR
+  kit_whitelist_name = ~~
+  kit_blacklist_name = ~~
+RET
+  whitelist_kit
+  blacklist_kit
+RET_ARRAY
+  whitelist_kit
+  blacklist_kit 
+BEGIN
+  // generating associative white/black list map for kits with (<kit_id> "<parent_class>" => 1) entries
+  OUTER_SET whitelist_kit = 0
+  OUTER_SET blacklist_kit = 0
+  ACTION_IF (NOT ~%kit_whitelist_name%~ STR_EQ ~~ && VARIABLE_IS_SET $EVAL ~%kit_whitelist_name%~(~0~)) BEGIN
+    OUTER_SPRINT array_name ~%kit_whitelist_name%~
+    OUTER_SPRINT map_name ~whitelist_kit~
+  END ELSE ACTION_IF (NOT ~%kit_blacklist_name%~ STR_EQ ~~ && VARIABLE_IS_SET $EVAL ~%kit_blacklist_name%~(~0~)) BEGIN
+    OUTER_SPRINT array_name ~%kit_blacklist_name%~
+    OUTER_SPRINT map_name ~blacklist_kit~
+  END ELSE BEGIN
+    OUTER_SPRINT array_name ~~
+    OUTER_SPRINT map_name ~~
+  END
 
-      // multiclasses may choose original multiclass kits or kits from their individual single class components
-      SET $classbase(~0~) = class_id
-      PATCH_MATCH class_id WITH
-        7 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 1 END // FIGHTER_MAGE
-        8 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 3 END // FIGHTER_CLERIC
-        9 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 4 END // FIGHTER_THIEF
-        10 BEGIN SET classbase = 4 SET $classbase(~1~) = 2 SET $classbase(~2~) = 1 SET $classbase(~3~) = 4 END // FIGHTER_MAGE_THIEF
-        13 BEGIN SET classbase = 3 SET $classbase(~1~) = 1 SET $classbase(~2~) = 4 END // MAGE_THIEF
-        14 BEGIN SET classbase = 3 SET $classbase(~1~) = 3 SET $classbase(~2~) = 1 END // CLERIC_MAGE
-        15 BEGIN SET classbase = 3 SET $classbase(~1~) = 3 SET $classbase(~2~) = 4 END // CLERIC_THIEF
-        16 BEGIN SET classbase = 3 SET $classbase(~1~) = 2 SET $classbase(~2~) = 11 END // FIGHTER_DRUID
-        17 BEGIN SET classbase = 4 SET $classbase(~1~) = 2 SET $classbase(~2~) = 1 SET $classbase(~3~) = 3 END // FIGHTER_MAGE_CLERIC
-        18 BEGIN SET classbase = 3 SET $classbase(~1~) = 3 SET $classbase(~2~) = 12 END // CLERIC_RANGER
-        DEFAULT SET classbase = 1
+  // assembling kit map
+  ACTION_IF (NOT ~%array_name%~ STR_EQ ~~ && NOT ~%map_name%~ STR_EQ ~~) BEGIN
+    OUTER_SET EVAL ~%map_name%~ = 1
+    OUTER_FOR (i = 0; VARIABLE_IS_SET $EVAL ~%array_name%~(~%i%~); ++i) BEGIN
+      OUTER_SPRINT entry $EVAL ~%array_name%~(~%i%~)
+
+      // entry may contain class filter
+      OUTER_PATCH ~%entry%~ BEGIN
+        SET j = 0
+        REPLACE_EVALUATE ~[^:]+~ BEGIN
+          SPRINT $items(~%j%~) ~%MATCH0%~
+          SET j += 1
+        END ~%MATCH0%~
       END
 
-      SET kit_count = 0 // for convenience, assigned to $class_kits(~%class_id%~) later
-      SET $class_kits(~%class_id%~ ~%kit_count%~ ~id~) = TRUECLASS
-      TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~name~) ~%TRUECLASS_NAME%~
-      TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~title~) ~%TRUECLASS_TITLE%~
-      SET kit_count += 1
-      FOR (cbi = 0; cbi < classbase; ++cbi) BEGIN
-        SET clsid = $classbase(~%cbi%~)
-        FOR (ki = 0; ki < num_kits; ++ki) BEGIN
-          SET kit_id = $kits(~%ki%~)
-          SET kitclass_id = $kits(~%ki%~ ~clsid~)
-          PATCH_IF (kitclass_id = clsid) BEGIN
-            TEXT_SPRINT kit_name $kits(~%ki%~ ~name~)
-            TEXT_SPRINT kit_title $kits(~%ki%~ ~title~)
-            SET $class_kits(~%class_id%~ ~%kit_count%~ ~id~) = kit_id
-            TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~name~) ~%kit_name%~
-            TEXT_SPRINT $class_kits(~%class_id%~ ~%kit_count%~ ~title~) ~%kit_title%~
-            SET kit_count += 1
+      ACTION_IF (j > 1) BEGIN
+        OUTER_SPRINT class_label $items(~0~)
+        OUTER_SPRINT kit_label $items(~1~)
+      END ELSE BEGIN
+        OUTER_SPRINT class_label ~~
+        OUTER_SPRINT kit_label $items(~0~)
+      END
+
+      OUTER_SET class_value = 0
+      ACTION_IF (NOT ~%class_label%~ STR_EQ ~~) BEGIN
+        // handling class filter
+        OUTER_SET class_value = IDS_OF_SYMBOL(~class~ ~%class_label%~)
+        ACTION_IF (class_value <= 0 && IS_AN_INT ~class_label~) BEGIN
+          OUTER_SET class_value = class_label
+        END
+      END
+
+      // handling kit definition
+      OUTER_SET kit_value = IDS_OF_SYMBOL(~kit~ ~%kit_label%~)
+      ACTION_IF (kit_value <= 0 && IS_AN_INT ~kit_label~) BEGIN
+        OUTER_SET kit_value = kit_label
+      END
+
+      ACTION_IF (kit_value > 0) BEGIN
+        OUTER_SET $EVAL ~%map_name%~(~%kit_value%~ ~%class_value%~) = 1
+      END
+    END
+  END
+END
+
+
+/**
+ * Returns a map with class information.
+ *
+ * RET class_info         Number of available class info entries.
+ * RET_ARRAY class_info   Map with class information.
+ *
+ * "class_info" structure:
+ * class_info => # class entries
+ * $class_info(<class_idx>) => class id
+ * $class_info(<class_idx> "class1") => 1st base class id of multi-classes, or the same as class id for single-classes
+ * $class_info(<class_idx> "class2") => 2nd base class id of multi-classes
+ * $class_info(<class_idx> "class3") => 3rd base class id of multi-classes
+ * $class_info(<class_idx> "title") => Descriptive class name for display
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#init_class_info
+STR_VAR
+  whitelist_class_name = ~whitelist_class~
+  blacklist_class_name = ~blacklist_class~
+  class_race_info_name = ~class_race_info~
+  class_align_info_name = ~class_align_info~
+  class_attr_info_name = ~class_attr_info~
+RET
+  class_info
+RET_ARRAY
+  class_info
+BEGIN
+  // Initializing map "token_map" with ("<'<'class_token'>'>" => "<class_title>") entries
+  LAF a7#get_class_tokens RET_ARRAY token_map END
+
+  OUTER_SET class_info = 0
+  SILENT
+  COPY_EXISTING ~clastext.2da~ ~override~
+    READ_2DA_ENTRIES_NOW clastext_table 1
+    FOR (row = 3; row < clastext_table; ++row) BEGIN
+      // kit id may be out of range for WeiDU; trying to work around it
+      SPRINT kit_value $clastext_table(~%row%~ ~2~)
+      SPRINT number ~%kit_value%~ LPM a7#get_validated_number SET kit_id = number
+
+      SET class_id = $clastext_table(~%row%~ ~1~)
+      SET fallen = $clastext_table(~%row%~ ~7~)
+
+      PATCH_IF (kit_id == 0x4000) BEGIN
+        PATCH_IF (NOT fallen) BEGIN
+          // test for multiclass
+          LPF a7#get_base_classes INT_VAR class = class_id RET class1 class2 class3 END
+          SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : 1
+          SET is_allowed = num_classes == 1 || allow_multi
+
+          // filter by white/black list
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%whitelist_class_name%~ && VARIABLE_IS_SET EVAL ~%blacklist_class_name%~) BEGIN
+          SET is_allowed = (NOT EVAL ~%whitelist_class_name%~ && NOT EVAL ~%blacklist_class_name%~) ||
+                           (EVAL ~%whitelist_class_name%~ && VARIABLE_IS_SET $EVAL ~%whitelist_class_name%~(~%class_id%~)) ||
+                           (EVAL ~%blacklist_class_name%~ && NOT VARIABLE_IS_SET $EVAL ~%blacklist_class_name%~(~%class_id%~))
+          END
+
+          // filter by race
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%class_race_info_name%~) BEGIN
+            FOR (idx = 0; idx < EVAL ~%class_race_info_name%~; ++idx) BEGIN
+              SET cur_class = $EVAL ~%class_race_info_name%~(~%idx%~)
+              PATCH_IF (cur_class == class_id) BEGIN
+                SET is_allowed = $EVAL ~%class_race_info_name%~(~%idx%~ ~allowed~)
+                SET idx = EVAL ~%class_race_info_name%~
+              END
+            END
+          END
+
+          // filter by alignment
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%class_align_info_name%~) BEGIN
+            FOR (idx = 0; idx < EVAL ~%class_align_info_name%~; ++idx) BEGIN
+              SET cur_class = $EVAL ~%class_align_info_name%~(~%idx%~)
+              PATCH_IF (cur_class == class_id) BEGIN
+                SET is_allowed = $EVAL ~%class_align_info_name%~(~%idx%~ ~allowed~)
+                SET idx = EVAL ~%class_align_info_name%~
+              END
+            END
+          END
+
+          // filter by attribute
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%class_attr_info_name%~) BEGIN
+            FOR (idx = 0; idx < EVAL ~%class_attr_info_name%~; ++idx) BEGIN
+              SET cur_class = $EVAL ~%class_attr_info_name%~(~%idx%~)
+              PATCH_IF (cur_class == class_id) BEGIN
+                PATCH_FOR_EACH attr IN ~str~ ~dex~ ~con~ ~int~ ~wis~ ~chr~ BEGIN
+                  PATCH_IF (is_allowed && VARIABLE_IS_SET $EVAL ~%class_attr_info_name%~(~%idx%~ ~%attr%~)) BEGIN
+                    SET attr_value = EVAL ~%attr%~
+                    SET cur_attr_value = $EVAL ~%class_attr_info_name%~(~%idx%~ ~%attr%~)
+                    SET is_allowed = (attr_value == 0 || attr_value >= cur_attr_value)
+                  END
+                END
+                SET idx = EVAL ~%class_attr_info_name%~
+              END
+            END
+          END
+
+          PATCH_IF (is_allowed) BEGIN
+            SET mixed = $clastext_table(~%row%~ ~5~)
+            PATCH_IF (mixed >= 0) BEGIN
+              GET_STRREF mixed title
+            END ELSE BEGIN
+              SPRINT title ~n/a~
+            END
+            // replacing class tokens
+            INNER_PATCH_SAVE title ~%title%~ BEGIN
+              PATCH_PHP_EACH token_map AS token => name BEGIN
+                REPLACE_TEXTUALLY ~%token%~ ~%name%~
+              END
+            END
+            LPF a7#remove_color_tags STR_VAR title RET title END
+
+            SET $class_info(~%class_info%~) = class_id
+            SET $class_info(~%class_info%~ ~class1~) = class1
+            SET $class_info(~%class_info%~ ~class2~) = class2
+            SET $class_info(~%class_info%~ ~class3~) = class3
+            SPRINT $class_info(~%class_info%~ ~title~) ~%title%~
+            SET class_info += 1
           END
         END
       END
-      SET $class_kits(~%class_id%~) = kit_count
     END
+  BUT_ONLY
+  VERBOSE
+END
+
+
+/**
+ * Returns a map with kit information.
+ *
+ * INT_VAR allow_kits         Indicates whether kits and specialist mages should be included in the search.
+ * RET kit_info               Number of available kit info entries.
+ * RET_ARRAY kit_info         Map with kit information.
+ *
+ * "kit_info" structure:
+ * kit_info => # kit entries
+ * $kit_info(<kit_idx>) => kit id
+ * $kit_info(<kit_idx> "ref") => kitlist.2da row index (needed for kittable.2da definitions)
+ * $kit_info(<kit_idx> "class") => Numeric parent class of the kit
+ * $kit_info(<kit_idx> "title") => Descriptive kit name for display
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#init_kit_info
+INT_VAR
+  race = 0
+  allow_kits = 1
+STR_VAR
+  whitelist_kit_name = ~whitelist_kit~
+  blacklist_kit_name = ~blacklist_kit~
+  kittable_map_name = ~kittable_map~
+  kit_race_info_name = ~kit_race_info~
+  kit_align_info_name = ~kit_align_info~
+  kit_attr_info_name = ~kit_attr_info~
+RET
+  kit_info
+RET_ARRAY
+  kit_info
+BEGIN
+  OUTER_SET kit_info = 0
+  ACTION_IF (allow_kits) BEGIN
+    SILENT
+    COPY_EXISTING ~kitlist.2da~ ~override~
+      READ_2DA_ENTRIES_NOW kitlist_table 1
+      FOR (row = 4; row < kitlist_table; ++row) BEGIN
+        SET mixed = $kitlist_table(~%row%~ ~3~)
+        PATCH_IF (mixed >= 0) BEGIN
+          GET_STRREF mixed title
+        END ELSE BEGIN
+          SPRINT title ~n/a~
+        END
+
+        SET class_id = $kitlist_table(~%row%~ ~8~)
+
+        // test for multiclass kit
+        LPF a7#get_base_classes INT_VAR class = class_id RET class1 class2 class3 END
+        SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : 1
+        SET is_allowed = num_classes == 1 || allow_multi_kits
+
+        PATCH_IF (is_allowed) BEGIN
+          // kit id may be out of range for WeiDU; trying to work around it
+          SPRINT kit_value $kitlist_table(~%row%~ ~9~)
+          SPRINT number ~%kit_value%~ LPM a7#get_validated_number SET kit_id = number
+          SET kit_ref = row - 3
+
+          // filter by visibility
+          LPF a7#is_kit_available INT_VAR kit_ref kit_class = class_id race RET is_allowed = available END
+        END
+
+        // filter by white/black list
+        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%whitelist_kit_name%~ && VARIABLE_IS_SET EVAL ~%blacklist_kit_name%~) BEGIN
+          SET is_allowed = (NOT EVAL ~%whitelist_kit_name%~ && NOT EVAL ~%blacklist_kit_name%~) ||
+                           (EVAL ~%whitelist_kit_name%~ && (VARIABLE_IS_SET $EVAL ~%whitelist_kit_name%~(~%kit_id%~ ~0~) || VARIABLE_IS_SET $EVAL ~%whitelist_kit_name%~(~%kit_id%~ ~%class_id%~))) ||
+                           (EVAL ~%blacklist_kit_name%~ && NOT (VARIABLE_IS_SET $EVAL ~%blacklist_kit_name%~(~%kit_id%~ ~0~) || VARIABLE_IS_SET $EVAL ~%blacklist_kit_name%~(~%kit_id%~ ~%class_id%~)))
+        END
+
+        // filter by race
+        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_race_info_name%~) BEGIN
+          FOR (idx = 0; idx < EVAL ~%kit_race_info_name%~; ++idx) BEGIN
+            SET cur_kit = $EVAL ~%kit_race_info_name%~(~%idx%~)
+            PATCH_IF (cur_kit == kit_id) BEGIN
+              SET is_allowed = $EVAL ~%kit_race_info_name%~(~%idx%~ ~allowed~)
+              SET idx = EVAL ~%kit_race_info_name%~
+            END
+          END
+        END
+
+        // filter by alignment
+        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_align_info_name%~) BEGIN
+          FOR (idx = 0; idx < EVAL ~%kit_align_info_name%~; ++idx) BEGIN
+            SET cur_kit = $EVAL ~%kit_align_info_name%~(~%idx%~)
+            PATCH_IF (cur_kit == kit_id) BEGIN
+              SET is_allowed = $EVAL ~%kit_align_info_name%~(~%idx%~ ~allowed~)
+              SET idx = EVAL ~%kit_align_info_name%~
+            END
+          END
+        END
+
+        // filter by attribute
+        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_attr_info_name%~) BEGIN
+          FOR (idx = 0; idx < EVAL ~%kit_attr_info_name%~; ++idx) BEGIN
+            SET cur_kit = $EVAL ~%kit_attr_info_name%~(~%idx%~)
+            PATCH_IF (cur_kit == kit_id) BEGIN
+              PATCH_FOR_EACH attr IN ~str~ ~dex~ ~con~ ~int~ ~wis~ ~chr~ BEGIN
+                PATCH_IF (is_allowed && VARIABLE_IS_SET $EVAL ~%kit_attr_info_name%~(~%idx%~ ~%attr%~)) BEGIN
+                  SET attr_value = EVAL ~%attr%~
+                  SET cur_attr_value = $EVAL ~%kit_attr_info_name%~(~%idx%~ ~%attr%~)
+                  SET is_allowed = (attr_value == 0 || attr_value >= cur_attr_value)
+                END
+              END
+              SET idx = EVAL ~%kit_attr_info_name%~
+            END
+          END
+        END
+
+        PATCH_IF (is_allowed) BEGIN
+          LPF a7#remove_color_tags STR_VAR title RET title END
+
+          SET $kit_info(~%kit_info%~) = kit_id
+          SET $kit_info(~%kit_info%~ ~ref~) = kit_ref
+          SPRINT $kit_info(~%kit_info%~ ~title~) ~%title%~
+          SET $kit_info(~%kit_info%~ ~class~) = class_id
+          SET kit_info += 1
+        END
+      END
+    BUT_ONLY
+    VERBOSE
   END
+END
 
-  // querying new class
-  OUTER_SET action = STARTOVER
-  OUTER_WHILE (action = STARTOVER) BEGIN
-    PRINT @2000 // Current class: %cur_class_title% (%cur_class_name%), kit: %cur_kit_title% (%cur_kit_name%)
-    PRINT @2001 // Available classes: %class_entries%
 
-    OUTER_SET new_class_id = "-1"
-    PRINT @2002 // Please enter number of the new class (leave blank to keep current):
-    ACTION_READLN id
-    ACTION_IF (~%id%~ STR_EQ ~~) BEGIN OUTER_SET new_class_id = cur_class_id END
-    OUTER_WHILE (new_class_id < 0 && (NOT IS_AN_INT ~id~ || id < 1 || id > class_list)) BEGIN
-      PRINT @2003 // Specified class number is unavailable.
-      PRINT @2002 // Please enter number of the new class (leave blank to keep current):
-      ACTION_READLN id
-      ACTION_IF (~%id%~ STR_EQ ~~) BEGIN OUTER_SET new_class_id = cur_class_id END
-    END
-    ACTION_IF (new_class_id < 0) BEGIN
-      // selected new class
-      OUTER_SET id -= 1
-      OUTER_SET new_class_id = $class_list(~%id%~ ~id~)
-      OUTER_TEXT_SPRINT new_class_name $class_list(~%id%~ ~name~)
-      OUTER_TEXT_SPRINT new_class_title $class_list(~%id%~ ~title~)
-    END ELSE BEGIN
-      // retained current class
-      OUTER_TEXT_SPRINT new_class_name ~%cur_class_name%~
-      OUTER_TEXT_SPRINT new_class_title ~%cur_class_title%~
-    END
-    PRINT @2004 // Class selected: %new_class_title% (%new_class_name%).
+/**
+ * Returns a map with race information for classes and kits.
+ *
+ * INT_VAR race               Numeric race value (RACE.IDS). Specify 0 allow all available classes/kits. (Default: 0)
+ * RET class_race_info        Number of available race information for classes.
+ * RET kit_race_info          Number of available race information for kits.
+ * RET_ARRAY class_race_info  Map with race information for classes.
+ * RET_ARRAY kit_race_info    Map with race information for kits.
+ *
+ * "*_race_info" structure:
+ * *_race_info => # race info entries for classes/kits
+ * $*_race_info(<idx>) => class/kit id
+ * $*_race_info(<idx> "allowed") => whether class/kit is allowed by the given race
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#init_race_info
+INT_VAR
+  race = 0
+RET
+  class_race_info
+  kit_race_info
+RET_ARRAY
+  class_race_info
+  kit_race_info
+BEGIN
+  // caching kitlist.2da for this function call
+  SILENT
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    READ_2DA_ENTRIES_NOW kitlist_table 1
+  BUT_ONLY
+  VERBOSE
 
-    // creating list of available kits for selected class
-    OUTER_PATCH ~~ BEGIN
-      TEXT_SPRINT kit_entries ~~
-      SET num_kits = $class_kits(~%new_class_id%~)
-      FOR (i = 0; i < num_kits; ++i) BEGIN
-        TEXT_SPRINT name $class_kits(~%new_class_id%~ ~%i%~ ~name~)
-        TEXT_SPRINT title $class_kits(~%new_class_id%~ ~%i%~ ~title~)
-        SET num = i + 1
-        TEXT_SPRINT kit_entries ~%kit_entries%%NL% %num%] %title% (%name%)~
-      END
-    END
+  OUTER_SET class_race_info = 0
+  OUTER_SET kit_race_info = 0
+  SILENT
+  COPY_EXISTING ~clsrcreq.2da~ ~override~
+    READ_2DA_ENTRIES_NOW clsrcreq_table 1
 
-    // querying new kit
-    OUTER_SET num_kit_list = $class_kits(~%new_class_id%~)
-    ACTION_IF (num_kit_list = 1) BEGIN
-      PRINT @2005 // No kits available for class "%new_class_title%".
-      OUTER_SET new_kit_id = $class_kits(~%new_class_id%~ ~0~ ~id~)
-      OUTER_TEXT_SPRINT new_kit_name $class_kits(~%new_class_id%~ ~0~ ~name~)
-      OUTER_TEXT_SPRINT new_kit_title $class_kits(~%new_class_id%~ ~0~ ~title~)
-    END ELSE BEGIN
-      PRINT @2006 // Available kits for class "%new_class_title%": %kit_entries%
-
-      PRINT @2007 // Please enter number of the new kit:
-      ACTION_READLN id
-      OUTER_WHILE (NOT IS_AN_INT ~id~ || id < 1 || id > num_kit_list) BEGIN
-        PRINT @2008 // Specified kit number is unavailable.
-        PRINT @2007 // Please enter number of the new kit:
-        ACTION_READLN id
-      END
-      OUTER_SET id -= 1
-      OUTER_SET new_kit_id = $class_kits(~%new_class_id%~ ~%id%~ ~id~)
-      OUTER_TEXT_SPRINT new_kit_name $class_kits(~%new_class_id%~ ~%id%~ ~name~)
-      OUTER_TEXT_SPRINT new_kit_title $class_kits(~%new_class_id%~ ~%id%~ ~title~)
-    END
-
-    // final confirmation
-    PRINT @2009 // You have selected: class "%new_class_title%" (%new_class_name%) and kit "%new_kit_title%" (%new_kit_name%).
-    PRINT @2010 // Assign new class/kit combination ([A]ccept, [S]tart over, [C]ancel)?
-    ACTION_READLN input
-    OUTER_PATCH_SAVE input ~%input%~ BEGIN
-      PATCH_IF (BUFFER_LENGTH > 0) BEGIN
-        DELETE_BYTES 1 (BUFFER_LENGTH - 1)
-        WRITE_BYTE 0 (THIS >= 97 && THIS <= 122) ? THIS - 32 : THIS
-      END
-    END
-    OUTER_WHILE (NOT VARIABLE_IS_SET $actions(~%input%~)) BEGIN
-      PRINT @2011 // Please enter A to accept, S to start over or C to cancel the operation.
-      ACTION_READLN input
-      OUTER_PATCH_SAVE input ~%input%~ BEGIN
-        PATCH_IF (BUFFER_LENGTH > 0) BEGIN
-          DELETE_BYTES 1 (BUFFER_LENGTH - 1)
-          WRITE_BYTE 0 (THIS >= 97 && THIS <= 122) ? THIS - 32 : THIS
+    // determine race columns range
+    SET race_col = 0
+    PATCH_IF (race != 0) BEGIN
+      FOR (col = 0; race_col == 0 && VARIABLE_IS_SET $clsrcreq_table(~2~ ~%col%~); ++col) BEGIN
+        SPRINT label $clsrcreq_table(~2~ ~%col%~)
+        SET race_id = IDS_OF_SYMBOL(~race~ ~%label%~)
+        PATCH_IF (race_id == race) BEGIN
+          SET race_col = col + 1
         END
       END
     END
-    OUTER_SET action = $actions(~%input%~)
+
+    FOR (row = 3; row < clsrcreq_table; ++row) BEGIN
+      SET value = (race_col != 0) ? $clsrcreq_table(~%row%~ ~%race_col%~) : 1
+      SPRINT label $clsrcreq_table(~%row%~ ~0~)
+      SET id = IDS_OF_SYMBOL(~class~ ~%label%~)
+      PATCH_IF (id >= 0) BEGIN
+        SET $class_race_info(~%class_race_info%~) = id
+        SET $class_race_info(~%class_race_info%~ ~allowed~) = (value != 0)
+        SET class_race_info += 1
+      END ELSE BEGIN
+        LPF a7#convert_kit_label STR_VAR kit_label = EVAL ~%label%~ kitlist_table_name = ~kitlist_table~ RET id = kit END
+        PATCH_IF (id != 0 && id != "-1") BEGIN
+          SET $kit_race_info(~%kit_race_info%~) = id
+          SET $kit_race_info(~%kit_race_info%~ ~allowed~) = (value != 0)
+          SET kit_race_info += 1
+        END
+      END
+    END
+  BUT_ONLY
+  VERBOSE
+END
+
+
+/**
+ * Returns a map with alignment information for classes and kits.
+ *
+ * INT_VAR alignment            Numeric alignment value (ALIGNMEN.IDS). Specify 0 to ignore alignment restrictions. (Default: 0)
+ * RET class_align_info         Number of alignment info entries for classes.
+ * RET kit_align_info           Number of alignment info entries for kits.
+ * RET_ARRAY class_align_info   Map with alignment info entries for classes.
+ * RET_ARRAY kit_align_info     Map with alignment info entries for kits.
+ *
+ * "*_align_info" structure:
+ * *_align_info => # alignment info entries
+ * $*_align_info(<idx>) => class id
+ * $*_align_info(<idx> "allowed") => Whether
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#init_alignment_info
+INT_VAR
+  alignment = 0
+RET
+  class_align_info
+  kit_align_info
+RET_ARRAY
+  class_align_info
+  kit_align_info
+BEGIN
+  // caching kitlist.2da for this function call
+  SILENT
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    READ_2DA_ENTRIES_NOW kitlist_table 1
+  BUT_ONLY
+  VERBOSE
+
+  OUTER_SET class_align_info = 0
+  OUTER_SET kit_align_info = 0
+  ACTION_IF (alignment != 0) BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY align_table BEGIN
+      ~L_G~ => ~LAWFUL_GOOD~
+      ~L_N~ => ~LAWFUL_NEUTRAL~
+      ~L_E~ => ~LAWFUL_EVIL~
+      ~N_G~ => ~NEUTRAL_GOOD~
+      ~N_N~ => ~NEUTRAL~
+      ~N_E~ => ~NEUTRAL_EVIL~
+      ~C_G~ => ~CHAOTIC_GOOD~
+      ~C_N~ => ~CHAOTIC_NEUTRAL~
+      ~C_E~ => ~CHAOTIC_EVIL~
+    END
+
+    SILENT
+    COPY_EXISTING ~alignmnt.2da~ ~override~
+      READ_2DA_ENTRIES_NOW alignmnt_table 1
+
+      // finding matching alignment column index
+      SET align_col = 0
+      PATCH_IF (alignment != 0) BEGIN
+        FOR (col = 0; align_col == 0 && VARIABLE_IS_SET $alignmnt_table(~2~ ~%col%~); ++col) BEGIN
+          SPRINT label $alignmnt_table(~2~ ~%col%~)
+          PATCH_IF (VARIABLE_IS_SET $align_table(~%label%~)) BEGIN
+            SPRINT label $align_table(~%label%~)
+            SET align_id = IDS_OF_SYMBOL(~alignmen~ ~%label%~)
+            PATCH_IF (align_id == alignment) BEGIN
+              SET align_col = col + 1
+            END
+          END
+        END
+      END
+
+      FOR (row = 3; row < alignmnt_table; ++row) BEGIN
+        SPRINT label $alignmnt_table(~%row%~ ~0~)
+        SET value = (align_col != 0) ? $alignmnt_table(~%row%~ ~%align_col%~) : 1
+        SET id = IDS_OF_SYMBOL(~class~ ~%label%~)
+        PATCH_IF (id >= 0) BEGIN
+          SET $class_align_info(~%class_align_info%~) = id
+          SET $class_align_info(~%class_align_info%~ ~allowed~) = (value != 0)
+          SET class_align_info += 1
+        END ELSE BEGIN
+          LPF a7#convert_kit_label STR_VAR kit_label = EVAL ~%label%~ kitlist_table_name = ~kitlist_table~ RET id = kit END
+          PATCH_IF (id != 0 && id != "-1") BEGIN
+            SET $kit_align_info(~%kit_align_info%~) = id
+            SET $kit_align_info(~%kit_align_info%~ ~allowed~) = (value != 0)
+            SET kit_align_info += 1
+          END
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+  END
+END
+
+
+/**
+ * Returns a map with attribute information for classes and kits.
+ *
+ * INT_VAR str                Min. STR value. Specify 0 to ignore attribute restriction. (Default: 0)
+ * INT_VAR dex                Min. DEX value. Specify 0 to ignore attribute restriction. (Default: 0)
+ * INT_VAR con                Min. CON value. Specify 0 to ignore attribute restriction. (Default: 0)
+ * INT_VAR int                Min. INT value. Specify 0 to ignore attribute restriction. (Default: 0)
+ * INT_VAR wis                Min. WIS value. Specify 0 to ignore attribute restriction. (Default: 0)
+ * INT_VAR chr                Min. CHR value. Specify 0 to ignore attribute restriction. (Default: 0)
+ * RET class_attr_info        Number of attribute information entries for classes.
+ * RET kit_attr_info          Number of attribute information entries for kits.
+ * RET_ARRAY class_attr_info  Map with attribute information for classes.
+ * RET_ARRAY kit_attr_info    Map with attribute information for kits.
+ *
+ * "*_attr_info" structure:
+ * *_attr_info => # atrribute info entries
+ * $*_attr_info(<idx>) => class id or kit id
+ * $*_attr_info(<idx> "str") => min str attribute value for class/kit
+ * $*_attr_info(<idx> "dex") => min dex attribute value for class/kit
+ * $*_attr_info(<idx> "con") => min con attribute value for class/kit
+ * $*_attr_info(<idx> "int") => min int attribute value for class/kit
+ * $*_attr_info(<idx> "wis") => min wis attribute value for class/kit
+ * $*_attr_info(<idx> "chr") => min chr attribute value for class/kit
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#init_atribute_info
+INT_VAR
+  str = 0
+  dex = 0
+  con = 0
+  int = 0
+  wis = 0
+  chr = 0
+RET
+  class_attr_info
+  kit_attr_info
+RET_ARRAY
+  class_attr_info
+  kit_attr_info
+BEGIN
+  // caching kitlist.2da for this function call
+  SILENT
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    READ_2DA_ENTRIES_NOW kitlist_table 1
+  BUT_ONLY
+  VERBOSE
+
+  OUTER_SET class_attr_info = 0
+  OUTER_SET kit_attr_info = 0
+  ACTION_IF (attr_filters) BEGIN
+    SILENT
+    COPY_EXISTING ~abclasrq.2da~ ~override~
+      READ_2DA_ENTRIES_NOW abclasrq_table 1
+
+      // preparing attribute parameters map
+      FOR (col = 0; VARIABLE_IS_SET $abclasrq_table(~2~ ~%col%~); ++col) BEGIN
+        SPRINT label $abclasrq_table(~2~ ~%col%~)
+        TO_LOWER ~label~
+        INNER_PATCH_SAVE var ~%label%~ BEGIN REPLACE_TEXTUALLY ~^min_~ ~~ END
+        SET index = col + 1
+        SPRINT $abclasrq_attr(~%index%~) ~%var%~
+      END
+
+      FOR (row = 3; row < abclasrq_table; ++row) BEGIN
+        SPRINT label $abclasrq_table(~%row%~ ~0~)
+        SET id = IDS_OF_SYMBOL(~class~ ~%label%~)
+        SET is_class = (id >= 0)
+        PATCH_IF (is_class) BEGIN
+          SET is_kit = 0
+          SET $class_attr_info(~%class_attr_info%~) = id
+        END ELSE BEGIN
+          LPF a7#convert_kit_label STR_VAR kit_label = EVAL ~%label%~ kitlist_table_name = ~kitlist_table~ RET id = kit END
+          SET is_kit = (id != 0 && id != "-1")
+          PATCH_IF (is_kit) BEGIN
+            SET $kit_attr_info(~%kit_attr_info%~) = id
+          END
+        END
+
+        FOR (col = 1; VARIABLE_IS_SET $abclasrq_attr(~%col%~) && VARIABLE_IS_SET $abclasrq_table(~%row%~ ~%col%~); ++col) BEGIN
+          SPRINT attr_name $abclasrq_attr(~%col%~)
+          PATCH_IF (VARIABLE_IS_SET EVAL ~%attr_name%~) BEGIN
+            SET value = (EVAL ~%attr_name%~ != 0) ? $abclasrq_table(~%row%~ ~%col%~) : 0
+            PATCH_IF (is_class) BEGIN
+              SET $class_attr_info(~%class_attr_info%~ ~%attr_name%~) = value
+            END ELSE PATCH_IF (is_kit) BEGIN
+              SET $kit_attr_info(~%kit_attr_info%~ ~%attr_name%~) = value
+            END
+          END
+        END
+        PATCH_IF (is_class) BEGIN
+          SET class_attr_info += 1
+        END ELSE PATCH_IF (is_kit) BEGIN
+          SET kit_attr_info += 1
+        END
+      END
+    BUT_ONLY
+    VERBOSE
+  END
+END
+
+
+/**
+ * Generates a kittable map that is required by the function "a7#is_kit_hidden".
+ *
+ * RET_ARRAY kittable_map   Initialized kittable map.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#load_kittable_map
+RET_ARRAY
+  kittable_map
+BEGIN
+/*
+$kittable_map() structure:
+- $kittable_map(<race_id>) => number of available classes
+- $kittable_map(<race_id> <class_index> "id") => class id
+- $kittable_map(<race_id> <class_index>) => number of available "allowed kits" entries
+- $kittable_map(<race_id> <class_index> <allowed_kit_index> "ref") => kit row index
+- $kittable_map(<race_id> <class_index> <allowed_kit_index> "id") => kit id
+*/
+  // building kit_ref => kit_id map
+  SILENT
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    READ_2DA_ENTRIES_NOW kitlist_table 1
+    SET $kit_ref_map(~0~) = 0x4000  // TRUECLASS
+    FOR (row = 4; row < kitlist_table; ++row) BEGIN
+      SET kit_id_ref = row - 3
+      SPRINT kit_value $kitlist_table(~%row%~ ~9~)
+      SPRINT number ~%kit_value%~ LPM a7#get_validated_number SET kit_id = number
+      PATCH_IF (kit_id != 0 && kit_id != "-1") BEGIN
+        SET $kit_ref_map(~%kit_id_ref%~) = kit_id
+      END
+    END
+  BUT_ONLY
+  VERBOSE
+
+  // caching kittable table and building map "race_cols" with (<race_col> => <race_id>) entries
+  OUTER_SET kittable_list = 0
+  SILENT
+  COPY_EXISTING ~kittable.2da~ ~override~
+    READ_2DA_ENTRIES_NOW kittable_table 1
+    FOR (col = 0; VARIABLE_IS_SET $kittable_table(~2~ ~%col%~); ++col) BEGIN
+      SPRINT label $kittable_table(~2~ ~%col%~)
+      SET race_id = IDS_OF_SYMBOL(~race~ ~%label%~)
+      PATCH_IF (race_id > 0) BEGIN
+        SET index = col + 1
+        SET $race_cols(~%index%~) = race_id
+      END
+    END
+  BUT_ONLY
+  VERBOSE
+
+  // populating "kittable_map" map with data
+<<<<<<<< .../inlined/a7#collect_class_info/default_k_x_x.2da
+2DA V1.0
+*
+    KIT
+1   0
+>>>>>>>>
+  OUTER_FOR (race_col = 1; VARIABLE_IS_SET $race_cols(~%race_col%~); ++race_col) BEGIN
+    OUTER_SET race_id = $race_cols(~%race_col%~)
+    OUTER_SET num_classes = 0
+    OUTER_SET $kittable_map(~%race_id%~) = num_classes
+    OUTER_FOR (class_row = 0; class_row < kittable_table; ++class_row) BEGIN
+      ACTION_IF (VARIABLE_IS_SET $kittable_table(~%class_row%~ ~%race_col%~)) BEGIN
+        OUTER_SPRINT class_label $kittable_table(~%class_row%~ ~0~)
+        // handling only class identifiers
+        OUTER_SET class_id = IDS_OF_SYMBOL(~class~ ~%class_label%~)
+        ACTION_IF (class_id > 0) BEGIN
+          OUTER_SPRINT resref $kittable_table(~%class_row%~ ~%race_col%~)
+          ACTION_IF (NOT VARIABLE_IS_SET EVAL ~%resref%_table~) BEGIN
+            ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
+              // caching K_x_y table
+              SILENT
+              COPY_EXISTING ~%resref%.2DA~ ~override~
+                READ_2DA_ENTRIES_NOW ~%resref%_table~ 1
+              BUT_ONLY
+              VERBOSE
+            END ELSE BEGIN
+              // caching dummy table
+              SILENT
+              COPY - ~.../inlined/a7#collect_class_info/default_k_x_x.2da~ ~.../inlined/a7#collect_class_info/default_k_x_x.2da~
+                READ_2DA_ENTRIES_NOW ~%resref%_table~ 1
+              BUT_ONLY
+              VERBOSE
+            END
+          END
+
+          OUTER_SET num_allowed = 0
+          OUTER_SET $kittable_map(~%race_id%~ ~%num_classes%~) = num_allowed
+          OUTER_SET $kittable_map(~%race_id%~ ~%num_classes%~ ~id~) = class_id
+          OUTER_FOR (kit_row = 3; kit_row < EVAL ~%resref%_table~; ++kit_row) BEGIN
+            OUTER_SET kit_ref = $EVAL ~%resref%_table~(~%kit_row%~ ~1~)
+            ACTION_IF (VARIABLE_IS_SET $kit_ref_map(~%kit_ref%~)) BEGIN
+              OUTER_SET kit_id = $kit_ref_map(~%kit_ref%~)
+              OUTER_SET $kittable_map(~%race_id%~ ~%num_classes%~ ~%num_allowed%~ ~ref~) = kit_ref
+              OUTER_SET $kittable_map(~%race_id%~ ~%num_classes%~ ~%num_allowed%~ ~id~) = kit_id
+              OUTER_SET num_allowed += 1
+              OUTER_SET $kittable_map(~%race_id%~ ~%num_classes%~) = num_allowed
+            END
+          END
+          OUTER_SET num_classes += 1
+          OUTER_SET $kittable_map(~%race_id%~) = num_classes
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Determines whether the specified kit is available to player races.
+ *
+ * INT_VAR kit_ref            KITLIST.2DA row index of the kit to check.
+ * INT_VAR kit_class          Numeric value of the class associated with the kit to check (CLASS.IDS).
+ * INT_VAR race               Numeric race value to check (RACE.IDS). Specify 0 to check all races. (Default: 0)
+ * STR_VAR kittable_map_name  Name of the kittable map generated by "a7#load_kittable_map". (Default: "kittable_map")
+ * RET available              Returns 1 if the kit is available to players, 0 otherwise.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#is_kit_available
+INT_VAR
+  kit_ref = 0
+  kit_class = 0
+  race = 0
+STR_VAR
+  kittable_map_name = ~kittable_map~
+RET
+  available
+BEGIN
+  OUTER_SET available = 0
+
+  // loading kittable information if needed
+  ACTION_IF (~%kittable_map_name%~ STR_EQ ~~ || NOT VARIABLE_IS_SET $EVAL ~%kittable_map_name%~(~1~)) BEGIN
+    ACTION_IF (~%kittable_map_name%~ STR_EQ ~~) BEGIN
+      OUTER_SPRINT kittable_map_name ~kittable_map~
+    END
+    LAF a7#load_kittable_map RET_ARRAY kittable_map END
   END
 
-  // return class and kit IDs
-  ACTION_IF (action = ACCEPT) BEGIN
-    OUTER_SET success = 1
-    OUTER_SET class_id = new_class_id
-    OUTER_SET kit_id = new_kit_id
+  ACTION_IF (kit_ref >= 0 && kit_class != 0) BEGIN
+    OUTER_SET race_min = (race == 0) ? 1 : race
+    OUTER_SET race_max = (race == 0) ? 7 : race
+    OUTER_FOR (race_id = race_min; NOT available && race_id <= race_max; ++race_id) BEGIN
+      ACTION_IF (VARIABLE_IS_SET $EVAL ~%kittable_map_name%~(~%race_id%~)) BEGIN
+        ACTION_IF (race == 0 || race == race_id) BEGIN
+          OUTER_SET num_classes = $EVAL ~%kittable_map_name%~(~%race_id%~)
+          OUTER_FOR (class_idx = 0; NOT available && class_idx < num_classes; ++class_idx) BEGIN
+            ACTION_IF (VARIABLE_IS_SET $EVAL ~%kittable_map_name%~(~%race_id%~ ~%class_idx%~ ~id~)) BEGIN
+              OUTER_SET class_id = $EVAL ~%kittable_map_name%~(~%race_id%~ ~%class_idx%~ ~id~)
+              ACTION_IF (class_id == kit_class) BEGIN
+                OUTER_SET num_kits = $EVAL ~%kittable_map_name%~(~%race_id%~ ~%class_idx%~)
+                OUTER_FOR (kit_idx = 0; NOT available && kit_idx < num_kits; ++kit_idx) BEGIN
+                  OUTER_SET cur_kit_ref = $EVAL ~%kittable_map_name%~(~%race_id%~ ~%class_idx%~ ~%kit_idx%~ ~ref~)
+                  OUTER_SET available = (cur_kit_ref == kit_ref)
+                END
+              END
+            END
+          END
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Collects and returns a list of all potential kit combinations for a multiclass based on the given parameters.
+ *
+ * INT_VAR class          Numeric class value (CLASS.IDS) of the multiclass.
+ * INT_VAR has_kit1       Indicates whether to find kit combinations for the first class aspect of the multiclass. (Default: 0)
+ * INT_VAR has_kit2       Indicates whether to find kit combinations for the second class aspect of the multiclass. (Default: 0)
+ * INT_VAR has_kit3       Indicates whether to find kit combinations for the third class aspect of the multiclass. (Default: 0)
+ * STR_VAR kit_info_name  Name of an initialized "kit_info" map structure returned by a "a7#init_kit_info" function call.
+ * RET multi_kits         Returns number of defined multiclass kits.
+ * RET_ARRAY multi_kits   Map structure containing information about compatible multiclass kit definitions.
+ *
+ * "multi_kits" structure:
+ * multi_kits => # kit definitions
+ * $multi_kits(<kit_idx>) => always -1 (potential multiclass kit)
+ * $multi_kits(<kit_idx> "symbol") => symbolic kit name
+ * $multi_kits(<kit_idx> "title") => kit name for display
+ * $multi_kits(<kit_idx> "kit1") => kit id of first multiclass aspect
+ * $multi_kits(<kit_idx> "kit2") => kit id of second multiclass aspect
+ * $multi_kits(<kit_idx> "kit3") => kit id of third multiclass aspect
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#generate_multi_kit_list
+INT_VAR
+  class = 0
+  has_kit1 = 0
+  has_kit2 = 0
+  has_kit3 = 0
+STR_VAR
+  kit_info_name = ~kit_info~
+RET
+  multi_kits
+RET_ARRAY
+  multi_kits
+BEGIN
+  OUTER_SET multi_kits = 0
+
+/*
+$class_list(<cls_idx>) => # kits for base class #<cls_idx>
+$class_list(<cls_idx> <kit_idx>) => kit id
+*/
+  // getting list of potential kits for all specified base classes
+  LAF a7#get_base_classes INT_VAR class RET class1 class2 class3 END
+  OUTER_SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : (class1 > 0) ? 1 : 0
+
+  OUTER_FOR (cls_idx = 1; cls_idx <= 3; ++cls_idx) BEGIN
+    OUTER_SET cur_class = EVAL ~class%cls_idx%~
+    OUTER_SET has_kit = EVAL ~has_kit%cls_idx%~
+    OUTER_SET $class_list(~%cls_idx%~) = 0
+    ACTION_IF (has_kit && cls_idx <= num_classes) BEGIN
+      LAF a7#get_kit_list
+        INT_VAR class = cur_class
+        STR_VAR kit_info_name
+        RET EVAL ~class_list_%cls_idx%~ = kits
+        RET_ARRAY EVAL ~class_list_%cls_idx%~ = kits
+      END
+    END
+  END
+
+  // creating multiclass kit combinations from all available kit lists
+  OUTER_FOR (kit1_idx = 0; kit1_idx <= $class_list(~1~); ++kit1_idx) BEGIN
+    ACTION_IF (kit1_idx < $class_list(~1~)) BEGIN
+      OUTER_SET kit1 = $class_list(~1~ ~%kit1_idx%~)
+    END ELSE BEGIN
+      OUTER_SET kit1 = "-1"
+    END
+
+    OUTER_FOR (kit2_idx = 0; kit2_idx <= $class_list(~2~); ++kit2_idx) BEGIN
+      ACTION_IF (kit2_idx < $class_list(~2~)) BEGIN
+        OUTER_SET kit2 = $class_list(~2~ ~%kit2_idx%~)
+      END ELSE BEGIN
+        OUTER_SET kit2 = "-1"
+      END
+
+      OUTER_FOR (kit3_idx = 0; kit3_idx <= $class_list(~3~); ++kit3_idx) BEGIN
+        ACTION_IF (kit3_idx < $class_list(~3~)) BEGIN
+          OUTER_SET kit3 = $class_list(~3~ ~%kit3_idx%~)
+        END ELSE BEGIN
+          OUTER_SET kit3 = "-1"
+        END
+
+        // creating multiclass kit entry
+        ACTION_IF ((NOT has_kit1 || kit1 != "-1") && (NOT has_kit2 || kit2 != "-1") && (NOT has_kit3 || kit3 != "-1")) BEGIN
+          OUTER_SET $multi_kits(~%multi_kits%~) = "-1"
+          LAF a7#generate_kit_name INT_VAR class kit1 kit2 kit3 RET kit_name END
+          OUTER_SPRINT $multi_kits(~%multi_kits%~ ~symbol~) ~%kit_name%~
+          LAF a7#generate_title INT_VAR class kit1 kit2 kit3 RET title END
+          LAF a7#remove_color_tags STR_VAR title RET title END
+          OUTER_SPRINT $multi_kits(~%multi_kits%~ ~title~) ~%title%~
+          OUTER_SET $multi_kits(~%multi_kits%~ ~kit1~) = kit1
+          OUTER_SET $multi_kits(~%multi_kits%~ ~kit2~) = kit2
+          OUTER_SET $multi_kits(~%multi_kits%~ ~kit3~) = kit3
+          OUTER_SET multi_kits += 1
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Creates a list of available kits for the specified single class.
+ *
+ * INT_VAR class          Numeric class value (CLASS.IDS). Only single class types are supported.
+ * STR_VAR kit_info_name  Name of an initialized "kit_info" map structure returned by a "a7#init_kit_info" function call.
+ * RET kits               Returns number of detected kits for the given class.
+ * RET_ARRAY kits         Returns an indexed array of numeric kit values (KIT.IDS).
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#get_kit_list
+INT_VAR
+  class = 0
+STR_VAR
+  kit_info_name = ~kit_info~
+RET
+  kits
+RET_ARRAY
+  kits
+BEGIN
+  OUTER_SET kits = 0
+
+  ACTION_IF (NOT ~%kit_info_name%~ STR_EQ ~~ && VARIABLE_IS_SET EVAL ~%kit_info_name%~) BEGIN
+    LAF a7#get_base_classes INT_VAR class RET class1 class2 class3 END
+    ACTION_IF (class1 > 0 && class2 <= 0 && class3 <= 0) BEGIN
+      OUTER_SET num_kits = EVAL ~%kit_info_name%~
+      OUTER_FOR (kit_idx = 0; kit_idx < num_kits; ++kit_idx) BEGIN
+        OUTER_SET kit_id = $EVAL ~%kit_info_name%~(~%kit_idx%~)
+        OUTER_SET kit_class = $EVAL ~%kit_info_name%~(~%kit_idx%~ ~class~)
+        ACTION_IF (kit_id != 0 && kit_id != "-1" && kit_class == class1) BEGIN
+          OUTER_SET $kits(~%kits%~) = kit_id
+          OUTER_SET kits += 1
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Returns a class token map based on ENGINEST.2DA entries.
+ *
+ * RET_ARRAY token_map    Associative map with ("<'<'class_token'>'>" => "<class_title>") entries
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#get_class_tokens
+RET_ARRAY
+  token_map
+BEGIN
+  SILENT
+  COPY_EXISTING ~enginest.2da~ ~override~
+    // tokens to map
+    DEFINE_ASSOCIATIVE_ARRAY enginest_tokens BEGIN
+      ~STRREF_GUI_MIXED_NORMAL_FIGHTER~            => ~FIGHTERTYPE~
+      ~STRREF_GUI_MIXED_KIT_MAGESCHOOL_GENERALIST~ => ~MAGESCHOOL~
+    END
+
+    // building search string for entry labels
+    SPRINT labels ~~
+    PATCH_PHP_EACH enginest_tokens AS key => _ BEGIN
+      PATCH_IF (~%labels%~ STR_EQ ~~) BEGIN
+        SPRINT labels ~%key%~
+      END ELSE BEGIN
+        SPRINT labels ~%labels%\|%key%~
+      END
+    END
+
+    // building token map
+    REPLACE_EVALUATE ~\b\(%labels%\)\b[ %TAB%]+\([0-9]+\)~ BEGIN
+      PATCH_IF (VARIABLE_IS_SET $enginest_tokens(~%MATCH1%~)) BEGIN
+        SPRINT token $enginest_tokens(~%MATCH1%~)
+        GET_STRREF MATCH2 replacement
+        SPRINT $token_map(~<%token%>~) ~%replacement%~
+      END
+    END ~%MATCH0%~
+  BUT_ONLY
+  VERBOSE
+END
+
+
+/**
+ * Removes color definitions in strings.
+ *
+ * STR_VAR title  Title string with potential color definitions.
+ * RET title      The cleaned title string.
+ */
+DEFINE_DIMORPHIC_FUNCTION a7#remove_color_tags
+STR_VAR
+  title = ~~
+RET
+  title
+BEGIN
+  OUTER_PATCH_SAVE title ~%title%~ BEGIN
+    SPRINT hex ~0-9A-Fa-f~
+    REPLACE_TEXTUALLY ~\^\(0x[%hex%][%hex%][%hex%][%hex%][%hex%][%hex%][%hex%][%hex%]\|-\)~ ~~
   END
 END

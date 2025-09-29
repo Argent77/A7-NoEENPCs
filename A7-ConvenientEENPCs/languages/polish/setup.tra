@@ -113,10 +113,11 @@
 @683 = ~Tancerz cieni~
 @684 = ~Bard~
 
-@690 = ~Change class/kit: Caelar Argent (See notes in readme!)~
-@691 = ~Cavalier~
-@692 = ~Inquisitor~
-@693 = ~Undead Hunter~
+@690 = ~Zmien klase/podklase: Caelar Argent~
+@691 = ~Kawaler~
+@692 = ~Inkwizytor~
+@693 = ~Lowca nieumarlych~
+@694 = ~Kaplan Lathandera~
 
 // Setup messages
 @1000 = ~Komponent ten wymaga uprzedniego zainstalowania BG:EE, BG2:EE lub EET.~
@@ -134,16 +135,17 @@
 @1012 = ~Operacja przerwana przez uzytkownika.~
 
 // Custom class selection
-@2000 = ~Aktualna klasa: %cur_class_title% (%cur_class_name%), podklasa: %cur_kit_title% (%cur_kit_name%)~
-@2001 = ~Dostepne klasy: %class_entries%~
+// Translators: Text inside angle brackets are placeholders for dynamic text. Do not modify!
+@2000 = ~Aktualna klasa: <cur_class_title>, podklasa: <cur_kit_title> (<cur_kit_name>)~
+@2001 = ~Dostepne klasy: <class_entries>~
 @2002 = ~Podaj numer nowej klasy (nie wpisuj nic, by zachowac aktualna klase):~
 @2003 = ~Wybrany numer klasy jest niedostepny.~
-@2004 = ~Wybrana klasa: %new_class_title% (%new_class_name%).~
-@2005 = ~Brak dostepnej podklasy dla klasy "%new_class_title%".~
-@2006 = ~Dostepne nastepujace podklasy dla klasy "%new_class_title%": %kit_entries%~
+@2004 = ~Wybrana klasa: <new_class_title>~
+// @2005 = ~Brak dostepnej podklasy dla klasy "%new_class_title%".~
+@2006 = ~Dostepne nastepujace podklasy dla klasy "<new_class_title>": <kit_entries>~
 @2007 = ~Podaj numer nowej podklasy:~
 @2008 = ~Wybrany numer podklasy jest niedostepny.~
-@2009 = ~Wybrano: klasa "%new_class_title%" (%new_class_name%) i podklasa "%new_kit_title%" (%new_kit_name%).~
+@2009 = ~Wybrano: klasa "<new_class_title>" i podklasa "<new_kit_title>" (<new_kit_name>).~
 @2010 = ~Przydziel wybrana kombinacje klasy/podklasy ([A]ccept, [S]tart over, [C]ancel)?~
 @2011 = ~Wybierz A, aby akceptowac, S, aby rozpoczac ponownie lub C, aby anulowac operacje.~
 @2012 = ~brak podklasy~

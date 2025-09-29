@@ -1,0 +1,125 @@
+// Performs a full class/kit change for Baeloth
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+DEFINE_ACTION_FUNCTION a7#change_class_baeloth
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+BEGIN
+  ACTION_IF (GAME_INCLUDES ~sod~) BEGIN
+    OUTER_SPRINT cre_reference ~baelot7~
+  END ELSE BEGIN
+    OUTER_SPRINT cre_reference ~baeloth~
+  END
+
+  OUTER_SPRINT cre_resref_regexp ~^baelot[h0-9][0-9]?~
+  OUTER_SPRINT $cre_resref(~0~) ~a~
+
+  // preserve CRE effects
+  OUTER_SET $ignore_effect(~0~) = 142 // Display portrait icon
+
+  ACTION_IF (NOT reset) BEGIN
+    ACTION_DEFINE_ARRAY profs_warrior BEGIN
+      ~PROFICIENCYBASTARDSWORD~
+      ~PROFICIENCYBASTARDSWORD~
+      ~PROFICIENCYCROSSBOW~
+      ~PROFICIENCYFLAILMORNINGSTAR~
+      ~PROFICIENCYTWOHANDEDSWORD~
+      ~PROFICIENCYFLAILMORNINGSTAR~
+      ~PROFICIENCYSWORDANDSHIELD~
+      ~PROFICIENCYCROSSBOW~
+      ~PROFICIENCY2HANDED~
+    END
+
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY thieving_weights BEGIN
+      // parameter => weight
+      ~pick_pockets~    => 10
+      ~open_locks~      => 20
+      ~find_traps~      => 30
+      ~move_silently~   => 60
+      ~hide_in_shadows~ => 70
+      ~detect_illusion~ => 50
+      ~set_traps~       => 0
+    END
+  END
+
+  // allow only wizard classes
+  ACTION_DEFINE_ARRAY class_whitelist BEGIN
+    ~MAGE~
+    ~BARD~
+    ~FIGHTER_MAGE~
+    ~FIGHTER_MAGE_THIEF~
+    ~MAGE_THIEF~
+    ~CLERIC_MAGE~
+    ~FIGHTER_MAGE_CLERIC~
+    ~SORCERER~
+  END
+  // ACTION_DEFINE_ARRAY kit_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY class_blacklist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_blacklist BEGIN END
+
+  LAF a7#change_class_npc
+    INT_VAR
+      reset interactive class kit kit1 kit2 kit3
+    STR_VAR
+      npc_name = ~baeloth~
+      cre_reference
+      cre_resref_regexp
+      class_whitelist_name = ~class_whitelist~
+      // kit_whitelist_name = ~kit_whitelist~
+      // class_blacklist_name = ~class_blacklist~
+      // kit_blacklist_name = ~kit_blacklist~
+    RET class_id kit_id
+  END
+
+  ACTION_IF (NOT reset) BEGIN
+    // updating equipment
+    LAF a7#process_cre
+      STR_VAR function_0 = ~a7#cre_update_equipment_baeloth~
+    END
+  END
+
+  // Fixing a scripted event in SoD
+  LAF a7#cre_fix_scripting_baeloth END
+END
+
+
+/** Equips the character with usable items. */
+DEFINE_PATCH_FUNCTION a7#cre_update_equipment_baeloth
+BEGIN
+  READ_BYTE 0x273 class
+  LPF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~FIGHTER~) RET is_fighter = result END
+  LPF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~BARD~) RET is_bard = result END
+  LPF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~CLERIC~) RET is_cleric = result END
+
+  PATCH_IF (is_bard) BEGIN
+    REPLACE_CRE_ITEM ~chan12~ #0 #0 #0 ~identified~ ~armor~ // Elven Chain
+  END ELSE PATCH_IF (is_cleric) BEGIN
+    REPLACE_CRE_ITEM ~blun03~ #0 #0 #0 ~identified~ ~weapon1~ EQUIP
+    REPLACE_CRE_ITEM ~slng04~ #0 #0 #0 ~identified~ ~weapon2~
+    ADD_CRE_ITEM ~bull02~ #40 #0 #0 ~identified~ ~quiver1~
+  END ELSE PATCH_IF (is_fighter) BEGIN
+    REPLACE_CRE_ITEM ~sw1h02~ #0 #0 #0 ~identified~ ~weapon1~ EQUIP
+    REPLACE_CRE_ITEM ~xbow05~ #0 #0 #0 ~identified~ ~weapon2~
+    ADD_CRE_ITEM ~bolt02~ #40 #0 #0 ~identified~ ~quiver1~
+  END
+END
+
+
+DEFINE_ACTION_FUNCTION a7#cre_fix_scripting_baeloth
+BEGIN
+  ACTION_IF (GAME_INCLUDES ~sod~) BEGIN
+    // Ensures that Baeloth survives the fight with M'Khiin's goblin spirits
+    COPY_EXISTING ~bdcut204.bcs~ ~override~
+      DECOMPILE_AND_PATCH BEGIN
+        REPLACE_TEXTUALLY CASE_INSENSITIVE ~ApplyDamage("BAELOTH",[1-9]+,~ ~ApplyDamage("BAELOTH",0,~
+      END
+    BUT_ONLY IF_EXISTS
+  END
+END

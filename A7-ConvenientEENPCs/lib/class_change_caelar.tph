@@ -1,0 +1,239 @@
+// Performs a full class/kit change for Caelar Argent
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+DEFINE_ACTION_FUNCTION a7#change_class_caelar
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+STR_VAR
+BEGIN
+  OUTER_SPRINT cre_reference ~bdcaela3~
+  OUTER_SPRINT $cre_resref(~0~) ~bdcaela3~
+  OUTER_SPRINT $cre_resref(~1~) ~bdcaelar~    // Cutscene version of Caelar
+  // OUTER_SPRINT $cre_resref(~2~) ~bdcaela2~  // (Anti-Paladin version of Caelar; change???)
+
+  // preserve CRE effects
+  OUTER_SET $ignore_effect(~0~) = 6   // Charisma bonus
+  OUTER_SET $ignore_effect(~1~) = 49  // Wisdom bonus
+  OUTER_SET $ignore_effect(~2~) = 346 // Save vs. school bonus
+  OUTER_SET $ignore_effect(~3~) = 293 // Set persistent AI
+
+  ACTION_IF (NOT reset) BEGIN
+    ACTION_DEFINE_ARRAY profs_warrior BEGIN
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYSWORDANDSHIELD~
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYSWORDANDSHIELD~
+      ~PROFICIENCYBASTARDSWORD~
+      ~PROFICIENCYBASTARDSWORD~
+    END
+
+    // providing an optimized selection of priest spells
+    ACTION_DEFINE_ARRAY memorized_spells_cleric BEGIN
+      // Level 1 (8)
+      ~CLERIC_REMOVE_FEAR~
+      ~CLERIC_ARMOR_OF_FAITH~
+      ~CLERIC_CURE_LIGHT_WOUNDS~
+      ~CLERIC_REMOVE_FEAR~
+      ~CLERIC_PROTECT_FROM_EVIL~
+      ~CLERIC_CURE_LIGHT_WOUNDS~
+      ~CLERIC_BLESS~
+      ~CLERIC_DOOM~
+      // Level 2 (7)
+      ~CLERIC_DRAW_UPON_HOLY_MIGHT~
+      ~CLERIC_SLOW_POISON~
+      ~CLERIC_AID~
+      ~CLERIC_CHANT~
+      ~CLERIC_DRAW_UPON_HOLY_MIGHT~
+      ~CLERIC_SLOW_POISON~
+      ~CLERIC_SPIRITUAL_HAMMER~
+      // Level 3 (7)
+      ~CLERIC_CURE_MEDIUM_WOUNDS~
+      ~CLERIC_PROTECTION_FROM_FIRE~
+      ~CLERIC_REMOVE_PARALYSIS~
+      ~CLERIC_PRAYER~                           // IWD spell
+      ~CLERIC_HOLY_SMITE~
+      ~CLERIC_CURE_DISEASE~
+      ~CLERIC_INVISIBILITY_PURGE~
+      ~CLERIC_ANIMATE_DEAD~
+      // Level 4 (6)
+      ~CLERIC_CURE_SERIOUS_WOUNDS~
+      ~CLERIC_PROTECTION_FROM_EVIL_10_FOOT~
+      ~CLERIC_RECITATION~                       // IWD spell
+      ~CLERIC_DEFENSIVE_HARMONY~
+      ~CLERIC_NEUTRALIZE_POISON~
+      ~CLERIC_HOLY_POWER~
+      ~CLERIC_FREE_ACTION~
+      // Level 5 (4)
+      ~CLERIC_MASS_CURE~
+      ~CLERIC_TRUE_SIGHT~
+      ~CLERIC_RIGHTEOUS_WRATH_OF_THE_FAITHFUL~  // IWD spell
+      ~CLERIC_SHIELD_OF_LATHANDER~              // IWD spell
+      ~CLERIC_CHAOTIC_COMMANDS~
+      ~CLERIC_RIGHTEOUS_MAGIC~
+      // Level 6 (3)
+      ~CLERIC_HEAL~
+      ~CLERIC_ENTROPY_SHIELD~                   // IWD spell
+      ~CLERIC_BOLT_OF_GLORY~
+      ~CLERIC_WONDROUS_RECALL~
+      // Level 7 (2)
+      ~CLERIC_GREATER_SHIELD_OF_LATHANDER~      // IWD spell
+      ~CLERIC_RESTORATION~
+      ~CLERIC_RESURRECTION~
+    END
+  END
+
+  // exclude wizards, druids and monks
+  ACTION_DEFINE_ARRAY class_whitelist BEGIN
+    ~FIGHTER~
+    ~CLERIC~
+    ~PALADIN~
+    ~RANGER~
+  END
+  // ACTION_DEFINE_ARRAY kit_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY class_blacklist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_blacklist BEGIN END
+
+  OUTER_SET wis_override = 14
+  LAF a7#change_class_npc
+    INT_VAR
+      reset interactive class kit kit1 kit2 kit3
+      race_override = IDS_OF_SYMBOL(~race~ ~HUMAN~)
+      wis_override
+    STR_VAR
+      npc_name = ~caelar~
+      cre_reference
+      cre_resref_regexp
+      class_whitelist_name = ~class_whitelist~
+      // kit_whitelist_name = ~kit_whitelist~
+      // class_blacklist_name = ~class_blacklist~
+      // kit_blacklist_name = ~kit_blacklist~
+    RET class_id kit_id
+  END
+
+  ACTION_IF (NOT reset) BEGIN
+    OUTER_SET class = class_id
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~CLERIC~) RET is_cleric = result END
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~RANGER~) RET is_ranger = result END
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~PALADIN~) RET is_paladin = result END
+    OUTER_SET wis_override = is_ranger ? 14 : is_paladin ? 13 : 0
+
+    ACTION_IF (is_paladin || is_ranger || is_cleric) BEGIN
+      LAF a7#process_cre
+        STR_VAR
+          function_0 = ~a7#cre_stats_update_caelar~
+          function_1 = ~a7#cre_equipment_update_caelar~
+      END
+
+      ACTION_IF (is_cleric) BEGIN
+        // equipping usable weapon if cleric (single/multi) is chosen
+        LAF a7#cre_install_equipment_caelar END
+      END
+    END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_stats_update_caelar
+BEGIN
+  // adjusting stats to meet class requirements
+  PATCH_IF (is_paladin || is_ranger) BEGIN
+    SET wis_inc = wis_override - (BYTE_AT 0x23b)
+    SET wis_inc = (wis_inc < 0) ? 0 : wis_inc
+    PATCH_IF (wis_inc > 0) BEGIN
+      WRITE_BYTE 0x23b (THIS + wis_inc) // WIS
+    END
+
+    SET dex_dec = wis_inc >= 1 ? 1 : wis_inc
+    WRITE_BYTE 0x23c (THIS - dex_dec) // DEX
+    SET wis_inc -= dex_dec
+
+    SET int_dec = wis_inc >= 1 ? 1 : wis_inc
+    WRITE_BYTE 0x23a (THIS - int_dec) // INT
+  END ELSE PATCH_IF (is_cleric) BEGIN
+    WRITE_BYTE 0x239 0          // no exceptional strength
+    WRITE_BYTE 0x23b (THIS + 1) // but a small WIS bonus
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_equipment_update_caelar
+BEGIN
+  PATCH_IF (is_cleric) BEGIN
+    REPLACE_CRE_ITEM ~a7_blnca~ #0 #0 #0 ~identified&unstealable&undroppable~ ~weapon1~ EQUIP // Aster's Edge +3 => Aster's Mace +3
+    REPLACE_CRE_ITEM ~potn01~ #1 #0 #0 ~identified&unstealable&undroppable~ ~inv1~  // Potion of Invulnerability => Potion of Fire Resistance
+    ADD_CRE_ITEM ~slng04~ #0 #0 #0 ~identified&unstealable&undroppable~ ~weapon2~   // Sling +2
+    ADD_CRE_ITEM ~bull03~ #40 #0 #0 ~identified&unstealable&undroppable~ ~quiver1~  // Bullet +2
+  END
+END
+
+
+/** Installs and equips a usable weapon if class is changed to Cleric (single/multi). */
+DEFINE_ACTION_FUNCTION a7#cre_install_equipment_caelar
+BEGIN
+  // creating usable weapon (Aster's Edge +3 => Aster's Mace +3)
+  COPY_EXISTING ~bdsw1hca.itm~ ~override/a7_blnca.itm~
+    WRITE_LONG NAME1 6337 // Mace
+    SAY NAME2 @50009 // Aster's Mace +3
+    WRITE_LONG UNIDENTIFIED_DESC 6709
+    SAY IDENTIFIED_DESC @50010  // Aster's Mace +3 description...
+    WRITE_SHORT 0x1c 17 // Category: Maces
+    WRITE_ASCII 0x22 ~MC~ (2) // Equipped appearance
+    WRITE_SHORT 0x26 10 // Min. Strength
+    WRITE_BYTE 0x31 IDS_OF_SYMBOL(~stats~ ~PROFICIENCYMACE~)
+    WRITE_ASCII 0x3a ~IBDBLN04~ (8) // Icon
+    WRITE_ASCII 0x44 ~GBLUN06~ (8)  // Ground icon
+    WRITE_LONG 0x4c 6   // Weight
+    WRITE_ASCII 0x58 ~CBLUN15~ (8)  // Description image
+
+    // adjusting weapon colors
+    DEFINE_ASSOCIATIVE_ARRAY itm_colors BEGIN
+      // location => color
+      16 => 72
+      20 => 24
+      21 => 101
+    END
+    PATCH_PHP_EACH itm_colors AS location => color BEGIN
+      LPF ADD_ITEM_EQEFFECT
+        INT_VAR
+          opcode= 7   // Set color
+          target = 1  // Self
+          timing = 2  // While equipped
+          parameter1 = color
+          parameter2 = location
+      END
+    END
+
+    LPF ALTER_ITEM_HEADER
+      INT_VAR
+        speed = 4
+        dicesize = 6
+        damage_bonus = 4
+        damage_type = 2 // Crushing
+      STR_VAR
+        icon = ~IBDBLN04~
+    END
+
+    LPF ALTER_ITEM_EFFECT
+      INT_VAR
+        check_headers = 1
+        match_opcode = 177  // Use EFF
+      STR_VAR
+        resource = ~A7_BLNCA~
+    END
+  BUT_ONLY
+
+  // Bonus damage vs. creature type
+  COPY_EXISTING ~bdsw1hca.eff~ ~override/a7_blnca.eff~
+    WRITE_SHORT 0x22 0  // Damage type: Crushing
+  BUT_ONLY
+END

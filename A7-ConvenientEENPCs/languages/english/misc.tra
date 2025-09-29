@@ -97,6 +97,26 @@ Charge abilities:
 
 Weight: 3~
 
+// Caelar's modified personal weapon
+@50009 = ~Aster's Mace +3~
+@50010 = ~Legend tells that a powerful angelic being gifted this mace to a member of the Order of the Aster long ago. Details of the legend have been lost over time, but many believe the weapon was a reward for slaying a monstrous fiend, perhaps even a balor. Delicate etchings of asters decorate the mace, which glows with a crimson flame when drawn.
+
+STATISTICS:
+
+Equipped abilities:
+– Magic Resistance: +30%
+
+THAC0: +3
+Damage: 1d6+4, +2 extra vs. fiends
+Damage type: Crushing
+Speed Factor: 4
+Proficiency Type: Mace
+Type: One-handed
+Requires:
+ 10 Strength
+
+Weight: 6~
+
 
 // Updated biographies: Neera
 @51000 = ~When asked about her past, NEERA says she has been on the run from Red Wizards for months and months. She seems quick-thinking and a little glib, but you have heard that practitioners of wild magic are among the most powerful spellcasters... as long as they don't have an accident.
@@ -106,10 +126,10 @@ Despite her cheerful and capricious demeanor, you sense her past haunts her. As 
 @51001 = ~When asked about her past, NEERA shrugs. She says that, before coming to Athkatla, she wandered the Sword Coast enjoying an adventurer's life while evading the Order of Eight Staves, an organization dedicated to hunting practitioners of wild magic. She talks less about her distant past, but does not hide the fact she was banished from the High Forest for her wild magic. She is quick to laugh and to chatter, perhaps a little glibly, but lashes out whenever she senses a threat to her autonomy. She is deeply invested in protecting other wild mages and seems willing to risk almost everything to do so.~
 
 // Updated biographies: Rasaad
-@51050 = ~A worshipper of the moon goddess Selûne, the taciturn cleric Rasaad's life in service to the Sun Soul order ended in tragedy. He speaks of his brother, Gamaz, in reverent tones, even though Gamaz betrayed the Sun Soul by joining the Dark Moon sect, where he learned to worship Shar at the feet of a man named Alorgoth. Though it was his own hand that slew Gamaz, Rasaad holds Alorgoth responsible for his brother's death. He has committed himself to avenging Gamaz, and it's obvious there is little he won't sacrifice to achieve that goal.~
+@51050 = ~A worshipper of the moon goddess Selûne, Rasaad's life in service to the Sun Soul order ended in tragedy. He speaks of his brother, Gamaz, in reverent tones, even though Gamaz betrayed the Sun Soul by joining the Dark Moon sect, where he learned to worship Shar at the feet of a man named Alorgoth. Though it was his own hand that slew Gamaz, Rasaad holds Alorgoth responsible for his brother's death. He has committed himself to avenging Gamaz, and it's obvious there is little he won't sacrifice to achieve that goal.~
 
 // Updated biographies: Voghiln
-@51100 = ~When asked about his past, Voghiln speaks at considerable length of his travels in the North. Originally from Luskan, Voghiln felt the call of adventure and set out on a journey to the Spine of the World. For the next few years, he traveled among the northernmost countries, including Vaasa and the Silver Marches, building up his repertoire and his reputation as a rogue.
+@51100 = ~When asked about his past, Voghiln speaks at considerable length of his travels in the North. Originally from Luskan, Voghiln felt the call of adventure and set out on a journey to the Spine of the World. For the next few years, he traveled among the northernmost countries, including Vaasa and the Silver Marches, building up his repertoire and his reputation as an adventurer.
 
 Near the story's end, Voghiln hastily glosses over a bit where he decided to travel south for a time. No amount of persuasion convinces him to reveal why he truly left the North. Instead, Voghiln said, he came north chasing new adventures and new "womans."
 

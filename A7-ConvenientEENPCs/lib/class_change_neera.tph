@@ -1,0 +1,151 @@
+// Performs a full class/kit change for Neera
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+DEFINE_ACTION_FUNCTION a7#change_class_neera
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+BEGIN
+  OUTER_SET cre_suffix = (GAME_IS ~bgee~) ? 2 : 8
+  OUTER_SPRINT cre_reference ~neera%cre_suffix%~
+  OUTER_SPRINT cre_resref_regexp ~^neera[0-9]*~
+
+  ACTION_IF (NOT reset) BEGIN
+    ACTION_DEFINE_ARRAY profs_warrior BEGIN
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYSHORTBOW~
+      ~PROFICIENCYCLUB~
+      ~PROFICIENCYSHORTBOW~
+      ~PROFICIENCYSWORDANDSHIELD~
+      ~PROFICIENCYCLUB~
+      ~PROFICIENCYSPEAR~
+      ~PROFICIENCY2HANDED~
+    END
+
+    // adapting distribution weights for thieving skill points
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY thieving_weights BEGIN
+      // parameter => weight
+      ~pick_pockets~    => 60
+      ~open_locks~      => 50
+      ~find_traps~      => 60
+      ~move_silently~   => 20
+      ~hide_in_shadows~ => 20
+      ~detect_illusion~ => 30
+      ~set_traps~       => 10
+    END
+  END
+
+  // allow only wizard classes
+  ACTION_DEFINE_ARRAY class_whitelist BEGIN
+    ~MAGE~
+    ~BARD~
+    ~FIGHTER_MAGE~
+    ~FIGHTER_MAGE_THIEF~
+    ~MAGE_THIEF~
+    ~CLERIC_MAGE~
+    ~FIGHTER_MAGE_CLERIC~
+    ~SORCERER~
+  END
+  // ACTION_DEFINE_ARRAY kit_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY class_blacklist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_blacklist BEGIN END
+
+  OUTER_SET chr_override = 15
+  LAF a7#change_class_npc
+    INT_VAR
+      reset interactive class kit kit1 kit2 kit3
+      chr_override
+    STR_VAR
+      npc_name = ~neera~
+      cre_reference
+      cre_resref_regexp
+      class_whitelist_name = ~class_whitelist~
+      // kit_whitelist_name = ~kit_whitelist~
+      // class_blacklist_name = ~class_blacklist~
+      // kit_blacklist_name = ~kit_blacklist~
+    RET class_id kit_id
+  END
+
+  ACTION_IF (NOT reset) BEGIN
+    OUTER_SET class = class_id
+    OUTER_SET kit = kit_id
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~BARD~) RET is_bard = result END
+
+    ACTION_IF (is_bard) BEGIN
+      LAF a7#process_cre
+        STR_VAR function_0 = ~a7#cre_stats_update_neera~
+      END
+    END
+
+    LAF a7#cre_fix_plot END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_stats_update_neera
+BEGIN
+  // adjusting stats to meet class requirements
+  SET chr_inc = chr_override - (BYTE_AT 0x23e)
+  SET chr_inc = (chr_inc < 0) ? 0 : chr_inc
+  PATCH_IF (chr_inc > 0) BEGIN
+    WRITE_BYTE 0x23e (THIS + chr_inc) // CHR
+  END
+
+  SET dex_dec = chr_inc >= 2 ? 2 : chr_inc
+  WRITE_BYTE 0x23c (THIS - dex_dec) // DEX
+  SET chr_inc -= dex_dec
+
+  SET con_dec = chr_inc >= 1 ? 1 : chr_inc
+  WRITE_BYTE 0x23d (THIS - con_dec) // CON
+  SET chr_inc -= con_dec
+END
+
+
+/** Fixing plot scripting (ToB) to allow Neera to advance in her personal quest. */
+DEFINE_ACTION_FUNCTION a7#cre_fix_plot
+BEGIN
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    ACTION_IF NOT (class_id == 1 && IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) == kit_id) BEGIN
+      ACTION_MATCH class_id WITH
+        1 5 7 10 13 19 BEGIN  // mage
+          ACTION_IF (kit_id == IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) && FILE_EXISTS_IN_GAME ~A7_SP01.SPL~) BEGIN
+            OUTER_TEXT_SPRINT spell_cast ~SpellCastRES("A7_SP01","neera")~
+          END ELSE BEGIN
+            OUTER_TEXT_SPRINT spell_cast ~SpellCast("neera",0)~
+          END
+        END
+        3 6 8 11 12 15 16 18 21 BEGIN // priest
+          ACTION_IF (class_id == 6 && IDS_OF_SYMBOL(~kit~ ~INQUISITOR~) == kit_id) BEGIN
+            OUTER_TEXT_SPRINT spell_cast ~OR(2) SpellCastPriest("neera",0) SpellCastInnate("neera",0)~
+          END ELSE BEGIN
+            OUTER_TEXT_SPRINT spell_cast ~SpellCastPriest("neera",0)~
+          END
+        END
+        14 17 BEGIN // mage/priest
+          OUTER_TEXT_SPRINT spell_cast ~OR(2) SpellCast("neera",0) SpellCastPriest("neera",0)~
+        END
+        DEFAULT
+          OUTER_TEXT_SPRINT spell_cast ~OR(3) SpellCast("neera",0) SpellCastPriest("neera",0) SpellCastInnate("neera",0)~
+      END
+
+<<<<<<<< .../inlined/A7-ConvenientEENPCs/oh6400-add1.baf
+IF
+  Global("OHN_TOB_PLOT","GLOBAL",2)
+  %spell_cast%
+THEN
+  RESPONSE #100
+    SetGlobal("OHN_TOB_PLOT","GLOBAL",3)
+    SetGlobalTimer("ohn_cast_nrd","oh6400",ONE_ROUND)
+END
+>>>>>>>>
+      EXTEND_TOP ~OH6400.BCS~ ~.../inlined/A7-ConvenientEENPCs/oh6400-add1.baf~ EVAL
+    END
+  END
+END

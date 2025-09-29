@@ -61,24 +61,31 @@
 @511 = ~Dragon Disciple~
 @512 = ~Chaos Sorcerer~
 @513 = ~Shadow Adept~
+@514 = ~Shadow Disciple~
 
 @520 = ~Change class/kit: Dorn~
-@521 = ~Reset level only~
+@521 = ~Reset level~
 @522 = ~Choose your class~
 
 @540 = ~Change class/kit: Neera~
 @541 = ~Chaos Sorcerer~
+@542 = ~Fighter / Wild Mage~
+@543 = ~Wild Mage / Thief~
+@544 = ~Cleric / Wild Mage~
+@545 = ~Fighter / Wild Mage / Thief~
+@546 = ~Fighter / Wild Mage / Cleric~
 
 @560 = ~Change class/kit: Rasaad~
 @561 = ~Monk~
 @562 = ~Silverstar of Selune~
+@563 = ~Brawler~
 
 @580 = ~Change class/kit: M'Khiin~
 
 @600 = ~Change class/kit: Glint~
 @601 = ~Cleric~
-@602 = ~Fighter/Cleric~
-@603 = ~Cleric/Illusionist~
+@602 = ~Fighter / Cleric~
+@603 = ~Cleric / Illusionist~
 
 @620 = ~Change class/kit: Voghiln~
 @621 = ~Bard~
@@ -101,13 +108,13 @@
 @660 = ~Change class/kit: Hexxat~
 @661 = ~Assassin~
 @662 = ~Shadowdancer~
-@663 = ~Mage/Thief~
-@664 = ~Mage/Assassin~
-@665 = ~Mage/Shadowdancer~
-@666 = ~Necromancer/Thief~
-@667 = ~Fighter/Thief~
-@668 = ~Fighter/Assassin~
-@669 = ~Fighter/Shadowdancer~
+@663 = ~Mage / Thief~
+@664 = ~Mage / Assassin~
+@665 = ~Mage / Shadowdancer~
+@666 = ~Necromancer / Thief~
+@667 = ~Fighter / Thief~
+@668 = ~Fighter / Assassin~
+@669 = ~Fighter / Shadowdancer~
 
 @680 = ~Change class/kit: Clara~
 @681 = ~Bounty Hunter~
@@ -115,10 +122,11 @@
 @683 = ~Shadowdancer~
 @684 = ~Bard~
 
-@690 = ~Change class/kit: Caelar Argent (See notes in readme!)~
+@690 = ~Change class/kit: Caelar Argent~
 @691 = ~Cavalier~
 @692 = ~Inquisitor~
 @693 = ~Undead Hunter~
+@694 = ~Priest of Lathander~
 
 // Setup messages
 @1000 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
@@ -135,19 +143,39 @@
 @1011 = ~This component requires the mod component "Divine Remix -> Silverstar of Selune" to be installed.~
 @1012 = ~Operation cancelled by the user.~
 @1013 = ~This component is only available if Rasaad has been disabled.~
+@1014 = ~This component requires the mod component "Artisan's Kitpack > Brawler Kit" to be installed.~
+@1015 = ~Kit is not available for the NPC.~
 
 // Custom class selection
-@2000 = ~Current class: %cur_class_title% (%cur_class_name%), kit: %cur_kit_title% (%cur_kit_name%)~
-@2001 = ~Available classes: %class_entries%~
+// Translators: Text inside angle brackets are placeholders for dynamic text. Do not modify!
+@2000 = ~Current class: <cur_class_title>, kit: <cur_kit_title> (<cur_kit_name>)~
+@2001 = ~Available classes: <class_entries>~
 @2002 = ~Please enter number of the new class (leave blank to keep current):~
 @2003 = ~Specified class number is not available.~
-@2004 = ~Class selected: %new_class_title% (%new_class_name%).~
-@2005 = ~No kits available for class "%new_class_title%".~
-@2006 = ~Available kits for class "%new_class_title%": %kit_entries%~
+@2004 = ~Class selected: <new_class_title>~
+// @2005 = ~No kits available for class "<new_class_title>".~
+@2006 = ~Available kits for class "<new_class_title>": <kit_entries>~
 @2007 = ~Please enter number of the new kit:~
 @2008 = ~Specified kit number is not available.~
-@2009 = ~You have selected: class "%new_class_title%" (%new_class_name%) and kit "%new_kit_title%" (%new_kit_name%).~
+@2009 = ~You have selected: class "<new_class_title>" and kit "<new_kit_title>" (<new_kit_name>).~
 @2010 = ~Assign chosen class/kit combination ([A]ccept, [S]tart over, [C]ancel)?~
-@2011 = ~Please enter A to accept, S to start over or C to cancel the operation.~
+@2011 = ~Please enter A to accept, S to start over, or C to cancel the operation.~
 @2012 = ~no kit~
-@2013 = ~Gathering class information...~
+@2013 = ~Gathering class and kit information. This may take a moment...~
+@2014 = ~Please enter number of the new class:~
+@2015 = ~Please enter a new title for the selected kit (leave blank to keep current):~
+@2016 = ~Accept kit title "<new_kit_title>" ([A]ccept, [R]etry, [C]ancel)?~
+@2017 = ~Please enter A to accept, R to retry, or C to keep the original title.~
+@2018 = ~<option>] <class_title> (available kits: <num_kits>)~
+@2019 = ~<option>] <kit_title> (<kit_name>)~
+@2020 = ~Note: Kit marked with an asterisk (*) will be auto-generated.~
+@2021 = ~Current multiclass kit title: <kit_title>~
+@2022 = ~Non-ASCII characters are not allowed.~
+
+// Class-change messages
+@2100 = ~Failed to reset character levels.~
+@2101 = ~No reference CRE resref specified.~
+@2102 = ~Interactive class selection failed.~
+@2103 = ~Multiclass kit could not be created:~
+@2104 = ~Invalid class specified:~
+@2105 = ~Failed to change class:~

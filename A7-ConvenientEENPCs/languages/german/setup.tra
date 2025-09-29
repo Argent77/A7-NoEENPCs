@@ -61,24 +61,31 @@
 @511 = ~Drachenjuenger~
 @512 = ~Chaos Hexenmeister~
 @513 = ~Schattenadept~
+@514 = ~Schattenjuenger~
 
 @520 = ~Klassenwechsel: Dorn~
-@521 = ~Nur Erfahrungsstufe zuruecksetzen~
+@521 = ~Erfahrungsstufe zuruecksetzen~
 @522 = ~Klasse selbst auswaehlen~
 
 @540 = ~Klassenwechsel: Neera~
 @541 = ~Chaos Hexenmeister~
+@542 = ~Kaempfer / Hasardeur~
+@543 = ~Hasardeur / Dieb~
+@544 = ~Kleriker / Hasardeur~
+@545 = ~Kaempfer / Hasardeur / Dieb~
+@546 = ~Kaempfer / Hasardeur / Kleriker~
 
 @560 = ~Klassenwechsel: Rasaad~
 @561 = ~Moench~
 @562 = ~Silberstern der Selune~
+@563 = ~Raufbold~
 
 @580 = ~Klassenwechsel: M'Khiin~
 
 @600 = ~Klassenwechsel: Glint~
 @601 = ~Kleriker~
-@602 = ~Kaempfer/Kleriker~
-@603 = ~Kleriker/Illusionist~
+@602 = ~Kaempfer / Kleriker~
+@603 = ~Kleriker / Illusionist~
 
 @620 = ~Klassenwechsel: Voghiln~
 @621 = ~Barde~
@@ -101,13 +108,13 @@
 @660 = ~Klassenwechsel: Hexxat~
 @661 = ~Meuchelmoerder~
 @662 = ~Schattentaenzer~
-@663 = ~Magier/Dieb~
-@664 = ~Magier/Meuchelmoerder~
-@665 = ~Magier/Schattentaenzer~
-@666 = ~Nekromant/Dieb~
-@667 = ~Kaempfer/Dieb~
-@668 = ~Kaempfer/Meuchelmoerder~
-@669 = ~Kaempfer/Schattentaenzer~
+@663 = ~Magier / Dieb~
+@664 = ~Magier / Meuchelmoerder~
+@665 = ~Magier / Schattentaenzer~
+@666 = ~Nekromant / Dieb~
+@667 = ~Kaempfer / Dieb~
+@668 = ~Kaempfer / Meuchelmoerder~
+@669 = ~Kaempfer / Schattentaenzer~
 
 @680 = ~Klassenwechsel: Clara~
 @681 = ~Kopfgeldjaeger~
@@ -115,10 +122,11 @@
 @683 = ~Schattentaenzer~
 @684 = ~Barde~
 
-@690 = ~Klassenwechsel: Caelar Argent (Siehe Hinweise in der Readme!)~
+@690 = ~Klassenwechsel: Caelar Argent~
 @691 = ~Ritter~
 @692 = ~Inquisitor~
 @693 = ~Geisterjaeger~
+@694 = ~Priester des Lathander~
 
 // Setup messages
 @1000 = ~Diese Komponente benoetigt BG:EE, BG2:EE oder EET.~
@@ -135,23 +143,42 @@
 @1011 = ~Diese Komponente benoetigt die Mod-Komponente "Divine Remix -> Silberstern der Selune".~
 @1012 = ~Vorgang wurde vom Nutzer abgebrochen.~
 @1013 = ~Diese Komponente ist nur verfuegbar, wenn Rasaad deaktiviert wurde.~
+@1014 = ~Diese Komponente benoetigt die Mod-Komponente "Artisan's Kitpack > Brawler Kit".~
+@1015 = ~Das Kit ist fuer den NSC nicht verfuegbar.~
 
 // Custom class selection
-@2000 = ~Aktuelle Klasse: %cur_class_title% (%cur_class_name%), Kit: %cur_kit_title% (%cur_kit_name%)~
-@2001 = ~Verfuegbare Klassen: %class_entries%~
+// Translators: Text inside angle brackets are placeholders for dynamic text. Do not modify!
+@2000 = ~Aktuelle Klasse: <cur_class_title>, Kit: <cur_kit_title> (<cur_kit_name>)~
+@2001 = ~Verfuegbare Klassen: <class_entries>~
 @2002 = ~Bitte Nummer der neuen Klasse eingeben (leere Eingabe fuer aktuelle Klasse):~
 @2003 = ~Ausgewaehlte Klassennummer existiert nicht.~
-@2004 = ~Ausgewaehlte Klasse: %new_class_title% (%new_class_name%).~
-@2005 = ~Keine Kits verfuegbar fuer die Klasse "%new_class_title%".~
-@2006 = ~Verfuegbare Kits fuer die Klasse "%new_class_title%": %kit_entries%~
+@2004 = ~Ausgewaehlte Klasse: <new_class_title>~
+// @2005 = ~Keine Kits verfuegbar fuer die Klasse "<new_class_title>".~
+@2006 = ~Verfuegbare Kits fuer die Klasse "<new_class_title>": <kit_entries>~
 @2007 = ~Bitte Nummer des neuen Kits eingeben:~
 @2008 = ~Ausgewaehlte Kitnummer existiert nicht.~
-@2009 = ~Es wurde ausgewaehlt: Klasse "%new_class_title%" (%new_class_name%) und Kit "%new_kit_title%" (%new_kit_name%).~
+@2009 = ~Es wurde ausgewaehlt: Klasse "<new_class_title>" und Kit "<new_kit_title>" (<new_kit_name>).~
 @2010 = ~Gewaehlte Klassenkombination anwenden (J[A], Erneut Au[S]waehlen, Abbre[C]hen)?~
 @2011 = ~Bitte A fuer "Anwenden", S fuer "Erneut auswaehlen" oder C fuer "Abbruch" eingeben.~
-@2012 = ~kein Kit~
-@2013 = ~Klasseninformationen werden ermittelt...~
+@2012 = ~ohne Kit~
+@2013 = ~Klassen- und Kitinformationen werden ermittelt. Das kann einen Moment dauern...~
+@2014 = ~Bitte Nummer der neuen Klasse eingeben:~
+@2015 = ~Bitte neuen Titel des ausgewaehlten Kits eingeben (leere Eingabe fuer aktuellen Titel):~
+@2016 = ~Neuen Titel "<new_kit_title>" anwenden (J[A], Wiede[R]holen, Abbre[C]hen)?~
+@2017 = ~Bitte A fuer "Anwenden", R fuer "Wiederholen" oder C fuer "Abbruch" eingeben.~
+@2018 = ~<option>] <class_title> (verfuegbare Kits: <num_kits>)~
+@2019 = ~<option>] <kit_title> (<kit_name>)~
+@2020 = ~Hinweis: Mit einem Sternchen (*) gekennzeichnete Kits werden bei Bedarf neu erstellt.~
+@2021 = ~Aktueller Titel des mehrklassigen Kits: <kit_title>~
+@2022 = ~Nicht-ASCII-Zeichen sind nicht zulaessig.~
 
+// Class-change messages
+@2100 = ~Charakterstufen konnten nicht zurueckgesetzt werden.~
+@2101 = ~Es wurde keine CRE-Referenz angegeben.~
+@2102 = ~Die interaktive Klassenauswahl ist fehlgeschlagen.~
+@2103 = ~Mehrklassiges Kit konnte nicht erstellt werden:~
+@2104 = ~Ungueltige Klasse angegeben:~
+@2105 = ~Klassenwechsel konnte nicht durchgefuehrt werden.~
 
 // WeiDU prompts
 @-1000= "Die %TP2_FILE_NAME%-Mod besitzt"

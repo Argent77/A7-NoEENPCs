@@ -1,0 +1,167 @@
+// Performs a full class/kit change for Corwin
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+DEFINE_ACTION_FUNCTION a7#change_class_corwin
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+BEGIN
+  OUTER_SPRINT cre_reference ~corwin7~
+  OUTER_SPRINT cre_resref_regexp ~^corwin[0-9]*~
+
+  ACTION_IF (NOT reset) BEGIN
+    ACTION_DEFINE_ARRAY profs_warrior BEGIN
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYLONGSWORD~
+      ~PROFICIENCYLONGBOW~
+      ~PROFICIENCYLONGBOW~
+      ~PROFICIENCYSWORDANDSHIELD~
+      ~PROFICIENCYHALBERD~
+      ~PROFICIENCY2HANDED~
+      ~PROFICIENCYHALBERD~
+      ~PROFICIENCYMACE~
+    END
+  END
+  // allow only fighter and priest classes
+  ACTION_DEFINE_ARRAY class_whitelist BEGIN
+    ~FIGHTER~
+    ~CLERIC~
+    ~PALADIN~
+    ~FIGHTER_MAGE~
+    ~FIGHTER_CLERIC~
+    ~RANGER~
+    ~CLERIC_MAGE~
+    ~FIGHTER_MAGE_CLERIC~
+    ~CLERIC_RANGER~
+    ~MONK~
+  END
+  // ACTION_DEFINE_ARRAY kit_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY class_blacklist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_blacklist BEGIN END
+
+  OUTER_SET chr_override = 17
+  LAF a7#change_class_npc
+    INT_VAR
+      reset interactive class kit kit1 kit2 kit3
+      chr_override
+    STR_VAR
+      npc_name = ~corwin~
+      cre_reference
+      cre_resref_regexp
+      class_whitelist_name = ~class_whitelist~
+      // kit_whitelist_name = ~kit_whitelist~
+      // class_blacklist_name = ~class_blacklist~
+      // kit_blacklist_name = ~kit_blacklist~
+    RET class_id kit_id
+  END
+
+  ACTION_IF (NOT reset) BEGIN
+    OUTER_SET class = class_id
+    OUTER_SET kit = kit_id
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~CLERIC~) RET is_cleric = result END
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~PALADIN~) RET is_paladin = result END
+    OUTER_SET is_cavalier = is_paladin && kit == IDS_OF_SYMBOL(~kit~ ~CAVALIER~)
+
+    LAF a7#process_cre
+      STR_VAR
+        function_0 = ~a7#cre_stats_update_corwin~
+        function_1 = ~a7#cre_equipment_update_corwin~
+        function_2 = ~a7#cre_bio_update_corwin~
+    END
+
+    ACTION_IF (is_cleric) BEGIN
+      // Replace Corwin's weapon of choice
+      LAF a7#cre_install_equipment_corwin END
+    END
+
+    ACTION_IF (is_cavalier) BEGIN
+      // Update weapon placement
+      LAF a7#cre_update_area_items_corwin END
+    END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_stats_update_corwin
+BEGIN
+  // adjusting stats to meet class requirements
+  PATCH_IF (is_paladin) BEGIN
+    SET chr_inc = chr_override - (BYTE_AT 0x23e)
+    SET chr_inc = (chr_inc < 0) ? 0 : chr_inc
+    PATCH_IF (chr_inc > 0) BEGIN
+      WRITE_BYTE 0x23e (THIS + chr_inc) // CHR
+    END
+
+    SET chr_inc /= 2  // remove only half as many points from other attributes
+    SET int_dec = chr_inc >= 1 ? 1 : chr_inc
+    WRITE_BYTE 0x23a (THIS - int_dec) // INT
+    SET chr_inc -= int_dec
+
+    SET dex_dec = chr_inc >= 1 ? 1 : chr_inc
+    WRITE_BYTE 0x23c (THIS - dex_dec) // DEX
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_equipment_update_corwin
+BEGIN
+  // replacing weapons
+  PATCH_IF (is_cleric) BEGIN
+    REMOVE_CRE_ITEM ~bdbow06~
+    REPLACE_CRE_ITEM ~a7_slng1~ #0 #0 #0 ~identified~ ~weapon1~ EQUIP
+    REPLACE_CRE_ITEM ~bdblun02~ #0 #0 #0 ~identified~ ~weapon2~
+    REPLACE_CRE_ITEM ~bull02~ #40 #0 #0 ~identified~ ~quiver1~
+    REPLACE_CRE_ITEM ~bull07~ #40 #0 #0 ~identified~ ~quiver2~
+    REPLACE_CRE_ITEM ~bull03~ #40 #0 #0 ~identified~ ~quiver3~
+  END ELSE PATCH_IF (is_cavalier) BEGIN
+    // removing unusable items
+    PATCH_IF (is_cavalier) BEGIN
+      REMOVE_CRE_ITEM ~bdbow06~
+      REMOVE_CRE_ITEM ~arow02~
+      REMOVE_CRE_ITEM ~arow08~
+      REMOVE_CRE_ITEM ~arow11~
+      REPLACE_CRE_ITEM ~bdsw1h22~ #0 #0 #0 ~identified~ ~weapon1~ EQUIP
+    END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_bio_update_corwin
+BEGIN
+  PATCH_IF (is_cleric || is_paladin) BEGIN
+    // Update biography to reflect class changes.
+    SET strref = is_cleric ? RESOLVE_STR_REF(@51150) : RESOLVE_STR_REF(@51151)
+    GET_STRREF strref text
+    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // safety check if line hasn't been translated yet
+      WRITE_LONG BIO strref
+    END
+  END
+END
+
+
+DEFINE_ACTION_FUNCTION a7#cre_install_equipment_corwin
+BEGIN
+  // Replace Corwin's weapon of choice
+  COPY ~%MOD_FOLDER%/spells/a7_slng1.spl~ ~override~
+  COPY ~%MOD_FOLDER%/items/a7_slng1.itm~ ~override~
+    SAY NAME2 @50004  // Corwin's Sling +2
+    SAY IDENTIFIED_DESC @50005  // ...
+END
+
+
+DEFINE_ACTION_FUNCTION a7#cre_update_area_items_corwin
+BEGIN
+  // update weapon placement (as "bdsw1h22" is made an equipped weapon for Corwin)
+  COPY_EXISTING ~bd0114.are~ ~override~
+    LPF REPLACE_AREA_ITEM
+    STR_VAR
+      old_item = ~bdsw1h22~
+      new_item = ~sw1h42~
+    END
+END

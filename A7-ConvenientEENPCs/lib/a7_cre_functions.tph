@@ -1,0 +1,939 @@
+INCLUDE ~%MOD_FOLDER%/lib/a7_functions_impl.tph~
+
+// Function Overview:
+// a7#add_cre_effect            A patch function that adds a CRE effect.
+// a7#delete_cre_effect         A patch function that removes CRE effects by effect index or filters.
+// a7#alter_cre_effect          A patch function that alters CRE effects by effect index or filters.
+// a7#add_known_spell           A patch function that adds a spell to the "Known Spells" section of the current CRE.
+// a7#remove_known_spell        A patch function that removes a given number of known spell instances matching the specified resource pattern.
+// a7#add_memorized_spell       A patch function that adds a spell to the "Memorized Spells" section of the current CRE.
+// a7#remove_memorized_spell    A patch function that removes a given number of memorized spell instances matching the specified resource pattern.
+
+
+/**
+ * A patch function that adds a CRE effect.
+ *
+ * INT_VAR silent           Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * INT_VAR insert_point     Position of the new effect. The effect will be added as the last effect if this parameter
+ *                          is negative or greater than the number of existing effects. (Default: -1)
+ * INT_VAR opcode           Value for opcode. (Default: 0)
+ * INT_VAR target           Value for target. (Default: 0)
+ * INT_VAR power            Value for power. (Default: 0)
+ * INT_VAR parameter1       Value for parameter1. (Default: 0)
+ * INT_VAR parameter2       Value for parameter2. (Default: 0)
+ * INT_VAR parameter3       Value for parameter3. (EFF V2 only) (Default: 0)
+ * INT_VAR parameter4       Value for parameter3. (EFF V2 only) (Default: 0)
+ * INT_VAR timing           Value for timing. (Default: 9)
+ * INT_VAR duration         Value for duration. (Default: 0)
+ * INT_VAR probability1     Value for probability1 (higher value). (Default: 100)
+ * INT_VAR probability2     Value for probability2 (lower value). (Default: 0)
+ * INT_VAR dicenumber       Value for # dice thrown. (Default: 0)
+ * INT_VAR dicesize         Value for dice size. (Default: 0)
+ * INT_VAR savingthrow      Value for save type. (Default: 0)
+ * INT_VAR savebonus        Value for save bonus. (Default: 0)
+ * INT_VAR special          Value for special. (Default: 0)
+ * INT_VAR school           Value for magic school. (EFF V2 only) (Default: 0)
+ * INT_VAR sectype          Value for secondary type. (EFF V2 only) (Default: 0)
+ * INT_VAR lowestafflvl     Value for lowest affected level. (EFF V2 only) (Default: 0)
+ * INT_VAR highestafflvl    Value for highest affected level. (EFF V2 only) (Default: 0)
+ * INT_VAR resist_dispel    Value for magic resistance/dispel. (Default: 0)
+ * INT_VAR time_applied     Value for time applied. (EFF V2 only) (Default: 0)
+ * INT_VAR casterx          Value for caster X position. (EFF V2 only) (Default: -1)
+ * INT_VAR castery          Value for caster Y position. (EFF V2 only) (Default: -1)
+ * INT_VAR targetx          Value for target X position. (EFF V2 only) (Default: -1)
+ * INT_VAR targety          Value for target Y position. (EFF V2 only) (Default: -1)
+ * INT_VAR restype          Value for source resource type. (EFF V2 only) (Default: 0)
+ * INT_VAR resflags         Value for resource flags. (EFF V2 only) (Default: 0)
+ * INT_VAR projectile       Value for impact projectile. (EFF V2 only) (Default: 0)
+ * INT_VAR sourceslot       Value for source item slot.(EFF V2 only) (Default: -1)
+ * INT_VAR casterlvl        Value for caster level. (EFF V2 only) (Default: 0)
+ * INT_VAR internal         Value for internal flags. (EFF V2 only) (Default: 0)
+ * STR_VAR resource         Value for resource. (Default: empty string)
+ * STR_VAR resource2        Value for resource2. (EFF V2 only) (Default: empty string)
+ * STR_VAR vvcresource      Value for VVC resource. (EFF V2 only) (Default: empty string)
+ * STR_VAR effsource        Value for parent effect resource. (EFF V2 only) (Default: empty string)
+ * STR_VAR effvar           Value for variable name. (EFF V2 only) (Default: empty string)
+ * RET index                Returns the position of the added effect.
+ */
+DEFINE_PATCH_FUNCTION a7#add_cre_effect
+INT_VAR
+  silent          = 1
+  insert_point    = "-1"
+  opcode          = 0
+  timing          = 9
+  target          = 0
+  parameter1      = 0
+  parameter2      = 0
+  parameter3      = 0
+  parameter4      = 0
+  power           = 0
+  resist_dispel   = 0
+  duration        = 0
+  probability1    = 100
+  probability2    = 0
+  dicenumber      = 0
+  dicesize        = 0
+  savingthrow     = 0
+  savebonus       = 0
+  special         = 0
+  school          = 0
+  sectype         = 0
+  lowestafflvl    = 0
+  highestafflvl   = 0
+  time_applied    = 0
+  casterx         = "-1"
+  castery         = "-1"
+  targetx         = "-1"
+  targety         = "-1"
+  restype         = 0
+  resflags        = 0
+  projectile      = 0
+  sourceslot      = "-1"
+  casterlvl       = 0
+  internal        = 0
+STR_VAR
+  resource        = ~~
+  resource2       = ~~
+  vvcresource     = ~~
+  effsource       = ~~
+  effvar          = ~~
+RET
+  index
+BEGIN
+  SET index = "-1"
+  LPF a7#__get_cre_offsets INT_VAR silent RET success effect_offset = ref_offset effect_count = ref_count RET_ARRAY offsets END
+
+  PATCH_IF (success) BEGIN
+    SPRINT array ~a7#eff_fields~
+    SET no_defaults = 1
+    SET struct_index = (BYTE_AT 0x33) == 1
+    SET eff_size = struct_index ? 264 : 48
+
+    READ_LONG effect_offset ofs_effects
+    READ_LONG effect_count num_effects
+
+    SET insert_point = (insert_point < 0 || insert_point > num_effects) ? num_effects : insert_point
+
+    // inserting effect structure
+    SET offset_structure = ofs_effects + insert_point * eff_size
+    INSERT_BYTES offset_structure eff_size
+    SET num_effects += 1
+    WRITE_LONG effect_count num_effects
+
+    // updating CRE offsets
+    LPF a7#__update_cre_offsets INT_VAR struct_size = eff_size ref_offset = effect_offset END
+
+    // initializing effect structure
+    LPM a7#__update_structure
+
+    SET index = insert_point
+  END
+END
+
+/**
+ * A patch function that removes CRE effects by effect index or filters.
+ *
+ * It is possible to check only specific portions of numeric match parameters.
+ * Parameters with a field size of 16 bits or more supports suffix "_byte1", ..., "_byte4" to cover a single byte portion
+ * of the field, where "_byte1" matches the lowest 8 bits and "_byte4" matches the highest 8 bits.
+ * Parameters with a field size of 32 bits supports suffix "_word1" and "_word2" to cover a single word portion (16 bits)
+ * of the field, where "_word1" matches the lower 16 bits and "_word2" matches the upper 16 bits.
+ *
+ * Examples:
+ * - match_parameter1_byte1: matches the first byte portion (bits 0 to 7) of the "parameter1" field
+ * - match_parameter1_byte3: matches the third byte portion (bits 16 to 23) of the "parameter2" field
+ * - match_parameter1_word1: matches the lower 16 bits of the "parameter1" field
+ * - match_parameter1_word2: matches the upper 16 bits of the "parameter2" field
+ *
+ * All "match" parameters are set to default values that always match. All numeric parameters are treated as signed values.
+ * Note: For technical reasons the following parameters cannot be used to match a specific numeric value:
+ *       - match_parameter1: 3735928559
+ *       - match_parameter2: 3735928559
+ *       - match_parameter3: 3735928559
+ *       - match_parameter4: 3735928559
+ *       - match_savebonus: 3735928559
+ *       - match_special: 3735928559
+ *       - match_casterx: 3735928559
+ *       - match_castery: 3735928559
+ *       - match_targetx: 3735928559
+ *       - match_targety: 3735928559
+ *       - everything else: -1
+ *
+ * INT_VAR silent                 Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * INT_VAR remove_by_index        Specify the index of the CRE effect that should be removed. 0 refers to the first effect in the list.
+ *                                The "match" parameters are ignored if this parameter is specified. (Default: ignore)
+ * INT_VAR use_regexp             Specifies whether string parameters should be matched as regular expression. (Default: 0)
+ * INT_VAR match_opcode           Match for opcode.
+ * INT_VAR match_target           Match for target.
+ * INT_VAR match_power            Match for power.
+ * INT_VAR match_parameter1       Match for parameter1.
+ * INT_VAR match_parameter2       Match for parameter2.
+ * INT_VAR match_parameter3       Match for parameter3. (EFF V2 only)
+ * INT_VAR match_parameter4       Match for parameter3. (EFF V2 only)
+ * INT_VAR match_timing           Match for timing.
+ * INT_VAR match_duration         Match for duration.
+ * INT_VAR match_probability1     Match for probability1 (higher value).
+ * INT_VAR match_probability2     Match for probability2 (lower value).
+ * INT_VAR match_dicenumber       Match for # dice thrown.
+ * INT_VAR match_dicesize         Match for dice size.
+ * INT_VAR match_savingthrow      Match for save type.
+ * INT_VAR match_savebonus        Match for save bonus.
+ * INT_VAR match_special          Match for special.
+ * INT_VAR match_school           Match for magic school. (EFF V2 only)
+ * INT_VAR match_sectype          Match for secondary type. (EFF V2 only)
+ * INT_VAR match_lowestafflvl     Match for lowest affected level. (EFF V2 only)
+ * INT_VAR match_highestafflvl    Match for highest affected level. (EFF V2 only)
+ * INT_VAR match_resist_dispel    Match for magic resistance/dispel.
+ * INT_VAR match_time_applied     Match for time applied. (EFF V2 only)
+ * INT_VAR match_casterx          Match for caster X position. (EFF V2 only)
+ * INT_VAR match_castery          Match for caster Y position. (EFF V2 only)
+ * INT_VAR match_targetx          Match for target X position. (EFF V2 only)
+ * INT_VAR match_targety          Match for target Y position. (EFF V2 only)
+ * INT_VAR match_restype          Match for source resource type. (EFF V2 only)
+ * INT_VAR match_resflags         Match for resource flags. (EFF V2 only)
+ * INT_VAR match_projectile       Match for impact projectile. (EFF V2 only)
+ * INT_VAR match_sourceslot       Match for source item slot.(EFF V2 only)
+ * INT_VAR match_casterlvl        Match for caster level. (EFF V2 only)
+ * INT_VAR match_internal         Match for internal flags. (EFF V2 only)
+ * STR_VAR match_resource         Match for resource.
+ * STR_VAR match_resource2        Match for resource2. (EFF V2 only)
+ * STR_VAR match_vvcresource      Match for VVC resource. (EFF V2 only)
+ * STR_VAR match_effsource        Match for parent effect resource. (EFF V2 only)
+ * STR_VAR match_effvar           Match for variable name. (EFF V2 only)
+ * RET num_removed                Returns the number of removed effects.
+ */
+DEFINE_PATCH_FUNCTION a7#delete_cre_effect
+INT_VAR
+  silent              = 1
+  remove_by_index     = "-1"
+  use_regexp          = 0
+  match_opcode        = "-1"
+  match_timing        = "-1"
+  match_target        = "-1"
+  match_parameter1    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_parameter2    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_parameter3    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_parameter4    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_power         = "-1"
+  match_resist_dispel = "-1"
+  match_duration      = "-1"
+  match_probability1  = "-1"
+  match_probability2  = "-1"
+  match_dicenumber    = "-1"
+  match_dicesize      = "-1"
+  match_savingthrow   = "-1"
+  match_savebonus     = 0xdeadbeef    // "magic" value that indicates a wildcard match
+  match_special       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_school        = "-1"
+  match_sectype       = "-1"
+  match_lowestafflvl  = "-1"
+  match_highestafflvl = "-1"
+  match_time_applied  = "-1"
+  match_casterx       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_castery       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_targetx       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_targety       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_restype       = "-1"
+  match_resflags      = "-1"
+  match_projectile    = "-1"
+  match_sourceslot    = "-1"
+  match_casterlvl     = "-1"
+  match_internal      = "-1"
+STR_VAR
+  match_resource      = ~EMPTY_MATCH~
+  match_resource2     = ~EMPTY_MATCH~
+  match_vvcresource   = ~EMPTY_MATCH~
+  match_effsource     = ~EMPTY_MATCH~
+  match_effvar        = ~EMPTY_MATCH_EMPTY_MATCH_EMPTY_MATCH~
+RET
+  num_removed
+BEGIN
+  SET num_removed = 0
+
+  LPF a7#__get_cre_offsets INT_VAR silent RET success effect_offset = ref_offset effect_count = ref_count RET_ARRAY offsets END
+
+  PATCH_IF (success) BEGIN
+    SPRINT array ~a7#eff_fields~
+    SET struct_index = (BYTE_AT 0x33) == 1
+    SET eff_size = struct_index ? 264 : 48
+
+    READ_LONG effect_offset ofs_effects
+    READ_LONG effect_count num_effects
+
+    PATCH_IF (remove_by_index >= 0) BEGIN
+      // remove by index
+      PATCH_IF (remove_by_index < num_effects) BEGIN
+        SET offset_structure = ofs_effects + remove_by_index * eff_size
+        DELETE_BYTES offset_structure eff_size
+        SET num_effects -= 1
+        WRITE_LONG effect_count num_effects
+
+        // updating CRE offsets
+        LPF a7#__update_cre_offsets INT_VAR struct_size = 0 - eff_size ref_offset = effect_offset END
+
+        SET num_removed += 1
+      END ELSE PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Parameter "remove_by_index" is out of bounds: %remove_by_index%~
+      END
+    END ELSE BEGIN
+      // remove by match
+      FOR (eff_idx = num_effects - 1; eff_idx >= 0; --eff_idx) BEGIN
+        SET offset_structure = ofs_effects + eff_idx * eff_size
+        LPM a7#__match_structure
+
+        // performing removal
+        PATCH_IF (is_match) BEGIN
+          DELETE_BYTES offset_structure eff_size
+          SET num_effects -= 1
+          WRITE_LONG effect_count num_effects
+
+          // updating CRE offsets
+          LPF a7#__update_cre_offsets INT_VAR struct_size = 0 - eff_size ref_offset = effect_offset END
+
+          SET num_removed += 1
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * A patch function that alters CRE effects by effect index or filters.
+ *
+ * It is possible to filter or alter only specific portions of numeric parameters.
+ * Parameters with a field size of 16 bits or more support the suffixes "_byte1", "_byte2", "_byte3", and "_byte4" to cover
+ * a single byte portion (8 bits) of the field, where "_byte1" matches the lowest 8 bits and "_byte4" matches the highest 8 bits.
+ * Parameters with a field size of 32 bits support the suffixes "_word1" and "_word2" to cover a single word portion (16 bits)
+ * of the field, where "_word1" matches the lower 16 bits and "_word2" matches the upper 16 bits.
+ *
+ * Examples:
+ * - match_parameter1_byte1: matches the first byte portion (bits 0 to 7) of the "parameter1" field
+ * - match_parameter1_byte3: matches the third byte portion (bits 16 to 23) of the "parameter2" field
+ * - match_parameter2_word1: matches the lower 16 bits of the "parameter2" field
+ * - match_parameter2_word2: matches the upper 16 bits of the "parameter2" field
+ * The same applies to value parameters that are used to alter effect fields.
+ *
+ * All "match" parameters are set to default values that always match. All numeric parameters are treated as signed values.
+ * All "value" parameters are set to default values that are skipped on matching effect structures.
+ * Note: For technical reasons the following match and value parameters are ignored if you assign a specific numeric value:
+ *       - match_parameter1/parameter1: 3735928559
+ *       - match_parameter2/parameter2: 3735928559
+ *       - match_parameter3/parameter3: 3735928559
+ *       - match_parameter4/parameter4: 3735928559
+ *       - match_savebonus/savebonus: 3735928559
+ *       - match_special/special: 3735928559
+ *       - match_casterx/casterx: 3735928559
+ *       - match_castery/castery: 3735928559
+ *       - match_targetx/targetx: 3735928559
+ *       - match_targety/targety: 3735928559
+ *       - everything else: -1
+ *
+ * INT_VAR silent                 Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * INT_VAR alter_by_index         Specify the index of the CRE effect that should be updated. 0 refers to the first effect in the list.
+ *                                The "match_*" parameters are ignored if this parameter is specified. (Default: ignore)
+ * INT_VAR use_regexp             Specifies whether string parameters should be matched as regular expression. (Default: 0)
+ * INT_VAR match_opcode           Match for opcode.
+ * INT_VAR match_target           Match for target.
+ * INT_VAR match_power            Match for power.
+ * INT_VAR match_parameter1       Match for parameter1.
+ * INT_VAR match_parameter2       Match for parameter2.
+ * INT_VAR match_parameter3       Match for parameter3. (EFF V2 only)
+ * INT_VAR match_parameter4       Match for parameter3. (EFF V2 only)
+ * INT_VAR match_timing           Match for timing.
+ * INT_VAR match_duration         Match for duration.
+ * INT_VAR match_probability1     Match for probability1 (higher value).
+ * INT_VAR match_probability2     Match for probability2 (lower value).
+ * INT_VAR match_dicenumber       Match for # dice thrown.
+ * INT_VAR match_dicesize         Match for dice size.
+ * INT_VAR match_savingthrow      Match for save type.
+ * INT_VAR match_savebonus        Match for save bonus.
+ * INT_VAR match_special          Match for special.
+ * INT_VAR match_school           Match for magic school. (EFF V2 only)
+ * INT_VAR match_sectype          Match for secondary type. (EFF V2 only)
+ * INT_VAR match_lowestafflvl     Match for lowest affected level. (EFF V2 only)
+ * INT_VAR match_highestafflvl    Match for highest affected level. (EFF V2 only)
+ * INT_VAR match_resist_dispel    Match for magic resistance/dispel.
+ * INT_VAR match_time_applied     Match for time applied. (EFF V2 only)
+ * INT_VAR match_casterx          Match for caster X position. (EFF V2 only)
+ * INT_VAR match_castery          Match for caster Y position. (EFF V2 only)
+ * INT_VAR match_targetx          Match for target X position. (EFF V2 only)
+ * INT_VAR match_targety          Match for target Y position. (EFF V2 only)
+ * INT_VAR match_restype          Match for source resource type. (EFF V2 only)
+ * INT_VAR match_resflags         Match for resource flags. (EFF V2 only)
+ * INT_VAR match_projectile       Match for impact projectile. (EFF V2 only)
+ * INT_VAR match_sourceslot       Match for source item slot.(EFF V2 only)
+ * INT_VAR match_casterlvl        Match for caster level. (EFF V2 only)
+ * INT_VAR match_internal         Match for internal flags. (EFF V2 only)
+ * STR_VAR match_resource         Match for resource.
+ * STR_VAR match_resource2        Match for resource2. (EFF V2 only)
+ * STR_VAR match_vvcresource      Match for VVC resource. (EFF V2 only)
+ * STR_VAR match_effsource        Match for parent effect resource. (EFF V2 only)
+ * STR_VAR match_effvar           Match for variable name. (EFF V2 only)
+ * INT_VAR opcode                 New value for opcode.
+ * INT_VAR target                 New value for target.
+ * INT_VAR power                  New value for power.
+ * INT_VAR parameter1             New value for parameter1.
+ * INT_VAR parameter2             New value for parameter2.
+ * INT_VAR parameter3             New value for parameter3. (EFF V2 only)
+ * INT_VAR parameter4             New value for parameter3. (EFF V2 only)
+ * INT_VAR timing                 New value for timing.
+ * INT_VAR duration               New value for duration.
+ * INT_VAR probability1           New value for probability1 (higher value).
+ * INT_VAR probability2           New value for probability2 (lower value).
+ * INT_VAR dicenumber             New value for # dice thrown.
+ * INT_VAR dicesize               New value for dice size.
+ * INT_VAR savingthrow            New value for save type.
+ * INT_VAR savebonus              New value for save bonus.
+ * INT_VAR special                New value for special.
+ * INT_VAR school                 New value for magic school. (EFF V2 only)
+ * INT_VAR sectype                New value for secondary type. (EFF V2 only)
+ * INT_VAR lowestafflvl           New value for lowest affected level. (EFF V2 only)
+ * INT_VAR highestafflvl          New value for highest affected level. (EFF V2 only)
+ * INT_VAR resist_dispel          New value for magic resistance/dispel.
+ * INT_VAR time_applied           New value for time applied. (EFF V2 only)
+ * INT_VAR casterx                New value for caster X position. (EFF V2 only)
+ * INT_VAR castery                New value for caster Y position. (EFF V2 only)
+ * INT_VAR targetx                New value for target X position. (EFF V2 only)
+ * INT_VAR targety                New value for target Y position. (EFF V2 only)
+ * INT_VAR restype                New value for source resource type. (EFF V2 only)
+ * INT_VAR resflags               New value for resource flags. (EFF V2 only)
+ * INT_VAR projectile             New value for impact projectile. (EFF V2 only)
+ * INT_VAR sourceslot             New value for source item slot.(EFF V2 only)
+ * INT_VAR casterlvl              New value for caster level. (EFF V2 only)
+ * INT_VAR internal               New value for internal flags. (EFF V2 only)
+ * STR_VAR resource               New value for resource.
+ * STR_VAR resource2              New value for resource2. (EFF V2 only)
+ * STR_VAR vvcresource            New value for VVC resource. (EFF V2 only)
+ * STR_VAR effsource              New value for parent effect resource. (EFF V2 only)
+ * STR_VAR effvar                 New value for variable name. (EFF V2 only)
+ * RET num_altered                Returns the number of altered effects.
+ */
+DEFINE_PATCH_FUNCTION a7#alter_cre_effect
+INT_VAR
+  silent              = 1
+  alter_by_index     = "-1"
+  use_regexp          = 0
+  match_opcode        = "-1"
+  match_timing        = "-1"
+  match_target        = "-1"
+  match_parameter1    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_parameter2    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_parameter3    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_parameter4    = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  match_power         = "-1"
+  match_resist_dispel = "-1"
+  match_duration      = "-1"
+  match_probability1  = "-1"
+  match_probability2  = "-1"
+  match_dicenumber    = "-1"
+  match_dicesize      = "-1"
+  match_savingthrow   = "-1"
+  match_savebonus     = 0xdeadbeef    // "magic" value that indicates a wildcard match
+  match_special       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_school        = "-1"
+  match_sectype       = "-1"
+  match_lowestafflvl  = "-1"
+  match_highestafflvl = "-1"
+  match_time_applied  = "-1"
+  match_casterx       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_castery       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_targetx       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_targety       = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  match_restype       = "-1"
+  match_resflags      = "-1"
+  match_projectile    = "-1"
+  match_sourceslot    = "-1"
+  match_casterlvl     = "-1"
+  opcode              = "-1"
+  timing              = "-1"
+  target              = "-1"
+  parameter1          = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  parameter2          = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  parameter3          = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  parameter4          = 0xdeadbeef   // "magic" value that indicates a wildcard match
+  power               = "-1"
+  resist_dispel       = "-1"
+  duration            = "-1"
+  probability1        = "-1"
+  probability2        = "-1"
+  dicenumber          = "-1"
+  dicesize            = "-1"
+  savingthrow         = "-1"
+  savebonus           = 0xdeadbeef    // "magic" value that indicates a wildcard match
+  special             = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  school              = "-1"
+  sectype             = "-1"
+  lowestafflvl        = "-1"
+  highestafflvl       = "-1"
+  time_applied        = "-1"
+  casterx             = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  castery             = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  targetx             = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  targety             = 0xdeadbeef      // "magic" value that indicates a wildcard match
+  restype             = "-1"
+  resflags            = "-1"
+  projectile          = "-1"
+  sourceslot          = "-1"
+  casterlvl           = "-1"
+STR_VAR
+  match_resource      = ~EMPTY_MATCH~
+  match_resource2     = ~EMPTY_MATCH~
+  match_vvcresource   = ~EMPTY_MATCH~
+  match_effsource     = ~EMPTY_MATCH~
+  match_effvar        = ~EMPTY_MATCH_EMPTY_MATCH_EMPTY_MATCH~
+  resource            = ~EMPTY_MATCH~
+  resource2           = ~EMPTY_MATCH~
+  vvcresource         = ~EMPTY_MATCH~
+  effsource           = ~EMPTY_MATCH~
+  effvar              = ~EMPTY_MATCH_EMPTY_MATCH_EMPTY_MATCH~
+RET
+  num_altered
+BEGIN
+  SET num_altered = 0
+
+  LPF a7#__get_cre_offsets INT_VAR silent RET success effect_offset = ref_offset effect_count = ref_count END
+
+  PATCH_IF (success) BEGIN
+    SPRINT array ~a7#eff_fields~
+    SET struct_index = (BYTE_AT 0x33) == 1
+    SET eff_size = struct_index ? 264 : 48
+
+    READ_LONG effect_offset ofs_effects
+    READ_LONG effect_count num_effects
+
+    PATCH_IF (alter_by_index >= 0) BEGIN
+      // alter by index
+      PATCH_IF (alter_by_index < num_effects) BEGIN
+        SET offset_structure = ofs_effects + alter_by_index * eff_size
+        LPM a7#__update_structure
+        SET num_altered = 1
+      END ELSE PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Parameter "alter_by_index" is out of bounds: %alter_by_index%~
+      END
+    END ELSE BEGIN
+      // alter by match
+      FOR (eff_idx = num_effects - 1; eff_idx >= 0; --eff_idx) BEGIN
+        SET offset_structure = ofs_effects + eff_idx * eff_size
+        LPM a7#__match_structure
+
+        PATCH_IF (is_match) BEGIN
+          LPM a7#__update_structure
+          SET num_altered += 1
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * A patch function that adds a spell to the "Known Spells" section of the current CRE.
+ *
+ * INT_VAR silent         Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * INT_VAR level          Spell level of the SPL resource. IMPORTANT: The "level" parameter counts from 0.
+ * INT_VAR insert_point   Position of the new spell entry. The spell will be added as the last entry if this parameter
+ *                        is negative or greater than the number of known spells. (Default: -1)
+ * STR_VAR type           Type of the spell. Supported values: priest, wizard, innate. Alternatively, use the numeric
+ *                        CRE codes (0=priest, 1=wizard, 2=innate).
+ * STR_VAR resref         Resref of the SPL resource to add.
+ * RET index              Returns the position of the added spell entry.
+ */
+DEFINE_PATCH_FUNCTION a7#add_known_spell
+INT_VAR
+  silent = 1
+  level = "-1"
+  insert_point = "-1"
+STR_VAR
+  type = ~~
+  resref = ~~
+RET
+  index
+BEGIN
+  SET index = "-1"
+
+  // checking "resref"
+  SET resref_len = STRING_LENGTH ~%resref%~
+  SET success = (resref_len >= 1 && resref_len <= 8)
+  PATCH_IF (NOT success && NOT silent) BEGIN
+    PATCH_WARN ~WARNING: Invalid length of "resref" parameter: %resref_len%~
+  END
+
+  // normalizing "type"
+  PATCH_IF (success) BEGIN
+    PATCH_IF (IS_AN_INT ~type~) BEGIN
+      SET success = (type >= 0 && type <= 2)
+    END ELSE BEGIN
+      PATCH_IF (~%type%~ STR_EQ ~priest~) BEGIN
+        SET type = 0
+      END ELSE PATCH_IF (~%type%~ STR_EQ ~wizard~) BEGIN
+        SET type = 1
+      END ELSE PATCH_IF (~%type%~ STR_EQ ~innate~) BEGIN
+        SET type = 2
+      END ELSE BEGIN
+        SET success = 0
+      END
+    END
+    PATCH_IF (NOT success && NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Invalid spell type: %type%~
+    END
+  END
+
+  // checking "level"
+  PATCH_IF (success) BEGIN
+    PATCH_IF (level < 0 || level > 8) BEGIN
+      PATCH_IF (NOT silent) BEGIN
+        // informal warning only
+        PATCH_WARN ~WARNING: Unexpected level specified: %level%~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    LPF a7#__get_cre_offsets INT_VAR silent STR_VAR ref_type = ~known_spells~ RET success known_offset = ref_offset known_count = ref_count RET_ARRAY offsets END
+  END
+
+  // checking existence
+  PATCH_IF (success) BEGIN
+    SET known_size = 12
+    READ_LONG known_offset ofs_known_spells
+    READ_LONG known_count num_known_spells
+
+    FOR (i = 0; i < success && num_known_spells; ++i) BEGIN
+      SET cur_ofs = ofs_known_spells + i * known_size
+      READ_ASCII cur_ofs cur_resref (8) NULL
+      READ_SHORT (cur_ofs + 0x08) cur_level
+      READ_SHORT (cur_ofs + 0x08) cur_type
+      SET success = cur_type != type || cur_level != level || NOT ~%cur_resref%~ STR_EQ ~%resref%~
+      PATCH_IF (NOT success && NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Known spell does already exist~
+      END
+    END
+  END
+
+  PATCH_IF (success) BEGIN
+    // normalizing "insert_point"
+    SET insert_point = (insert_point < 0 || insert_point > num_known_spells) ? num_known_spells : insert_point
+
+    // adding entry
+    SET offset_structure = ofs_known_spells + insert_point * known_size
+    INSERT_BYTES offset_structure known_size
+    SET num_known_spells += 1
+    WRITE_LONG known_count num_known_spells
+
+    // initializing entry
+    WRITE_ASCIIE offset_structure ~%resref%~ (8)
+    WRITE_SHORT (offset_structure + 0x08) level
+    WRITE_SHORT (offset_structure + 0x0a) type
+
+    // updating offsets
+    LPF a7#__update_cre_offsets INT_VAR struct_size = known_size ref_offset = known_offset END
+
+    SET index = insert_point
+  END
+END
+
+
+/**
+ * A patch function that removes a given number of known spell instances matching the specified resource pattern.
+ *
+ * INT_VAR silent       Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * INT_VAR use_regexp   Specifies whether "resource" parameter should be matched as regular expression which allows
+ *                      to match for multiple spell resources at once. (Default: 0)
+ * INT_VAR limit        Specifies the max. number of entries to remove if a match is found. Removal is performed bottom-up.
+ *                      Specify 0 to ignore the limit. (Default: 0)
+ * STR_VAR resref       Resref of the SPL resource to remove.
+ * RET num_removed      Returns the number of removed known spell instances.
+ */
+DEFINE_PATCH_FUNCTION a7#remove_known_spell
+INT_VAR
+  silent = 1
+  use_regexp = 0
+  limit = 0
+STR_VAR
+  resref = ~~
+RET
+  num_removed
+BEGIN
+  SET num_removed = 0
+
+  SET limit = (limit < 0) ? 0 : limit
+
+  LPF a7#__get_cre_offsets INT_VAR silent STR_VAR ref_type = ~known_spells~ RET success known_offset = ref_offset known_count = ref_count RET_ARRAY offsets END
+
+  PATCH_IF (success) BEGIN
+    SET known_size = 12
+    READ_LONG known_offset ofs_known_spells
+    READ_LONG known_count num_known_spells
+
+    SET finished = 0
+    FOR (idx = num_known_spells - 1; NOT finished && idx >= 0; --idx) BEGIN
+      SET offset_structure = ofs_known_spells + idx * known_size
+
+      // determining match
+      READ_ASCII offset_structure cur_resref (8) NULL
+      PATCH_IF (use_regexp) BEGIN
+        SET is_match = ~%cur_resref%~ STRING_MATCHES_REGEXP ~%resref%~ == 0
+      END ELSE BEGIN
+        SET is_match = ~%cur_resref%~ STR_EQ ~%resref%~
+      END
+
+      // performing removal
+      PATCH_IF (is_match) BEGIN
+        DELETE_BYTES offset_structure known_size
+        SET num_known_spells -= 1
+        WRITE_LONG known_count num_known_spells
+
+        // updating CRE offsets
+        LPF a7#__update_cre_offsets INT_VAR struct_size = 0 - known_size ref_offset = known_offset END
+
+        SET num_removed += 1
+
+        // terminate prematurely if max. limit is reached
+        SET finished = (limit > 0 && num_removed >= limit)
+      END
+    END
+  END
+END
+
+
+/**
+ * A patch function that adds a spell to the "Memorized Spells" section of the current CRE.
+ *
+ * IMPORTANT: The spell must be defined in the "Known Spells" section of the CRE for this function to be successful.
+ *
+ * INT_VAR silent         Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * INT_VAR level          Spell level of the SPL resource. IMPORTANT: The "level" parameter counts from 0.
+ * INT_VAR count          Specifies the number of instances of the SPL resource to add. (Default: 1)
+ * INT_VAR insert_point   Position of the new spell entry. The spell will be added as the last entry if this parameter
+ *                        is negative or greater than the number of known spells. (Default: -1)
+ * STR_VAR type           Type of the spell. Supported values: priest, wizard, innate. Alternatively, use the numeric
+ *                        CRE codes (0=priest, 1=wizard, 2=innate).
+ * STR_VAR resref         Resref of the SPL resource to add.
+ * RET success            Returns the position of the added spell entry within the memorization info structure.
+ */
+DEFINE_PATCH_FUNCTION a7#add_memorized_spell
+INT_VAR
+  silent = 1
+  level = "-1"
+  count = 1
+  insert_point = "-1"
+STR_VAR
+  type = ~~
+  resref = ~~
+RET
+  index
+BEGIN
+  SET index = "-1"
+
+  // checking "resref"
+  SET resref_len = STRING_LENGTH ~%resref%~
+  SET success = (resref_len >= 1 || resref_len <= 8)
+  PATCH_IF (NOT success && NOT silent) BEGIN
+    PATCH_WARN ~WARNING: Invalid length of "resref" parameter: %resref_len%~
+  END
+
+  // normalizing "type"
+  PATCH_IF (success) BEGIN
+    PATCH_IF (IS_AN_INT ~type~) BEGIN
+      SET success = (type >= 0 && type <= 2)
+    END ELSE BEGIN
+      PATCH_IF (~%type%~ STR_EQ ~priest~) BEGIN
+        SET type = 0
+      END ELSE PATCH_IF (~%type%~ STR_EQ ~wizard~) BEGIN
+        SET type = 1
+      END ELSE PATCH_IF (~%type%~ STR_EQ ~innate~) BEGIN
+        SET type = 2
+      END ELSE BEGIN
+        SET success = 0
+      END
+    END
+    PATCH_IF (NOT success && NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Invalid spell type: %type%~
+    END
+  END
+
+  // checking "level"
+  PATCH_IF (success) BEGIN
+    SET success = (level >= 0 && level <= 8)
+    PATCH_IF (NOT success && NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Invalid level specified: %level%~
+    END
+  END
+
+  // normalizing "count"
+  PATCH_IF (success) BEGIN
+    SET count = (count < 0) ? 0 : count
+  END
+
+  // checking if "resref" exists in "Known Spells"
+  SET known_size = 12
+  READ_LONG 0x2a0 ofs_known_spells
+  READ_LONG 0x2a4 num_known_spells
+  SET found = 0
+  FOR (idx = 0; NOT found && idx < num_known_spells; ++idx) BEGIN
+    SET cur_ofs = ofs_known_spells + idx * known_size
+    READ_ASCII cur_ofs cur_resref (8) NULL
+    READ_SHORT (cur_ofs + 0x0a) cur_type
+    SET found = cur_type == type && ~%resref%~ STR_EQ ~%cur_resref%~
+  END
+  PATCH_IF (NOT found) BEGIN
+    SET success = 0
+    PATCH_IF (NOT success && NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Spell doesn't exist in the "Known Spells" section: %resref%.SPL~
+    END
+  END
+
+  PATCH_IF (success && count > 0) BEGIN
+    LPF a7#__get_cre_offsets INT_VAR silent STR_VAR ref_type = ~mem_spells~ RET success memspells_offset = ref_offset memspells_count = ref_count RET_ARRAY offsets END
+    SET meminfo_offset = 0x2a8
+    SET meminfo_count = 0x2ac
+  END
+
+  PATCH_IF (success && count > 0) BEGIN
+    // finding matching memorized info structure
+    SET meminfo_size = 16
+    READ_LONG meminfo_offset ofs_meminfo
+    READ_LONG meminfo_count num_meminfo
+    SET meminfo_index = "-1"
+    FOR (idx = 0; idx < num_meminfo; ++idx) BEGIN
+      SET cur_ofs = ofs_meminfo + idx * meminfo_size
+      READ_SHORT cur_ofs cur_level
+      READ_SHORT (cur_ofs + 0x06) cur_type
+      PATCH_IF (cur_level == level && cur_type == type) BEGIN
+        SET meminfo_index = idx
+        SET idx = num_meminfo
+      END
+    END
+    SET success = (meminfo_index >= 0)
+    PATCH_IF (NOT success && NOT silent) BEGIN
+      PATCH_WARN ~WARNING: Memorization info structure does not exist for the specified spell type and level.~
+    END
+  END
+
+  PATCH_IF (success && count > 0) BEGIN
+    SET cur_meminfo_offset = ofs_meminfo + meminfo_index * meminfo_size
+    SET cur_memspells_index = LONG_AT (cur_meminfo_offset + 0x08)
+    SET cur_memspells_count = LONG_AT (cur_meminfo_offset + 0x0c)
+
+    SET memspells_size = 12
+    READ_LONG memspells_offset ofs_memspells
+    READ_LONG memspells_count num_memspells
+
+    // normalizing "insert_point"
+    SET insert_point = (insert_point < 0 || insert_point > cur_memspells_count) ? cur_memspells_count : insert_point
+
+    // adding entry
+    SET offset_structure = ofs_memspells + (cur_memspells_index + insert_point) * memspells_size
+    FOR (idx = 0; idx < count; ++idx) BEGIN
+      INSERT_BYTES offset_structure memspells_size
+      WRITE_ASCIIE offset_structure ~%resref%~ (8)
+      WRITE_SHORT (offset_structure + 0x08) BIT0  // memorization flags
+    END
+    SET cur_memspells_count += count
+    WRITE_LONG (cur_meminfo_offset + 0x0c) cur_memspells_count
+    // "# memorizable" fields should probably not be updated
+    // WRITE_SHORT (cur_meminfo_offset + 0x02) (THIS + count)
+    // WRITE_SHORT (cur_meminfo_offset + 0x04) (THIS + count)
+
+    SET num_memspells += count
+    WRITE_LONG memspells_count num_memspells
+
+    // updating meminfo spell indices
+    FOR (idx = meminfo_index + 1; idx < num_meminfo; ++idx) BEGIN
+      SET cur_ofs = ofs_meminfo + idx * meminfo_size
+      WRITE_LONG (cur_ofs + 0x08) (THIS + count)
+    END
+
+    // updating offsets
+    LPF a7#__update_cre_offsets INT_VAR struct_size = count * memspells_size ref_offset = memspells_offset END
+
+    SET index = insert_point
+  END
+END
+
+
+/**
+ * A patch function that removes a given number of memorized spell instances matching the specified resource pattern.
+ *
+ * INT_VAR silent       Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * INT_VAR use_regexp   Specifies whether "resource" parameter should be matched as regular expression which allows
+ *                      to match for multiple spell resources at once. (Default: 0)
+ * INT_VAR limit        Specifies the max. number of entries to remove if a match is found. Removal is performed bottom-up.
+ *                      Specify 0 to ignore the limit. (Default: 0)
+ * STR_VAR resref       Resref of the SPL resource to remove.
+ * RET num_removed      Returns the number of removed memorized spell instances.
+ */
+DEFINE_PATCH_FUNCTION a7#remove_memorized_spell
+INT_VAR
+  silent = 1
+  use_regexp = 0
+  limit = 0
+STR_VAR
+  resref = ~~
+RET
+  num_removed
+BEGIN
+  SET num_removed = 0
+
+  SET limit = (limit < 0) ? 0 : limit
+
+  LPF a7#__get_cre_offsets INT_VAR silent STR_VAR ref_type = ~mem_spells~ RET success memspells_offset = ref_offset memspells_count = ref_count RET_ARRAY offsets END
+  SET meminfo_offset = 0x2a8
+  SET meminfo_count = 0x2ac
+
+  PATCH_IF (success) BEGIN
+    SET meminfo_size = 16
+    READ_LONG meminfo_offset ofs_meminfo
+    READ_LONG meminfo_count num_meminfo
+
+    SET memspells_size = 12
+    READ_LONG memspells_offset ofs_memspells
+    READ_LONG memspells_count num_memspells
+
+    SET finished = 0
+    // for each meminfo structure
+    FOR (meminfo_idx = num_meminfo - 1; NOT finished && meminfo_idx >= 0; --meminfo_idx) BEGIN
+      SET cur_meminfo_offset = ofs_meminfo + meminfo_idx * meminfo_size
+      SET cur_memspells_index = LONG_AT (cur_meminfo_offset + 0x08)
+      SET cur_memspells_count = LONG_AT (cur_meminfo_offset + 0x0c)
+
+      // for each meminfo > memspells entry
+      FOR (memspells_idx = cur_memspells_count - 1; NOT finished && memspells_idx >= 0; --memspells_idx) BEGIN
+        SET cur_memspells_offset = ofs_memspells + (cur_memspells_index + memspells_idx) * memspells_size
+        READ_ASCII cur_memspells_offset cur_resref (8) NULL
+        PATCH_IF (use_regexp) BEGIN
+          SET is_match = ~%cur_resref%~ STRING_MATCHES_REGEXP ~%resref%~ == 0
+        END ELSE BEGIN
+          SET is_match = ~%cur_resref%~ STR_EQ ~%resref%~
+        END
+
+        PATCH_IF (is_match) BEGIN
+          // performing removal
+          DELETE_BYTES cur_memspells_offset memspells_size
+          SET cur_memspells_count -= 1
+          WRITE_LONG (cur_meminfo_offset + 0x0c) cur_memspells_count
+          // "# memorizable" fields should probably not be updated
+          // WRITE_SHORT (cur_meminfo_offset + 0x02) (THIS - 1)
+          // WRITE_SHORT (cur_meminfo_offset + 0x04) (THIS - 1)
+          SET num_memspells -= 1
+          WRITE_LONG memspells_count num_memspells
+
+          // updating meminfo structure fields
+          FOR (idx = meminfo_idx + 1; idx < num_meminfo; ++idx) BEGIN
+            SET cur_ofs = ofs_meminfo + idx * meminfo_size
+            WRITE_LONG (cur_ofs + 0x08) (THIS - 1)
+          END
+
+          // updating update offsets
+          LPF a7#__update_cre_offsets INT_VAR struct_size = 0 - memspells_size ref_offset = memspells_offset END
+
+          SET num_removed += 1
+
+          // terminate prematurely if max. limit is reached
+          SET finished = (limit > 0 && num_removed >= limit)
+        END
+      END
+    END
+  END
+END

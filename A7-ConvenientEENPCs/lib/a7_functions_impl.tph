@@ -1,0 +1,519 @@
+///////////////////////////////////////
+/// Implementation for internal use ///
+///////////////////////////////////////
+
+// EFF field definitions (V1 and V2)
+ACTION_DEFINE_ASSOCIATIVE_ARRAY a7#eff_fields BEGIN
+  // eff_version, offset, size, def_value => parameter
+  // EFF V1
+  0, 0x00, 2, "-1" => "opcode"
+  0, 0x02, 1, "-1" => "target"
+  0, 0x03, 1, "-1" => "power"
+  0, 0x04, 4, 0xdeadbeef => "parameter1"
+  0, 0x08, 4, 0xdeadbeef => "parameter2"
+  0, 0x0c, 1, "-1" => "timing"
+  0, 0x0d, 1, "-1" => "resist_dispel"
+  0, 0x0e, 4, "-1" => "duration"
+  0, 0x12, 1, "-1" => "probability1"
+  0, 0x13, 1, "-1" => "probability2"
+  0, 0x14, 8, "EMPTY_MATCH" => "resource"
+  0, 0x1c, 4, "-1" => "dicenumber"
+  0, 0x20, 4, "-1" => "dicesize"
+  0, 0x24, 4, "-1" => "savingthrow"
+  0, 0x28, 4, 0xdeadbeef => "savebonus"
+  0, 0x2c, 4, 0xdeadbeef => "special"
+  // EFF V2
+  1, 0x00, 4, "-1" => "opcode"
+  1, 0x04, 4, "-1" => "target"
+  1, 0x08, 4, "-1" => "power"
+  1, 0x0c, 4, 0xdeadbeef => "parameter1"
+  1, 0x10, 4, 0xdeadbeef => "parameter2"
+  1, 0x14, 4, "-1" => "timing"
+  1, 0x18, 4, "-1" => "duration"
+  1, 0x1c, 2, "-1" => "probability1"
+  1, 0x1e, 2, "-1" => "probability2"
+  1, 0x20, 8, "EMPTY_MATCH" => "resource"
+  1, 0x28, 4, "-1" => "dicenumber"
+  1, 0x2c, 4, "-1" => "dicesize"
+  1, 0x30, 4, "-1" => "savingthrow"
+  1, 0x34, 4, 0xdeadbeef => "savebonus"
+  1, 0x38, 4, 0xdeadbeef => "special"
+  1, 0x3c, 4, "-1" => "school"
+  1, 0x44, 4, "-1" => "lowestafflvl"
+  1, 0x48, 4, "-1" => "highestafflvl"
+  1, 0x4c, 4, "-1" => "resist_dispel"
+  1, 0x50, 4, 0xdeadbeef => "parameter3"
+  1, 0x54, 4, 0xdeadbeef => "parameter4"
+  1, 0x5c, 4, "-1" => "time_applied"
+  1, 0x60, 8, "EMPTY_MATCH" => "resource2"
+  1, 0x68, 8, "EMPTY_MATCH" => "vvcresource"
+  1, 0x70, 4, 0xdeadbeef => "casterx"
+  1, 0x74, 4, 0xdeadbeef => "castery"
+  1, 0x78, 4, 0xdeadbeef => "targetx"
+  1, 0x7c, 4, 0xdeadbeef => "targety"
+  1, 0x80, 4, "-1" => "restype"
+  1, 0x84, 8, "EMPTY_MATCH" => "effsource"
+  1, 0x8c, 4, "-1" => "resflags"
+  1, 0x90, 4, "-1" => "projectile"
+  1, 0x94, 4, "-1" => "sourceslot"
+  1, 0x98, 32, "EMPTY_MATCH_EMPTY_MATCH_EMPTY_MATCH" => "effvar"
+  1, 0xb8, 4, "-1" => "casterlvl"
+  1, 0xbc, 4, "-1" => "internal"
+  1, 0xc0, 4, "-1" => "sectype"
+END
+
+// ITM ability field definitions
+ACTION_DEFINE_ASSOCIATIVE_ARRAY a7#itm_ability_fields BEGIN
+  // index (unused), offset, size, def_value => parameter
+  0, 0x00, 1, "-1" => "header_type"
+  0, 0x01, 1, "-1" => "identify"
+  0, 0x02, 2, "-1" => "location"
+  0, 0x04, 8, "EMPTY_MATCH" => "icon"
+  0, 0x0c, 1, "-1" => "target"
+  0, 0x0d, 1, "-1" => "target_count"
+  0, 0x0e, 2, "-1" => "range"
+  0, 0x10, 1, "-1" => "launcher"
+  0, 0x11, 1, "-1" => "dicenumber_alt"
+  0, 0x12, 2, 0xdeadbeef => "speed"
+  0, 0x14, 2, 0xdeadbeef => "thac0_bonus"
+  0, 0x16, 1, "-1" => "dicesize"
+  0, 0x17, 1, "-1" => "primary_type"
+  0, 0x18, 1, "-1" => "dicenumber"
+  0, 0x19, 1, "-1" => "secondary_type"
+  0, 0x1a, 2, 0xdeadbeef => "damage_bonus"
+  0, 0x1c, 2, "-1" => "damage_type"
+  0, 0x22, 2, "-1" => "charges"
+  0, 0x24, 2, "-1" => "drained"
+  0, 0x26, 4, "-1" => "flags"
+  0, 0x2a, 2, 0xdeadbeef => "projectile"
+  0, 0x2c, 2, "-1" => "animation_overhand"
+  0, 0x2e, 2, "-1" => "animation_backhand"
+  0, 0x30, 2, "-1" => "animation_thrust"
+  0, 0x32, 2, "-1" => "arrow"
+  0, 0x34, 2, "-1" => "bolt"
+  0, 0x36, 2, "-1" => "bullet"
+END
+
+// SPL ability field definitions
+ACTION_DEFINE_ASSOCIATIVE_ARRAY a7#spl_ability_fields BEGIN
+  // index (unused), offset, size, def_value => parameter
+  0, 0x00, 1, "-1" => "header_type"
+  0, 0x01, 1, "-1" => "friendly" // PST only
+  0, 0x02, 2, "-1" => "location"
+  0, 0x04, 8, "EMPTY_MATCH" => "icon"
+  0, 0x0c, 1, "-1" => "target"
+  0, 0x0d, 1, "-1" => "target_count"
+  0, 0x0e, 2, "-1" => "range"
+  0, 0x10, 2, "-1" => "min_level"
+  0, 0x12, 2, 0xdeadbeef => "speed"
+  0, 0x14, 2, "-1" => "times_per_day"
+  0, 0x26, 2, 0xdeadbeef => "projectile"
+END
+
+
+/**
+ * Used internally to match an effect structure in the current buffer.
+ *
+ * Expected variables:
+ * - SPRINT array: Name of the field definition array (EFF: a7#eff_fields, ITM ability: a7#itm_ability_fields, SPL ability: a7#spl_ability_fields)
+ * - SET struct_index: 0=EFF V1 or ignored, 1=EFF V2
+ * - SET silent: 0=no warning messages, 1=print warning messages
+ * - SET offset_structure: start offset of the structure
+ *
+ * RET is_match: 0=no match, 1=match
+ */
+DEFINE_PATCH_MACRO a7#__match_structure
+BEGIN
+  LOCAL_SET array_index = VARIABLE_IS_SET ~struct_index~ && struct_index
+  LOCAL_SET base_offset = array_index ? 8 : 0 // skip EFF V2 header?
+  LOCAL_SET ofs_field = 0
+  LOCAL_SET size_field = 0
+  LOCAL_SET def_value = 0
+  LOCAL_SET def_subvalue = 0
+  LOCAL_SET field_value = 0
+  LOCAL_SET field_subvalue = 0
+  LOCAL_SET param_value = 0
+  LOCAL_SET param_subvalue = 0
+  LOCAL_SET num_items = 0
+  LOCAL_SET i = 0
+  LOCAL_SET j = 0
+  LOCAL_SPRINT match_parameter ~~
+  LOCAL_SPRINT match_subparameter ~~
+
+  SET is_match = 1
+
+  PHP_EACH EVAL ~%array%~ AS header => parameter BEGIN
+    SPRINT match_parameter ~match_%parameter%~
+    PATCH_IF (is_match && $header(~0~) == struct_index) BEGIN
+      SET ofs_field = offset_structure + base_offset + $header(~1~)
+      SET size_field = $header(~2~)
+
+      PATCH_IF (size_field < 8) BEGIN
+        // numeric field
+        SET def_value = $header(~3~)
+        PATCH_MATCH size_field WITH
+          1 BEGIN READ_SBYTE ofs_field field_value END
+          2 BEGIN READ_SSHORT ofs_field field_value END
+          4 BEGIN READ_SLONG ofs_field field_value END
+          DEFAULT
+            SET field_value = def_value
+            PATCH_IF (NOT silent) BEGIN PATCH_WARN ~WARNING: Unexpected field size for "%match_parameter%": %size_field%~ END
+        END
+        SET param_value = EVAL ~%match_parameter%~
+        PATCH_IF (param_value != def_value) BEGIN
+          // matching full field value
+          SET is_match = (param_value == field_value)
+        END ELSE BEGIN
+          // try matching subvalues
+          // individual words
+          SET num_items = size_field / 2
+          PATCH_IF (size_field >= 2) BEGIN
+            FOR (i = 1; is_match && i <= num_items; ++i) BEGIN
+              SET j = (i - 1) * 16
+              SET def_subvalue = (def_value >> j) & 0xffff
+              SPRINT match_subparameter ~%match_parameter%_word%i%~
+              PATCH_IF (VARIABLE_IS_SET EVAL ~%match_subparameter%~) BEGIN
+                SET param_subvalue = (EVAL ~%match_subparameter%~ >> j) & 0xffff
+                PATCH_IF (param_subvalue != def_subvalue) BEGIN
+                  SET field_subvalue = (field_value >> j) & 0xffff
+                  SET is_match = (param_subvalue == field_subvalue)
+                END
+              END
+            END
+
+            // compatibility warnings
+            PATCH_IF (NOT silent) BEGIN
+              FOR (i = num_items + 1; i <= 2; ++i) BEGIN
+                SPRINT match_subparameter ~%match_parameter%_word%i%~
+                PATCH_IF (VARIABLE_IS_SET EVAL ~%match_subparameter%~) BEGIN
+                  PATCH_WARN ~WARNING: Cannot evaluate parameter "%match_subparameter%" because of incompatible field size: %size_field%~
+                END
+              END
+            END
+          END
+
+          // individual bytes
+          SET num_items = size_field
+          FOR (i = 1; is_match && i <= num_items; ++i) BEGIN
+            SET j = (i - 1) * 8
+            SET def_subvalue = (def_value >> j) & 0xff
+            SPRINT match_subparameter ~%match_parameter%_byte%i%~
+            PATCH_IF (VARIABLE_IS_SET EVAL ~%match_subparameter%~) BEGIN
+              SET param_subvalue = (EVAL ~%match_subparameter%~ >> j) & 0xff
+              PATCH_IF (param_subvalue != def_subvalue) BEGIN
+                SET field_subvalue = (field_value >> j) & 0xff
+                SET is_match = (param_subvalue == field_subvalue)
+              END
+            END
+          END
+
+          // compatibility warnings
+          PATCH_IF (NOT silent) BEGIN
+            FOR (i = num_items + 1; i <= 4; ++i) BEGIN
+              SPRINT match_subparameter ~%match_parameter%_byte%i%~
+              PATCH_IF (VARIABLE_IS_SET EVAL ~%match_subparameter%~) BEGIN
+                PATCH_WARN ~WARNING: Cannot evaluate parameter "%match_subparameter%" because of incompatible field size: %size_field%~
+              END
+            END
+          END
+        END
+      END ELSE BEGIN
+        // text field
+        SPRINT def_value $header(~3~)
+        READ_ASCII ofs_field field_value (size_field) NULL
+        SPRINT param_value EVAL ~%%match_parameter%%~
+        PATCH_IF (NOT ~%param_value%~ STR_EQ ~%def_value%~) BEGIN
+          PATCH_IF (use_regexp) BEGIN
+            SET is_match = (~%field_value%~ STRING_MATCHES_REGEXP ~%param_value%~ == 0)
+          END ELSE BEGIN
+            SET is_match = ~%field_value%~ STR_EQ ~%param_value%~
+          END
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Used internally to update structure fields in the current buffer.
+ *
+ * Expected variables:
+ * - SPRINT array: Name of the field definition array (EFF: a7#eff_fields, ITM ability: a7#itm_ability_fields, SPL ability: a7#spl_ability_fields)
+ * - (optional) SET struct_index: 1=EFF V2, EFF V1 or ignore otherwise
+ * - (optional) SET no_defaults: 1=ignore default values defined by the "array" table, consider default value otherwise
+ * - SET silent: 0=no warning messages, 1=print warning messages
+ * - SET offset_structure: start offset of the structure
+ */
+DEFINE_PATCH_MACRO a7#__update_structure
+BEGIN
+  LOCAL_SET array_index = VARIABLE_IS_SET ~struct_index~ && struct_index
+  LOCAL_SET base_offset = array_index ? 8 : 0 // skip EFF V2 header?
+  LOCAL_SET ofs_field = 0
+  LOCAL_SET size_field = 0
+  LOCAL_SET ignore_defaults = VARIABLE_IS_SET ~no_defaults~ && no_defaults
+  LOCAL_SET def_value = 0
+  LOCAL_SET def_subvalue = 0
+  LOCAL_SET param_value = 0
+  LOCAL_SET param_subvalue = 0
+  LOCAL_SET num_items = 0
+  LOCAL_SET i = 0
+  LOCAL_SET j = 0
+  LOCAL_SPRINT parameter ~~
+  LOCAL_SPRINT subparameter ~~
+
+  PHP_EACH EVAL ~%array%~ AS header => parameter BEGIN
+    PATCH_IF ($header(~0~) == struct_index) BEGIN
+      SET ofs_field = offset_structure + base_offset + $header(~1~)
+      SET size_field = $header(~2~)
+
+      PATCH_IF (size_field < 8) BEGIN
+        // numeric field
+        SET def_value = $header(~3~)
+        SET param_value = EVAL ~%parameter%~
+        PATCH_IF (ignore_defaults || param_value != def_value) BEGIN
+          // updating full field value
+          PATCH_MATCH size_field WITH
+            1 BEGIN WRITE_BYTE ofs_field param_value END
+            2 BEGIN WRITE_SHORT ofs_field param_value END
+            4 BEGIN WRITE_LONG ofs_field param_value END
+            DEFAULT PATCH_IF (NOT silent) BEGIN PATCH_WARN ~WARNING: Unexpected field size for parameter "%parameter%": %size_field%~ END
+          END
+        END ELSE BEGIN
+          // try updating subvalues
+          // individual words
+          SET num_items = size_field / 2
+          PATCH_IF (size_field >= 2) BEGIN
+            FOR (i = 1; i <= num_items; ++i) BEGIN
+              SET j = (i - 1) * 16
+              SET def_subvalue = (def_value >> j) & 0xffff
+              SPRINT subparameter ~%parameter%_word%i%~
+              PATCH_IF (VARIABLE_IS_SET EVAL ~%subparameter%~) BEGIN
+                SET param_subvalue = (EVAL ~%subparameter%~ >> j) & 0xffff
+                PATCH_IF (param_subvalue != def_subvalue) BEGIN
+                  WRITE_SHORT (ofs_field + (i - 1) * 2) param_subvalue
+                END
+              END
+            END
+
+            // compatibility warnings
+            PATCH_IF (NOT silent) BEGIN
+              FOR (i = num_items + 1; i <= 2; ++i) BEGIN
+                SPRINT subparameter ~%parameter%_word%i%~
+                PATCH_IF (VARIABLE_IS_SET EVAL ~%subparameter%~) BEGIN
+                  PATCH_WARN ~WARNING: Cannot update parameter "%subparameter%" because of incompatible field size: %size_field%~
+                END
+              END
+            END
+          END
+
+          // individual bytes
+          SET num_items = size_field
+          FOR (i = 1; i <= num_items; ++i) BEGIN
+            SET j = (i - 1) * 8
+            SET def_subvalue = (def_value >> j) & 0xff
+            SPRINT subparameter ~%parameter%_byte%i%~
+            PATCH_IF (VARIABLE_IS_SET EVAL ~%subparameter%~) BEGIN
+              SET param_subvalue = (EVAL ~%subparameter%~ >> j) & 0xff
+              PATCH_IF (param_subvalue != def_subvalue) BEGIN
+                WRITE_BYTE (ofs_field + (i - 1)) param_subvalue
+              END
+            END
+          END
+
+          // compatibility warnings
+          PATCH_IF (NOT silent) BEGIN
+            FOR (i = num_items + 1; i <= 4; ++i) BEGIN
+              SPRINT subparameter ~%parameter%_byte%i%~
+              PATCH_IF (VARIABLE_IS_SET EVAL ~%subparameter%~) BEGIN
+                PATCH_WARN ~WARNING: Cannot update parameter "%subparameter%" because of incompatible field size: %size_field%~
+              END
+            END
+          END
+        END
+      END ELSE BEGIN
+        // text field
+        SPRINT def_value $header(~3~)
+        SPRINT param_value EVAL ~%%parameter%%~
+        PATCH_IF (ignore_defaults || NOT ~%param_value%~ STR_EQ ~%def_value%~) BEGIN
+          WRITE_ASCIIE ofs_field ~%param_value%~ (size_field)
+          PATCH_IF (NOT silent) BEGIN
+            SET len_value = STRING_LENGTH ~%param_value%~
+            PATCH_IF (len_value > size_field) BEGIN
+              PATCH_WARN ~WARNING: Truncated string because length of parameter "%parameter%" exceeds field length (%len_value% > %size_field%).~
+            END
+          END
+        END
+      END
+    END
+  END
+END
+
+
+/**
+ * Used internally to determine all offset and count fields in the current CRE version.
+ *
+ * INT_VAR silent     Specify 0 to print any warning messages produced by the function. (Default: 1)
+ * STR_VAR ref_type   Specifies the type of the reference offset/count field offsets. One of the following types
+ *                    can be specified: effects, items, item_slots, mem_spells (IWD2: shapes), mem_info (IWD2: songs),
+                      known_spells (IWD2: abilities) (Default: effects)
+ * RET success        Returns 1 if the function returned successfully, 0 otherwise.
+ * RET ref_offset     Returns offset of the reference offset field.
+ * RET ref_count      Returns offset of the reference count field.
+ * RET_ARRAY offsets  Map with (offset, count) => count_size entries where "offset" and "count" are offsets
+ *                    to the fields for offsets and counts.
+ */
+DEFINE_PATCH_FUNCTION a7#__get_cre_offsets
+INT_VAR
+  silent = 1
+STR_VAR
+  ref_type = ~effects~
+RET
+  success
+  ref_offset
+  ref_count
+RET_ARRAY
+  offsets
+BEGIN
+  READ_ASCII 0 sig (4)
+  SET success = ~%sig%~ STR_EQ ~CRE ~
+  PATCH_IF (NOT success && NOT silent) BEGIN
+    PATCH_WARN ~WARNING: Not a CRE resource.~
+  END
+
+  PATCH_IF (success) BEGIN
+    READ_ASCII 4 ver (4)
+    // defining offsets to update after a successful removal operation
+    PATCH_IF (~%ver%~ STR_EQ ~V1.0~) BEGIN
+      DEFINE_ASSOCIATIVE_ARRAY offsets BEGIN
+        // known spells, memorization info, memorized spells, item slots, items, effects
+        0x2a0, 0x2a4 => 4
+        0x2a8, 0x2ac => 4
+        0x2b0, 0x2b4 => 4
+        0x2b8, "-1" => 0
+        0x2bc, 0x2c0 => 4
+        0x2c4, 0x2c8 => 4
+      END
+    END ELSE PATCH_IF (~%ver%~ STR_EQ ~V1.2~) BEGIN
+      DEFINE_ASSOCIATIVE_ARRAY offsets BEGIN
+        // overlays, known spells, memorization info, memorized spells, item slots, items, effects
+        0x294, 0x298 => 4
+        0x344, 0x348 => 4
+        0x34c, 0x350 => 4
+        0x354, 0x358 => 4
+        0x35c, "-1" => 0
+        0x360, 0x364 => 4
+        0x368, 0x36c => 4
+      END
+    END ELSE PATCH_IF (~%ver%~ STR_EQ ~V2.2~) BEGIN
+      // bard/cleric/druid/paladin/ranger/sorcerer/wizard spells
+      DEFINE_ASSOCIATIVE_ARRAY offsets BEGIN END
+      FOR (i = 0; i < 63; ++i) BEGIN
+        SET ofs = 0x3ba + i * 4
+        SET cnt = 0x4b6 + i * 4
+        SET $offsets(~%ofs%~ ~%cnt%~) = 4
+      END
+      // domain spells
+      FOR (i = 0; i < 9; ++i) BEGIN
+        SET ofs = 0x5b2 + i * 4
+        SET cnt = 0x5d6 + i * 4
+        SET $offsets(~%ofs%~ ~%cnt%~) = 4
+      END
+      // abilities, songs, shapes, item slots, items, effects
+      SET $offsets(~0x5fa~ ~0x5fe~) = 4
+      SET $offsets(~0x602~ ~0x606~) = 4
+      SET $offsets(~0x60a~ ~0x60e~) = 4
+      SET $offsets(~0x612~ ~-1~) = 0
+      SET $offsets(~0x616~ ~0x61a~) = 4
+      SET $offsets(~0x61e~ ~0x622~) = 4
+    END ELSE PATCH_IF (~%ver%~ STR_EQ ~V9.0~) BEGIN
+      DEFINE_ASSOCIATIVE_ARRAY offsets BEGIN
+        // known spells, memorization info, memorized spells, item slots, items, effects
+        0x308, 0x30c => 4
+        0x310, 0x314 => 4
+        0x318, 0x31c => 4
+        0x320, "-1" => 0
+        0x324, 0x328 => 4
+        0x32c, 0x3330 => 4
+      END
+    END ELSE BEGIN
+      DEFINE_ASSOCIATIVE_ARRAY offsets BEGIN END
+      SET success = 0
+      PATCH_IF (NOT silent) BEGIN
+        PATCH_WARN ~WARNING: Unsupported CRE version: %ver%~
+      END
+    END
+
+    // determining reference offset and count values
+    PATCH_IF (success) BEGIN
+      DEFINE_ASSOCIATIVE_ARRAY ref_types BEGIN
+        ~effects~ => "-1"
+        ~items~ => "-2"
+        ~item_slots~ => "-3"
+        ~mem_spells~ => "-4"
+        ~shapes~ => "-4"        // IWD2 only
+        ~mem_info~ => "-5"
+        ~songs~ => "-5"         // IWD2 only
+        ~known_spells~ => "-6"
+        ~abilities~ => "-6"     // IWD2 only
+      END
+
+      PATCH_IF (NOT VARIABLE_IS_SET $ref_types(~%ref_type%~)) BEGIN
+        SPRINT ref_type ~effects~
+      END
+
+      SET idx = 0
+      SET max = 6
+      PHP_EACH offsets AS header => _ BEGIN
+        SET $cache(~%idx%~ ~0~) = $header(~0~)
+        SET $cache(~%idx%~ ~1~) = $header(~1~)
+        SET idx = (idx + 1) MODULO max
+      END
+      SET cur_idx = (idx + max + $ref_types(~%ref_type%~)) MODULO max
+      SET ref_offset = $cache(~%cur_idx%~ ~0~)
+      SET ref_count = $cache(~%cur_idx%~ ~1~)
+    END ELSE BEGIN
+      SET ref_offset = "-1"
+      SET ref_count = "-1"
+    END
+  END
+END
+
+
+/**
+ * Used internally to update offset fields in the current CRE file according to the "offsets" definitions.
+ *
+ * INT_VAR struct_size  Specify a positive value to adjust offsets in positive direction (after an insert operation),
+ *                      or specify a negative value to adjust offsets in negative direction (after a removal operation).
+ *                      (Default: 0)
+ * INT_VAR ref_offset   Offset of the reference offset field where data has been added or removed. (Default: -1)
+ * STR_VAR offsets      Name of the associative array that defines offset and count fields. (Default: offsets)
+ */
+DEFINE_PATCH_FUNCTION a7#__update_cre_offsets
+INT_VAR
+  struct_size = 0
+  ref_offset = "-1"
+STR_VAR
+  offsets = ~offsets~
+BEGIN
+  PATCH_IF (struct_size != 0 && ref_offset >= 0) BEGIN
+    PHP_EACH EVAL ~%offsets%~ AS header => size BEGIN
+      SET ofs = $header(~0~)
+      PATCH_IF (ofs != ref_offset) BEGIN
+        SET cnt = $header(~1~)
+        PATCH_IF (cnt >= 0) BEGIN
+          SET num = (size == 4) ? LONG_AT cnt : SHORT_AT cnt
+        END ELSE BEGIN
+          // fixed size structure
+          SET num = 1
+        END
+        READ_LONG ref_offset ref_offset_value
+        PATCH_IF (num == 0) BEGIN
+          WRITE_LONG ofs (THIS > ref_offset_value) ? THIS + struct_size : THIS
+        END ELSE BEGIN
+          WRITE_LONG ofs (THIS >= ref_offset_value) ? THIS + struct_size : THIS
+        END
+      END
+    END
+  END
+END

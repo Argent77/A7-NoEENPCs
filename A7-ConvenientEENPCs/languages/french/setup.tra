@@ -115,10 +115,11 @@
 @683 = ~Maitre des ombres~
 @684 = ~Barde~
 
-@690 = ~Modifier la classe et le profil de Caelar Argent (Voir les notes dans le readme !)~
+@690 = ~Modifier la classe et le profil de Caelar Argent~
 @691 = ~Cavalier~
 @692 = ~Inquisiteur~
 @693 = ~Chasseur de Morts-Vivants~
+@694 = ~Pretre de Lathandre~
 
 // Setup messages
 @1000 = ~Ce composant necessite l'installation de BG:EE, BG2:EE ou EET.~
@@ -137,16 +138,17 @@
 @1013 = ~Ce composant n'est disponible que si Rasaad a ete desactive.~
 
 // Custom class selection
-@2000 = ~Classe actuelle : %cur_class_title% (%cur_class_name%) - profil actuel : %cur_kit_title% (%cur_kit_name%)~
-@2001 = ~Classes disponibles : %class_entries%~
+// Translators: Text inside angle brackets are placeholders for dynamic text. Do not modify!
+@2000 = ~Classe actuelle : <cur_class_title> - profil actuel : <cur_kit_title> (%cur_kit_name%)~
+@2001 = ~Classes disponibles : <class_entries>~
 @2002 = ~Veuillez saisir le numero de la nouvelle classe (ne rien saisir pour ne pas changer de classe) :~
 @2003 = ~Le numero de classe que vous avez saisi n'est pas disponible.~
-@2004 = ~Classe selectionnee : %new_class_title% (%new_class_name%).~
-@2005 = ~Aucun profil n'est disponible pour la classe "%new_class_title%".~
-@2006 = ~Profils disponibles pour la classe "%new_class_title%" : %kit_entries%~
+@2004 = ~Classe selectionnee : <new_class_title>~
+// @2005 = ~Aucun profil n'est disponible pour la classe "<new_class_title>".~
+@2006 = ~Profils disponibles pour la classe "<new_class_title>" : <kit_entries>~
 @2007 = ~Veuillez saisir le numero du nouveau profil :~
 @2008 = ~Le numero de profil que vous avez saisi n'est pas disponible.~
-@2009 = ~Vous avez selectionne : classe "%new_class_title%" (%new_class_name%) et profil "%new_kit_title%" (%new_kit_name%).~
+@2009 = ~Vous avez selectionne : classe "<new_class_title>" et profil "<new_kit_title>" (<new_kit_name>).~
 @2010 = ~Attribuer la combinaison class/kit selectionnee ?
 Tapez [A]ccepter, [S]tart over (recommencer) ou [C]anceller~
 @2011 = ~Veuillez taper A pour accepter, S pour recommencer ou C pour annuler l'operation.~

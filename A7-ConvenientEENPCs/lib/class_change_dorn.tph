@@ -1,0 +1,21 @@
+// Performs a full class/kit change for Dorn
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+// Function supports only level reset
+DEFINE_ACTION_FUNCTION a7#change_class_dorn
+BEGIN
+  OUTER_SPRINT cre_resref_regexp ~^dorn[0-9]*~
+
+  // preserve CRE effects
+  OUTER_SET $ignore_effect(~0~) = 206 // Protection from spell
+
+  LAF a7#change_class_npc
+    INT_VAR
+      reset = 1
+    STR_VAR
+      npc_name = ~dorn~
+      cre_resref_regexp
+    RET class_id kit_id
+  END
+END

@@ -1,0 +1,99 @@
+// Performs a full class/kit change for Voghiln
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+DEFINE_ACTION_FUNCTION a7#change_class_voghiln
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+BEGIN
+  OUTER_SPRINT cre_reference ~voghil7~
+  OUTER_SPRINT cre_resref_regexp ~^voghil[0-9]*~
+
+  ACTION_IF (NOT reset) BEGIN
+    ACTION_DEFINE_ARRAY profs_warrior BEGIN
+      ~PROFICIENCYAXE~
+      ~PROFICIENCYAXE~
+      ~PROFICIENCYLONGBOW~
+      ~PROFICIENCYBASTARDSWORD~
+      ~PROFICIENCY2WEAPON~
+      ~PROFICIENCYBASTARDSWORD~
+      ~PROFICIENCY2WEAPON~
+      ~PROFICIENCYLONGBOW~
+      ~PROFICIENCYWARHAMMER~
+    END
+
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY thieving_weights BEGIN
+      // parameter => weight
+      ~pick_pockets~    => 70
+      ~open_locks~      => 50
+      ~find_traps~      => 60
+      ~move_silently~   => 15
+      ~hide_in_shadows~ => 20
+      ~detect_illusion~ => 40
+      ~set_traps~       => 40
+    END
+  END
+  // no white/black-listing required
+  // ACTION_DEFINE_ARRAY class_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY class_blacklist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_blacklist BEGIN END
+
+  LAF a7#change_class_npc
+    INT_VAR reset interactive class kit kit1 kit2 kit3
+    STR_VAR
+      npc_name = ~voghiln~
+      cre_reference
+      cre_resref_regexp
+      // class_whitelist_name = ~class_whitelist~
+      // kit_whitelist_name = ~kit_whitelist~
+      // class_blacklist_name = ~class_blacklist~
+      // kit_blacklist_name = ~kit_blacklist~
+    RET class_id kit_id
+  END
+
+  ACTION_IF (NOT reset) BEGIN
+    OUTER_SET class = class_id
+    OUTER_SET kit = kit_id
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~BARD~) RET is_bard = result END
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~CLERIC~) RET is_cleric = result END
+
+    ACTION_IF (NOT is_bard || kit != IDS_OF_SYMBOL(~kit~ ~SKALD~)) BEGIN
+      LAF a7#process_cre
+        STR_VAR
+          function_0 = ~a7#cre_equipment_update_voghiln~
+          function_1 = ~a7#cre_bio_update_voghiln~
+      END
+    END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_equipment_update_voghiln
+BEGIN
+  // replacing weapons
+  PATCH_IF (is_cleric) BEGIN
+    REPLACE_CRE_ITEM ~slng02~ #0 #0 #0 ~identified~ ~weapon1~ EQUIP
+    REPLACE_CRE_ITEM ~bull02~ #40 #0 #0 ~identified~ ~quiver1~
+  END ELSE PATCH_IF (NOT is_bard) BEGIN
+    REPLACE_CRE_ITEM ~dart02~ #40 #0 #0 ~identified~ ~weapon1~ EQUIP
+    REPLACE_CRE_ITEM ~sw1h14~ #0 #0 #0 ~identified~ ~weapon2~
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_bio_update_voghiln
+BEGIN
+  // Updating biography
+  SET strref = RESOLVE_STR_REF(@51100)
+  GET_STRREF strref text
+  PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // safety check if line hasn't been translated yet
+    WRITE_LONG BIO strref
+  END
+END

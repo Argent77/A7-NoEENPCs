@@ -1,10 +1,18 @@
 BACKUP ~weidu_external/backup/A7-ConvenientEENPCs~
 SUPPORT ~https://forums.beamdog.com/discussion/43074~
-VERSION ~v4.6~
+VERSION ~v5.0-wip~
+
+// MODDER
+  // setup_tra         warn
+  // area_variables    warn
+  // missing_extern    warn
+  // missing_resref    warn
+  // ict2_actions      warn
+  // missing_eval      none
+  // overwriting_file  none
+  // fun_args          warn
 
 ALWAYS
-  // required because of non-standard BACKUP path
-  OUTER_TEXT_SPRINT MOD_FOLDER ~A7-ConvenientEENPCs~
   // root folder for mutable data
   OUTER_TEXT_SPRINT WORK_FOLDER ~weidu_external~
 
@@ -78,7 +86,7 @@ BEGIN @1  // Disable all NPCs
   DESIGNATED 1
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-DISABLE_ALL~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7DisableBaeloth END
   LAF A7DisableDorn END
   LAF A7DisableHexxat END
@@ -97,7 +105,7 @@ BEGIN @3  // Make all NPCs passive
   DESIGNATED 2
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-PASSIVE_ALL~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7PassiveBaeloth END
   LAF A7PassiveHexxat END
   LAF A7PassiveNeera END
@@ -127,7 +135,7 @@ BEGIN @101  // Disable Baeloth
   DESIGNATED 101
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-BAELOTH_DISABLE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7DisableBaeloth END
 
 BEGIN @201  // Make Baeloth passive
@@ -138,7 +146,7 @@ BEGIN @201  // Make Baeloth passive
   DESIGNATED 201
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-BAELOTH_PASSIVE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7PassiveBaeloth END
 
 
@@ -153,7 +161,7 @@ BEGIN @102  // Disable Dorn
   DESIGNATED 102
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-DORN_DISABLE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7DisableDorn END
 
 
@@ -169,7 +177,7 @@ BEGIN @103  // Disable Hexxat
   DESIGNATED 103
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-HEXXAT_DISABLE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7DisableHexxat END
 
 BEGIN @202  // Make Hexxat passive
@@ -180,7 +188,7 @@ BEGIN @202  // Make Hexxat passive
   DESIGNATED 203
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-HEXXAT_PASSIVE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7PassiveHexxat END
 
 
@@ -196,7 +204,7 @@ BEGIN @104  // Disable Neera
   DESIGNATED 104
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-NEERA_DISABLE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7DisableNeera END
 
 BEGIN @203  // Make Neera passive
@@ -207,7 +215,7 @@ BEGIN @203  // Make Neera passive
   DESIGNATED 204
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-NEERA_PASSIVE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7PassiveNeera END
 
 
@@ -223,7 +231,7 @@ BEGIN @105  // Disable Rasaad
   DESIGNATED 105
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-RASAAD_DISABLE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7DisableRasaad END
 
 BEGIN @204  // Make Rasaad passive
@@ -234,7 +242,7 @@ BEGIN @204  // Make Rasaad passive
   DESIGNATED 205
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-RASAAD_PASSIVE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7PassiveRasaad END
 
 
@@ -271,7 +279,7 @@ BEGIN @301  // Make NPC-specific items available for everyone
   DESIGNATED 301
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-NPC_ITEMS_FOR_ALL~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   ACTION_IF ((MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 1) OR (MOD_IS_INSTALLED ~A7-ConvenientEENPCs.tp2~ 101)) BEGIN  // "Disable Baeloth"
     LAF A7ItemsBaeloth END
@@ -301,7 +309,7 @@ BEGIN @311  // Joins as controllable follower if no free party slots available
   DESIGNATED 311
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-CAELAR_FOLLOWER_CONDITIONAL~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7CaelarFollower INT_VAR forced = 0 END
 
 BEGIN @312  // Always joins as controllable follower
@@ -311,7 +319,7 @@ BEGIN @312  // Always joins as controllable follower
   DESIGNATED 312
   LABEL ~A7-CONVENIENTEENPCS-APPEARANCE-CAELAR_FOLLOWER_ALWAYS~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
   LAF A7CaelarFollower INT_VAR forced = 1 END
 
 
@@ -348,7 +356,7 @@ BEGIN @402 // Alternate version, in BG2 only
   DESIGNATED 401
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-BAELOTH_ALTERNATE_BG2~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   COPY ~%MOD_FOLDER%/portraits/a7_blthl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_blthm.bmp~ ~override~
@@ -386,7 +394,7 @@ BEGIN @403 // BG2 style
   DESIGNATED 410
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-DORN_BG2_STYLE_ALL~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   COPY ~%MOD_FOLDER%/portraits/a7_dornl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_dornm.bmp~ ~override~
@@ -416,7 +424,7 @@ BEGIN @404 // BG2 style, in BG2 only
   DESIGNATED 411
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-DORN_BG2_STYLE_BG2~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   COPY ~%MOD_FOLDER%/portraits/a7_dornl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_dornm.bmp~ ~override~
@@ -460,7 +468,7 @@ BEGIN @420 // Change portrait: Hexxat (BG2 style)
   DESIGNATED 420
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-HEXXAT_BG2_STYLE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   // Clara
   COPY ~%MOD_FOLDER%/portraits/a7_hexl.bmp~ ~override~
@@ -508,7 +516,7 @@ BEGIN @403 // BG2 style
   DESIGNATED 430
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-NEERA_BG2_STYLE_ALL~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   COPY ~%MOD_FOLDER%/portraits/a7_neral.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_neram.bmp~ ~override~
@@ -538,7 +546,7 @@ BEGIN @404 // BG2 style, in BG2 only
   DESIGNATED 431
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-NEERA_BG2_STYLE_BG2~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   COPY ~%MOD_FOLDER%/portraits/a7_neral.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_neram.bmp~ ~override~
@@ -583,7 +591,7 @@ BEGIN @403 // BG2 style
   DESIGNATED 440
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-RASAAD_BG2_STYLE_ALL~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   COPY ~%MOD_FOLDER%/portraits/a7_rsadl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_rsadm.bmp~ ~override~
@@ -613,7 +621,7 @@ BEGIN @404 // BG2 style, in BG2 only
   DESIGNATED 441
   LABEL ~A7-CONVENIENTEENPCS-PORTRAITS-RASAAD_BG2_STYLE_BG2~
 
-  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/npc_functions.tph~
 
   COPY ~%MOD_FOLDER%/portraits/a7_rsadl.bmp~ ~override~
        ~%MOD_FOLDER%/portraits/a7_rsadm.bmp~ ~override~
@@ -664,1900 +672,1076 @@ BEGIN @450 // Improved portrait: Wilson
 //    Change class/kit: Baeloth    //
 /////////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 500
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 500
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    // (optional)  Call A7_GET_CRE_KNOWN_SPELLS to get list of mage spells
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    // (mandatory) Call A7_RESET_CLASS to set new or reset current class/kit to level 1 (current XP is preserved)
-    LPF A7_RESET_CLASS END
-    // (mandatory) Call A7_SET_CRE_PROFICIENCIES to set weapon proficiencies
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // (optional)  Call A7_SET_CRE_KNOWN_SPELLS to set stored list of mage spells (mage/bard only)
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    // (optional) Call A7_SET_CRE_SPELL_SLOTS to memorize known mage spells (mage/bard only)
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-    // (optional)  Call A7_ADD_CRE_GRANTED_SPELLS to set granted spells (sorcerer/shaman only)
-    // (optional)  Call A7_EQUIP_CRE_ITEMS to set new equipment (to empty slots only)
-  BUT_ONLY IF_EXISTS
-  // (optional)  Update NPC-specific items to be usable by new class/kit
-  // (optional)  Update dialogs, etc. to adapt NPC to new class/kit
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 501
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 501
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  ACTION_IF (GAME_INCLUDES ~sod~) BEGIN
-    OUTER_TEXT_SPRINT cre_resref ~baelot7~
-  END ELSE BEGIN
-    OUTER_TEXT_SPRINT cre_resref ~baeloth~
-  END
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                         ~baelot[h0-9][0-9]?\.cre~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR interactive = 1 END
 
 
 BEGIN @501 // Mage
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 502
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_MAGE~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 502
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_MAGE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_GENERALIST~) END
 
 
 BEGIN @502 // Abjurer
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 503
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ABJURER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+22\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 503
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ABJURER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~ABJURER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_ABJURER~) END
 
 
 BEGIN @503 // Conjurer
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 504
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CONJURER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+23\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 504
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CONJURER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~CONJURER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_CONJURER~) END
 
 
 BEGIN @504 // Diviner
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 505
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_DIVINER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+24\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 505
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_DIVINER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~DIVINER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_DIVINER~) END
 
 
 BEGIN @505 // Enchanter
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 506
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ENCHANTER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+25\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 506
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ENCHANTER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~ENCHANTER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_ENCHANTER~) END
 
 
 BEGIN @506 // Illusionist
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 507
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ILLUSIONIST~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+26\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 507
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_ILLUSIONIST~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~ILLUSIONIST~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_ILLUSIONIST~) END
 
 
 BEGIN @507 // Invoker
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 508
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_INVOKER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+27\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 508
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_INVOKER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~INVOKER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_INVOKER~) END
 
 
 BEGIN @508 // Necromancer
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 509
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_NECROMANCER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+28\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 509
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_NECROMANCER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~NECROMANCER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_NECROMANCER~) END
 
 
 BEGIN @509 // Transmuter
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 510
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_TRANSMUTER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+29\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 510
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_TRANSMUTER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~TRANSMUTER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell_resref; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_TRANSMUTER~) END
 
 
 BEGIN @510 // Wild Mage
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 511
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_WILDMAGE~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_M_E.2DA~ ~\b[0-9]+[ %TAB%]+30\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 511
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_WILDMAGE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~WILDMAGE~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) END
 
 
 BEGIN @511 // Dragon Disciple
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 512
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_DRAGON_DISCIPLE~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE RESOURCE_CONTAINS ~K_S_E.2DA~ ~\b[0-9]+[ %TAB%]+35\b~ @1015 // Kit is not available for the NPC.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 512
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_DRAGON_DISCIPLE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell = spell_resref RET_ARRAY spell = spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~SORCERER~
-      kit = ~DRAGON_DISCIPLE~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Restoring sorcerer spells
-    LPF A7_ADD_CRE_GRANTED_SPELLS
-      INT_VAR
-        spell_type = 1 // 0: priest, 1: wizard
-        num_spells = spell
-    END
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~SORCERER~) kit = IDS_OF_SYMBOL(~kit~ ~DRAGON_DISCIPLE~) END
 
 
 BEGIN @512 // Chaos Sorcerer
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) > 0  @1009 // This component requires the mod kit "Chaos Sorcerer" to be installed.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 513
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CHAOS_SORCERER~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) > 0  @1009 // This component requires the mod kit "Chaos Sorcerer" to be installed.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 513
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_CHAOS_SORCERER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell = spell_resref RET_ARRAY spell = spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~SORCERER~
-      kit = ~A7_CHAOS_SORCERER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Restoring sorcerer spells
-    LPF A7_ADD_CRE_GRANTED_SPELLS
-      INT_VAR
-        spell_type = 1 // 0: priest, 1: wizard
-        num_spells = spell
-    END
-  BUT_ONLY IF_EXISTS
-
-  LAF A7_BAELOTH_FIX END
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~SORCERER~) kit = IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) END
 
 
 BEGIN @513 // Shadow Adept
-  REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
-  REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~C0SADEPT~) > 0  @1010 // This component requires the mod kit "Shadow Adept" to be installed.
-  SUBCOMPONENT @500 // Change class/kit: Baeloth
-  GROUP @52 // Class changes
-  DESIGNATED 514
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_SHADOW_ADEPT~
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~C0SADEPT~) > 0  @1010 // This component requires the mod "Shadow Magic" to be installed.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 514
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_SHADOW_ADEPT~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
 
-  COPY_EXISTING_REGEXP ~a.cre~ ~override~
-                       ~baelot[h0-9][0-9]?\.cre~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell = spell_resref RET_ARRAY spell = spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MAGE~
-      kit = ~C0SADEPT~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Adding set of learned shadow magic spells
-    SET num_spells = 0
-    PATCH_FOR_EACH resref IN ~C0SA101~ ~C0SA103~ BEGIN
-      PATCH_IF (FILE_EXISTS_IN_GAME ~%resref%.SPL~ ) BEGIN
-        TEXT_SPRINT EVAL ~spells_%num_spells%~ ~%resref%~
-        SET num_spells += 1
-      END
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~C0SADEPT~) END
 
-  LAF A7_BAELOTH_FIX END
+
+BEGIN @514 // Shadow Disciple
+REQUIRE_PREDICATE GAME_IS ~bgee eet~  @1001 // This component requires either BG:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 101 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~C0SASORC~) > 0  @1010 // This component requires the mod "Shadow Magic" to be installed.
+SUBCOMPONENT @500 // Change class/kit: Baeloth
+GROUP @52 // Class changes
+DESIGNATED 515
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-BAELOTH_SHADOW_DISCIPLE~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_baeloth.tph~
+
+LAF a7#change_class_baeloth INT_VAR class = IDS_OF_SYMBOL(~class~ ~SORCERER~) kit = IDS_OF_SYMBOL(~kit~ ~C0SASORC~) END
 
 
 //////////////////////////////////
 //    Change class/kit: Dorn    //
 //////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @520 // Change class/kit: Dorn
-  GROUP @52 // Class changes
-  DESIGNATED 520
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-DORN_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 102 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @520 // Change class/kit: Dorn
+GROUP @52 // Class changes
+DESIGNATED 520
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-DORN_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_dorn.tph~
 
-  COPY_EXISTING_REGEXP ~^dorn[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_dorn END
 
 
 ///////////////////////////////////
 //    Change class/kit: Neera    //
 ///////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @540 // Change class/kit: Neera
-  GROUP @52 // Class changes
-  DESIGNATED 540
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 540
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
 
-  COPY_EXISTING_REGEXP ~^neera[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_neera INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @540 // Change class/kit: Neera
-  GROUP @52 // Class changes
-  DESIGNATED 541
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 541
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
 
-  ACTION_IF (GAME_IS ~bgee~) BEGIN
-    OUTER_TEXT_SPRINT cre_resref ~neera2~
-  END ELSE BEGIN
-    OUTER_TEXT_SPRINT cre_resref ~neera8~
-  END
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref
-    RET success class_id kit_id
-  END
+LAF a7#change_class_neera INT_VAR interactive = 1 END
 
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~^neera[0-9]*\.cre$~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
 
-  // fixing plot script (ToB)
-  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
-    ACTION_IF NOT (class_id = 1 && IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) = kit_id) BEGIN
-      ACTION_MATCH class_id WITH
-        1 5 7 10 13 19 BEGIN  // mage
-          OUTER_TEXT_SPRINT spell_cast ~SpellCast("neera",0)~
-        END
-        3 6 8 11 12 15 16 18 21 BEGIN // priest
-          ACTION_IF (class_id = 6 && IDS_OF_SYMBOL(~kit~ ~INQUISITOR~) = kit_id) BEGIN
-            OUTER_TEXT_SPRINT spell_cast ~OR(2) SpellCastPriest("neera",0) SpellCastInnate("neera",0)~
-          END ELSE BEGIN
-            OUTER_TEXT_SPRINT spell_cast ~SpellCastPriest("neera",0)~
-          END
-        END
-        14 17 BEGIN // mage/priest
-          OUTER_TEXT_SPRINT spell_cast ~OR(2) SpellCast("neera",0) SpellCastPriest("neera",0)~
-        END
-        DEFAULT
-          OUTER_TEXT_SPRINT spell_cast ~OR(3) SpellCast("neera",0) SpellCastPriest("neera",0) SpellCastInnate("neera",0)~
-      END
-      ACTION_IF (class_id = 19 &&
-                 IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) = kit_id &&
-                 FILE_EXISTS_IN_GAME ~A7_SP01.SPL~) BEGIN
-        OUTER_TEXT_SPRINT spell_cast ~SpellCastRES("A7_SP01","neera")~
-      END
-<<<<<<<< .../inlined/A7-ConvenientEENPCs/oh6400-add1.baf
-IF
-  Global("OHN_TOB_PLOT","GLOBAL",2)
-  %spell_cast%
-THEN
-  RESPONSE #100
-    SetGlobal("OHN_TOB_PLOT","GLOBAL",3)
-    SetGlobalTimer("ohn_cast_nrd","oh6400",ONE_ROUND)
-END
->>>>>>>>
-      EXTEND_TOP ~OH6400.BCS~ ~.../inlined/A7-ConvenientEENPCs/oh6400-add1.baf~ EVAL
-    END
-  END
+BEGIN @542 // Fighter / Wild Mage~
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 542
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_FIGHTER_WILDMAGE~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
+
+LAF a7#change_class_neera INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER_MAGE~) kit1 = IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) END
+
+
+BEGIN @543 // Wild Mage / Thief
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 543
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_WILDMAGE_THIEF~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
+
+LAF a7#change_class_neera INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE_THIEF~) kit1 = IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) END
+
+
+BEGIN @544 // Cleric / Wild Mage
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 544
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_CLERIC_WILDMAGE~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
+
+LAF a7#change_class_neera INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC_MAGE~) kit1 = IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) END
+
+
+BEGIN @545 // Fighter / Wild Mage / Thief
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 545
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_FIGHTER_WILDMAGE_THIEF~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
+
+LAF a7#change_class_neera INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER_MAGE_THIEF~) kit1 = IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) END
+
+
+BEGIN @546 // Fighter / Wild Mage / Cleric
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 546
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_FIGHTER_WILDMAGE_CLERIC~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
+
+LAF a7#change_class_neera INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER_MAGE_CLERIC~) kit1 = IDS_OF_SYMBOL(~kit~ ~WILDMAGE~) END
 
 
 BEGIN @541 // Chaos Sorcerer
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
-  REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) > 0  @1009 // This component requires the mod kit "Chaos Sorcerer" to be installed.
-  SUBCOMPONENT @540 // Change class/kit: Neera
-  GROUP @52 // Class changes
-  DESIGNATED 542
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_CHAOS_SORCERER~
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 104 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) > 0  @1009 // This component requires the mod kit "Chaos Sorcerer" to be installed.
+SUBCOMPONENT @540 // Change class/kit: Neera
+GROUP @52 // Class changes
+DESIGNATED 547
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-NEERA_CHAOS_SORCERER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_neera.tph~
 
-  COPY_EXISTING_REGEXP ~^neera[0-9]*\.cre$~ ~override~
-    READ_BYTE 0x234 level
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell = spell_resref RET_ARRAY spell = spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~SORCERER~
-      kit = ~A7_CHAOS_SORCERER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // removing spells from opposite schools
-    FOR (i = 0; i < spell; ++i) BEGIN
-      TEXT_SPRINT resref EVAL ~%spell_resref_%i%%~
-      LPF A7_IS_SPELL_USABLE_BY INT_VAR class = 1 kit = 0x4000 STR_VAR resref RET result END
-      PATCH_IF (NOT result) BEGIN TEXT_SPRINT EVAL ~spell_resref_%i%~ ~~ END
-    END
-    // Restoring as sorcerer spells
-    LPF A7_ADD_CRE_GRANTED_SPELLS
-      INT_VAR
-        spell_type = 1 // 0: priest, 1: wizard
-        num_spells = spell
-    END
-    // Updating biography (BG1/BG2)
-    SET strref = (GAME_IS ~bgee~ || level < 8) ? RESOLVE_STR_REF(@51000) : RESOLVE_STR_REF(@51001)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
-
-  // fixing plot script (ToB)
-  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
-<<<<<<<< .../inlined/A7-ConvenientEENPCs/oh6400-add2.baf
-IF
-  Global("OHN_TOB_PLOT","GLOBAL",2)
-  SpellCastRES("A7_SP01","neera")
-THEN
-  RESPONSE #100
-    SetGlobal("OHN_TOB_PLOT","GLOBAL",3)
-    SetGlobalTimer("ohn_cast_nrd","oh6400",ONE_ROUND)
-END
->>>>>>>>
-    EXTEND_TOP ~OH6400.BCS~ ~.../inlined/A7-ConvenientEENPCs/oh6400-add2.baf~
-  END
+LAF a7#change_class_neera INT_VAR class = IDS_OF_SYMBOL(~class~ ~SORCERER~) kit = IDS_OF_SYMBOL(~kit~ ~A7_CHAOS_SORCERER~) END
 
 
 ////////////////////////////////////
 //    Change class/kit: Rasaad    //
 ////////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @560 // Change class/kit: Rasaad
-  GROUP @52 // Class changes
-  DESIGNATED 560
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @560 // Change class/kit: Rasaad
+GROUP @52 // Class changes
+DESIGNATED 560
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_rasaad.tph~
 
-  COPY_EXISTING_REGEXP ~^rasaad[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_rasaad INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @560 // Change class/kit: Rasaad
-  GROUP @52 // Class changes
-  DESIGNATED 561
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @560 // Change class/kit: Rasaad
+GROUP @52 // Class changes
+DESIGNATED 561
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_rasaad.tph~
 
-  ACTION_IF (GAME_IS ~bgee~) BEGIN
-    OUTER_TEXT_SPRINT cre_resref ~rasaad2~
-  END ELSE BEGIN
-    OUTER_TEXT_SPRINT cre_resref ~rasaad8~
-  END
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~^rasaad[0-9]*\.cre$~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
+LAF a7#change_class_rasaad INT_VAR interactive = 1 END
 
 
 BEGIN @561 // Monk
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @560 // Change class/kit: Rasaad
-  GROUP @52 // Class changes
-  DESIGNATED 562
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_MONK~
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @560 // Change class/kit: Rasaad
+GROUP @52 // Class changes
+DESIGNATED 562
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_MONK~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_rasaad.tph~
 
-  COPY_EXISTING_REGEXP ~^rasaad[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~MONK~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_rasaad INT_VAR class = IDS_OF_SYMBOL(~class~ ~MONK~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
 BEGIN @562 // Silverstar of Selune
-  REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
-  REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~CDSelune~) > 0  @1011 // This component requires the mod component "Divine Remix -> Silverstar of Selune" to be installed.
-  SUBCOMPONENT @560 // Change class/kit: Rasaad
-  GROUP @52 // Class changes
-  DESIGNATED 563
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_SILVERSTAR_OF_SELUNE~
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~CDSelune~) > 0  @1011 // This component requires the mod component "Divine Remix -> Silverstar of Selune" to be installed.
+SUBCOMPONENT @560 // Change class/kit: Rasaad
+GROUP @52 // Class changes
+DESIGNATED 563
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_SILVERSTAR_OF_SELUNE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_rasaad.tph~
 
-  COPY_EXISTING_REGEXP ~^rasaad[0-9]*\.cre$~ ~override~
-    READ_BYTE 0x234 level
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~CLERIC~
-      kit = ~CDSelune~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    PATCH_IF (GAME_IS ~bgee eet~ && level < 6) BEGIN
-      LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~blun04q~ resref_weapon2 = ~slng01~ resref_quiver1 = ~bull01,40~ END // add weapon
-    END ELSE PATCH_IF (level < 13) BEGIN
-      LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~blun05~ resref_weapon2 = ~slng02~ resref_quiver1 = ~bull02,40~ END // add weapon
-    END ELSE BEGIN
-      LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~blun15~ resref_weapon2 = ~slng04~ resref_quiver1 = ~bull03,40~ resref_quiver2 = ~bull04,20~ END // add weapon
-    END
-    // Updating biography (BG2 only)
-    PATCH_IF (GAME_IS ~bge22~ || level > 7) BEGIN
-      SET strref = RESOLVE_STR_REF(@51050)
-      GET_STRREF strref text
-      PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-        WRITE_LONG BIO strref
-      END
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_rasaad INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC~) kit = IDS_OF_SYMBOL(~kit~ ~CDSelune~) END
 
-  // adjusting NPC-related items
-  COPY_EXISTING ~rsboot.itm~ ~override~
-    SAY IDENTIFIED_DESC @50002
-  BUT_ONLY IF_EXISTS
-  COPY_EXISTING ~rsbrac.itm~ ~override~
-    SAY IDENTIFIED_DESC @50003
-  BUT_ONLY IF_EXISTS
+
+BEGIN @563 // Brawler
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~  @1000  // This component requires either BG:EE, BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 105 @1007   // This component is not available if the NPC has been disabled.
+REQUIRE_PREDICATE IDS_OF_SYMBOL(~kit~ ~C0_BRAWLER~) > 0  @1014 // This component requires the mod component "Artisan's Kitpack > Brawler Kit" to be installed.
+SUBCOMPONENT @560 // Change class/kit: Rasaad
+GROUP @52 // Class changes
+DESIGNATED 564
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-RASAAD_BRAWLER~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_rasaad.tph~
+
+LAF a7#change_class_rasaad INT_VAR class = IDS_OF_SYMBOL(~class~ ~MONK~) kit = IDS_OF_SYMBOL(~kit~ ~C0_BRAWLER~) END
 
 
 /////////////////////////////////////
 //    Change class/kit: M'Khiin    //
 /////////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @580 // Change class/kit: M'Khiin
-  GROUP @52 // Class changes
-  DESIGNATED 580
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-MKHIIN_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @580 // Change class/kit: M'Khiin
+GROUP @52 // Class changes
+DESIGNATED 580
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-MKHIIN_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_mkhiin.tph~
 
-  COPY_EXISTING_REGEXP ~^bdmkhi[0-9]*\.cre$~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 0 RET spell = spell_resref RET_ARRAY spell = spell_resref END
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_ADD_CRE_GRANTED_SPELLS INT_VAR spell_type = 0 num_spells = spell END // restoring shaman spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_mkhiin END
 
 
 ///////////////////////////////////
 //    Change class/kit: Glint    //
 ///////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @600 // Change class/kit: Glint
-  GROUP @52 // Class changes
-  DESIGNATED 600
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @600 // Change class/kit: Glint
+GROUP @52 // Class changes
+DESIGNATED 600
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_glint.tph~
 
-  COPY_EXISTING_REGEXP ~^glint[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_glint INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @600 // Change class/kit: Glint
-  GROUP @52 // Class changes
-  DESIGNATED 601
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @600 // Change class/kit: Glint
+GROUP @52 // Class changes
+DESIGNATED 601
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_glint.tph~
 
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref = ~glint7~
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~^glint[0-9]*\.cre$~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
+LAF a7#change_class_glint INT_VAR interactive = 1 END
 
 
 BEGIN @601 // Cleric
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @600 // Change class/kit: Glint
-  GROUP @52 // Class changes
-  DESIGNATED 602
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CLERIC~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @600 // Change class/kit: Glint
+GROUP @52 // Class changes
+DESIGNATED 602
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CLERIC~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_glint.tph~
 
-  COPY_EXISTING_REGEXP ~^glint[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~CLERIC~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_belt = ~bdbelt01~ END // replace belt
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_glint INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
-BEGIN @602 // Fighter/Cleric
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @600 // Change class/kit: Glint
-  GROUP @52 // Class changes
-  DESIGNATED 603
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_FIGHTER_CLERIC~
+BEGIN @602 // Fighter / Cleric
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @600 // Change class/kit: Glint
+GROUP @52 // Class changes
+DESIGNATED 603
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_FIGHTER_CLERIC~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_glint.tph~
 
-  COPY_EXISTING_REGEXP ~^glint[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~FIGHTER_CLERIC~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_belt = ~bdbelt01~ END // replace belt
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_glint INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER_CLERIC~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
-BEGIN @603 // Cleric/Illusionist
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @600 // Change class/kit: Glint
-  GROUP @52 // Class changes
-  DESIGNATED 604
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CLERIC_ILLUSIONIST~
+BEGIN @603 // Cleric / Illusionist
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @600 // Change class/kit: Glint
+GROUP @52 // Class changes
+DESIGNATED 604
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-GLINT_CLERIC_ILLUSIONIST~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_glint.tph~
 
-  COPY_EXISTING_REGEXP ~^glint[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~CLERIC_MAGE~
-      kit = ~ILLUSIONIST~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_belt = ~bdbelt01~ END // replace belt
-    // Adding set of learned spells
-    SET num_spells = 0
-    PATCH_FOR_EACH symbol IN ~WIZARD_ARMOR~ ~WIZARD_BLINDNESS~ ~WIZARD_FRIENDS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~
-                             ~WIZARD_INVISIBILITY~ ~WIZARD_KNOCK~ ~WIZARD_MIRROR_IMAGE~
-                             ~WIZARD_HASTE~ ~WIZARD_WRAITH_FORM~ BEGIN
-      LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spells_%num_spells%~ = resref END
-      SET num_spells += 1
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_glint INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC_MAGE~) kit = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_ILLUSIONIST~) END
 
 
 /////////////////////////////////////
 //    Change class/kit: Voghiln    //
 /////////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @620 // Change class/kit: Voghiln
-  GROUP @52 // Class changes
-  DESIGNATED 620
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @620 // Change class/kit: Voghiln
+GROUP @52 // Class changes
+DESIGNATED 620
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_voghiln.tph~
 
-  COPY_EXISTING_REGEXP ~^voghil[0-9]*\.cre$~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_voghiln INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @620 // Change class/kit: Voghiln
-  GROUP @52 // Class changes
-  DESIGNATED 621
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @620 // Change class/kit: Voghiln
+GROUP @52 // Class changes
+DESIGNATED 621
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_voghiln.tph~
 
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref = ~voghil7~
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~^voghil[0-9]*\.cre$~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
+LAF a7#change_class_voghiln INT_VAR interactive = 1 END
 
 
 BEGIN @621 // Bard
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @620 // Change class/kit: Voghiln
-  GROUP @52 // Class changes
-  DESIGNATED 622
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_BARD~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @620 // Change class/kit: Voghiln
+GROUP @52 // Class changes
+DESIGNATED 622
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_BARD~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_voghiln.tph~
 
-  COPY_EXISTING_REGEXP ~^voghil[0-9]*\.cre$~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~BARD~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_voghiln INT_VAR class = IDS_OF_SYMBOL(~class~ ~BARD~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
 BEGIN @622 // Blade
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @620 // Change class/kit: Voghiln
-  GROUP @52 // Class changes
-  DESIGNATED 623
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_BLADE~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @620 // Change class/kit: Voghiln
+GROUP @52 // Class changes
+DESIGNATED 623
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_BLADE~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_voghiln.tph~
 
-  COPY_EXISTING_REGEXP ~^voghil[0-9]*\.cre$~ ~override~
-    LPF A7_GET_CRE_KNOWN_SPELLS INT_VAR type = 1 RET spell_resref RET_ARRAY spell_resref END
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~BARD~
-      kit = ~BLADE~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells = spell_resref STR_VAR spells = ~spell_resref~ END // restoring spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_voghiln INT_VAR class = IDS_OF_SYMBOL(~class~ ~BARD~) kit = IDS_OF_SYMBOL(~kit~ ~BLADE~) END
 
 
 BEGIN @623 // Thief
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @620 // Change class/kit: Voghiln
-  GROUP @52 // Class changes
-  DESIGNATED 624
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_THIEF~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @620 // Change class/kit: Voghiln
+GROUP @52 // Class changes
+DESIGNATED 624
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_THIEF~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_voghiln.tph~
 
-  COPY_EXISTING_REGEXP ~^voghil[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~THIEF~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~dart02,40~ resref_weapon2 = ~sw1h14~ END // replace weapon
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51100)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_voghiln INT_VAR class = IDS_OF_SYMBOL(~class~ ~THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
 BEGIN @624 // Swashbuckler
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @620 // Change class/kit: Voghiln
-  GROUP @52 // Class changes
-  DESIGNATED 625
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_SWASHBUCKLER~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @620 // Change class/kit: Voghiln
+GROUP @52 // Class changes
+DESIGNATED 625
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-VOGHILN_SWASHBUCKLER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_voghiln.tph~
 
-  COPY_EXISTING_REGEXP ~^voghil[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~THIEF~
-      kit = ~SWASHBUCKLER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~dart02,40~ resref_weapon2 = ~sw1h14~ END // replace weapon
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51100)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_voghiln INT_VAR class = IDS_OF_SYMBOL(~class~ ~THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~SWASHBUCKLER~) END
 
 
 ////////////////////////////////////
 //    Change class/kit: Corwin    //
 ////////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 640
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 640
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 641
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 641
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref = ~corwin7~
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
+LAF a7#change_class_corwin INT_VAR interactive = 1 END
 
 
 BEGIN @641 // Ranger
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 642
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_RANGER~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 642
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_RANGER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~RANGER~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~RANGER~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
 BEGIN @642 // Stalker
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 643
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_STALKER~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 643
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_STALKER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~RANGER~
-      kit = ~STALKER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~RANGER~) kit = IDS_OF_SYMBOL(~kit~ ~STALKER~) END
 
 
 BEGIN @643 // Fighter
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 644
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_FIGHTER~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 644
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_FIGHTER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~FIGHTER~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
 BEGIN @644 // Wizard Slayer
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 645
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_WIZARD_SLAYER~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 645
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_WIZARD_SLAYER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~FIGHTER~
-      kit = ~WIZARD_SLAYER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER~) kit = IDS_OF_SYMBOL(~kit~ ~WIZARDSLAYER~) END
 
 
 BEGIN @645 // Cleric
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 646
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CLERIC~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 646
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CLERIC~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  // Replace Corwin's weapon of choice
-  COPY ~%MOD_FOLDER%/spells/a7_slng1.spl~ ~override~
-  COPY ~%MOD_FOLDER%/items/a7_slng1.itm~ ~override~
-    SAY NAME2 @50004  // Corwin's Sling +2
-    SAY IDENTIFIED_DESC @50005  // ...
-
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~CLERIC~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    REMOVE_CRE_ITEM ~bdbow06~
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~a7_slng1~ resref_weapon2 = ~bdblun02~ resref_quiver1 = ~bull02,40~ resref_quiver2 = ~bull07,40~ resref_quiver3 = ~bull03,40~ END // replace items
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51150)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
-
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 BEGIN @646 // Priest of Tyr
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 647
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PRIEST_OF_TYR~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 647
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PRIEST_OF_TYR~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  // Replace Corwin's weapon of choice
-  COPY ~%MOD_FOLDER%/spells/a7_slng1.spl~ ~override~
-  COPY ~%MOD_FOLDER%/items/a7_slng1.itm~ ~override~
-    SAY NAME2 @50004  // Corwin's Sling +2
-    SAY IDENTIFIED_DESC @50005  // ...
-
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~CLERIC~
-      kit = ~OHTYR~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    REMOVE_CRE_ITEM ~bdbow06~
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~a7_slng1~ resref_weapon2 = ~bdblun02~ resref_quiver1 = ~bull02,40~ resref_quiver2 = ~bull07,40~ resref_quiver3 = ~bull03,40~ END // replace items
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51150)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC~) kit = IDS_OF_SYMBOL(~kit~ ~OHTYR~) END
 
 
 BEGIN @647 // Priest of Helm
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 648
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PRIEST_OF_HELM~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 648
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PRIEST_OF_HELM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  // Replace Corwin's weapon of choice
-  COPY ~%MOD_FOLDER%/spells/a7_slng1.spl~ ~override~
-  COPY ~%MOD_FOLDER%/items/a7_slng1.itm~ ~override~
-    SAY NAME2 @50004  // Corwin's Sling +2
-    SAY IDENTIFIED_DESC @50005  // ...
-
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~CLERIC~
-      kit = ~HELM~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    REMOVE_CRE_ITEM ~bdbow06~
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~a7_slng1~ resref_weapon2 = ~bdblun02~ resref_quiver1 = ~bull02,40~ resref_quiver2 = ~bull07,40~ resref_quiver3 = ~bull03,40~ END // replace items
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51150)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC~) kit = IDS_OF_SYMBOL(~kit~ ~GODHELM~) END
 
 
 BEGIN @648 // Paladin
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 649
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PALADIN~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 649
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_PALADIN~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~PALADIN~
-      kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51151)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~PALADIN~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
 BEGIN @649 // Cavalier
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 650
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CAVALIER~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 650
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_CAVALIER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~PALADIN~
-      kit = ~CAVALIER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    REMOVE_CRE_ITEM ~bdbow06~
-    LPF A7_EQUIP_CRE_ITEMS STR_VAR resref_weapon1 = ~bdsw1h22~ END // replace items
-  BUT_ONLY IF_EXISTS
-
-  COPY_EXISTING ~bd0114.are~ ~override~
-    LPF REPLACE_AREA_ITEM
-    STR_VAR
-      old_item = ~bdsw1h22~
-      new_item = ~sw1h42~
-    END
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51151)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~PALADIN~) kit = IDS_OF_SYMBOL(~kit~ ~CAVALIER~) END
 
 
 BEGIN @650 // Inquisitor
-  REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @640 // Change class/kit: Corwin
-  GROUP @52 // Class changes
-  DESIGNATED 651
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_INQUISITOR~
+REQUIRE_PREDICATE GAME_IS ~eet~ OR GAME_INCLUDES ~sod~  @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @640 // Change class/kit: Corwin
+GROUP @52 // Class changes
+DESIGNATED 651
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CORWIN_INQUISITOR~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_corwin.tph~
 
-  COPY_EXISTING_REGEXP ~^corwin[0-9]*\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-    STR_VAR
-      class = ~PALADIN~
-      kit = ~INQUISITOR~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES  // default proficiencies
-    INT_VAR num_proficiencies = 4
-    STR_VAR
-      proficiency_0 = ~99,1~
-      proficiency_1 = ~104,2~
-      proficiency_2 = ~111,1~
-      proficiency_3 = ~89,1~
-    END
-    // Updating biography
-    SET strref = RESOLVE_STR_REF(@51151)
-    GET_STRREF strref text
-    PATCH_IF (NOT ~%text%~ STR_EQ ~~) BEGIN // TODO: remove when all translations are updated
-      WRITE_LONG BIO strref
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_corwin INT_VAR class = IDS_OF_SYMBOL(~class~ ~PALADIN~) kit = IDS_OF_SYMBOL(~kit~ ~INQUISITOR~) END
 
 
 ////////////////////////////////////
 //    Change class/kit: Hexxat    //
 ////////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 660
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 660
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 661
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 661
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref = ~ohhex8~
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
+LAF a7#change_class_hexxat INT_VAR interactive = 1 END
 
 
 BEGIN @661  // Assassin
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 662
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_ASSASSIN~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 662
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_ASSASSIN~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~THIEF~
-        kit = ~ASSASIN~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~ASSASIN~) END
 
 
 BEGIN @662  // Shadowdancer
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 663
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_SHADOWDANCER~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 663
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_SHADOWDANCER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~THIEF~
-        kit = ~SHADOWDANCER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~SHADOWDANCER~) END
 
 
-BEGIN @663  // Mage/Thief
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 664
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_THIEF~
+BEGIN @663  // Mage / Thief
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 664
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_THIEF~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~MAGE_THIEF~
-        kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Adding set of learned spells
-    SET num_spells = 0
-    PATCH_FOR_EACH symbol IN ~WIZARD_BLINDNESS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_LARLOCH_MINOR_DRAIN~
-                             ~WIZARD_HORROR~ ~WIZARD_INVISIBILITY~ ~WIZARD_STINKING_CLOUD~
-                             ~WIZARD_HOLD_PERSON~ ~WIZARD_SLOW~ BEGIN
-      LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spells_%num_spells%~ = resref END
-      SET num_spells += 1
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // restoringadding known spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE_THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
-BEGIN @664  // Mage/Assassin
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 665
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_ASSASSIN~
+BEGIN @664  // Mage / Assassin
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 665
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_ASSASSIN~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~MAGE_THIEF~
-        kit = ~ASSASIN~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Adding set of learned spells
-    SET num_spells = 0
-    PATCH_FOR_EACH symbol IN ~WIZARD_BLINDNESS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_LARLOCH_MINOR_DRAIN~
-                             ~WIZARD_HORROR~ ~WIZARD_INVISIBILITY~ ~WIZARD_STINKING_CLOUD~
-                             ~WIZARD_HOLD_PERSON~ ~WIZARD_SLOW~ BEGIN
-      LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spells_%num_spells%~ = resref END
-      SET num_spells += 1
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE_THIEF~) kit1 = IDS_OF_SYMBOL(~kit~ ~ASSASIN~) END
 
 
-BEGIN @665  // Mage/Shadowdancer
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 666
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_SHADOWDANCER~
+BEGIN @665  // Mage / Shadowdancer
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 666
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_MAGE_SHADOWDANCER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~MAGE_THIEF~
-        kit = ~SHADOWDANCER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Adding set of learned spells
-    SET num_spells = 0
-    PATCH_FOR_EACH symbol IN ~WIZARD_BLINDNESS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_LARLOCH_MINOR_DRAIN~
-                             ~WIZARD_HORROR~ ~WIZARD_INVISIBILITY~ ~WIZARD_STINKING_CLOUD~
-                             ~WIZARD_HOLD_PERSON~ ~WIZARD_SLOW~ BEGIN
-      LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spells_%num_spells%~ = resref END
-      SET num_spells += 1
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE_THIEF~) kit1 = IDS_OF_SYMBOL(~kit~ ~SHADOWDANCER~) END
 
 
-BEGIN @666  // Necromancer/Thief
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 667
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_NECROMANCER_THIEF~
+BEGIN @666  // Necromancer / Thief
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 667
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_NECROMANCER_THIEF~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~MAGE_THIEF~
-        kit = ~NECROMANCER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Adding set of learned spells
-    SET num_spells = 0
-    PATCH_FOR_EACH symbol IN ~WIZARD_CHARM_PERSON~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~ ~WIZARD_CHILL_TOUCH~ ~WIZARD_CHROMATIC_ORB~ ~WIZARD_LARLOCH_MINOR_DRAIN~
-                             ~WIZARD_HORROR~ ~WIZARD_MELF_ACID_ARROW~ ~WIZARD_STINKING_CLOUD~ ~WIZARD_RAY_OF_ENFEEBLEMENT~
-                             ~WIZARD_HOLD_PERSON~ ~WIZARD_SLOW~ ~WIZARD_VAMPIRIC_TOUCH~ BEGIN
-      LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spells_%num_spells%~ = resref END
-      SET num_spells += 1
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~MAGE_THIEF~) kit1 = IDS_OF_SYMBOL(~kit~ ~MAGESCHOOL_NECROMANCER~) END
 
 
-BEGIN @667  // Fighter/Thief
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 668
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_THIEF~
+BEGIN @667  // Fighter / Thief
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 668
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_THIEF~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~FIGHTER_THIEF~
-        kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER_THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
-BEGIN @668  // Fighter/Assassin
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 669
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_ASSASSIN~
+BEGIN @668  // Fighter / Assassin
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 669
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_ASSASSIN~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~FIGHTER_THIEF~
-        kit = ~ASSASIN~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER_THIEF~) kit1 = IDS_OF_SYMBOL(~kit~ ~ASSASIN~) END
 
 
-BEGIN @669  // Fighter/Shadowdancer
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @660 // Change class/kit: Hexxat
-  GROUP @52 // Class changes
-  DESIGNATED 670
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_SHADOWDANCER~
+BEGIN @669  // Fighter / Shadowdancer
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @660 // Change class/kit: Hexxat
+GROUP @52 // Class changes
+DESIGNATED 670
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-HEXXAT_FIGHTER_SHADOWDANCER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_hexxat.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhex[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~FIGHTER_THIEF~
-        kit = ~SHADOWDANCER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_hexxat INT_VAR class = IDS_OF_SYMBOL(~class~ ~FIGHTER_THIEF~) kit1 = IDS_OF_SYMBOL(~kit~ ~SHADOWDANCER~) END
 
 
 ///////////////////////////////////
 //    Change class/kit: Clara    //
 ///////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @680 // Change class/kit: Clara
-  GROUP @52 // Class changes
-  DESIGNATED 680
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_RESET~
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @680 // Change class/kit: Clara
+GROUP @52 // Class changes
+DESIGNATED 680
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_clara.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhfak[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_clara INT_VAR reset = 1 END
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @680 // Change class/kit: Clara
-  GROUP @52 // Class changes
-  DESIGNATED 681
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_CUSTOM~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @680 // Change class/kit: Clara
+GROUP @52 // Class changes
+DESIGNATED 681
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_clara.tph~
 
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref = ~ohhfak8~
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING_REGEXP ~^ohhfak[0-9]+\.cre$~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
+LAF a7#change_class_clara INT_VAR interactive = 1 END
 
 
 BEGIN @681 // Bounty Hunter
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @680 // Change class/kit: Clara
-  GROUP @52 // Class changes
-  DESIGNATED 682
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_BOUNTY_HUNTER~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @680 // Change class/kit: Clara
+GROUP @52 // Class changes
+DESIGNATED 682
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_BOUNTY_HUNTER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_clara.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhfak[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~THIEF~
-        kit = ~BOUNTY_HUNTER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_clara INT_VAR class = IDS_OF_SYMBOL(~class~ ~THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~BOUNTYHUNTER~) END
 
 
 BEGIN @682  // Swashbuckler
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @680 // Change class/kit: Clara
-  GROUP @52 // Class changes
-  DESIGNATED 683
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_SWASHBUCKLER~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @680 // Change class/kit: Clara
+GROUP @52 // Class changes
+DESIGNATED 683
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_SWASHBUCKLER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_clara.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhfak[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~THIEF~
-        kit = ~SWASHBUCKLER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_clara INT_VAR class = IDS_OF_SYMBOL(~class~ ~THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~SWASHBUCKLER~) END
 
 
 BEGIN @683  // Shadowdancer
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @680 // Change class/kit: Clara
-  GROUP @52 // Class changes
-  DESIGNATED 684
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_SHADOW_DANCER~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @680 // Change class/kit: Clara
+GROUP @52 // Class changes
+DESIGNATED 684
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_SHADOW_DANCER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_clara.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhfak[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~THIEF~
-        kit = ~SHADOWDANCER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_clara INT_VAR class = IDS_OF_SYMBOL(~class~ ~THIEF~) kit = IDS_OF_SYMBOL(~kit~ ~SHADOWDANCER~) END
 
 
 BEGIN @684  // Bard
-  REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
-  FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
-  SUBCOMPONENT @680 // Change class/kit: Clara
-  GROUP @52 // Class changes
-  DESIGNATED 685
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_BARD~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~  @1002  // This component requires either BG2:EE or EET to be installed.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 1 @1007     // This component is not available if the NPC has been disabled.
+FORBID_COMPONENT ~A7-ConvenientEENPCs.tp2~ 103 @1007   // This component is not available if the NPC has been disabled.
+SUBCOMPONENT @680 // Change class/kit: Clara
+GROUP @52 // Class changes
+DESIGNATED 685
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CLARA_BARD~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_clara.tph~
 
-  COPY_EXISTING_REGEXP ~^ohhfak[0-9]+\.cre$~ ~override~
-    LPF A7_RESET_CLASS
-      STR_VAR
-        class = ~BARD~
-        kit = ~TRUECLASS~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES END  // default proficiencies
-    // Adding set of learned spells
-    SET num_spells = 0
-    PATCH_FOR_EACH symbol IN ~WIZARD_ARMOR~ ~WIZARD_BLINDNESS~ ~WIZARD_FRIENDS~ ~WIZARD_IDENTIFY~ ~WIZARD_MAGIC_MISSILE~
-                             ~WIZARD_INVISIBILITY~ ~WIZARD_KNOCK~ ~WIZARD_MELF_ACID_ARROW~
-                             ~WIZARD_HASTE~ ~WIZARD_SLOW~ BEGIN
-      LPF A7_SPELL_RESREF_FROM_SYMBOL STR_VAR symbol RET EVAL ~spells_%num_spells%~ = resref END
-      SET num_spells += 1
-    END
-    LPF A7_SET_CRE_KNOWN_SPELLS INT_VAR num_spells STR_VAR spells END // adding known spells
-    LPF A7_SET_CRE_SPELL_SLOTS INT_VAR spell_type = 1 END // autofilling memorized spells
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_clara INT_VAR class = IDS_OF_SYMBOL(~class~ ~BARD~) kit = IDS_OF_SYMBOL(~kit~ ~TRUECLASS~) END
 
 
 ///////////////////////////////////////////
 //    Change class/kit: Caelar Argent    //
 ///////////////////////////////////////////
 
-BEGIN @521 // Reset level only
-  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
-  GROUP @52 // Class changes
-  DESIGNATED 690
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_RESET~
+/*
+BEGIN @521 // Reset level
+REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+GROUP @52 // Class changes
+DESIGNATED 690
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_RESET~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_caelar.tph~
 
-  COPY_EXISTING ~bdcaela3.cre~ ~override~
-    LPF A7_RESET_CLASS INT_VAR keep_innates = 1 END
-    LPF A7_SET_CRE_PROFICIENCIES
-      INT_VAR
-        num_proficiencies = 3
-      STR_VAR
-        proficiency_0 = ~90,2~  // Long Swords
-        proficiency_1 = ~112,1~ // Sword and Shield
-        proficiency_2 = ~89,1~  // Bastard Swords
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_caelar INT_VAR reset = 1 END
+*/
 
 
 BEGIN @522 // Choose your class
-  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
-  GROUP @52 // Class changes
-  DESIGNATED 691
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_CUSTOM~
+REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+GROUP @52 // Class changes
+DESIGNATED 691
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_CUSTOM~
 
-  INCLUDE ~%MOD_FOLDER%/lib/custom_class.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_caelar.tph~
 
-  LAF A7_GET_CLASS_KIT_INTERACTIVE
-    STR_VAR cre_resref = ~bdcaela3~
-    RET success class_id kit_id
-  END
-
-  ACTION_IF (success) BEGIN
-    COPY_EXISTING ~bdcaela3.cre~ ~override~
-      LPF A7_CHANGE_CUSTOM_CLASS INT_VAR keep_innates = 1 class_id kit_id END
-    BUT_ONLY IF_EXISTS
-  END ELSE BEGIN
-    ABORT @1012 // Operation cancelled by the user.
-  END
+LAF a7#change_class_caelar INT_VAR interactive = 1 END
 
 
 BEGIN @691 // Cavalier
-  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
-  GROUP @52 // Class changes
-  DESIGNATED 692
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_CAVALIER~
+REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+GROUP @52 // Class changes
+DESIGNATED 692
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_CAVALIER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_caelar.tph~
 
-  COPY_EXISTING ~bdcaela3.cre~ ~override~
-    LPF A7_RESET_CLASS
-      INT_VAR
-        keep_innates = 1
-      STR_VAR
-        class = ~PALADIN~
-        kit = ~CAVALIER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES
-      INT_VAR
-        num_proficiencies = 3
-      STR_VAR
-        proficiency_0 = ~90,2~  // Long Swords
-        proficiency_1 = ~112,1~ // Sword and Shield
-        proficiency_2 = ~89,1~  // Bastard Swords
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_caelar INT_VAR class = IDS_OF_SYMBOL(~class~ ~PALADIN~) kit = IDS_OF_SYMBOL(~kit~ ~CAVALIER~) END
 
 
 BEGIN @692 // Inquisitor
-  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
-  GROUP @52 // Class changes
-  DESIGNATED 693
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_INQUISITOR~
+REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+GROUP @52 // Class changes
+DESIGNATED 693
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_INQUISITOR~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_caelar.tph~
 
-  COPY_EXISTING ~bdcaela3.cre~ ~override~
-    LPF A7_RESET_CLASS
-      INT_VAR
-        keep_innates = 1
-      STR_VAR
-        class = ~PALADIN~
-        kit = ~INQUISITOR~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES
-      INT_VAR
-        num_proficiencies = 3
-      STR_VAR
-        proficiency_0 = ~90,2~  // Long Swords
-        proficiency_1 = ~112,1~ // Sword and Shield
-        proficiency_2 = ~89,1~  // Bastard Swords
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_caelar INT_VAR class = IDS_OF_SYMBOL(~class~ ~PALADIN~) kit = IDS_OF_SYMBOL(~kit~ ~INQUISITOR~) END
 
 
 BEGIN @693 // Undead Hunter
-  REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
-  SUBCOMPONENT @690 // Change class/kit: Caelar Argent
-  GROUP @52 // Class changes
-  DESIGNATED 694
-  LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_UNDEAD_HUNTER~
+REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+GROUP @52 // Class changes
+DESIGNATED 694
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_UNDEAD_HUNTER~
 
-  INCLUDE ~%MOD_FOLDER%/lib/class_functions.tph~
+INCLUDE ~%MOD_FOLDER%/lib/class_change_caelar.tph~
 
-  COPY_EXISTING ~bdcaela3.cre~ ~override~
-    LPF A7_RESET_CLASS
-      INT_VAR
-        keep_innates = 1
-      STR_VAR
-        class = ~PALADIN~
-        kit = ~UNDEAD_HUNTER~
-    END
-    LPF A7_SET_CRE_PROFICIENCIES
-      INT_VAR
-        num_proficiencies = 3
-      STR_VAR
-        proficiency_0 = ~90,2~  // Long Swords
-        proficiency_1 = ~112,1~ // Sword and Shield
-        proficiency_2 = ~89,1~  // Bastard Swords
-    END
-  BUT_ONLY IF_EXISTS
+LAF a7#change_class_caelar INT_VAR class = IDS_OF_SYMBOL(~class~ ~PALADIN~) kit = IDS_OF_SYMBOL(~kit~ ~UNDEADHUNTER~) END
+
+
+BEGIN @694 // Priest of Lathander
+REQUIRE_PREDICATE GAME_INCLUDES ~sod~ @1004 // This component requires either SoD or EET to be installed.
+SUBCOMPONENT @690 // Change class/kit: Caelar Argent
+GROUP @52 // Class changes
+DESIGNATED 695
+LABEL ~A7-CONVENIENTEENPCS-CLASSCHANGE-CAELAR_PRIEST_OF_LATHANDER~
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_caelar.tph~
+
+LAF a7#change_class_caelar INT_VAR class = IDS_OF_SYMBOL(~class~ ~CLERIC~) kit = IDS_OF_SYMBOL(~kit~ ~GODLATHANDER~) END

@@ -1,0 +1,81 @@
+// Performs a full class/kit change for Glint
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+DEFINE_ACTION_FUNCTION a7#change_class_glint
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+BEGIN
+  OUTER_SPRINT cre_reference ~glint7~
+  OUTER_SPRINT cre_resref_regexp ~^glint[0-9]*~
+
+  ACTION_IF (NOT reset) BEGIN
+    ACTION_DEFINE_ARRAY profs_warrior BEGIN
+      ~PROFICIENCYDAGGER~
+      ~PROFICIENCYSHORTSWORD~
+      ~PROFICIENCYSHORTBOW~
+      ~PROFICIENCYSHORTSWORD~
+      ~PROFICIENCY2WEAPON~
+      ~PROFICIENCYMACE~
+      ~PROFICIENCY2WEAPON~
+      ~PROFICIENCYSHORTSWORD~
+      ~PROFICIENCYSHORTBOW~
+    END
+
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY thieving_weights BEGIN
+      // parameter => weight
+      ~pick_pockets~    => 30
+      ~open_locks~      => 50
+      ~find_traps~      => 60
+      ~move_silently~   => 20
+      ~hide_in_shadows~ => 30
+      ~detect_illusion~ => 0
+      ~set_traps~       => 0
+    END
+  END
+
+  // no white/black-listing required
+  // ACTION_DEFINE_ARRAY class_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY class_blacklist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_blacklist BEGIN END
+
+  LAF a7#change_class_npc
+    INT_VAR
+      reset interactive class kit kit1 kit2 kit3
+    STR_VAR
+      npc_name = ~glint~
+      cre_reference
+      cre_resref_regexp
+      // class_whitelist_name = ~class_whitelist~
+      // kit_whitelist_name = ~kit_whitelist~
+      // class_blacklist_name = ~class_blacklist~
+      // kit_blacklist_name = ~kit_blacklist~
+    RET class_id kit_id
+  END
+
+  ACTION_IF (NOT reset) BEGIN
+    OUTER_SET class = class_id
+    OUTER_SET kit = kit_id
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~THIEF~) RET is_thief = result END
+
+    ACTION_IF (NOT is_thief) BEGIN
+      LAF a7#process_cre
+        STR_VAR function_0 = ~a7#cre_equipment_update_glint~
+      END
+    END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_equipment_update_glint
+BEGIN
+  // replacing belt
+  REPLACE_CRE_ITEM ~bdbelt01~ #0 #0 #0 ~identified~ ~belt~
+END

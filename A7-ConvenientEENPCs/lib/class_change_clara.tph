@@ -1,0 +1,88 @@
+// Performs a full class/kit change for Clara
+
+INCLUDE ~%MOD_FOLDER%/lib/class_change_defs.tph~
+
+DEFINE_ACTION_FUNCTION a7#change_class_clara
+INT_VAR
+  reset = 0
+  interactive = 0
+  class = "-1"
+  kit = "-1"
+  kit1 = "-1"
+  kit2 = "-1"
+  kit3 = "-1"
+BEGIN
+  OUTER_SPRINT cre_reference ~ohhfak8~
+  OUTER_SPRINT cre_resref_regexp ~^ohhfak[0-9]+~
+
+  ACTION_IF (NOT reset) BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY thieving_weights BEGIN
+      // parameter => weight
+      ~pick_pockets~    => 65
+      ~open_locks~      => 75
+      ~find_traps~      => 90
+      ~move_silently~   => 45
+      ~hide_in_shadows~ => 45
+      ~detect_illusion~ => 15
+      ~set_traps~       => 5
+    END
+  END
+  // no white/black-listing required
+  // ACTION_DEFINE_ARRAY class_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_whitelist BEGIN END
+  // ACTION_DEFINE_ARRAY class_blacklist BEGIN END
+  // ACTION_DEFINE_ARRAY kit_blacklist BEGIN END
+
+  OUTER_SET int_override = 13
+  OUTER_SET chr_override = 15
+  LAF a7#change_class_npc
+    INT_VAR
+      reset interactive class kit kit1 kit2 kit3
+      int_override
+      chr_override
+    STR_VAR
+      npc_name = ~clara~
+      cre_reference
+      cre_resref_regexp
+      // class_whitelist_name = ~class_whitelist~
+      // kit_whitelist_name = ~kit_whitelist~
+      // class_blacklist_name = ~class_blacklist~
+      // kit_blacklist_name = ~kit_blacklist~
+    RET class_id kit_id
+  END
+
+  ACTION_IF (NOT reset) BEGIN
+    OUTER_SET class = class_id
+    OUTER_SET kit = kit_id
+    LAF a7#is_class_included INT_VAR class class_aspect = IDS_OF_SYMBOL(~class~ ~BARD~) RET is_bard = result END
+
+    ACTION_IF (is_bard) BEGIN
+      LAF a7#process_cre
+        STR_VAR function_0 = ~a7#cre_stats_update_clara~
+      END
+    END
+  END
+END
+
+
+DEFINE_PATCH_FUNCTION a7#cre_stats_update_clara
+BEGIN
+  // adjusting stats to meet class requirements
+  SET int_inc = int_override - (BYTE_AT 0x23a)
+  SET int_inc = (int_inc < 0) ? 0 : int_inc
+  PATCH_IF (int_inc > 0) BEGIN
+    WRITE_BYTE 0x23a (THIS + int_inc) // INT
+  END
+
+  SET chr_inc = chr_override - (BYTE_AT 0x23e)
+  SET chr_inc = (chr_inc < 0) ? 0 : chr_inc
+  PATCH_IF (chr_inc > 0) BEGIN
+    WRITE_BYTE 0x23e (THIS + chr_inc) // CHR
+  END
+
+  SET con_dec = int_inc >= 1 ? 1 : int_inc
+  WRITE_BYTE 0x23d (THIS - con_dec) // CON
+
+  SET dex_dec = chr_inc >= 2 ? 2 : chr_inc
+  WRITE_BYTE 0x23c (THIS - dex_dec) // DEX
+END

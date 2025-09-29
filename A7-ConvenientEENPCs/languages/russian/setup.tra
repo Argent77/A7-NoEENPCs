@@ -113,10 +113,11 @@
 @683 = ~Shadowdancer~
 @684 = ~Bard~
 
-@690 = ~Change class/kit: Caelar Argent (See notes in readme!)~
+@690 = ~Change class/kit: Caelar Argent~
 @691 = ~Cavalier~
 @692 = ~Inquisitor~
 @693 = ~Undead Hunter~
+@694 = ~Priest of Lathander~
 
 // Setup messages
 @1000 = ~This component requires either BG:EE, BG2:EE or EET to be installed.~
@@ -134,6 +135,7 @@
 @1012 = ~Operation cancelled by the user.~
 
 // Custom class selection
+// Translators: Text inside angle brackets are placeholders for dynamic text. Do not modify!
 @2000 = ~Current class: %cur_class_title% (%cur_class_name%), kit: %cur_kit_title% (%cur_kit_name%)~
 @2001 = ~Available classes: %class_entries%~
 @2002 = ~Please enter number of the new class (leave blank to keep current):~
