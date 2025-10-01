@@ -170,7 +170,7 @@ The following components are only available when selecting subcomponent "Decide 
   - **Shadowdancer**: Applies the thief kit "Shadowdancer". Current level and experience will be retained.
   - **Bard**: Applies the class "Bard".
 
-- **Change class/kit: Caelar Argent (SoD and EET)**: *Caution: With any of these options installed mage or priest spells gained by level up won't be available since the party has no opportunity to rest in Avernus to memorize her spells. Moreover, you won't be able to level up Caelar at all if she joins as a follower.*
+- **Change class/kit: Caelar Argent (SoD and EET)**
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*
   - **Cavalier**: Applies the paladin kit "Cavalier". Current level and experience will be retained.
   - **Inquisitor**: Applies the paladin kit "Inquisitor". Current level and experience will be retained.
