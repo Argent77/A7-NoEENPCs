@@ -276,7 +276,6 @@ BEGIN
   END
 
   ACTION_IF (success) BEGIN
-    SILENT
     LAF ADD_KIT_EX
       INT_VAR
         kit_class = class
@@ -311,7 +310,6 @@ BEGIN
       RET
         kit_id
     END
-    VERBOSE
   END
 END
 
@@ -1017,7 +1015,6 @@ BEGIN
       OUTER_SPRINT luabbr ~%luabbr_custom%~
 <<<<<<<< .../inlined/kit_functions/blank
 >>>>>>>>
-      SILENT
       COPY ~.../inlined/kit_functions/blank~ ~override/%custom_hla_resref%.2da~
         DELETE_BYTES 0 BUFFER_LENGTH
         SET ofs = 0
@@ -1038,7 +1035,6 @@ BEGIN
           SET ofs += len
         END
         PRETTY_PRINT_2DA
-      VERBOSE
     END
   END
 END
