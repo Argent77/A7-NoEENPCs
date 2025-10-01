@@ -13,6 +13,7 @@ OUTER_SPRINT ADD_KIT_EX_VERSION ~0.6.2~
 <<<<<<<< .../a7-add_kit_ex/inlined/blank.file
 >>>>>>>>
 
+OUTER_SET a7#is_silent = 0
 
 // Print specified message as log entry, info, warning or error
 DEFINE_ACTION_FUNCTION a7#add_kit_ex#print_message
@@ -130,10 +131,12 @@ STR_VAR resref = ~~
 RET index
 BEGIN
   OUTER_SET index = "-1"
+  ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
   COPY_EXISTING ~%resref%.2da~ ~override~
     COUNT_2DA_ROWS 1 num_rows
     SET index = num_rows - 3
   BUT_ONLY IF_EXISTS
+  ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 END
 
 
@@ -143,10 +146,12 @@ STR_VAR resref = ~~
 RET index
 BEGIN
   OUTER_SET index = "-1"
+  ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
   COPY_EXISTING ~%resref%.2da~ ~override~
     COUNT_2DA_COLS num_cols
     SET index = num_cols - 1
   BUT_ONLY IF_EXISTS
+  ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 END
 
 
@@ -163,6 +168,7 @@ RET
 BEGIN
   OUTER_TEXT_SPRINT row ~~
   OUTER_SET row_index = "-1"
+  ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
   COPY_EXISTING ~%resref%.2da~ ~override~
     COUNT_2DA_COLS num_cols
     READ_2DA_ENTRIES_NOW table 1
@@ -181,6 +187,7 @@ BEGIN
       END
     END
   BUT_ONLY IF_EXISTS
+  ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 END
 
 
@@ -197,6 +204,7 @@ RET
 BEGIN
   OUTER_TEXT_SPRINT column ~~
   OUTER_SET column_index = "-1"
+  ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
   COPY_EXISTING ~%resref%.2da~ ~override~
     COUNT_2DA_COLS num_cols
     READ_2DA_ENTRIES_NOW table 1
@@ -218,6 +226,7 @@ BEGIN
       END
     END
   BUT_ONLY IF_EXISTS
+  ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 END
 
 
@@ -374,12 +383,14 @@ RET success       // returns whether an entry was actually added
 BEGIN
   OUTER_SET success = 0
   ACTION_IF (IS_AN_INT EVAL ~%array%~ && EVAL ~%array%~ > 0) BEGIN
+    ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
     COPY_EXISTING ~%resref%.2da~ ~override~
       LPF a7#add_kit_ex#normalize_table END
       COUNT_2DA_ROWS 1 num_rows
       SET num_rows -= 2 // skip first two table rows
       READ_2DA_ENTRY 1 0 1 default
     BUT_ONLY
+    ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 
     ACTION_IF (NOT FILE_CONTAINS_EVALUATED(~%resref%.2da~ ~[ %TAB%%WNL%]%kit_name%[ %TAB%%WNL%]~)) BEGIN
       // assembling column entries
@@ -718,6 +729,7 @@ BEGIN
     OUTER_SET result = 1
   END ELSE ACTION_IF (FILE_EXISTS ~TobEx.dll~) BEGIN
     // Later TobEx versions
+    ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
     COPY ~TobEx_ini/TobExVer.txt~ ~TobEx_ini/TobExVer.txt~
       READ_ASCII 0 value (BUFFER_LENGTH)
       INNER_PATCH_SAVE value ~%value%~ BEGIN
@@ -727,6 +739,7 @@ BEGIN
         SET result = 1
       END
     BUT_ONLY IF_EXISTS
+    ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
   END
 END
 
@@ -800,6 +813,7 @@ INT_VAR
 RET help
 BEGIN
   ACTION_IF (help < "-1") BEGIN
+    ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
     COPY_EXISTING ~clastext.2da~ ~override~
       READ_2DA_ENTRIES_NOW clastext 1
       FOR (row = 3; row < clastext; ++row) BEGIN
@@ -816,6 +830,7 @@ BEGIN
         END
       END
     BUT_ONLY IF_EXISTS
+    ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
   END
   ACTION_IF (help < "-1") BEGIN
     ACTION_DEFINE_ASSOCIATIVE_ARRAY class_help BEGIN
@@ -862,10 +877,12 @@ BEGIN
         TO_UPPER ~clab~
       IF_EXISTS
     END ELSE BEGIN
+      ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
       COPY_EXISTING ~%path%~ ~override~
         TEXT_SPRINT clab ~%SOURCE_RES%~
         TO_UPPER ~clab~
       BUT_ONLY IF_EXISTS
+      ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
     END
   END ELSE BEGIN
     // Try kit first
@@ -957,6 +974,7 @@ STR_VAR
   clone3 = ~~         // tertiary entry to clone if no array available
 RET success resref
 BEGIN
+  ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
   COPY_EXISTING ~campaign.2da~ ~override~
     LPF a7#add_kit_ex#get_2da_value
       STR_VAR
@@ -968,6 +986,7 @@ BEGIN
       TEXT_SPRINT resref ~%value%~
     END
   BUT_ONLY IF_EXISTS
+  ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 
   LAF a7#add_kit_ex#add_25stweap
     STR_VAR kit_name resref string clone1 clone2 clone3
@@ -1299,9 +1318,11 @@ BEGIN
     OUTER_FOR (i = 1; i < 7; ++i) BEGIN
       APPEND ~%resref%.2DA~ ~ABILITY%i% %data%~
     END
+    ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
     COPY_EXISTING ~%resref%.2DA~ ~override~
       PRETTY_PRINT_2DA
     BUT_ONLY
+    ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
   END
 END
 
@@ -1446,9 +1467,11 @@ BEGIN
         END
       END
       APPEND ~%clab_resref%.2DA~ ~%line%~
+      ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
       COPY_EXISTING ~%clab_resref%.2DA~ ~override~
         PRETTY_PRINT_2DA
       BUT_ONLY
+      ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
     END
     OUTER_SET success = 1
   END
@@ -1689,6 +1712,7 @@ RET
   kit_id
 BEGIN
   OUTER_SET kit_id = "-1"
+  OUTER_SET a7#is_silent = IS_SILENT
 
   // basic check for kit support
   ACTION_IF (GAME_IS ~bg1 totsc iwd how totlm iwd2 pst~ ||
@@ -1866,9 +1890,11 @@ BEGIN
     // installing CLAB
     ACTION_IF (is_multiclass) BEGIN
       // Multiclass: use placeholder for CLAB resref
+      ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
       COPY_EXISTING ~kitlist.2da~ ~override~
         READ_2DA_ENTRY 1 0 1 clab_res
       BUT_ONLY
+      ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
     END ELSE BEGIN
       ACTION_IF (~%clab_res%~ STR_EQ ~~) BEGIN
         LAF a7#add_kit_ex#get_clab
@@ -1885,7 +1911,9 @@ BEGIN
 
     // adding kitlist entry
     LAF a7#add_kit_ex#next_column STR_VAR resref = ~weapprof~ RET prof_id = index END
+    ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
     COPY_EXISTING ~kitlist.2da~ ~override~ COUNT_2DA_COLS kitlist_num_cols BUT_ONLY
+    ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
     OUTER_TEXT_SPRINT line ~%kit_number% %kit_name% %lower% %mixed% %help% %clab_res% %prof_id% %unusable% %kit_class%~
     ACTION_IF (kitlist_num_cols > 9) BEGIN
       LAF a7#add_kit_ex#to_hex STR_VAR number = EVAL ~%kit_number_full%~ RET kit_number_full_hex = hex END
@@ -2033,6 +2061,7 @@ BEGIN
     ACTION_IF (is_ee) BEGIN
       // getting clastext resref for SoD
       OUTER_TEXT_SPRINT sod_clastext ~~
+      ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
       COPY_EXISTING ~campaign.2da~ ~override~
         LPF a7#add_kit_ex#get_2da_value
           STR_VAR
@@ -2042,6 +2071,7 @@ BEGIN
             sod_clastext = value
         END
       BUT_ONLY IF_EXISTS
+      ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
       ACTION_IF (~%sod_clastext%~ STR_EQ ~~) BEGIN
         OUTER_TEXT_SPRINT sod_clastext ~sodcltxt~
       END
@@ -2061,6 +2091,7 @@ BEGIN
         ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2da~) BEGIN
           // retrieving source kit/class information
           OUTER_SET items = 0
+          ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
           COPY_EXISTING ~%resref%.2da~ ~override~
             COUNT_2DA_COLS num_cols
             READ_2DA_ENTRIES_NOW class_table 1
@@ -2087,6 +2118,7 @@ BEGIN
               END
             END
           BUT_ONLY
+          ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 
           ACTION_IF (items > 8) BEGIN
             OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~
@@ -2239,11 +2271,13 @@ BEGIN
 
     // prettifying modified tables
     ACTION_IF (prettify) BEGIN
+      ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
       ACTION_PHP_EACH tables_modified AS resref => _ BEGIN
         COPY_EXISTING ~%resref%.2DA~ ~override~
           PRETTY_PRINT_2DA
         BUT_ONLY IF_EXISTS
       END
+      ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
     END
 
     OUTER_SET kit_id = kit_number
@@ -2403,6 +2437,7 @@ BEGIN
           END ELSE BEGIN
             // use column specified in kitlist.2da
             OUTER_SET column_index = "-1"
+            ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
             COPY_EXISTING ~weapprof.2da~ ~override~
               COUNT_2DA_COLS num_cols
               PATCH_IF (proficiency < num_cols) BEGIN
@@ -2415,6 +2450,7 @@ BEGIN
                 SET column_index = proficiency
               END
             BUT_ONLY IF_EXISTS
+            ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
           END
           ACTION_IF (column_index >= 0) BEGIN
             // normalizing column data
@@ -2458,6 +2494,7 @@ BEGIN
           ACTION_IF (is_sod) BEGIN
             OUTER_TEXT_SPRINT resref ~bdstweap~
             // getting resref name
+            ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
             COPY_EXISTING ~campaign.2da~ ~override~
               LPF a7#add_kit_ex#get_2da_value
                 STR_VAR
@@ -2469,6 +2506,7 @@ BEGIN
                 TEXT_SPRINT resref ~%value%~
               END
             BUT_ONLY IF_EXISTS
+            ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
             ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2da~) BEGIN
               // getting data
               LAF a7#add_kit_ex#get_column STR_VAR resref column_name = EVAL ~%kit_name%~ RET column column_index END
@@ -2489,6 +2527,7 @@ BEGIN
             // find matching clastext.2da row (kit or parent class)
             OUTER_TEXT_SPRINT clastext_class ~~
             OUTER_TEXT_SPRINT clastext_kit ~~
+            ACTION_IF (NOT a7#is_silent) BEGIN SILENT END
             COPY_EXISTING ~clastext.2da~ ~override~
               COUNT_2DA_COLS num_cols
               READ_2DA_ENTRIES_NOW clastext_table 1
@@ -2518,6 +2557,7 @@ BEGIN
                 TEXT_SPRINT clastext_kit ~%clastext_class%~
               END
             BUT_ONLY IF_EXISTS
+            ACTION_IF (NOT a7#is_silent) BEGIN VERBOSE END
 
             // getting biography, briefdesc, fallen and fallen_notice from clastext.2da
             LAF a7#add_kit_ex#get_row STR_VAR resref = ~clastext~ row_name = EVAL ~%clastext_kit%~ RET row row_index END
