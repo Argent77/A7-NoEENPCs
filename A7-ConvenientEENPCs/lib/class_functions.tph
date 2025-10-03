@@ -1708,6 +1708,9 @@ BEGIN
                   // only on first pass
                   WRITE_BYTE offset score
                 END ELSE BEGIN
+                  READ_BYTE offset cur_value
+                  // ensure the resulting value doesn't exceed max. range
+                  SET score = (cur_value + score > cap) ? cap - cur_value : score
                   WRITE_BYTE offset (THIS + score)
                 END
                 SET points_remaining -= score
@@ -3173,12 +3176,13 @@ BEGIN
 
     // processing thieving skills
     LAF a7#get_base_classes INT_VAR class RET class1 class2 class3 END
-    ACTION_IF (class1 > 0) BEGIN
-      OUTER_FOR (cls_idx = 1; cls_idx <= 3; ++cls_idx) BEGIN
-        OUTER_SET level = EVAL ~level%cls_idx%~
-        OUTER_SET class = EVAL ~class%cls_idx%~
-        OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT class_label ~class~ class END
-        ACTION_MATCH class WITH
+    OUTER_SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : (class1 > 0) ? 1 : 0
+    ACTION_IF (num_classes > 0) BEGIN
+      OUTER_FOR (cls_idx = 1; cls_idx <= num_classes; ++cls_idx) BEGIN
+        OUTER_SET cur_level = EVAL ~level%cls_idx%~
+        OUTER_SET cur_class = EVAL ~class%cls_idx%~
+        OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT class_label ~class~ cur_class END
+        ACTION_MATCH cur_class WITH
           5  BEGIN OUTER_SPRINT resref ~skillbrd~ END
           12 BEGIN OUTER_SPRINT resref ~skillrng~ END
           21 BEGIN OUTER_SPRINT resref ~skillshm~ END
@@ -3227,7 +3231,7 @@ BEGIN
               SPRINT key $skills_table(~2~ ~%header%~)
               PATCH_IF (VARIABLE_IS_SET $skill_vars(~%key%~)) BEGIN
                 SPRINT skill_var $skill_vars(~%key%~)
-                SET lvl = (level < 1) ? 1 : (level > skills_table - 3) ? skills_table - 3 : level
+                SET lvl = (cur_level < 1) ? 1 : (cur_level > skills_table - 3) ? skills_table - 3 : cur_level
                 SET col = header + 1
                 SET row = 2 + lvl
                 PATCH_IF (row < skills_table) BEGIN
@@ -3243,10 +3247,10 @@ BEGIN
             END
           BUT_ONLY
           VERBOSE
-        END ELSE ACTION_IF (class == 4 || class == 20) BEGIN
+        END ELSE ACTION_IF (cur_class == 4 || cur_class == 20) BEGIN
           // calculating available skill points
-          ACTION_IF (level > 0) BEGIN
-            OUTER_SET points_available = start_points + (level - 1) * level_points
+          ACTION_IF (cur_level > 0) BEGIN
+            OUTER_SET points_available = start_points + (cur_level - 1) * level_points
           END
         END
       END
@@ -4001,7 +4005,7 @@ BEGIN
               SET cur_level = 0
               FOR (col = 1; VARIABLE_IS_SET $xplevel_table(~%row%~ ~%col%~); ++col) BEGIN
                 SET value = $xplevel_table(~%row%~ ~%col%~)
-                PATCH_IF (cur_xp >= value && col > cur_level) BEGIN
+                PATCH_IF (value >= 0 && cur_xp >= value && col > cur_level) BEGIN
                   SET cur_level = col
                 END
               END
