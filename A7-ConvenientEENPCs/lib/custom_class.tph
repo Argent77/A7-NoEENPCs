@@ -611,7 +611,11 @@ BEGIN
 
         PATCH_IF (is_allowed) BEGIN
           // kit id may be out of range for WeiDU; trying to work around it
-          SPRINT kit_value $kitlist_table(~%row%~ ~9~)
+          PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+            SPRINT kit_value $kitlist_table(~%row%~ ~9~)
+          END ELSE BEGIN
+            SET kit_value = 0x4000 + (row - 3)
+          END
           SPRINT number ~%kit_value%~ LPM a7#get_validated_number SET kit_id = number
           SET kit_ref = row - 3
 
@@ -964,7 +968,11 @@ $kittable_map() structure:
     SET $kit_ref_map(~0~) = 0x4000  // TRUECLASS
     FOR (row = 4; row < kitlist_table; ++row) BEGIN
       SET kit_id_ref = row - 3
-      SPRINT kit_value $kitlist_table(~%row%~ ~9~)
+      PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+        SPRINT kit_value $kitlist_table(~%row%~ ~9~)
+      END ELSE BEGIN
+        SET kit_value = 0x4000 + (row - 3)
+      END
       SPRINT number ~%kit_value%~ LPM a7#get_validated_number SET kit_id = number
       PATCH_IF (kit_id != 0 && kit_id != "-1") BEGIN
         SET $kit_ref_map(~%kit_id_ref%~) = kit_id

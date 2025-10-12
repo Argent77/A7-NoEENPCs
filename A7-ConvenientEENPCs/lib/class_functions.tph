@@ -4100,13 +4100,16 @@ BEGIN
       COPY_EXISTING ~kitlist.2da~ ~override~
         READ_2DA_ENTRIES_NOW kitlist_table 1
         FOR (row = 4; row < kitlist_table; ++row) BEGIN
-          SPRINT kitids $kitlist_table(~%row%~ ~9~)
-          PATCH_IF (IS_AN_INT ~kitids~) BEGIN
-            PATCH_IF (kitids == kit) BEGIN
-              SET kit_class = $kitlist_table(~%row%~ ~8~)
-              SET kit_unusability = $kitlist_table(~%row%~ ~7~)
-              SET row = kitlist_table
-            END
+          PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+            SPRINT kitids $kitlist_table(~%row%~ ~9~)
+          END ELSE BEGIN
+            SET kitids = 0x4000 + (row - 3)
+          END
+          SPRINT number ~%kitids%~ LPM a7#get_validated_number SET kitids = number
+          PATCH_IF (kitids == kit) BEGIN
+            SET kit_class = $kitlist_table(~%row%~ ~8~)
+            SET kit_unusability = $kitlist_table(~%row%~ ~7~)
+            SET row = kitlist_table
           END
         END
       BUT_ONLY
@@ -4633,7 +4636,12 @@ BEGIN
       COPY_EXISTING ~kitlist.2da~ ~override~
         READ_2DA_ENTRIES_NOW kitlist_table 1
         FOR (row = 4; row < kitlist_table; ++row) BEGIN
-          SET kitids = $kitlist_table(~%row%~ ~9~)
+          PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+            SPRINT kitids $kitlist_table(~%row%~ ~9~)
+          END ELSE BEGIN
+            SET kitids = 0x4000 + (row - 3)
+          END
+          SPRINT number ~%kitids%~ LPM a7#get_validated_number SET kitids = number
           PATCH_IF (kitids == kit) BEGIN
             SPRINT resref $kitlist_table(~%row%~ ~5~)
             PATCH_IF (FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
@@ -4919,8 +4927,11 @@ BEGIN
     OUTER_FOR (row = 4; row < EVAL ~%kitlist_table_name%~; ++row) BEGIN
       ACTION_IF (is_kit) BEGIN
         // id => label
-        OUTER_SPRINT cur_kit_value $EVAL ~%kitlist_table_name%~(~%row%~ ~9~)
-        // LAF a7#get_validated_number STR_VAR number = EVAL ~%cur_kit_value%~ RET cur_kit = number END
+        ACTION_IF (VARIABLE_IS_SET $EVAL ~%kitlist_table_name%~(~%row%~ ~9~)) BEGIN
+          OUTER_SPRINT cur_kit_value $kitlist_table(~%row%~ ~9~)
+        END ELSE BEGIN
+          OUTER_SET cur_kit_value = 0x4000 + (row - 3)
+        END
         OUTER_SPRINT number ~%cur_kit_value%~ LAM a7#get_validated_number OUTER_SET cur_kit = number
         ACTION_IF (cur_kit == kit) BEGIN
           OUTER_SPRINT kit_label $EVAL ~%kitlist_table_name%~(~%row%~ ~1~)
@@ -4930,8 +4941,11 @@ BEGIN
         // label => id
         OUTER_SPRINT cur_kit_label $EVAL ~%kitlist_table_name%~(~%row%~ ~1~)
         ACTION_IF (~%cur_kit_label%~ STR_EQ ~%kit_label%~) BEGIN
-          OUTER_SPRINT cur_kit_value $EVAL ~%kitlist_table_name%~(~%row%~ ~9~)
-          // LAF a7#get_validated_number STR_VAR number = EVAL ~%cur_kit_value%~ RET kit = number END
+          ACTION_IF (VARIABLE_IS_SET $EVAL ~%kitlist_table_name%~(~%row%~ ~9~)) BEGIN
+            OUTER_SPRINT cur_kit_value $kitlist_table(~%row%~ ~9~)
+          END ELSE BEGIN
+            OUTER_SET cur_kit_value = 0x4000 + (row - 3)
+          END
           OUTER_SPRINT number ~%cur_kit_value%~ LAM a7#get_validated_number OUTER_SET kit = number
         END
       END

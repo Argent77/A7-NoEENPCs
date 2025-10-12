@@ -332,9 +332,14 @@ BEGIN
     COPY_EXISTING ~kitlist.2da~ ~override~
       READ_2DA_ENTRIES_NOW kitlist_table 1
       FOR (row = 4; row < kitlist_table; ++row) BEGIN
-        SPRINT value $kitlist_table(~%row%~ ~9~)
-        PATCH_IF (IS_AN_INT ~value~) BEGIN
-          PATCH_IF (value == kit) BEGIN
+        PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+          SPRINT number $kitlist_table(~%row%~ ~9~)
+        END ELSE BEGIN
+          SET number = 0x4000 + (row - 3)
+        END
+        LPM a7#get_validated_number
+        PATCH_IF (IS_AN_INT ~number~) BEGIN
+          PATCH_IF (number == kit) BEGIN
             SET kit_class = $kitlist_table(~%row%~ ~8~)
             SET row = kitlist_table
           END
