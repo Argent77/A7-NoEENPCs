@@ -699,11 +699,11 @@ BEGIN
           RET result
           RET_ARRAY result
         END
-        OUTER_SET enable_custom_kits = (IS_AN_INT ~result_0~) ? result_0 : 1
-        OUTER_SET restrict_npc_race = (IS_AN_INT ~result_1~) ? result_1 : 1
-        OUTER_SET restrict_npc_alignment = (IS_AN_INT ~result_2~) ? result_2 : 1
-        OUTER_SET restrict_npc_attributes = (IS_AN_INT ~result_3~) ? result_3 : 1
-        OUTER_SET restrict_npc_class = (IS_AN_INT ~result_4~) ? result_4 : 1
+        OUTER_SET enable_custom_kits = (IS_AN_INT ~result_0~) ? result_0 : 0        // default: disabled
+        OUTER_SET restrict_npc_race = (IS_AN_INT ~result_1~) ? result_1 : 1         // default: enabled
+        OUTER_SET restrict_npc_alignment = (IS_AN_INT ~result_2~) ? result_2 : 1    // default: enabled
+        OUTER_SET restrict_npc_attributes = (IS_AN_INT ~result_3~) ? result_3 : 1   // default: enabled
+        OUTER_SET restrict_npc_class = (IS_AN_INT ~result_4~) ? result_4 : 1        // default: enabled
 
         // overriding "custom mc kits" option if available
         OUTER_SET allow_custom_multi_kits = enable_custom_kits
