@@ -75,6 +75,14 @@ The following components are only available when selecting subcomponent "Decide 
 
 ### NPC Class Changes
 
+##### Notes
+
+Class and kit changes are restricted to the NPC's stats, skills and abilities. They won't be reflected in their personal quests or dialogs. However, personal equipment may be updated to comply with the new class or kit requirements.
+
+For some NPCs it is possible to assign multiclass combinations. By default the interactive class selection will produce a great number of potential multiclass kit combinations to choose from. This feature can be turned off by the "enable_custom_kits" option in the "A7-ConvenientEENPCs.ini" file found in the mod folder.
+
+By default NPCs are restricted to a smaller set of classes based on their race, alignment and character attributes as well as predefined class restrictions, as not all classes are suitable and may break immersion. Restrictions based on race, alignment, and character attributes can be turned off by the options "restrict_npc_race", "restrict_npc_alignment", and "restrict_npc_attributes" respectively. NPC-specific class restrictions can be turned off by the "restrict_npc_class" option. These options can be found in the "A7-ConvenientEENPCs.ini" file in the mod folder. Use at your own risk!
+
 - **Change class/kit: Baeloth (BG:EE, SoD and EET)**
   - **Reset level**: Resets his level to 1, but makes no changes to his current experience points, class, or kit.
   - **Choose your class**: This option allows you to choose any class/kit combination you desire. *Caution: Some class combinations can be immersion-breaking or may have unwanted side effects. Use at your own risk!*

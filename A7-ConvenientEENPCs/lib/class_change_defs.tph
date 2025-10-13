@@ -518,11 +518,11 @@ END
  * INT_VAR kit1, kit2, kit3       Numeric kit values (KIT.IDS) for a non-existing multiclass kit. Only considered if "interactive"
  *                                and "reset" are not set and "kit" is -1. (Default: -1)
  * INT_VAR race_override          Specify numeric race value (RACE.IDS) to override creature race for interactive class/kit selection.
- *                                (Default: 0)
+ *                                (Default: -1)
  * INT_VAR alignment_override     Specify numeric alignment value (ALIGNMEN.IDS) to override creature alignment for interactive
- *                                class/kit selection. (Default: 0)
+ *                                class/kit selection. (Default: -1)
  * INT_VAR str_override, dex_override, ...  Specify value to override the specified creature attribute for interactive class/kit
- *                                          selection. (Default: 0)
+ *                                          selection. (Default: -1)
  * STR_VAR npc_name               Symbolic name of the NPC. If "interactive" is set then this value is used to retrieve predefined
  *                                class/kit definitions for the NPC of the specified name from the mod's .ini file. Otherwise the
  *                                interactive class selection menu is invoked. (Default: empty string)
@@ -558,14 +558,14 @@ INT_VAR
   kit1 = "-1"
   kit2 = "-1"
   kit3 = "-1"
-  race_override = 0
-  alignment_override = 0
-  str_override = 0
-  dex_override = 0
-  con_override = 0
-  int_override = 0
-  wis_override = 0
-  chr_override = 0
+  race_override = "-1"
+  alignment_override = "-1"
+  str_override = "-1"
+  dex_override = "-1"
+  con_override = "-1"
+  int_override = "-1"
+  wis_override = "-1"
+  chr_override = "-1"
   allow_kits = 1
   allow_multi = 1
   allow_multi_kits = 1
@@ -683,18 +683,39 @@ BEGIN
         // applying override values
         ACTION_FOR_EACH var IN ~race~ ~alignment~ ~str~ ~dex~ ~con~ ~int~ ~wis~ ~chr~ BEGIN
           OUTER_SET override = EVAL ~%var%_override~
-          ACTION_IF (override != 0) BEGIN
+          ACTION_IF (override != "-1") BEGIN
             OUTER_SET EVAL ~%var%~ = override
           END
         END
 
+        // getting override options from ini
+        LAF a7#get_ini_options
+          STR_VAR
+            option_0 = ~enable_custom_kits~
+            option_1 = ~restrict_npc_race~
+            option_2 = ~restrict_npc_alignment~
+            option_3 = ~restrict_npc_attributes~
+            option_4 = ~restrict_npc_class~
+          RET result
+          RET_ARRAY result
+        END
+        OUTER_SET enable_custom_kits = (IS_AN_INT ~result_0~) ? result_0 : 1
+        OUTER_SET restrict_npc_race = (IS_AN_INT ~result_1~) ? result_1 : 1
+        OUTER_SET restrict_npc_alignment = (IS_AN_INT ~result_2~) ? result_2 : 1
+        OUTER_SET restrict_npc_attributes = (IS_AN_INT ~result_3~) ? result_3 : 1
+        OUTER_SET restrict_npc_class = (IS_AN_INT ~result_4~) ? result_4 : 1
+
         // overriding "custom mc kits" option if available
-        LAF a7#get_ini_options STR_VAR option_0 = ~enable_custom_kits~ RET result RET_ARRAY result END
-        OUTER_SET allow_custom_multi_kits = (IS_AN_INT ~result_0~) ? result_0 : 1
+        OUTER_SET allow_custom_multi_kits = enable_custom_kits
+
+        // overriding creature race, alingment and attribute restrictions if options are defined
+        ACTION_IF (NOT restrict_npc_race) BEGIN OUTER_SET race = 0 END
+        ACTION_IF (NOT restrict_npc_alignment) BEGIN OUTER_SET alignment = 0 END
+        ACTION_IF (NOT restrict_npc_attributes) BEGIN
+          ACTION_FOR_EACH var IN ~str~ ~dex~ ~con~ ~int~ ~wis~ ~chr~ BEGIN OUTER_SET EVAL ~%var%~ = 0 END
+        END
 
         // overriding class/kit restrictions if option is defined
-        LAF a7#get_ini_options STR_VAR option_0 = ~restrict_npc_class~ RET result RET_ARRAY result END
-        OUTER_SET restrict_npc_class = (IS_AN_INT ~result_0~) ? result_0 : 1
         ACTION_IF (NOT restrict_npc_class) BEGIN
           OUTER_SPRINT class_whitelist_name ~~
           OUTER_SPRINT kit_whitelist_name ~~
