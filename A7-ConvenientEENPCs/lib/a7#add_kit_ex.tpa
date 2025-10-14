@@ -8,7 +8,7 @@
  * Date: 2019-08-19
  */
 
-OUTER_SPRINT ADD_KIT_EX_VERSION ~0.6.3~
+OUTER_SPRINT ADD_KIT_EX_VERSION ~0.6.4-wip~
 
 <<<<<<<< .../a7-add_kit_ex/inlined/blank.file
 >>>>>>>>
@@ -231,41 +231,56 @@ END
 // Missing headers are padded by column indices. Missing content is padded by default value.
 DEFINE_PATCH_FUNCTION a7#add_kit_ex#normalize_table
 BEGIN
-  SET num_added = 0
   COUNT_2DA_COLS num_cols
-  READ_2DA_ENTRIES_NOW table 1
-  READ_2DA_ENTRY_FORMER table 1 0 default
-  FOR (row = 0; row < table; ++row) BEGIN
-    READ_2DA_ENTRY_FORMER table row 0 line
-    FOR (col = 1; col < num_cols && VARIABLE_IS_SET $table(~%row%~ ~%col%~); ++col) BEGIN
-      READ_2DA_ENTRY_FORMER table row col v
-      SPRINT line ~%line% %v%~
+
+  SPRINT content ~~ // stores the (normalized) table content
+  SET modified = 0  // keeps track whether normalization takes place
+  SET row = 0       // keeps track of current table row
+  SET pos1 = 0
+  WHILE (pos1 >= 0) BEGIN
+    // preparing next row
+    SET pos2 = INDEX_BUFFER(~[%WNL%]~ pos1)
+    SET pos2 = (pos2 < pos1) ? BUFFER_LENGTH : pos2
+    READ_ASCII pos1 line (pos2 - pos1)
+    INNER_PATCH ~%line%~ BEGIN
+      COUNT_REGEXP_INSTANCES ~[^ %TAB%]+~ num_items
     END
-    // fill in missing data
-    PATCH_IF (row = 2) BEGIN  // header
-      FOR (; col < num_cols - 1; ++col) BEGIN
-        SPRINT line ~%line% %col%~
-        SET num_added += 1
+
+    // normalizing row
+    PATCH_IF (num_items > 0) BEGIN
+      PATCH_IF (row == 1) BEGIN
+        // default value
+        INNER_PATCH_SAVE def_value ~%line%~ BEGIN
+          REPLACE_TEXTUALLY ~^[ %TAB%]+~ ~~
+          REPLACE_TEXTUALLY ~[ %TAB%]+$~ ~~
+        END
+      END ELSE PATCH_IF (row == 2) BEGIN
+        // table header
+        FOR (idx = num_items + 1; idx < num_cols; ++idx) BEGIN
+          SPRINT line ~%line% %idx%~
+          SET modified = 1
+        END
+      END ELSE PATCH_IF (row > 2) BEGIN
+        // table data
+        FOR (idx = num_items; idx < num_cols; ++idx) BEGIN
+          SPRINT line ~%line% %def_value%~
+          SET modified = 1
+        END
       END
-    END ELSE PATCH_IF (row > 2) BEGIN // content
-      FOR (; col < num_cols; ++col) BEGIN
-        SPRINT line ~%line% %default%~
-        SET num_added += 1
-      END
+
+      SPRINT content ~%content%%line%%WNL%~
+      SET row += 1
     END
-    SPRINT $lines(~%row%~) ~%line%%LNL%~
-    SET $lines(~%row%~ ~size~) = STRING_LENGTH $lines(~%row%~)
+
+    SET pos1 = INDEX_BUFFER(~[^%WNL%]~ pos2)
   END
 
-  // write normalized table to buffer
-  PATCH_IF (num_added > 0) BEGIN
+  // updating table content
+  PATCH_IF (modified) BEGIN
     DELETE_BYTES 0 BUFFER_LENGTH
-    FOR (row = 0 pos = 0; row < table; ++row) BEGIN
-      SET size = $lines(~%row%~ ~size~)
-      INSERT_BYTES pos size
-      WRITE_ASCIIE pos $lines(~%row%~) (size)
-      SET pos += size
-    END
+    SET len = STRING_LENGTH ~%content%~
+    INSERT_BYTES 0 len
+    WRITE_ASCIIE 0 ~%content%~ (len)
   END
 END
 
@@ -578,61 +593,6 @@ BEGIN
 END
 
 
-// Divide "number" by "divisor" and return both quotient and remainder.
-DEFINE_ACTION_FUNCTION a7#add_kit_ex#divide
-INT_VAR
-  divisor = 1   // any integer except 0
-STR_VAR
-  number = ~0~  // any number of any size in decimal notation, or number in hexadecimal notation in signed 32-bit range
-RET quotient remainder  // return empty strings if operation failed
-BEGIN
-  OUTER_SPRINT quotient ~~
-  OUTER_SPRINT remainder ~~
-  ACTION_IF (divisor != 0) BEGIN
-    ACTION_IF (IS_AN_INT ~number~) BEGIN
-      OUTER_SET quotient = number / divisor
-      OUTER_SET remainder = number REM divisor
-    END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~-?[1-9][0-9]*$~ = 0 && divisor != 0) BEGIN
-      OUTER_SET ZERO = 48 // ASCII code for '0'
-      OUTER_SET SIGN = 45 // ASCII code for '-'
-      OUTER_PATCH ~%number%~ BEGIN
-        // simplify calculation by temporarily removing sign from both operands
-        SET signed = 0
-        PATCH_IF (BYTE_AT 0 = SIGN) BEGIN
-          DELETE_BYTES 0 1
-          SET signed = (signed + 1) & 1
-        END
-        PATCH_IF (divisor < 0) BEGIN
-          SET divisor = 0 - divisor
-          SET signed = (signed + 1) & 1
-        END
-        // performing division
-        FOR (p = 0 rem = 0; p < BUFFER_LENGTH; ++p) BEGIN
-          SET n = (BYTE_AT p) - ZERO
-          SET n += rem * 10
-          SET d = n / divisor
-          SET rem = n REM divisor
-          PATCH_IF (d > 0 || ~%quotient%~ STR_CMP ~~) BEGIN
-            SPRINT quotient ~%quotient%%d%~
-          END
-        END
-        SPRINT remainder ~%rem%~
-        // finalizing result
-        PATCH_IF (~%quotient%~ STR_EQ ~~) BEGIN SPRINT quotient ~0~ END
-        PATCH_IF (signed && ~%quotient%~ STR_CMP ~0~) BEGIN
-          // Restoring sign
-          SPRINT quotient ~-%quotient%~
-        END
-      END
-    END ELSE BEGIN
-      LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Not a number [%number%]~ END
-    END
-  END ELSE BEGIN
-    LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = ~Division by zero is not allowed~ END
-  END
-END
-
-
 // Convert decimal number into hexadecimal notation or normalize hexadecimal number.
 DEFINE_DIMORPHIC_FUNCTION a7#add_kit_ex#to_hex
 INT_VAR
@@ -643,62 +603,134 @@ STR_VAR
   number = ~0~    // any number of any size in decimal or hexadecimal notation
 RET hex           // Resulting hex number; empty if conversion failed.
 BEGIN
-  OUTER_SET ZERO = 48   // ASCII: 0
-  OUTER_SET SIGN = 45   // ASCII: -
   OUTER_SPRINT hex ~~
-  ACTION_IF (min_digits < 0) BEGIN OUTER_SET min_digits = 0 END
-
-  // preparations
-  OUTER_SET signed = 0
-  OUTER_PATCH_SAVE number ~%number%~ BEGIN
-    // trimming whitespace
-    REPLACE_TEXTUALLY ~^[ %TAB%%WNL%]*\([^ %TAB%%WNL%]*\)[ %TAB%%WNL%]*$~ ~\1~
-    // simplify conversion by temporarily removing sign
-    PATCH_IF (SIGN = BYTE_AT 0) BEGIN
-      SET signed = 1
-      DELETE_BYTES 0 1
-    END
-  END
-
   ACTION_IF (IS_AN_INT ~number~) BEGIN
-    // value is within supported numeric range
+    // built-in: dec -> hex
     OUTER_PATCH ~~ BEGIN SPRINTF hex ~%x~ (number) END
     // hex prefix is added later
     OUTER_PATCH_SAVE hex ~%hex%~ BEGIN DELETE_BYTES 0 2 END
-  END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~0x[0-9a-f]+$~ = 0) BEGIN
-    // hex number is outside of supported numeric range
+  END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~0x[0-9a-f]+$~ == 0) BEGIN
+    // format hex only
     OUTER_PATCH_SAVE hex ~%number%~ BEGIN DELETE_BYTES 0 2 END
-  END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~[1-9][0-9]*$~ = 0) BEGIN
-    // decimal number is outside of supported numeric range
-    ACTION_DEFINE_ARRAY digits BEGIN ~0~ ~1~ ~2~ ~3~ ~4~ ~5~ ~6~ ~7~ ~8~ ~9~ ~A~ ~B~ ~C~ ~D~ ~E~ ~F~ END
-    OUTER_WHILE (NOT ~%number%~ STR_EQ ~0~) BEGIN
-      LAF a7#add_kit_ex#divide INT_VAR divisor = 16 STR_VAR number RET number = quotient remainder END
-      OUTER_SPRINT s $digits(~%remainder%~)
-      OUTER_SPRINT hex ~%s%%hex%~
-    END
+  END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~[1-9][0-9]*$~ == 0) BEGIN
+    // manual conversion: dec -> hex
+    LAF a7#add_kit_ex#dec_to_hex STR_VAR dec_number = EVAL ~%number%~ prefix = ~~ RET hex = hex_number END
   END ELSE BEGIN
     // invalid format
-    LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Not a number [%number%]~ END
+    WARN ~Not a number [%number%]~
   END
 
-  // finalizing result
+  // formatting result
   ACTION_IF (NOT ~%hex%~ STR_EQ ~~) BEGIN
     ACTION_IF (lower_case) BEGIN ACTION_TO_LOWER ~hex~ END ELSE BEGIN ACTION_TO_UPPER ~hex~ END
+
+    OUTER_SET ZERO = 48   // ASCII: 0
     OUTER_SET len = STRING_LENGTH ~%hex%~
     OUTER_PATCH_SAVE hex ~%hex%~ BEGIN
       WHILE (len < min_digits) BEGIN INSERT_BYTES 0 1  WRITE_BYTE 0 ZERO  SET len += 1 END
       WHILE (len > min_digits && BYTE_AT 0 = ZERO) BEGIN DELETE_BYTES 0 1  SET len -= 1 END
     END
-    ACTION_IF (prefix) BEGIN OUTER_SPRINT hex ~0x%hex%~ END
 
-    ACTION_IF (signed) BEGIN
-      // restoring sign
-      OUTER_PATCH_SAVE hex ~%hex%~ BEGIN
-        INSERT_BYTES 0 1
-        WRITE_BYTE 0 SIGN
+    ACTION_IF (prefix) BEGIN OUTER_SPRINT hex ~0x%hex%~ END
+  END
+END
+
+// Processes a single chunk of the original number.
+// Macro is used internally by a7#add_kit_ex#to_hex.
+// Input: number (string)
+// Output: remainder (int), division_result (string)
+DEFINE_ACTION_MACRO a7#add_kit_ex#divide_by_16
+BEGIN
+  ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~^[0-9]+$~ == 0) BEGIN
+    // valid integer number in decimal notation
+    OUTER_SET ZERO = 48
+    OUTER_SPRINT quotient ~~
+    OUTER_SET quotient_len = 0
+    OUTER_SET remainder = 0
+
+    OUTER_SET len = STRING_LENGTH ~%number%~
+    OUTER_PATCH ~%number%~ BEGIN
+      FOR (ofs = 0; ofs < len; ++ofs) BEGIN
+        SET digit = (BYTE_AT ofs) - ZERO
+        SET value = remainder * 10 + digit
+        SET q = value >> 4
+        SET remainder = value & 0xf
+        SET quotient_len = STRING_LENGTH ~%quotient%~
+        PATCH_IF (NOT (quotient_len == 0 && q == 0)) BEGIN
+          SPRINT quotient ~%quotient%%q%~
+          SET quotient_len = STRING_LENGTH ~%quotient%~
+        END
       END
     END
+
+    ACTION_IF (quotient_len == 0) BEGIN
+      OUTER_SPRINT division_result ~0~
+    END ELSE BEGIN
+      OUTER_SPRINT division_result ~%quotient%~
+    END
+  END ELSE BEGIN
+    OUTER_SPRINT remainder ~0~
+    OUTER_SPRINT division_result ~0~
   END
+END
+
+// Lookup table for hex digits
+ACTION_DEFINE_ARRAY a7#add_kit_ex#hex_digit BEGIN ~0~ ~1~ ~2~ ~3~ ~4~ ~5~ ~6~ ~7~ ~8~ ~9~ ~a~ ~b~ ~c~ ~d~ ~e~ ~f~ END
+
+// Maps a decimal value in range [0, 15] to a hexadecimal digit (in lower-case letters).
+// Macro is used internally by a7#add_kit_ex#to_hex.
+// Input: number (int)
+// Output: digit (string)
+DEFINE_ACTION_MACRO a7#add_kit_ex#hex_to_char
+BEGIN
+  OUTER_SET idx = number & 0xf
+  OUTER_SPRINT digit $a7#add_kit_ex#hex_digit(~%idx%~)
+END
+
+
+// Converts an arbitrary non-negative decimal number of any size into a hexadecimal representation.
+// Function is used internally by a7#add_kit_ex#to_hex.
+DEFINE_DIMORPHIC_FUNCTION a7#add_kit_ex#dec_to_hex
+INT_VAR
+  min_digits = 0
+  upper_case = 0
+STR_VAR
+  dec_number = ~0~  // decimal number to convert
+  prefix = ~0x~
+RET
+  hex_number
+BEGIN
+  ACTION_IF (~%dec_number%~ STRING_MATCHES_REGEXP ~^[0-9]+$~ == 0 && NOT ~%dec_number%~ STR_EQ ~0~) BEGIN
+    ACTION_IF (IS_AN_INT ~number~) BEGIN
+      // number in supported range: let WeiDU handle conversion
+      OUTER_PATCH ~~ BEGIN SPRINTF hex_number ~%x~ (dec_number) END
+      OUTER_PATCH_SAVE hex_number ~%hex_number%~ BEGIN DELETE_BYTES 0 2 END
+    END ELSE BEGIN
+      // perform manual conversion
+      OUTER_SPRINT hex_number ~~
+      OUTER_SPRINT current ~%dec_number%~
+      OUTER_WHILE (NOT ~%current%~ STR_EQ ~0~) BEGIN
+        OUTER_SPRINT number ~%current%~ LAM a7#add_kit_ex#divide_by_16 OUTER_SPRINT current ~%division_result%~
+        OUTER_SET number = remainder LAM a7#add_kit_ex#hex_to_char
+        OUTER_SPRINT hex_number ~%digit%%hex_number%~
+      END
+    END
+  END ELSE BEGIN
+    // 0 or not a valid decimal number
+    OUTER_SPRINT hex_number ~0~
+  END
+
+  OUTER_SET hex_len = STRING_LENGTH ~%hex_number%~
+  OUTER_WHILE (hex_len < min_digits) BEGIN
+    OUTER_SPRINT hex_number ~0%hex_number%~
+    OUTER_SET hex_len += 1
+  END
+
+  ACTION_IF (upper_case) BEGIN
+    ACTION_TO_UPPER ~hex_number~
+  END
+
+  OUTER_SPRINT hex_number ~%prefix%%hex_number%~
 END
 
 
@@ -1317,6 +1349,8 @@ STR_VAR
 BEGIN
   ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
     COPY_EXISTING ~%resref%.2DA~ ~override~
+      LPF a7#add_kit_ex#normalize_table END
+
       SET modified = 0
       READ_2DA_ENTRIES_NOW pad_clab_table_rows 1
       READ_2DA_ENTRY_FORMER pad_clab_table_rows 1 0 default
