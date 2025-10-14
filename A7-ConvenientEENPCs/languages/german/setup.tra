@@ -236,7 +236,7 @@ Auswahl:"
 [R]Neuinstallation, Kei[N]e Aenderung, [Q]uit oder Auswahl:"
 @-1032= "NICHT INSTALLIERT WEGEN FEHLER"
 @-1033= "MIT WARNUNGEN INSTALLIERT    "
-@-1034= "Soll die Liesmich angezeigt werden? [Y]Ja [N]ein"
+@-1034= "Soll die Liesmich angezeigt werden (empfohlen)? [Y]Ja [N]ein"
 @-1035= "Benutze Sprache"
 
 @-1036= "Ueberspringe GRUPPE ["

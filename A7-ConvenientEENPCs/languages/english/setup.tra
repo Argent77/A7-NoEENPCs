@@ -179,3 +179,6 @@
 @2103 = ~Multiclass kit could not be created:~
 @2104 = ~Invalid class specified:~
 @2105 = ~Failed to change class:~
+
+// WeiDU prompts
+@-1034= "Would you like to display the readme (recommended)? [Y]es [N]o"
