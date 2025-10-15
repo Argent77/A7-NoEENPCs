@@ -32,7 +32,7 @@
         <li><strong>Diskussion</strong> (<a href="http://www.shsforums.net/topic/58322-mod-disable-enhanced-edition-npcs/">SHS</a>)</li>
         <li><strong>Diskussion</strong> (<a href="https://forums.beamdog.com/discussion/43074">Beamdog</a>)</li>
         <li><a href="https://github.com/Argent77/A7-NoEENPCs">Projekt</a></li>
-        <li>Version: 5.1</li>
+        <li>Version: 5.2</li>
       </ul>
       <hr />
       <nav>
@@ -268,7 +268,8 @@
         <h4>Gruppe: Klassenwechsel</h4>
         <p><strong>Hinweise:</strong></p>
         <p>Klassenänderungen beschränken sich auf Charaktereigenschaften und -fertigkeiten. Handlung und Dialoge der NSCs werden nicht berücksichtigt. Allerdings werden in einigen Fällen auch Gegenstände und Biografien an die neue Klasse angepasst.</p>
-        <p>Bei einigen NSCs kann man mehrklassige Kombinationen anwenden. Standardmäßig erstellt die interaktive Klassenauswahl dafür eine umfangreiche Liste aller möglichen Kitkombinationen, aus denen ausgewählt werden kann. Diese Eigenschaft kann in der Datei „A7-ConvenientEENPCs.ini” deaktiviert werden. Die Datei befindet sich im Modordner.</p>
+        <p>Bei einigen NSCs kann man mehrklassige Kombinationen anwenden. Standardmäßig erstellt die interaktive Klassenauswahl nur eine Liste existierender mehrklassiger Kits. Falls aber die Option <em>„enable_custom_kits”</em> in der Datei <em>„A7-ConvenientEENPCs.ini”</em> aktiviert wird, dann wird stattdessen eine Liste aller möglichen Kitkombinationen erstellt, aus denen ausgewählt werden kann. Die gewählte Kitkombination wird für den NSC automatisch installiert. Die Datei <em>„A7-ConvenientEENPCs.ini”</em> befindet sich im Modverzeichnis.</p>
+        <p>Die Klassenauswahl der NSCs ist standardmäßig eingeschränkt, basierend auf Rasse, Gesinnung und Hauptattribute sowie durch vordefinierte Klassenbeschränkungen, da nicht alle Klassen für die jeweiligen NSCs einen Sinn ergeben. Die Einschränkungen durch Rasse, Gesinnung und Hauptattribute können jeweils mit den Optionen <em>„restrict_npc_race”</em>, <em>„restrict_npc_alignment”</em> und <em>„restrict_npc_attributes”</em> ausgeschaltet werden. Die vordefinierten Klassenbeschränkungen können mit der Option <em>„restrict_npc_class”</em> ausgeschaltet werden. Die Optionen befinden sich in der Datei <em>„A7-ConvenientEENPCs.ini”</em> im Modverzeichnis. Die Nutzung erfolgt auf eigene Gefahr!</p>
         <ol class="gappedlist" start="15">
           <li>
             <p><strong>Klassenwechsel: Baeloth <em>(BG:EE, SoD und EET)</em></strong></p>
@@ -277,7 +278,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Magier:</strong> Wendet die Klasse „Magier” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Bannwirker:</strong> Wendet das Magierkit „Bannwirker” an. Aktuelle Stufe und Erfahrung werden beibehalten. (<em>Hinweis: Dieses Kit ist im unmodifizierten Spiel für Elfen nicht verfügbar.</em>)</p></li>
@@ -309,7 +310,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis 1:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis 1:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
                 <p><em><strong>Hinweis 2:</strong> Ein bestimmtes Ereignis in Neeras "Thron des Bhaal"-Abenteuer erfordert, dass der Zauber "Nahals gewagte Hexerei" gewirkt wird. Diese Komponente erlaubt es Neera, je nach gewählter Klassenkombination, einen beliebigen Zauber oder eine Fertigkeit zu wirken, um die Handlung voranzubringen.</em></p>
               </li>
               <li><p><strong>Kämpfer / Hasardeur:</strong> Wendet das mehrklassige Kit „Kämpfer / Hasardeur” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
@@ -327,7 +328,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Mönch:</strong> Wendet die Klasse „Mönch” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Silberstern der Selûne:</strong> Wendet das Klerikerkit ”Silberstern der Selûne” an. Aktuelle Stufe und Erfahrung werden beibehalten. <em>(benötigt die Komponente ”Silberstern der Selûne” der Mod „Divine Remix”)</em></p></li>
@@ -348,7 +349,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Kleriker:</strong> Wendet die Klasse „Kleriker” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Kämpfer / Kleriker:</strong> Wendet die Klassenkombination „Kämpfer / Kleriker” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
@@ -362,7 +363,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Bard:</strong> Wendet die Klasse „Barde” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Waffenkünstler:</strong> Wendet das Bardenkit „Waffenkünstler” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
@@ -377,7 +378,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Waldläufer:</strong> Wendet die Klasse „Waldläufer” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Pirscher:</strong> Wendet das Waldläuferkit „Pirscher” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
@@ -398,7 +399,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Meuchelmörder:</strong> Wendet das Diebeskit „Meuchelmörder” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Schattentänzer:</strong> Wendet das Diebeskit „Schattentänzer” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
@@ -418,7 +419,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Kopfgeldjäger:</strong> Wendet das Diebeskit „Kopfgeldjäger” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Säbelrassler:</strong> Wendet das Diebeskit „Säbelrassler” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
@@ -432,7 +433,7 @@
               <li>
                 <p><strong>Klasse selbst auswählen:</strong> Diese Option erlaubt es Euch, eine beliebige Klassenkombination zu wählen.</p>
                 <p><em><strong>Achtung:</strong> Einige Klassenkombinationen könnten den Spielspaß mindern oder sogar unerwartete Nebenwirkungen haben. Die Nutzung erfolgt auf eigene Gefahr!</em></p>
-                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modordner finden.</em></p>
+                <p><em><strong>Hinweis:</strong> Die interaktive Klassenauswahl kann automatisiert werden, indem man die gewünschte Klasse in der Datei „A7-ConvenientEENPCs.ini” definiert. Man kann die Datei im Modverzeichnis finden.</em></p>
               </li>
               <li><p><strong>Ritter:</strong> Wendet das Paladinkit „Ritter” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
               <li><p><strong>Inquisitor:</strong> Wendet das Paladinkit „Inquisitor” an. Aktuelle Stufe und Erfahrung werden beibehalten.</p></li>
@@ -479,6 +480,14 @@
       <!-- ================== V E R S I O N   H I S T O R Y ================== -->
       <section id="changelog">
         <h2>Versionshistorie</h2>
+        <h6>Version 5.2</h6>
+        <ul>
+          <li>Fixed potential installation failure of the class-change options if previously installed mods added incomplete kit definitions</li>
+          <li>Added more class-change customization options to ini file: ignore NPC race, alignment or attribute restrictions</li>
+          <li>Changed default visibility of potential multiclass kit combinations to choose from; use ini option to change</li>
+          <li>Internal code fixes and optimizations</li>
+        </ul>
+        <hr class="spacer" />
         <h6>Version 5.1</h6>
         <ul>
           <li>Updated Russian translation (thanks RealApxu)</li>
