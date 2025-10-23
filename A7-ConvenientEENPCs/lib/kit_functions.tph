@@ -987,9 +987,9 @@ BEGIN
       VERBOSE
     END
 
-    // merging stored abilities (up to 24 ability definitions allowed per HLA table)
+    // merging stored abilities
     OUTER_SET expanded = 0
-    OUTER_FOR (row = 3 idx = 0; row < 27 && idx < stored_hlas; ++row) BEGIN // row = 27: # abilities plus table header rows
+    OUTER_FOR (row = 3 idx = 0; idx < stored_hlas; ++row) BEGIN
       ACTION_IF (VARIABLE_IS_SET $class_hla_table(~%row%~ ~1~)) BEGIN
         // reusing existing row?
         OUTER_SPRINT ability $class_hla_table(~%row%~ ~1~)
