@@ -1076,7 +1076,7 @@ BEGIN
     SET class_col = "-1"
     SET kit_col = "-1"
     READ_2DA_ENTRIES_NOW weapprof 1
-    FOR (col = 3; class_col < 0 && kit_col < 0 && VARIABLE_IS_SET $weapprof(~2~ ~%col%~); ++col) BEGIN
+    FOR (col = 3; (class_col < 0 || kit_col < 0) && VARIABLE_IS_SET $weapprof(~2~ ~%col%~); ++col) BEGIN
       SPRINT label $weapprof(~2~ ~%col%~)
       PATCH_IF (~%label%~ STR_EQ ~%class_name%~) BEGIN
         SET class_col = col + 1
@@ -1086,7 +1086,7 @@ BEGIN
     END
 
     PATCH_IF (class_col > 0 && kit_col > 0) BEGIN
-      FOR (row = 3; row < kitlist; ++row) BEGIN
+      FOR (row = 3; row < weapprof; ++row) BEGIN
         // entry value
         SET col = row - 3
         SET entry_value = 0
@@ -1098,20 +1098,20 @@ BEGIN
         END
 
         // class value
-        SET class_value = $kitlist(~%row%~ ~%class_col%~)
+        SET class_value = $weapprof(~%row%~ ~%class_col%~)
 
         // kit value
-        SET kit_value = $kitlist(~%row%~ ~%kit_col%~)
+        SET kit_value = $weapprof(~%row%~ ~%kit_col%~)
 
         // calculating resulting value
-        SET value = (kit_value > class_value) ? kit_value : 0
-        SET value = (entry_value > value) ? entry_value : value
+        SET value = (kit_value != class_value) ? kit_value : entry_value  // preserve kit-specific exceptions
+        SET value = (entry_value == 0) ? entry_value : value  // class-specific weapon restrictions take precedence
         SET $entry_table(~0~ ~%col%~) = value
       END
 
       // creating entry string
       SPRINT entry ~~
-      SET num_entries = kitlist - 3
+      SET num_entries = weapprof - 3
       FOR (idx = 0; idx < num_entries; ++idx) BEGIN
         SPRINT value $entry_table(~0~ ~%idx%~)
         PATCH_IF (idx == 0) BEGIN
