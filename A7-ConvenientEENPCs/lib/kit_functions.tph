@@ -164,11 +164,13 @@ BEGIN
     SILENT
     COPY_EXISTING ~kitlist.2da~ ~override~
       READ_2DA_ENTRIES_NOW kitlist 1
+      SPRINT def_value $kitlist(~1~ ~0~)
       FOR (idx = 1; idx <= 3; ++idx) BEGIN
         SET id = EVAL ~kit%idx%~
         PATCH_IF (id != 0 && id != "-1") BEGIN
           FOR (row = 4; row < kitlist; ++row) BEGIN
-            PATCH_IF (VARIABLE_IS_SET $kitlist(~%row%~ ~9~)) BEGIN
+            PATCH_IF (NOT $kitlist(~%row%~ ~1~) STR_EQ ~%def_value%~ &&
+                      VARIABLE_IS_SET $kitlist(~%row%~ ~9~)) BEGIN
               SET kitids = $kitlist(~%row%~ ~9~)
               PATCH_IF (id == kitids) BEGIN
                 SET classids = $kitlist(~%row%~ ~8~)
@@ -331,17 +333,20 @@ BEGIN
     SILENT
     COPY_EXISTING ~kitlist.2da~ ~override~
       READ_2DA_ENTRIES_NOW kitlist_table 1
+      SPRINT def_value $kitlist_table(~1~ ~0~)
       FOR (row = 4; row < kitlist_table; ++row) BEGIN
-        PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
-          SPRINT number $kitlist_table(~%row%~ ~9~)
-        END ELSE BEGIN
-          SET number = 0x4000 + (row - 3)
-        END
-        LPM a7#get_validated_number
-        PATCH_IF (IS_AN_INT ~number~) BEGIN
-          PATCH_IF (number == kit) BEGIN
-            SET kit_class = $kitlist_table(~%row%~ ~8~)
-            SET row = kitlist_table
+        PATCH_IF (NOT $kitlist_table(~%row%~ ~1~) STR_EQ ~%def_value%~) BEGIN
+          PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+            SPRINT number $kitlist_table(~%row%~ ~9~)
+          END ELSE BEGIN
+            SET number = 0x4000 + (row - 3)
+          END
+          LPM a7#get_validated_number
+          PATCH_IF (IS_AN_INT ~number~) BEGIN
+            PATCH_IF (number == kit) BEGIN
+              SET kit_class = $kitlist_table(~%row%~ ~8~)
+              SET row = kitlist_table
+            END
           END
         END
       END
@@ -714,11 +719,13 @@ BEGIN
   SILENT
   COPY_EXISTING ~kitlist.2da~ ~override~
     READ_2DA_ENTRIES_NOW kitlist 1
+    SPRINT def_value $kitlist(~1~ ~0~)
     FOR (idx = 1; idx <= 3; ++idx) BEGIN
       SET kit_id = EVAL ~kit%idx%~
       PATCH_IF (kit_id != 0 && kit_id != "-1") BEGIN
         FOR (row = 4; row < kitlist; ++row) BEGIN
-          PATCH_IF (VARIABLE_IS_SET $kitlist(~%row%~ ~9~)) BEGIN
+          PATCH_IF (NOT $kitlist(~%row%~ ~1~) STR_EQ ~%def_value%~ &&
+                    VARIABLE_IS_SET $kitlist(~%row%~ ~9~)) BEGIN
             SET kitids = $kitlist(~%row%~ ~9~)
             PATCH_IF (kitids == kit_id) BEGIN
               PATCH_IF (VARIABLE_IS_SET $kitlist(~%row%~ ~7~)) BEGIN

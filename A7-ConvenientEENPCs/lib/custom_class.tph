@@ -594,89 +594,92 @@ BEGIN
     SILENT
     COPY_EXISTING ~kitlist.2da~ ~override~
       READ_2DA_ENTRIES_NOW kitlist_table 1
+      SPRINT def_value $kitlist_table(~1~ ~0~)
       FOR (row = 4; row < kitlist_table; ++row) BEGIN
-        SET mixed = $kitlist_table(~%row%~ ~3~)
-        PATCH_IF (mixed >= 0) BEGIN
-          GET_STRREF mixed title
-        END ELSE BEGIN
-          SPRINT title ~n/a~
-        END
-
-        SET class_id = $kitlist_table(~%row%~ ~8~)
-
-        // test for multiclass kit
-        LPF a7#get_base_classes INT_VAR class = class_id RET class1 class2 class3 END
-        SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : 1
-        SET is_allowed = num_classes == 1 || allow_multi_kits
-
-        PATCH_IF (is_allowed) BEGIN
-          // kit id may be out of range for WeiDU; trying to work around it
-          PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
-            SPRINT number $kitlist_table(~%row%~ ~9~)
-            LPM a7#get_validated_number SET kit_id = number
+        PATCH_IF (NOT $kitlist_table(~%row%~ ~1~) STR_EQ ~%def_value%~) BEGIN
+          SET mixed = $kitlist_table(~%row%~ ~3~)
+          PATCH_IF (mixed >= 0) BEGIN
+            GET_STRREF mixed title
           END ELSE BEGIN
-            SET kit_id = 0x4000 + (row - 3)
+            SPRINT title ~n/a~
           END
-          SET kit_ref = row - 3
 
-          // filter by visibility
-          LPF a7#is_kit_available INT_VAR kit_ref kit_class = class_id race RET is_allowed = available END
-        END
+          SET class_id = $kitlist_table(~%row%~ ~8~)
 
-        // filter by white/black list
-        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%whitelist_kit_name%~ && VARIABLE_IS_SET EVAL ~%blacklist_kit_name%~) BEGIN
-          SET is_allowed = (NOT EVAL ~%whitelist_kit_name%~ && NOT EVAL ~%blacklist_kit_name%~) ||
-                           (EVAL ~%whitelist_kit_name%~ && (VARIABLE_IS_SET $EVAL ~%whitelist_kit_name%~(~%kit_id%~ ~0~) || VARIABLE_IS_SET $EVAL ~%whitelist_kit_name%~(~%kit_id%~ ~%class_id%~))) ||
-                           (EVAL ~%blacklist_kit_name%~ && NOT (VARIABLE_IS_SET $EVAL ~%blacklist_kit_name%~(~%kit_id%~ ~0~) || VARIABLE_IS_SET $EVAL ~%blacklist_kit_name%~(~%kit_id%~ ~%class_id%~)))
-        END
+          // test for multiclass kit
+          LPF a7#get_base_classes INT_VAR class = class_id RET class1 class2 class3 END
+          SET num_classes = (class3 > 0) ? 3 : (class2 > 0) ? 2 : 1
+          SET is_allowed = num_classes == 1 || allow_multi_kits
 
-        // filter by race
-        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_race_info_name%~) BEGIN
-          FOR (idx = 0; idx < EVAL ~%kit_race_info_name%~; ++idx) BEGIN
-            SET cur_kit = $EVAL ~%kit_race_info_name%~(~%idx%~)
-            PATCH_IF (cur_kit == kit_id) BEGIN
-              SET is_allowed = $EVAL ~%kit_race_info_name%~(~%idx%~ ~allowed~)
-              SET idx = EVAL ~%kit_race_info_name%~
+          PATCH_IF (is_allowed) BEGIN
+            // kit id may be out of range for WeiDU; trying to work around it
+            PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+              SPRINT number $kitlist_table(~%row%~ ~9~)
+              LPM a7#get_validated_number SET kit_id = number
+            END ELSE BEGIN
+              SET kit_id = 0x4000 + (row - 3)
             END
-          END
-        END
+            SET kit_ref = row - 3
 
-        // filter by alignment
-        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_align_info_name%~) BEGIN
-          FOR (idx = 0; idx < EVAL ~%kit_align_info_name%~; ++idx) BEGIN
-            SET cur_kit = $EVAL ~%kit_align_info_name%~(~%idx%~)
-            PATCH_IF (cur_kit == kit_id) BEGIN
-              SET is_allowed = $EVAL ~%kit_align_info_name%~(~%idx%~ ~allowed~)
-              SET idx = EVAL ~%kit_align_info_name%~
-            END
+            // filter by visibility
+            LPF a7#is_kit_available INT_VAR kit_ref kit_class = class_id race RET is_allowed = available END
           END
-        END
 
-        // filter by attribute
-        PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_attr_info_name%~) BEGIN
-          FOR (idx = 0; idx < EVAL ~%kit_attr_info_name%~; ++idx) BEGIN
-            SET cur_kit = $EVAL ~%kit_attr_info_name%~(~%idx%~)
-            PATCH_IF (cur_kit == kit_id) BEGIN
-              PATCH_FOR_EACH attr IN ~str~ ~dex~ ~con~ ~int~ ~wis~ ~chr~ BEGIN
-                PATCH_IF (is_allowed && VARIABLE_IS_SET $EVAL ~%kit_attr_info_name%~(~%idx%~ ~%attr%~)) BEGIN
-                  SET attr_value = EVAL ~%attr%~
-                  SET cur_attr_value = $EVAL ~%kit_attr_info_name%~(~%idx%~ ~%attr%~)
-                  SET is_allowed = (attr_value == 0 || attr_value >= cur_attr_value)
-                END
+          // filter by white/black list
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%whitelist_kit_name%~ && VARIABLE_IS_SET EVAL ~%blacklist_kit_name%~) BEGIN
+            SET is_allowed = (NOT EVAL ~%whitelist_kit_name%~ && NOT EVAL ~%blacklist_kit_name%~) ||
+                             (EVAL ~%whitelist_kit_name%~ && (VARIABLE_IS_SET $EVAL ~%whitelist_kit_name%~(~%kit_id%~ ~0~) || VARIABLE_IS_SET $EVAL ~%whitelist_kit_name%~(~%kit_id%~ ~%class_id%~))) ||
+                             (EVAL ~%blacklist_kit_name%~ && NOT (VARIABLE_IS_SET $EVAL ~%blacklist_kit_name%~(~%kit_id%~ ~0~) || VARIABLE_IS_SET $EVAL ~%blacklist_kit_name%~(~%kit_id%~ ~%class_id%~)))
+          END
+
+          // filter by race
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_race_info_name%~) BEGIN
+            FOR (idx = 0; idx < EVAL ~%kit_race_info_name%~; ++idx) BEGIN
+              SET cur_kit = $EVAL ~%kit_race_info_name%~(~%idx%~)
+              PATCH_IF (cur_kit == kit_id) BEGIN
+                SET is_allowed = $EVAL ~%kit_race_info_name%~(~%idx%~ ~allowed~)
+                SET idx = EVAL ~%kit_race_info_name%~
               END
-              SET idx = EVAL ~%kit_attr_info_name%~
             END
           END
-        END
 
-        PATCH_IF (is_allowed) BEGIN
-          LPF a7#remove_color_tags STR_VAR title RET title END
+          // filter by alignment
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_align_info_name%~) BEGIN
+            FOR (idx = 0; idx < EVAL ~%kit_align_info_name%~; ++idx) BEGIN
+              SET cur_kit = $EVAL ~%kit_align_info_name%~(~%idx%~)
+              PATCH_IF (cur_kit == kit_id) BEGIN
+                SET is_allowed = $EVAL ~%kit_align_info_name%~(~%idx%~ ~allowed~)
+                SET idx = EVAL ~%kit_align_info_name%~
+              END
+            END
+          END
 
-          SET $kit_info(~%kit_info%~) = kit_id
-          SET $kit_info(~%kit_info%~ ~ref~) = kit_ref
-          SPRINT $kit_info(~%kit_info%~ ~title~) ~%title%~
-          SET $kit_info(~%kit_info%~ ~class~) = class_id
-          SET kit_info += 1
+          // filter by attribute
+          PATCH_IF (is_allowed && VARIABLE_IS_SET EVAL ~%kit_attr_info_name%~) BEGIN
+            FOR (idx = 0; idx < EVAL ~%kit_attr_info_name%~; ++idx) BEGIN
+              SET cur_kit = $EVAL ~%kit_attr_info_name%~(~%idx%~)
+              PATCH_IF (cur_kit == kit_id) BEGIN
+                PATCH_FOR_EACH attr IN ~str~ ~dex~ ~con~ ~int~ ~wis~ ~chr~ BEGIN
+                  PATCH_IF (is_allowed && VARIABLE_IS_SET $EVAL ~%kit_attr_info_name%~(~%idx%~ ~%attr%~)) BEGIN
+                    SET attr_value = EVAL ~%attr%~
+                    SET cur_attr_value = $EVAL ~%kit_attr_info_name%~(~%idx%~ ~%attr%~)
+                    SET is_allowed = (attr_value == 0 || attr_value >= cur_attr_value)
+                  END
+                END
+                SET idx = EVAL ~%kit_attr_info_name%~
+              END
+            END
+          END
+
+          PATCH_IF (is_allowed) BEGIN
+            LPF a7#remove_color_tags STR_VAR title RET title END
+
+            SET $kit_info(~%kit_info%~) = kit_id
+            SET $kit_info(~%kit_info%~ ~ref~) = kit_ref
+            SPRINT $kit_info(~%kit_info%~ ~title~) ~%title%~
+            SET $kit_info(~%kit_info%~ ~class~) = class_id
+            SET kit_info += 1
+          END
         END
       END
     BUT_ONLY
@@ -965,17 +968,20 @@ $kittable_map() structure:
   SILENT
   COPY_EXISTING ~kitlist.2da~ ~override~
     READ_2DA_ENTRIES_NOW kitlist_table 1
+    SPRINT def_value $kitlist_table(~1~ ~0~)
     SET $kit_ref_map(~0~) = 0x4000  // TRUECLASS
     FOR (row = 4; row < kitlist_table; ++row) BEGIN
-      SET kit_id_ref = row - 3
-      PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
-        SPRINT number $kitlist_table(~%row%~ ~9~)
-        LPM a7#get_validated_number SET kit_id = number
-      END ELSE BEGIN
-        SET kit_id = 0x4000 + (row - 3)
-      END
-      PATCH_IF (kit_id != 0 && kit_id != "-1") BEGIN
-        SET $kit_ref_map(~%kit_id_ref%~) = kit_id
+      PATCH_IF (NOT $kitlist_table(~%row%~ ~1~) STR_EQ ~%def_value%~) BEGIN
+        SET kit_id_ref = row - 3
+        PATCH_IF (VARIABLE_IS_SET $kitlist_table(~%row%~ ~9~)) BEGIN
+          SPRINT number $kitlist_table(~%row%~ ~9~)
+          LPM a7#get_validated_number SET kit_id = number
+        END ELSE BEGIN
+          SET kit_id = 0x4000 + (row - 3)
+        END
+        PATCH_IF (kit_id != 0 && kit_id != "-1") BEGIN
+          SET $kit_ref_map(~%kit_id_ref%~) = kit_id
+        END
       END
     END
   BUT_ONLY
