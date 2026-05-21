@@ -1971,12 +1971,13 @@ BEGIN
     SET cur_meminfo_ofs = ofs_meminfo + i * meminfo_size
     READ_SHORT (cur_meminfo_ofs + 0x06) type
     PATCH_IF (type == spell_type) BEGIN
-      READ_SHORT (cur_meminfo_ofs + 0x08) idx_spells
-      READ_SHORT (cur_meminfo_ofs + 0x0c) num_spells
+      READ_LONG (cur_meminfo_ofs + 0x08) idx_spells
+      READ_LONG (cur_meminfo_ofs + 0x0c) num_spells
 
       PATCH_IF (is_spontaneous) BEGIN
         READ_SHORT (cur_meminfo_ofs + 0x02) num_memorizable
         SET step = num_spells / num_memorizable
+        SET step = (step < 1) ? 1 : step
       END ELSE BEGIN
         SET step = 1
       END
