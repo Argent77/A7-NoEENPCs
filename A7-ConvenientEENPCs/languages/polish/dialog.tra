@@ -1,4 +1,4 @@
-// -*- coding: utf-8 -*-
+﻿// -*- coding: utf-8 -*-
 
 // Neera
 @10000 = ~Hej, ty! Czy ja cię skądś znam?~
@@ -10,7 +10,32 @@
 
 
 // Dorn
-@10200 = ~Ponieważ drogi wyglądają tak, jak wyglądają, ostatnio nieczęsto widujemy nowe twarze. Unshey pisze nową książkę, a Khalid i Jaheira siedzą w rogu i niecierpliwie na kogoś czekają, śpią na zmianę, żeby tylko go nie przegapić, ktokolwiek to jest... Kto jeszcze? Niech pomyślę, na samej górze mieszka Landrin, która zapija się od rana do wieczora, jest jeszcze... aha... Tarnesh... Przykro mi, że sprawił wam tyle kłopotów... dopóki nie usłyszał, że u bramy pojawili się podróżni, był wprost uroczy... Nie tolerujemy tu bójek ani kłótni. Bardzo rygorystycznie tego przestrzegamy, ale strażnicy powiedzieli, że wyskoczył na was z ciemności i nic nie mogliście na to poradzić... To chyba wszyscy. Cała reszta przebywa tutaj przynajmniej od dwóch miesięcy. Zajazd jest tak przepełniony, że zastanawialiśmy się, czy nie pozwolić podróżnym sypiać w świątyni.~
+@10200 = ~Ponieważ drogi wyglądają tak, jak wyglądają, ostatnio nieczęsto widujemy nowe twarze. Unshey pisze nową książkę, a Khalid i Jaheira siedzą w rogu i niecierpliwie na kogoś czekają. Śpią na zmianę, żeby tylko nie przegapić tej osoby, kimkolwiek ona jest... Kto jeszcze? Niech pomyślę, na samej górze mieszka Landrin, która zapija się od rana do wieczora, jest jeszcze... aha... Tarnesh... Przykro mi, że sprawił wam tyle kłopotów... dopóki nie usłyszał, że u bramy pojawili się podróżni, był wprost uroczy... Nie tolerujemy tu bójek ani kłótni. Bardzo rygorystycznie tego przestrzegamy, ale strażnicy powiedzieli, że wyskoczył na was z ciemności i nic nie mogliście na to poradzić... To chyba wszyscy. Cała reszta przebywa tutaj przynajmniej od dwóch miesięcy. Zajazd jest tak przepełniony, że zastanawialiśmy się, czy nie pozwolić podróżnym sypiać w świątyni.~
+
+
+// Wilson - Circus
+@10300 = ~Widziałem tu Wilsona, niedźwiedzia. Może zechcesz wypuścić go z klatki?~ ~Widziałam tu Wilsona, niedźwiedzia. Może zechcesz wypuścić go z klatki?~
+@10301 = ~Chciałbym kupić niedźwiedzia Wilsona. Jest na sprzedaż?~ ~Chciałabym kupić niedźwiedzia Wilsona. Jest na sprzedaż?~
+@10302 = ~Och, powiedział ci już, jak się nazywa? Musiał cię uznać za wyjątkową osobę.~
+@10303 = ~Nie chciałbym się rozstawać z żadnym z naszych zwierząt, ale w tym wypadku zrobię wyjątek. W końcu ocaliłeś nas przed Kalahem.~ ~Nie chciałbym się rozstawać z żadnym z naszych zwierząt, ale w tym wypadku zrobię wyjątek. W końcu ocaliłaś nas przed Kalahem.~
+@10304 = ~Przykro mi, <GABBER>. Żadne z naszych zwierząt nie jest na sprzedaż.~
+@10305 = ~Ale ponieważ zawdzięczamy ci wyzwolenie spod tyranii Kalaha, zrobię dla ciebie wyjątek.~
+@10306 = ~Niedźwiedź jest twój. Będzie na ciebie czekał na zewnątrz.~
+@10307 = ~Może zechcesz porozmawiać o tym z Quaylem. To on podejmuje tu decyzje.~
+
+// Wilson
+@10350 = ~Cierpliwości, Wilsonie! Obiecałem, że cię uwolnię.~ ~Cierpliwości, Wilsonie! Obiecałam, że cię uwolnię.~
+@10351 = ~Mogę spróbować rozgiąć kratę.~
+@10352 = ~Wilsonie, jesteś wolny!~
+@10353 = ~(Nie masz wystarczająco dużej siły, by wygiąć pręty klatki. Są za grube.)~
+
+// Wilson - Journal
+@10380 = ~Niedźwiedź o imieniu Wilson jest przetrzymywany w klatce obok cyrku na Promenadzie Waukeen. Mogę z całą pewnością powiedzieć, że Wilson jest najbardziej elokwentnym niedźwiedziem, jakiego dane mi było spotkać.~
+@10381 = ~Niedźwiedź o imieniu Wilson jest przetrzymywany w klatce obok cyrku na Promenadzie Waukeen. Mogę z całą pewnością powiedzieć, że Wilson jest najbardziej elokwentnym niedźwiedziem, jakiego dane mi było spotkać. Obiecałem mu, że go uwolnię.~ ~Niedźwiedź o imieniu Wilson jest przetrzymywany w klatce obok cyrku na Promenadzie Waukeen. Mogę z całą pewnością powiedzieć, że Wilson jest najbardziej elokwentnym niedźwiedziem, jakiego dane mi było spotkać. Obiecałam mu, że go uwolnię.~
+@10382 = ~Właściciel cyrku, Quayle, zgodził się zwrócić Wilsonowi wolność. Zrobił to za darmo, z wdzięczności za uratowanie go z niewoli Kalaha. Trzeba szybko powiedzieć to Wilsonowi.~
+@10383 = ~Pracownicy cyrku zgodzili się zwrócić Wilsonowi wolność. Zrobili to za darmo, z wdzięczności za uratowanie ich z niewoli Kalaha. Trzeba szybko powiedzieć to Wilsonowi.~
+@10384 = ~Uwolniłem niedźwiedzia Wilsona. Wygląda na to, że po pobycie w klatce woli mi towarzyszyć niż być sam.~ ~Uwolniłam niedźwiedzia Wilsona. Wygląda na to, że po pobycie w klatce woli mi towarzyszyć niż być sam.~
+@10385 = ~Uwolniłem niedźwiedzia Wilsona. Wygląda na to, że po pobycie w klatce woli mi towarzyszyć niż być sam. Chciałbym go ze sobą zabrać, ale byłoby to samolubne. Będzie bezpieczniejszy w dziczy poza Athkatlą.~ ~Uwolniłam niedźwiedzia Wilsona. Wygląda na to, że po pobycie w klatce woli mi towarzyszyć niż być sam. Chciałabym go ze sobą zabrać, ale byłoby to samolubne. Będzie bezpieczniejszy w dziczy poza Athkatlą.~
 
 
 // Item-related
@@ -18,6 +43,6 @@
 @11001 = ~Tak, chętnie.~
 @11002 = ~Przykro mi, nie jestem zainteresowany.~ ~Przykro mi, nie jestem zainteresowana.~
 @11003 = ~Daj mi tylko chwilę na kilka ostatnich poprawek... Proszę!~
-@11004 = ~Dziękuję. Czy mogę zobaczyć jakie oferujesz usługi?~
+@11004 = ~Dziękuję. Czy mogę zobaczyć, jakie oferujesz usługi?~
 @11005 = ~Dziękuję. Muszę już ruszać w drogę.~
-@11006 = ~Nie masz pojęcia co tracisz. No ale nie zmuszę cię.~
+@11006 = ~Nie masz pojęcia, co tracisz. No ale nie zmuszę cię.~

@@ -1,4 +1,4 @@
-// -*- coding: us-ascii -*-
+﻿// -*- coding: us-ascii -*-
 
 @1 = ~Zablokuj wszystkich BN~
 @3 = ~Ustaw wszystkich BN jako pasywnych~
@@ -26,11 +26,13 @@
 @203 = ~Ustaw Neere pasywna~
 @204 = ~Ustaw Rasaada pasywnym~
 
+@220 = ~Przenies Wilsona na Promenade Waukeen~
+
 @301 = ~Wlacz dostepnosc przedmiotow zwiazanych z BN'ami dla wszystkich~
 
-@310 = ~Allied Caelar Argent in Avernus boss battle~
-@311 = ~Joins as controllable follower if no free party slots available~
-@312 = ~Always joins as controllable follower~
+@310 = ~Caelar Srebrzysta podczas koncowej bitwy w Avernusie~
+@311 = ~Staje sie sterowalnym sprzymierzencem, jesli w druzynie nie ma wolnych miejsc~
+@312 = ~Zawsze staje sie tylko sterowalnym sprzymierzencem~
 
 // Portraits
 @400 = ~Zmien portret: Baeloth~
@@ -59,6 +61,7 @@
 @511 = ~Uczen smoka~
 @512 = ~Czarownik chaosu~
 @513 = ~Adept cienia~
+@514 = ~Uczen cienia~
 
 @520 = ~Zmien klase/podklase: Dorn~
 @521 = ~Zresetuj tylko poziom~
@@ -66,10 +69,16 @@
 
 @540 = ~Zmien klase/podklase: Neera~
 @541 = ~Czarownik chaosu~
+@542 = ~Wojownik/Dziki mag~
+@543 = ~Dziki mag/Zlodziej~
+@544 = ~Kaplan/Dziki mag~
+@545 = ~Wojownik/Dziki mag/Zlodziej~
+@546 = ~Wojownik/Dziki mag/Kaplan~
 
 @560 = ~Zmien klase/podklase: Rasaad~
 @561 = ~Mnich~
 @562 = ~Srebrna Gwiazda Selune~
+@563 = ~Zabijaka~
 
 @580 = ~Zmien klase/podklase: M'Khiin~
 
@@ -91,7 +100,7 @@
 @644 = ~Zabojca magow~
 @645 = ~Kaplan~
 @646 = ~Kaplan Tyra~
-@647 = ~Obserwator Helma~
+@647 = ~Kaplan Helma~
 @648 = ~Paladyn~
 @649 = ~Kawaler~
 @650 = ~Inkwizytor~
@@ -113,7 +122,7 @@
 @683 = ~Tancerz cieni~
 @684 = ~Bard~
 
-@690 = ~Zmien klase/podklase: Caelar Argent~
+@690 = ~Zmien klase/podklase: Caelar Srebrzysta~
 @691 = ~Kawaler~
 @692 = ~Inkwizytor~
 @693 = ~Lowca nieumarlych~
@@ -133,6 +142,9 @@
 @1010 = ~Komponent ten wymaga uprzedniego zainstalowania modyfikacji "Shadow Magic".~
 @1011 = ~Komponent ten wymaga uprzedniego zainstalowania komponentu "Srebrna Gwiazda Selune" z modyfikacji "Divine Remix".~
 @1012 = ~Operacja przerwana przez uzytkownika.~
+@1013 = ~Komponent ten jest dostepny tylko w przypadku zablokowania Rasaada.~
+@1014 = ~Komponent ten wymaga uprzedniego zainstalowania komponentu "Zabijaka" (Brawler) z modyfikacji "Artisan's Kitpack".~
+@1015 = ~Podklasa jest niedostepna dla postaci.~
 
 // Custom class selection
 // Translators: Text inside angle brackets are placeholders for dynamic text. Do not modify!
@@ -150,3 +162,23 @@
 @2011 = ~Wybierz A, aby akceptowac, S, aby rozpoczac ponownie lub C, aby anulowac operacje.~
 @2012 = ~brak podklasy~
 @2013 = ~Pobieranie informacji o klasie...~
+@2014 = ~Podaj numer nowej klasy:~
+@2015 = ~Wpisz nowa nazwe dla wybranej podklasy (pozostaw puste pole, by nie zmieniac):~
+@2016 = ~Akceptuj nazwe podklasy "<new_kit_title>" ([A]ccept, [R]etry, [C]ancel)?~
+@2017 = ~Wybierz A, aby akceptowac, R aby rozpoczac ponownie lub C, aby zachowac pierwotna nazwe.~
+@2018 = ~<option>] <class_title> (dostepne podklasy: <num_kits>)~
+@2019 = ~<option>] <kit_title> (<kit_name>)~
+@2020 = ~Uwaga: Podklasa oznaczona (*) zostanie utworzona automatycznie.~
+@2021 = ~Obecna nazwa kombinacji podklas: <kit_title>~
+@2022 = ~Znaki spoza systemu ASCII sa niedozwolone.~
+
+// Class-change messages
+@2100 = ~Nieudane resetowanie poziomu postaci.~
+@2101 = ~Brak odnosnego pliku CRE.~
+@2102 = ~Interaktywny wybor klasy nieudany.~
+@2103 = ~Nie mozna utworzyc kombinacji podklas:~
+@2104 = ~Wskazano nieprawidlowa klase:~
+@2105 = ~Nieudana zmiana klasy:~
+
+// WeiDU prompts
+@-1034= "Czy chcesz wyswietlic plik readme (zalecane)? [Y]Tak [N]Nie"
