@@ -5,13 +5,13 @@
 PARAMETRY:
 
 Specjalne:
-- Obrażenia: -5 przeciw geniuszom
-- TraK0: -5 przeciw geniuszom
-- Można zdjąć tylko po rzuceniu czaru Zdjęcie klątwy
+– Obrażenia: -5 przeciw geniuszom
+– TraK0: -5 przeciw geniuszom
+– Można zdjąć tylko po rzuceniu czaru Zdjęcie klątwy
 
 Właściwości ładunków:
-- Losowe obrażenia od żywiołów zadawane użytkownikowi, raz dziennie
-- Szansa na stworzenie losowego klejnotu w ekwipunku użytkownika, raz dziennie
+– Losowe obrażenia od żywiołów zadawane użytkownikowi, raz dziennie
+– Szansa na stworzenie losowego klejnotu w ekwipunku użytkownika, raz dziennie
 
 Waga: 0~
 @50001 = ~Mnich Słonecznej Duszy~
@@ -58,7 +58,7 @@ Waga: 0~
 PARAMETRY:
 
 Specjalne:
-– Miecz otrzymuje przez dwadzieścia cztery godziny premię +1 do testów trafienia jeżeli za jego pomocą zgładzono jakąś istotę.
+– Miecz otrzymuje przez dwadzieścia cztery godziny premię +1 do testów trafienia jeżeli za jego pomocą zgładzono jakąś istotę
 
 Obrażenia: 1k10 +1
 TraK0: +1, +2 jeśli w przeciągu ostatnich dwudziestu czterech godzin za pomocą miecza odebrano życie jakiejś istocie. 
@@ -98,6 +98,26 @@ Właściwości ładunków:
 
 Waga: 3~
 
+// Caelar's modified personal weapon
+@50009 = ~Wekiera Zakonu Astra +3~
+@50010 = ~Legenda głosi, że dawno temu pewna potężna anielska istota podarowała tę wekierę członkowi Zakonu Astra. Szczegóły legendy z czasem się zatarły, lecz wielu wierzy, iż broń była nagrodą za zgładzenie potwornego biesa, być może nawet balora. Subtelne ryty symbolizujące kwiat astra zdobią wekierę, która w czasie walki płonie szkarłatnym płomieniem.
+
+PARAMETRY:
+
+Specjalne:
+– Odporność na magię: +30%
+
+Obrażenia: 1k6 +4, +2 obrażenia przeciw biesom
+TraK0: +3
+Typ obrażeń: obuchowe
+Opóźnienie: 4
+Rodzaj biegłości: wekiera
+Typ broni: 1-ręczna
+
+Wymagania:
+– Siła: 10
+
+Waga: 2~
 
 // Updated biographies: Neera
 @51000 = ~Zapytana o swoją przeszłość, NEERA odpowiada, że od wielu miesięcy ucieka przed tropiącymi ją Czerwonymi Magami z Thay. Dziewczyna sprawia wrażenie porywczej i nieco za bardzo wyszczekanej, niemniej jednak osoby praktykujące dziką magię uchodzą za jednych z najpotężniejszych użytkowników magii... dopóki nie przydarzy im się wypadek.
